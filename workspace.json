@@ -1,8 +1,132 @@
 {
   "version": 1,
-  "projects": {},
+  "projects": {
+    "cxc-web": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/cxc-web",
+      "sourceRoot": "apps/cxc-web/src",
+      "prefix": "nx-papelsa",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/cxc-web",
+            "index": "apps/cxc-web/src/index.html",
+            "main": "apps/cxc-web/src/main.ts",
+            "polyfills": "apps/cxc-web/src/polyfills.ts",
+            "tsConfig": "apps/cxc-web/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/cxc-web/src/favicon.ico",
+              "apps/cxc-web/src/assets"
+            ],
+            "styles": ["apps/cxc-web/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/cxc-web/src/environments/environment.ts",
+                  "with": "apps/cxc-web/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "cxc-web:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "cxc-web:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "cxc-web:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/cxc-web/tsconfig.app.json",
+              "apps/cxc-web/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/cxc-web/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/cxc-web/jest.config.js",
+            "tsConfig": "apps/cxc-web/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/cxc-web/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "cxc-web-e2e": {
+      "root": "apps/cxc-web-e2e",
+      "sourceRoot": "apps/cxc-web-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/cxc-web-e2e/cypress.json",
+            "tsConfig": "apps/cxc-web-e2e/tsconfig.e2e.json",
+            "devServerTarget": "cxc-web:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "cxc-web:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/cxc-web-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/cxc-web-e2e/**/*"]
+          }
+        }
+      }
+    }
+  },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
+    "defaultCollection": "@nrwl/angular"
   },
   "schematics": {
     "@nrwl/workspace": {
@@ -61,6 +185,14 @@
       "library": {
         "linter": "eslint"
       }
+    },
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
     }
-  }
+  },
+  "defaultProject": "cxc-web"
 }

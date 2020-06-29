@@ -21,5 +21,13 @@
       }
     }
   },
-  "projects": {}
+  "projects": {
+    "cxc-web": {
+      "tags": []
+    },
+    "cxc-web-e2e": {
+      "tags": [],
+      "implicitDependencies": ["cxc-web"]
+    }
+  }
 }
