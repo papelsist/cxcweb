@@ -25,7 +25,10 @@
               "apps/cxc-web/src/favicon.ico",
               "apps/cxc-web/src/assets"
             ],
-            "styles": ["apps/cxc-web/src/styles.scss"],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "apps/cxc-web/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
