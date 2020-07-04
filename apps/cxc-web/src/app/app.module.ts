@@ -10,7 +10,23 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    RouterModule.forRoot([], { initialNavigation: 'enabled' }),
+    RouterModule.forRoot(
+      [
+        {
+          path: 'cartera',
+          loadChildren: () =>
+            import('./features/cartera-cre/cartera-cre.module').then(
+              (m) => m.CarteraCreModule
+            ),
+        },
+        {
+          path: '',
+          redirectTo: 'cartera',
+          pathMatch: 'full',
+        },
+      ],
+      { initialNavigation: 'enabled' }
+    ),
     BrowserAnimationsModule,
   ],
   providers: [],

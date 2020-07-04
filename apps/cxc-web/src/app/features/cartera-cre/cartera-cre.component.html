@@ -1,0 +1,14 @@
+<div class="cartera">
+  <ag-grid-angular
+    #agGrid
+    style="width: 95%; height: 500px;"
+    class="ag-theme-alpine"
+    [rowData]="cartera"
+    [columnDefs]="columnDefs"
+    rowSelection="multiple"
+    [rowMultiSelectWithClick]="true"
+    (selectionChanged)="onChangeSelection($event)"
+    (gridReady)="onGridReady($event)"
+  >
+  </ag-grid-angular>
+</div>
