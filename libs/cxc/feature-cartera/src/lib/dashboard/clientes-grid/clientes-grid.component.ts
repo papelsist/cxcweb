@@ -1,16 +1,24 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  Input,
+} from '@angular/core';
 
-import { CuentaPorCobrarDTO } from './cartera-dto';
+import { CuentaPorCobrarDTO } from '../cartera-dto';
 
 import { GridApi, ColumnApi } from 'ag-grid-community';
 
 @Component({
-  selector: 'nx-papelsa-cartera-cre',
-  templateUrl: './cartera-cre.component.html',
-  styleUrls: ['./cartera-cre.component.scss'],
+  selector: 'papx-cxc-clientes-grid',
+  templateUrl: './clientes-grid.component.html',
+  styleUrls: ['./clientes-grid.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CarteraCreComponent implements OnInit {
-  cartera: CuentaPorCobrarDTO[] = [];
+export class ClientesGridComponent implements OnInit {
+  @Input() rows: CuentaPorCobrarDTO[] = [];
   @Output() selectionChange = new EventEmitter<CuentaPorCobrarDTO[]>();
   gridApi: GridApi;
   gridColumnApi: ColumnApi;
@@ -28,11 +36,7 @@ export class CarteraCreComponent implements OnInit {
   ];
   constructor() {}
 
-  ngOnInit(): void {
-    fetch('assets/cartera.json').then((response) => {
-      response.json().then((data) => (this.cartera = data));
-    });
-  }
+  ngOnInit(): void {}
 
   onGridReady(params) {
     this.gridApi = params.api;

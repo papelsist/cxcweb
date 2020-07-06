@@ -15,7 +15,15 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@nx-papelsa/cxc/feature-cartera": [
+        "libs/cxc/feature-cartera/src/index.ts"
+      ],
+      "@nx-papelsa/shared/utils/collections": [
+        "libs/shared/utils/collections/src/index.ts"
+      ]
+    },
+    "allowSyntheticDefaultImports": true
   },
   "exclude": ["node_modules", "tmp"]
 }

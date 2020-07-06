@@ -12,11 +12,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserModule,
     RouterModule.forRoot(
       [
+        // {
+        //   path: 'cartera',
+        //   loadChildren: () =>
+        //     import('./features/cartera-cre/cartera-cre.module').then(
+        //       (m) => m.CarteraCreModule
+        //     ),
+        // },
         {
           path: 'cartera',
           loadChildren: () =>
-            import('./features/cartera-cre/cartera-cre.module').then(
-              (m) => m.CarteraCreModule
+            import('@nx-papelsa/cxc/feature-cartera').then(
+              (m) => m.CxcFeatureCarteraModule
             ),
         },
         {

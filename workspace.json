@@ -126,6 +126,68 @@
           }
         }
       }
+    },
+    "cxc-feature-cartera": {
+      "projectType": "library",
+      "root": "libs/cxc/feature-cartera",
+      "sourceRoot": "libs/cxc/feature-cartera/src",
+      "prefix": "papx-cxc",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/cxc/feature-cartera/tsconfig.lib.json",
+              "libs/cxc/feature-cartera/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/cxc/feature-cartera/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/cxc/feature-cartera/jest.config.js",
+            "tsConfig": "libs/cxc/feature-cartera/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/cxc/feature-cartera/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-utils-collections": {
+      "root": "libs/shared/utils/collections",
+      "sourceRoot": "libs/shared/utils/collections/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/shared/utils/collections/tsconfig.lib.json",
+              "libs/shared/utils/collections/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/utils/collections/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/utils/collections/jest.config.js",
+            "tsConfig": "libs/shared/utils/collections/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {

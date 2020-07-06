@@ -28,6 +28,12 @@
     "cxc-web-e2e": {
       "tags": [],
       "implicitDependencies": ["cxc-web"]
+    },
+    "cxc-feature-cartera": {
+      "tags": ["scope:cxc", "type:feature"]
+    },
+    "shared-utils-collections": {
+      "tags": []
     }
   }
 }
