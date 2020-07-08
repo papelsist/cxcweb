@@ -21,7 +21,11 @@
       ],
       "@nx-papelsa/shared/utils/collections": [
         "libs/shared/utils/collections/src/index.ts"
-      ]
+      ],
+      "@nx-papelsa/shared/utils/core-models": [
+        "libs/shared/utils/core-models/src/index.ts"
+      ],
+      "@nx-papelsa/shared/data-access": ["libs/shared/data-access/src/index.ts"]
     },
     "allowSyntheticDefaultImports": true
   },

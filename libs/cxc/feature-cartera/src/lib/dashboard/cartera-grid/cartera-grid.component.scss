@@ -1,0 +1,49 @@
+:host {
+  display: block;
+}
+.cartera-grid-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 300px;
+  border: 1px solid green;
+  max-height: 600px;
+  overflow: auto;
+
+  .filter {
+    outline: none;
+    border: 0;
+    // background-color: rgb(229, 226, 226);
+    border-radius: 5px;
+    // border: 1px solid #39c;
+    padding: 10px 5px;
+    font-size: 1.2rem;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  .mat-header-row {
+    height: 2.5rem;
+  }
+  .mat-header-cell {
+    font-size: 1rem;
+    color: black;
+    font-weight: bold;
+  }
+
+  th.mat-sort-header-sorted {
+    color: black;
+  }
+  tr.mat-row {
+    height: 2rem;
+  }
+  tr.mat-footer-row {
+    font-weight: bold;
+    height: 2rem;
+  }
+  .mat-table-sticky {
+    border-top: 1px solid #e0e0e0;
+  }
+}

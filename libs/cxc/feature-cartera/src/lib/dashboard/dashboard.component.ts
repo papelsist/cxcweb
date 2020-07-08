@@ -20,16 +20,21 @@ export class DashboardComponent implements OnInit {
     fetch('assets/cartera.json').then((response) => {
       response.json().then((data) => {
         this.rows = data;
-        const map = groupByProperty(data, 'nombre');
+        const map: any = groupByProperty(data, 'nombre');
         const clientes = Object.keys(map);
-        this.rows = clientes.map((item, row: any) => {
-          return {
-            item,
-            facturas: map[item],
-            total: sumByProperty(row[item], 'total'),
-          };
-        });
-        console.log('InfoData: ', this.rows);
+        this.rows = clientes
+          .map((item, row: any) => {
+            return {
+              nombre: item,
+              facturas: map[item],
+              saldo: sumByProperty(map[item], 'saldo'),
+            };
+          })
+          .sort((a, b) => {
+            if (a.saldo > b.saldo) return -1;
+            if (a.saldo < b.saldo) return 1;
+            else return 0;
+          });
       });
     });
   }
