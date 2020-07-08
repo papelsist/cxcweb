@@ -6,6 +6,7 @@ export function sumByProperty(source: [], property: string) {
   return sumBy(source, property);
 }
 
-export function groupByProperty(source: [], property: string) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function groupByProperty(source: any[], property: string) {
   return groupBy(source, property);
 }
