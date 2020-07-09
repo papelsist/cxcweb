@@ -1,9 +1,9 @@
 import { ClienteDto } from '../../dtos/cliente-dto';
 import { CuentaPorCobrarDTO } from '../../dtos/cxc-dto';
 
-export interface CarteraPorCliente {
+export interface CarteraPorClienteDto {
   cliente: ClienteDto;
-  fecha: string;
+  fecha?: string;
   saldo: number;
   cartera: CuentaPorCobrarDTO[];
 }

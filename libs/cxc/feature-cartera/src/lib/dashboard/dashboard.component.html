@@ -1,4 +1,7 @@
 <div class="cxc-dashboard">
   <h2>CXC Dashboard</h2>
-  <papx-cxc-cartera-grid [data]="rows"></papx-cxc-cartera-grid>
+  <papx-cxc-cartera-grid
+    [data]="rows"
+    (changeSelection)="onSelection($event)"
+  ></papx-cxc-cartera-grid>
 </div>

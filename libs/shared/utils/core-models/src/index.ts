@@ -1,2 +1,2 @@
-export * from './lib/dtos/cfdi-dto';
-export * from './lib/dtos/cxc-dto';
+export * from './lib/cxc';
+export * from './lib/dtos';

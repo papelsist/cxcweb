@@ -7,6 +7,26 @@
     (keyup)="filter(input.value)"
   />
   <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox
+          (change)="$event ? masterToggle() : null"
+          [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()"
+        >
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="$event ? toggleRow(row) : null"
+          [checked]="selection.isSelected(row)"
+        >
+        </mat-checkbox>
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
     <ng-container matColumnDef="nombre">
       <th mat-header-cell *matHeaderCellDef>Cliente</th>
       <td mat-cell *matCellDef="let row">
@@ -26,10 +46,12 @@
     <ng-container matColumnDef="part">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Part(%)</th>
       <td mat-cell *matCellDef="let row">
-        {{ getParticipacion(row.saldo) | percent }}
+        {{ getParticipacion(row.saldo) | percent: '1.2-3' }}
       </td>
       <td mat-footer-cell *matFooterCellDef>
-        {{ 0.0 | percent }}
+        <span *ngIf="!selection.isEmpty()">
+          {{ getSelectedPart() | percent }}
+        </span>
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayColumns; sticky: true"></tr>

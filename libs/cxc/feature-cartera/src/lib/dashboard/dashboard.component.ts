@@ -38,4 +38,8 @@ export class DashboardComponent implements OnInit {
       });
     });
   }
+
+  onSelection(selected: any) {
+    console.log('Selected: ', selected);
+  }
 }

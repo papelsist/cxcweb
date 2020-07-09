@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AgGridModule } from 'ag-grid-angular';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
@@ -19,6 +20,7 @@ import { CarteraGridComponent } from './cartera-grid/cartera-grid.component';
     CommonModule,
     AgGridModule.withComponents([]),
     MatTableModule,
+    MatCheckboxModule,
     DashboardRoutingModule,
   ],
 })
