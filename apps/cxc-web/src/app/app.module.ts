@@ -1,40 +1,19 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { RouterModule } from '@angular/router';
 
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CoreModule } from './core/core.module';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(
-      [
-        // {
-        //   path: 'cartera',
-        //   loadChildren: () =>
-        //     import('./features/cartera-cre/cartera-cre.module').then(
-        //       (m) => m.CarteraCreModule
-        //     ),
-        // },
-        {
-          path: 'cartera',
-          loadChildren: () =>
-            import('@nx-papelsa/cxc/feature-cartera').then(
-              (m) => m.CxcFeatureCarteraModule
-            ),
-        },
-        {
-          path: '',
-          redirectTo: 'cartera',
-          pathMatch: 'full',
-        },
-      ],
-      { initialNavigation: 'enabled' }
-    ),
     BrowserAnimationsModule,
+    CoreModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
