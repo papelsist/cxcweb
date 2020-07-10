@@ -18,7 +18,19 @@ import { MatListModule } from '@angular/material/list';
     MatButtonModule,
     MatListModule,
     RouterModule.forChild([
-      { path: '', pathMatch: 'full', component: CreditoPageComponent },
+      {
+        path: '',
+        component: CreditoPageComponent,
+        children: [
+          {
+            path: 'devoluciones',
+            loadChildren: () =>
+              import('./devoluciones-page/devoluciones-page.module').then(
+                (m) => m.DevolucionesPageModule
+              ),
+          },
+        ],
+      },
     ]),
   ],
   declarations: [CreditoPageComponent],
