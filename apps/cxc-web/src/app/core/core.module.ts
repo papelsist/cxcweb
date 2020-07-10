@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [MainPageComponent, ToolbarComponent],
@@ -21,6 +22,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     MatButtonModule,
     MatIconModule,
     MatListModule,
+    FlexLayoutModule,
   ],
   exports: [
     MainPageComponent,

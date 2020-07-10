@@ -1,6 +1,22 @@
-<mat-toolbar color="primary" class="example-toolbar">
-  <button mat-icon-button (click)="toogleSideNav.emit()">
+<mat-toolbar color="primary" class="toolbar" fxLayout>
+  <button mat-icon-button (click)="toogleSideNav.emit()" fxHide.gt-sm>
     <mat-icon>menu</mat-icon>
   </button>
-  <h1 class="example-app-name">CxC App</h1>
+  <div class="title">
+    <h1>CxC App</h1>
+  </div>
+  <span fxFlex></span>
+  <div class="actions" fxHide.lt-md fxLayoutGap="10px" fxLayoutGap.lt-md="2px">
+    <a href="#" mat-button>
+      <mat-icon>dynamic_feed</mat-icon>
+      <span>Crédito</span>
+    </a>
+    <a href="#" mat-button>Contado</a>
+    <a href="#" mat-button>Mostrador</a>
+    <a href="#" mat-button>Cheques</a>
+    <a href="#" mat-button>Jurídico</a>
+  </div>
+  <button mat-icon-button>
+    <mat-icon>settings</mat-icon>
+  </button>
 </mat-toolbar>
