@@ -25,7 +25,18 @@
       "@nx-papelsa/shared/utils/core-models": [
         "libs/shared/utils/core-models/src/index.ts"
       ],
-      "@nx-papelsa/shared/data-access": ["libs/shared/data-access/src/index.ts"]
+      "@nx-papelsa/shared/data-access": [
+        "libs/shared/data-access/src/index.ts"
+      ],
+      "@nx-papelsa/cxc/feature-cobranza-cre": [
+        "libs/cxc/feature-cobranza-cre/src/index.ts"
+      ],
+      "@nx-papelsa/shared/cxc/ui-devoluciones": [
+        "libs/shared/cxc/ui-devoluciones/src/index.ts"
+      ],
+      "@nx-papelsa/shared/cxc/ui-bonificaciones": [
+        "libs/shared/cxc/ui-bonificaciones/src/index.ts"
+      ]
     },
     "allowSyntheticDefaultImports": true
   },

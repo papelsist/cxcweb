@@ -15,6 +15,7 @@
     to act as our scrolling element for desktop layouts.
   */
   flex: 1;
+  // border: 2px solid red;
 }
 
 .example-is-mobile .example-sidenav-container {
@@ -22,5 +23,9 @@
     sidenav container. This allows the
      `<body>` to be our scrolling element for mobile layouts.
   */
+  flex: 1 0 auto;
+}
+.mat-sidenav-content {
+  border: 2px solid green;
   flex: 1 0 auto;
 }

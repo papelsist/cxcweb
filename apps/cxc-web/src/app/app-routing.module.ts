@@ -5,17 +5,20 @@ import { CommonModule } from '@angular/common';
 import { MainPageComponent } from './core/main-page/main-page.component';
 
 const routes: Route[] = [
-  // {
-  //   path: 'home',
-  //   component: MainPageComponent,
-  // },
   {
-    path: 'cartera',
+    path: 'credito',
     loadChildren: () =>
-      import('@nx-papelsa/cxc/feature-cartera').then(
-        (m) => m.CxcFeatureCarteraModule
+      import('@nx-papelsa/cxc/feature-cobranza-cre').then(
+        (m) => m.FeatureCobranzaCreModule
       ),
   },
+  // {
+  //   path: 'cartera',
+  //   loadChildren: () =>
+  //     import('@nx-papelsa/cxc/feature-cartera').then(
+  //       (m) => m.CxcFeatureCarteraModule
+  //     ),
+  // },
   // {
   //   path: '',
   //   redirectTo: 'home',

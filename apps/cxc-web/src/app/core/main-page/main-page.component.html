@@ -6,10 +6,7 @@
     (toogleSideNav)="snav.toggle()"
   ></nx-papelsa-cxc-toolbar>
 
-  <mat-sidenav-container
-    class="example-sidenav-container"
-    [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
-  >
+  <mat-sidenav-container class="example-sidenav-container">
     <mat-sidenav
       #snav
       [mode]="mobileQuery.matches ? 'over' : 'side'"

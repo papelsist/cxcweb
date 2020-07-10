@@ -40,6 +40,15 @@
     },
     "shared-data-access": {
       "tags": ["scope: shared", "type: data-access"]
+    },
+    "cxc-feature-cobranza-cre": {
+      "tags": ["scope:cxc", "type:feature"]
+    },
+    "shared-cxc-ui-devoluciones": {
+      "tags": ["scope:cxc", "type:ui"]
+    },
+    "shared-cxc-ui-bonificaciones": {
+      "tags": ["scope:cxc", "type:ui"]
     }
   }
 }
