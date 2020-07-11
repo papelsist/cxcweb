@@ -1,0 +1,37 @@
+.mat-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0px;
+  bottom: 0px;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  padding: 0px;
+  .mat-card-header {
+    border-bottom: 1px solid black;
+    .mat-card-title {
+      border: 1px solis green;
+      padding-top: 10px;
+    }
+    .mat-card-subtitle {
+      margin-bottom: 5px;
+    }
+    .actions {
+      margin-left: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 10px;
+    }
+  }
+
+  .grid-container {
+    border-bottom: 1px solid black;
+    flex: 1 0 auto;
+    margin: 0px;
+  }
+  .mat-toolbar {
+    height: 2rem;
+  }
+}

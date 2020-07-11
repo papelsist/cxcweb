@@ -10,6 +10,18 @@ import { NavigationRoute } from '@nx-papelsa/shared/utils/core-models';
 export class CreditoPageComponent implements OnInit {
   features: NavigationRoute[] = [
     {
+      path: 'facturas',
+      label: 'Facturas',
+      description: 'Cuentas por cobrar ',
+      icon: 'toc',
+    },
+    {
+      path: 'cobros',
+      label: 'Cobros',
+      description: 'Aplicaciones de cobros',
+      icon: 'payments',
+    },
+    {
       path: 'devoluciones',
       label: 'Devoluciones',
       description: 'Notas de crédito por devolución',
@@ -19,13 +31,19 @@ export class CreditoPageComponent implements OnInit {
       path: 'bonificaciones',
       label: 'Bonificaciones',
       description: 'Notas de crédito por descuento',
-      icon: 'redeem',
+      icon: 'all_inbox',
     },
     {
       path: 'cargos',
       label: 'Cargos',
       description: 'Notas de cargo',
       icon: 'playlist_add',
+    },
+    {
+      path: 'mejores',
+      label: 'Bonificaciones MC',
+      description: 'Mejores clientes',
+      icon: 'redeem',
     },
   ];
 

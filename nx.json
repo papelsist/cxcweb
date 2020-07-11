@@ -49,6 +49,12 @@
     },
     "shared-cxc-ui-bonificaciones": {
       "tags": ["scope:cxc", "type:ui"]
+    },
+    "shared-cxc-data-acces": {
+      "tags": ["scope:cxc", "type:data-access"]
+    },
+    "shared-utils-ui-material": {
+      "tags": ["scope:shared", "type:ui"]
     }
   }
 }

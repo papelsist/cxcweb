@@ -355,6 +355,76 @@
           "style": "scss"
         }
       }
+    },
+    "shared-cxc-data-acces": {
+      "projectType": "library",
+      "root": "libs/shared/cxc/data-acces",
+      "sourceRoot": "libs/shared/cxc/data-acces/src",
+      "prefix": "nx-papelsa",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/cxc/data-acces/tsconfig.lib.json",
+              "libs/shared/cxc/data-acces/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/cxc/data-acces/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/cxc/data-acces/jest.config.js",
+            "tsConfig": "libs/shared/cxc/data-acces/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/cxc/data-acces/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-utils-ui-material": {
+      "projectType": "library",
+      "root": "libs/shared/utils/ui-material",
+      "sourceRoot": "libs/shared/utils/ui-material/src",
+      "prefix": "nx-papelsa",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/utils/ui-material/tsconfig.lib.json",
+              "libs/shared/utils/ui-material/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/utils/ui-material/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/utils/ui-material/jest.config.js",
+            "tsConfig": "libs/shared/utils/ui-material/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/utils/ui-material/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {

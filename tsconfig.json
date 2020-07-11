@@ -36,6 +36,12 @@
       ],
       "@nx-papelsa/shared/cxc/ui-bonificaciones": [
         "libs/shared/cxc/ui-bonificaciones/src/index.ts"
+      ],
+      "@nx-papelsa/shared/cxc/data-acces": [
+        "libs/shared/cxc/data-acces/src/index.ts"
+      ],
+      "@nx-papelsa/shared/utils/ui-material": [
+        "libs/shared/utils/ui-material/src/index.ts"
       ]
     },
     "allowSyntheticDefaultImports": true
