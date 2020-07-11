@@ -2,14 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
-import { DevolucionesPageComponent } from './devoluciones-page.component';
-
-import { MatCardModule } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { UiMaterialModule } from '@nx-papelsa/shared/utils/ui-material';
 import { FlexLayoutModule } from '@angular/flex-layout';
+
+import { DevolucionesPageComponent } from './devoluciones-page.component';
 
 const routes: Routes = [{ path: '', component: DevolucionesPageComponent }];
 
@@ -18,12 +14,7 @@ const routes: Routes = [{ path: '', component: DevolucionesPageComponent }];
   imports: [
     CommonModule,
     FlexLayoutModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    MatDividerModule,
-    MatToolbarModule,
-
+    UiMaterialModule,
     RouterModule.forChild(routes),
   ],
 })
