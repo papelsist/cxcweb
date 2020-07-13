@@ -8,6 +8,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 
+import { COMPONENTS } from './components';
+
 const MATERIAL = [
   MatButtonModule,
   MatIconModule,
@@ -18,7 +20,8 @@ const MATERIAL = [
 ];
 
 @NgModule({
+  declarations: [...COMPONENTS],
   imports: [CommonModule, ...MATERIAL],
-  exports: [...MATERIAL],
+  exports: [...MATERIAL, ...COMPONENTS],
 })
 export class UiMaterialModule {}

@@ -42,6 +42,9 @@
       ],
       "@nx-papelsa/shared/utils/ui-material": [
         "libs/shared/utils/ui-material/src/index.ts"
+      ],
+      "@nx-papelsa/shared/cxc/feature-devoluciones": [
+        "libs/shared/cxc/feature-devoluciones/src/index.ts"
       ]
     },
     "allowSyntheticDefaultImports": true

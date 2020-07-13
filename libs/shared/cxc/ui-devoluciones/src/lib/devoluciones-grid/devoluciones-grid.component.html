@@ -1,0 +1,15 @@
+<div class="devoluciones-grid-container">
+  <ag-grid-angular
+    #agGrid
+    class="ag-theme-alpine grid"
+    [rowData]="rows"
+    [columnDefs]="columnDefs"
+    rowSelection="multiple"
+    [gridOptions]="gridOptions"
+    [rowMultiSelectWithClick]="true"
+    (selectionChanged)="onChangeSelection($event)"
+    (gridReady)="onGridReady($event)"
+    (modelUpdated)="onModelUpdated($event)"
+  >
+  </ag-grid-angular>
+</div>

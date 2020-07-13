@@ -1,0 +1,23 @@
+// :host {
+//   // display: block;
+//   border: 1px dotted blue;
+//   height: 500px;
+// }
+
+.devoluciones-grid-container {
+  display: flex;
+  // flex-direction: column;
+  //justify-content: center;
+  // align-items: flex-end;
+  // height: 500px;
+  // height: calc(100% - 10px);
+  height: 100%;
+  // border: 1px dotted blue;
+
+  .grid {
+    flex: 1 0 auto;
+    // min-height: 200px;
+    // max-height: 100%;
+    border-bottom: 1px dotted black;
+  }
+}

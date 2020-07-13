@@ -4,6 +4,8 @@ export interface DevolucionDto {
   sucursal: string;
   fecha: string;
   cliente: string;
+  nombre: string;
+  factura: string;
   moneda: string;
   importe: number;
   impuesto: number;

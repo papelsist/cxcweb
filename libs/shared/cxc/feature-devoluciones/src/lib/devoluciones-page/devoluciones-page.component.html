@@ -10,7 +10,7 @@
       <button mat-icon-button>
         <mat-icon>search</mat-icon>
       </button>
-      <button mat-icon-button>
+      <button mat-icon-button (click)="reload()">
         <mat-icon>refresh</mat-icon>
       </button>
       <button mat-icon-button>
@@ -18,11 +18,11 @@
       </button>
     </div>
   </mat-card-header>
-  <!-- <mat-toolbar>
-    Devoluciones de ventas
-    <mat-card-subtitle>CREDITO</mat-card-subtitle>
-  </mat-toolbar> -->
 
-  <!-- <mat-divider></mat-divider> -->
-  <div class="grid-container"></div>
+  <div class="grid-container">
+    <nx-papelsa-devoluciones-grid
+      [rows]="devoluciones$ | async"
+      (drillDown)="showInfo($event)"
+    ></nx-papelsa-devoluciones-grid>
+  </div>
 </mat-card>

@@ -55,6 +55,9 @@
     },
     "shared-utils-ui-material": {
       "tags": ["scope:shared", "type:ui"]
+    },
+    "shared-cxc-feature-devoluciones": {
+      "tags": ["scope:cxc", "type:feature"]
     }
   }
 }

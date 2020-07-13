@@ -25,8 +25,8 @@ import { MatListModule } from '@angular/material/list';
           {
             path: 'devoluciones',
             loadChildren: () =>
-              import('./devoluciones-page/devoluciones-page.module').then(
-                (m) => m.DevolucionesPageModule
+              import('@nx-papelsa/shared/cxc/feature-devoluciones').then(
+                (m) => m.FeatureDevolucionesModule
               ),
           },
         ],
