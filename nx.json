@@ -58,6 +58,9 @@
     },
     "shared-cxc-feature-devoluciones": {
       "tags": ["scope:cxc", "type:feature"]
+    },
+    "shared-utils-ui-covalent": {
+      "tags": ["scope: shared", "type: ui"]
     }
   }
 }

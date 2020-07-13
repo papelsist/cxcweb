@@ -45,6 +45,9 @@
       ],
       "@nx-papelsa/shared/cxc/feature-devoluciones": [
         "libs/shared/cxc/feature-devoluciones/src/index.ts"
+      ],
+      "@nx-papelsa/shared/utils/ui-covalent": [
+        "libs/shared/utils/ui-covalent/src/index.ts"
       ]
     },
     "allowSyntheticDefaultImports": true

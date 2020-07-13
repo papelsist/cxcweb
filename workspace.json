@@ -26,7 +26,7 @@
               "apps/cxc-web/src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "apps/cxc-web/src/theme.scss",
               "apps/cxc-web/src/styles.scss"
             ],
             "scripts": []
@@ -452,6 +452,41 @@
             "tsConfig": "libs/shared/cxc/feature-devoluciones/tsconfig.spec.json",
             "passWithNoTests": true,
             "setupFile": "libs/shared/cxc/feature-devoluciones/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-utils-ui-covalent": {
+      "projectType": "library",
+      "root": "libs/shared/utils/ui-covalent",
+      "sourceRoot": "libs/shared/utils/ui-covalent/src",
+      "prefix": "nx-papelsa",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/utils/ui-covalent/tsconfig.lib.json",
+              "libs/shared/utils/ui-covalent/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/utils/ui-covalent/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/utils/ui-covalent/jest.config.js",
+            "tsConfig": "libs/shared/utils/ui-covalent/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/utils/ui-covalent/src/test-setup.ts"
           }
         }
       },

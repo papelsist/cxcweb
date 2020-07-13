@@ -25,6 +25,7 @@
     "dep-graph": "nx dep-graph",
     "help": "nx help",
     "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
+    "build:stats": "nx build --statsJson",
     "analyze": "webpack-bundle-analyzer dist/apps/cxc-web/stats-es2015.json"
   },
   "private": true,
@@ -40,6 +41,7 @@
     "@angular/platform-browser": "^9.1.0",
     "@angular/platform-browser-dynamic": "^9.1.0",
     "@angular/router": "^9.1.0",
+    "@covalent/core": "^3.0.1",
     "ag-grid-angular": "^23.2.1",
     "ag-grid-community": "^23.2.1",
     "lodash": "^4.17.15",

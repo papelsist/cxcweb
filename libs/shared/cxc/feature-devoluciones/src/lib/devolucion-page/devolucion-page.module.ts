@@ -9,6 +9,8 @@ import { UiDevolucionesModule } from '@nx-papelsa/shared/cxc/ui-devoluciones';
 import { DevolucionResolver } from '@nx-papelsa/shared/cxc/data-acces';
 import { DevolucionPageComponent } from './devolucion-page.component';
 
+import { UiCovalentModule } from '@nx-papelsa/shared/utils/ui-covalent';
+
 const routes: Routes = [
   {
     path: '',
@@ -24,6 +26,7 @@ const routes: Routes = [
     UiMaterialModule,
     FlexLayoutModule,
     UiDevolucionesModule,
+    UiCovalentModule,
     RouterModule.forChild(routes),
   ],
 })

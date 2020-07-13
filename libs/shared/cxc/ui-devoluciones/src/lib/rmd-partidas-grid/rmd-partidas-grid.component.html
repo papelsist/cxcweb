@@ -1,1 +1,11 @@
-<p>rmd-partidas-grid works!</p>
+<div class="rmd-partidas-grid-container">
+  <ag-grid-angular
+    #agGrid
+    class="ag-theme-alpine grid"
+    [rowData]="partidas"
+    [columnDefs]="columnDefs"
+    (gridReady)="onGridReady($event)"
+    (modelUpdated)="onModelUpdated($event)"
+  >
+  </ag-grid-angular>
+</div>

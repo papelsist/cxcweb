@@ -1,0 +1,7 @@
+.rmd-partidas-grid-container {
+  display: flex;
+  height: 100%;
+  .grid {
+    flex: 1 0 auto;
+  }
+}
