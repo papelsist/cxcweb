@@ -57,6 +57,27 @@
       ],
       "@nx-papelsa/shared/utils/ui-common": [
         "libs/shared/utils/ui-common/src/index.ts"
+      ],
+      "@nx-papelsa/cxc/feature-cobranza-con": [
+        "libs/cxc/feature-cobranza-con/src/index.ts"
+      ],
+      "@nx-papelsa/cxc/feature-cobranza-che": [
+        "libs/cxc/feature-cobranza-che/src/index.ts"
+      ],
+      "@nx-papelsa/cxc/feature-cobranza-jur": [
+        "libs/cxc/feature-cobranza-jur/src/index.ts"
+      ],
+      "@nx-papelsa/shared/cxc/feature-revision": [
+        "libs/shared/cxc/feature-revision/src/index.ts"
+      ],
+      "@nx-papelsa/shared/cxc/feature-cobros": [
+        "libs/shared/cxc/feature-cobros/src/index.ts"
+      ],
+      "@nx-papelsa/shared/cxc/feature-comisiones": [
+        "libs/shared/cxc/feature-comisiones/src/index.ts"
+      ],
+      "@nx-papelsa/shared/cxc/ui-cxc-common": [
+        "libs/shared/cxc/ui-cxc-common/src/index.ts"
       ]
     },
     "allowSyntheticDefaultImports": true

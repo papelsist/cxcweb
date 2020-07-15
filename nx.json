@@ -70,6 +70,27 @@
     },
     "shared-utils-ui-common": {
       "tags": ["scope:shared", "type:ui"]
+    },
+    "cxc-feature-cobranza-con": {
+      "tags": ["scope:cxc", "type: feature"]
+    },
+    "cxc-feature-cobranza-che": {
+      "tags": ["scope:cxc", "type: feature"]
+    },
+    "cxc-feature-cobranza-jur": {
+      "tags": ["scope:cxc", "type: feature"]
+    },
+    "shared-cxc-feature-revision": {
+      "tags": ["scope: shared", "scope: cxc", "type: feature"]
+    },
+    "shared-cxc-feature-cobros": {
+      "tags": ["scope: shared", "scope: cxc", "type: feature"]
+    },
+    "shared-cxc-feature-comisiones": {
+      "tags": ["scope: shared", "scope: cxc", "type: feature"]
+    },
+    "shared-cxc-ui-cxc-common": {
+      "tags": ["scope: shared", "type: ui"]
     }
   }
 }
