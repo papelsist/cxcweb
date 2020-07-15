@@ -48,6 +48,15 @@
       ],
       "@nx-papelsa/shared/utils/ui-covalent": [
         "libs/shared/utils/ui-covalent/src/index.ts"
+      ],
+      "@nx-papelsa/shared/cxc/feature-cargos": [
+        "libs/shared/cxc/feature-cargos/src/index.ts"
+      ],
+      "@nx-papelsa/shared/cxc/ui-cargos": [
+        "libs/shared/cxc/ui-cargos/src/index.ts"
+      ],
+      "@nx-papelsa/shared/utils/ui-common": [
+        "libs/shared/utils/ui-common/src/index.ts"
       ]
     },
     "allowSyntheticDefaultImports": true

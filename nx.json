@@ -61,6 +61,15 @@
     },
     "shared-utils-ui-covalent": {
       "tags": ["scope: shared", "type: ui"]
+    },
+    "shared-cxc-feature-cargos": {
+      "tags": []
+    },
+    "shared-cxc-ui-cargos": {
+      "tags": ["scope: cxc", "type: ui"]
+    },
+    "shared-utils-ui-common": {
+      "tags": ["scope:shared", "type:ui"]
     }
   }
 }

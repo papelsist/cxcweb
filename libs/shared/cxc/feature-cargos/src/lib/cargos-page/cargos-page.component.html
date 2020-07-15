@@ -1,0 +1,48 @@
+<mat-card>
+  <div class="push-left push-right" fxLayout="row" fxLayoutAlign="start center">
+    <span class="mat-title">Notas de Cargo </span>
+    <span fxFlex></span>
+    <td-search-box placeholder="Filtrar" fxFlex></td-search-box>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="create()">
+        <mat-icon>playlist_add</mat-icon>
+        <span>Nuevo</span>
+      </button>
+      <button mat-menu-item (click)="reload()">
+        <mat-icon>refresh</mat-icon>
+        <span>Refrescar</span>
+      </button>
+      <button
+        mat-menu-item
+        [disabled]="getDisponiblesParaEnvio().length === 0"
+        (click)="enviarPorCorreo(getDisponiblesParaEnvio())"
+      >
+        <mat-icon>email</mat-icon>
+        <span>Envia por correo</span>
+      </button>
+    </mat-menu>
+  </div>
+
+  <nx-papelsa-cxc-cargos-grid
+    class="cargos-grid"
+    [rows]="cargos$ | async"
+    (drillDown)="onDrilldown($event)"
+    (selectionChange)="onSelection($event)"
+  ></nx-papelsa-cxc-cargos-grid>
+
+  <mat-card-actions>
+    <nx-papelsa-back-button></nx-papelsa-back-button>
+    <!-- <div fxFlex fxLayout="row" fxLayoutAlign="end center">
+      <button mat-raised-button>
+        <mat-icon>calendar</mat-icon>
+        <span>Periodo</span>
+      </button>
+      <span>PERIODO</span>
+    </div> -->
+  </mat-card-actions>
+</mat-card>

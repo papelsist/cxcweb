@@ -495,6 +495,108 @@
           "style": "scss"
         }
       }
+    },
+    "shared-cxc-feature-cargos": {
+      "projectType": "library",
+      "root": "libs/shared/cxc/feature-cargos",
+      "sourceRoot": "libs/shared/cxc/feature-cargos/src",
+      "prefix": "nx-papelsa",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/cxc/feature-cargos/tsconfig.lib.json",
+              "libs/shared/cxc/feature-cargos/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/cxc/feature-cargos/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/cxc/feature-cargos/jest.config.js",
+            "tsConfig": "libs/shared/cxc/feature-cargos/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/cxc/feature-cargos/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-cxc-ui-cargos": {
+      "projectType": "library",
+      "root": "libs/shared/cxc/ui-cargos",
+      "sourceRoot": "libs/shared/cxc/ui-cargos/src",
+      "prefix": "nx-papelsa",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/cxc/ui-cargos/tsconfig.lib.json",
+              "libs/shared/cxc/ui-cargos/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared/cxc/ui-cargos/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/cxc/ui-cargos/jest.config.js",
+            "tsConfig": "libs/shared/cxc/ui-cargos/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/cxc/ui-cargos/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-utils-ui-common": {
+      "projectType": "library",
+      "root": "libs/shared/utils/ui-common",
+      "sourceRoot": "libs/shared/utils/ui-common/src",
+      "prefix": "nx-papelsa",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/utils/ui-common/tsconfig.lib.json",
+              "libs/shared/utils/ui-common/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/utils/ui-common/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/utils/ui-common/jest.config.js",
+            "tsConfig": "libs/shared/utils/ui-common/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/utils/ui-common/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {

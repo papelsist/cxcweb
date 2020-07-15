@@ -29,6 +29,13 @@ import { MatListModule } from '@angular/material/list';
                 (m) => m.FeatureDevolucionesModule
               ),
           },
+          {
+            path: 'cargos',
+            loadChildren: () =>
+              import('@nx-papelsa/shared/cxc/feature-cargos').then(
+                (m) => m.FeatureCargosModule
+              ),
+          },
         ],
       },
     ]),
