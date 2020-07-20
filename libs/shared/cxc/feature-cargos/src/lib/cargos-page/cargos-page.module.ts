@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
 
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { Routes, RouterModule } from '@angular/router';
+
+import { UiCommonModule } from '@nx-papelsa/shared/utils/ui-common';
 import { UiMaterialModule } from '@nx-papelsa/shared/utils/ui-material';
 import { UiCovalentModule } from '@nx-papelsa/shared/utils/ui-covalent';
+import { UiFormsModule } from '@nx-papelsa/shared/utils/ui-forms';
 
 import { AgGridModule } from 'ag-grid-angular';
 
 import { CargosPageComponent } from './cargos-page.component';
 
-import { COMPONENTS } from './components';
+import { COMPONENTS, ENTRY_COMPONENTS } from './components';
 import { BooleanRendererComponent } from './components/boolean-renderer.component';
 
 export const routes: Routes = [
@@ -24,13 +24,13 @@ export const routes: Routes = [
 @NgModule({
   declarations: [CargosPageComponent, ...COMPONENTS],
   imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FlexLayoutModule,
+    UiCommonModule,
     UiMaterialModule,
     UiCovalentModule,
+    UiFormsModule,
     AgGridModule.withComponents([BooleanRendererComponent]),
     RouterModule.forChild(routes),
   ],
+  entryComponents: [...ENTRY_COMPONENTS],
 })
 export class CargosPageModule {}

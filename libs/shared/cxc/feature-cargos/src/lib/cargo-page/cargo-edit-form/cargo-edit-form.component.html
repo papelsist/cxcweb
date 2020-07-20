@@ -1,0 +1,79 @@
+<div [formGroup]="form" class="edit-form" fxLayout="column">
+  <div fxFlex fxLeyout fxLayoutGap="5px">
+    <mat-form-field class="pad-right" [style.width.px]="140">
+      <mat-select placeholder="Cálculo" formControlName="tipoDeCalculo">
+        <mat-option *ngFor="let c of ['PORCENTAJE', 'PRORRATEO']" [value]="c">
+          {{ c }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field [style.width.px]="100">
+      <mat-label>Cargo</mat-label>
+      <input
+        type="number"
+        matInput
+        formControlName="cargo"
+        placeholder="Cargo (%)"
+      />
+      <mat-error>Valor incorrecto (0 - 50)</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [style.width.px]="100">
+      <mat-label>Monto por prorratear</mat-label>
+      <input
+        type="number"
+        matInput
+        formControlName="monto"
+        placeholder="Monto"
+      />
+      <mat-error>Valor incorrecto (mínimo 1.0)</mat-error>
+    </mat-form-field>
+    <nx-papelsa-forma-de-pago [parent]="form"></nx-papelsa-forma-de-pago>
+    <nx-papelsa-moneda-field [parent]="form"></nx-papelsa-moneda-field>
+    <nx-papelsa-tipo-de-cambio-field
+      [parent]="form"
+    ></nx-papelsa-tipo-de-cambio-field>
+  </div>
+
+  <div fxFlex fxLeyout fxLayoutGap="10px" fxLayoutAlign="start baseline">
+    <nx-papelsa-uso-cfdi
+      [parent]="form"
+      fxFlex="1 0 auto"
+    ></nx-papelsa-uso-cfdi>
+    <mat-form-field fxFlex="2 0 auto">
+      <mat-label>Comentario</mat-label>
+      <input
+        type="text"
+        matInput
+        placeholder="Comentario"
+        formControlName="comentario"
+      />
+    </mat-form-field>
+
+    <nx-papelsa-cxc-selector-cxc-btn
+      title="Agregar Facturas"
+      [clienteId]="cargo.cliente.id"
+      (selection)="onAgregarFacturas($event)"
+    ></nx-papelsa-cxc-selector-cxc-btn>
+  </div>
+  <nx-papelsa-cxc-cargo-partidas-table [partidas]="getPartidas().value">
+  </nx-papelsa-cxc-cargo-partidas-table>
+
+  <div class="totales" fxLayout fxLayoutAlign="end center" fxLayoutGap="10px">
+    <label>Importe:</label>
+    <span
+      ><strong>{{ form.get('importe').value | currency }}</strong></span
+    >
+
+    <label>Impuesto:</label>
+    <span
+      ><strong>{{ form.get('impuesto').value | currency }}</strong></span
+    >
+
+    <label>Total:</label>
+    <span
+      ><strong>{{ form.get('total').value | currency }}</strong></span
+    >
+  </div>
+</div>

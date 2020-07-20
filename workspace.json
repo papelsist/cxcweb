@@ -842,6 +842,41 @@
           "style": "scss"
         }
       }
+    },
+    "shared-utils-ui-forms": {
+      "projectType": "library",
+      "root": "libs/shared/utils/ui-forms",
+      "sourceRoot": "libs/shared/utils/ui-forms/src",
+      "prefix": "nx-papelsa",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/utils/ui-forms/tsconfig.lib.json",
+              "libs/shared/utils/ui-forms/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/utils/ui-forms/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/utils/ui-forms/jest.config.js",
+            "tsConfig": "libs/shared/utils/ui-forms/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/utils/ui-forms/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {

@@ -8,6 +8,8 @@ import { SharedDataAccessModule } from '@nx-papelsa/shared/data-access';
 import { CoreModule } from './core/core.module';
 import { AppRoutingModule } from './app-routing.module';
 
+import { environment } from '../environments/environment';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -17,7 +19,7 @@ import { AppRoutingModule } from './app-routing.module';
     CoreModule,
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [{ provide: 'apiUrl', useValue: environment.apiUrl }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

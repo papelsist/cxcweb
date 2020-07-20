@@ -78,6 +78,9 @@
       ],
       "@nx-papelsa/shared/cxc/ui-cxc-common": [
         "libs/shared/cxc/ui-cxc-common/src/index.ts"
+      ],
+      "@nx-papelsa/shared/utils/ui-forms": [
+        "libs/shared/utils/ui-forms/src/index.ts"
       ]
     },
     "allowSyntheticDefaultImports": true

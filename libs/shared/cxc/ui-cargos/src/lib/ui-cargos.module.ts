@@ -1,17 +1,10 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { CreateCargoComponent } from './create-cargo/create-cargo.component';
-
 import { UiMaterialModule } from '@nx-papelsa/shared/utils/ui-material';
-import { CreateCargoService } from './create-cargo/create-cargo.service';
+import { UiCommonModule } from '@nx-papelsa/shared/utils/ui-common';
 
 @NgModule({
-  declarations: [CreateCargoComponent],
-  entryComponents: [CreateCargoComponent],
-  imports: [CommonModule, ReactiveFormsModule, UiMaterialModule],
-  exports: [CreateCargoComponent],
-  providers: [CreateCargoService],
+  imports: [UiCommonModule, ReactiveFormsModule, UiMaterialModule],
 })
 export class UiCargosModule {}

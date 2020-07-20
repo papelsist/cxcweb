@@ -4,3 +4,6 @@ export * from './sucursal';
 export * from './venta';
 export * from './venta-det';
 export * from './cfdi';
+export * from './forma-de-pago';
+export * from './common';
+export * from './socio';

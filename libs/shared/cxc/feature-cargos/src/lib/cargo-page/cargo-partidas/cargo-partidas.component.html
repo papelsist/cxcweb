@@ -1,0 +1,11 @@
+<div class="partidas-container">
+  <td-data-table [data]="partidas" [columns]="columns">
+    <ng-template
+      tdDataTableTemplate="renglon"
+      let-index="index"
+      let-value="value"
+    >
+      {{ index + 1 }}
+    </ng-template>
+  </td-data-table>
+</div>

@@ -1,1 +1,59 @@
-<p>cargo-page works!</p>
+<mat-card *ngIf="cargo$ | async as cargo">
+  <div
+    class="mat-title"
+    fxLayout
+    fxLayoutAlign="start center"
+    fxLayoutGap="10px"
+  >
+    <span>Nota: {{ cargo.folio }}</span>
+    <span>{{ cargo.nombre }}</span>
+  </div>
+  <div
+    class="mat-subtitle"
+    fxLayout
+    fxLayoutAlign="start center"
+    fxLayoutGap="10px"
+  >
+    <span>Tipo :</span>
+    <span
+      ><strong>{{ cargo.tipo }}</strong></span
+    >
+    <span>Fecha: </span>
+    <span
+      ><strong>{{ cargo.fecha | date: 'dd/MM/yyyy' }}</strong></span
+    >
+  </div>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <nx-papelsa-cxc-cargo-edit-form
+      #form
+      class="edit-form"
+      [cargo]="cargo"
+      (update)="onUpdate($event)"
+    ></nx-papelsa-cxc-cargo-edit-form>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <nx-papelsa-back-button></nx-papelsa-back-button>
+
+    <ng-container *ngIf="cargo.cfdi; else modificable">
+      <button mat-raised-button color="accent">
+        <mat-icon>print</mat-icon>
+        <span>Imprimir</span>
+      </button>
+    </ng-container>
+
+    <ng-template #modificable>
+      <button
+        *ngIf="!cargo.cfdi"
+        mat-raised-button
+        color="primary"
+        (click)="form.onSubmit()"
+        [disabled]="form.form.pristine || form.form.invalid"
+      >
+        <mat-icon>save</mat-icon>
+        <span>Actualizar</span>
+      </button>
+    </ng-template>
+  </mat-card-actions>
+</mat-card>

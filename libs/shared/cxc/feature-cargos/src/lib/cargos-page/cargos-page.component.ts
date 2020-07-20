@@ -2,13 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 import { MatDialog } from '@angular/material/dialog';
 
 import { CargosService } from '@nx-papelsa/shared/cxc/data-acces';
-import { NotaDeCargoDto } from '@nx-papelsa/shared/utils/core-models';
+import {
+  NotaDeCargoDto,
+  NotaDeCargoCreateDto,
+} from '@nx-papelsa/shared/utils/core-models';
 import { groupByProperty } from '@nx-papelsa/shared/utils/collections';
-import { CreateCargoComponent } from '@nx-papelsa/shared/cxc/ui-cargos';
+
+import { CreateCargoDialogComponent } from './components';
 
 @Component({
   selector: 'nx-papelsa-cxc-cargos-page',
@@ -22,7 +27,6 @@ export class CargosPageComponent implements OnInit {
     private service: CargosService,
     private router: Router,
     private route: ActivatedRoute,
-    // private cargoService: CreateCargoService
     private dialog: MatDialog
   ) {}
 
@@ -35,10 +39,18 @@ export class CargosPageComponent implements OnInit {
   }
 
   create() {
-    this.dialog.open(CreateCargoComponent, { data: { cartera: 'CRE' } });
-    // this.cargoService
-    //   .createCarto('CRE')
-    //   .subscribe((dto) => console.log('DTO: ', dto));
+    this.dialog
+      .open(CreateCargoDialogComponent, { data: { cartera: 'CRE' } })
+      .afterClosed()
+      .pipe(filter((data) => data != null))
+      .subscribe((dto) => this.doPersist(dto));
+  }
+
+  doPersist(dto: NotaDeCargoCreateDto) {
+    this.service.save(dto).subscribe(
+      (res) => console.log('Res: ', res),
+      (err) => console.log('ERROR SALVANDO DTO: ', err)
+    );
   }
 
   onDrilldown(event: NotaDeCargoDto) {

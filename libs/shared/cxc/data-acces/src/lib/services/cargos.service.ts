@@ -4,7 +4,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { Periodo, NotaDeCargoDto } from '@nx-papelsa/shared/utils/core-models';
+import {
+  Periodo,
+  NotaDeCargoDto,
+  NotaDeCargoCreateDto,
+  NotaDeCargo,
+} from '@nx-papelsa/shared/utils/core-models';
 
 @Injectable({
   providedIn: 'root',
@@ -12,12 +17,8 @@ import { Periodo, NotaDeCargoDto } from '@nx-papelsa/shared/utils/core-models';
 export class CargosService {
   private apiUrl: string;
 
-  // constructor(private http: HttpClient, @Inject('apiUrl') api: string) {
-  //   this.apiUrl = `${api}/pedidos`;
-  // }
-
-  constructor(private http: HttpClient) {
-    this.apiUrl = `http://localhost:8080/api/cargos`;
+  constructor(private http: HttpClient, @Inject('apiUrl') api) {
+    this.apiUrl = `${api}/cxc/notasDeCargo`;
   }
 
   list(
@@ -33,6 +34,29 @@ export class CargosService {
       .set('max', max.toString());
     return this.http
       .get<NotaDeCargoDto[]>(this.apiUrl, { params: params })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  get(id: string): Observable<NotaDeCargo> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http
+      .get<NotaDeCargo>(url)
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  save(cargo: NotaDeCargoCreateDto): Observable<NotaDeCargoDto> {
+    return this.http
+      .post<NotaDeCargoDto>(this.apiUrl, cargo)
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  update(update: {
+    id: string;
+    changes: Partial<NotaDeCargo>;
+  }): Observable<NotaDeCargo> {
+    const url = `${this.apiUrl}/${update.id}`;
+    return this.http
+      .put<NotaDeCargo>(url, update.changes)
       .pipe(catchError((error: any) => throwError(error)));
   }
 }

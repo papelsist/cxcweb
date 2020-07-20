@@ -91,6 +91,9 @@
     },
     "shared-cxc-ui-cxc-common": {
       "tags": ["scope: shared", "type: ui"]
+    },
+    "shared-utils-ui-forms": {
+      "tags": ["scope: shared", "type:ui"]
     }
   }
 }
