@@ -28,6 +28,9 @@ export interface NotaDeCargo {
   tipoDeCalculo?: any;
   uuid?: any;
   cfdi?: any;
+  cancelacion?: string;
+  cancelacionMotivo?: string;
+  cancelacionUsuario?: string;
 }
 
 export interface NotaDeCargoDet {

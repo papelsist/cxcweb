@@ -52,7 +52,9 @@ export class CargoEditFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.buildForm();
+    if (this.cargo.cfdi) this.form.disable();
   }
+
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.complete();
@@ -68,7 +70,8 @@ export class CargoEditFormComponent implements OnInit, OnDestroy {
         ],
         monto: [
           {
-            value: this.cargo.total,
+            value:
+              this.cargo.tipoDeCalculo === 'PRORRATEO' ? this.cargo.total : 0.0,
             disabled: this.cargo.tipoDeCalculo === 'PORCENTAJE',
           },
           [Validators.required],
@@ -87,23 +90,47 @@ export class CargoEditFormComponent implements OnInit, OnDestroy {
       },
       { updateOn: 'blur' }
     );
-    this.observarCargo();
-    this.observarMonto();
-    this.observarTipoDeCalculo();
+    if (!this.cargo.cfdi) {
+      this.observarCargo();
+      this.observarMonto();
+      this.observarTipoDeCalculo();
+      this.observarParaRecalculo();
+    }
   }
 
   private observarCargo() {
     this.form
       .get('cargo')
       .valueChanges.pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.actualizarPorPorcentaje());
+      .subscribe(() => this.recalcular());
   }
 
   private observarMonto() {
     this.form
       .get('monto')
       .valueChanges.pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.service.calcularPorProrrateo(this.form));
+      .subscribe(() => this.recalcular());
+  }
+
+  private observarParaRecalculo() {
+    this.form
+      .get('importe')
+      .valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.form.markAsDirty();
+      });
+  }
+
+  private recalcular() {
+    const tipo = this.form.get('tipoDeCalculo').value;
+    switch (tipo) {
+      case 'PORCENTAJE':
+        this.service.calcularPorPorcentaje(this.form);
+        break;
+      case 'PRORRATEO':
+        this.service.calcularPorProrrateo(this.form);
+        break;
+    }
   }
 
   private observarTipoDeCalculo() {
@@ -123,6 +150,8 @@ export class CargoEditFormComponent implements OnInit, OnDestroy {
   }
 
   calculoPorcentual() {
+    this.getCargoControl().setValue(0.0);
+    this.getMontoControl().setValue(0.0);
     this.form.get('monto').disable();
     this.form.get('cargo').enable();
   }
@@ -132,42 +161,6 @@ export class CargoEditFormComponent implements OnInit, OnDestroy {
     this.getMontoControl().setValue(0.0);
     this.form.get('monto').enable();
     this.form.get('cargo').disable();
-  }
-
-  private actualizarPorPorcentaje() {
-    const cargo = this.getCargoControl().value / 100;
-    const sobreSaldo = true; // Fixed
-    console.log('Actualizando por porcentaje: ', cargo);
-
-    const items: FormArray = this.getPartidas();
-
-    let acuImporte = 0.0,
-      acuImpuesto = 0.0,
-      acuTotal = 0.0;
-
-    for (let index = 0; index < items.length; index++) {
-      const control = items.at(index);
-      const det: Partial<NotaDeCargoDet> = control.value;
-      det.cargo = cargo;
-      const monto = sobreSaldo ? det.documentoSaldo : det.documentoTotal;
-      const total = MonedaUtils.round(monto * cargo);
-      const importe = MonedaUtils.calcularImporteDelTotal(total);
-      const impuesto = MonedaUtils.calcularImpuesto(importe);
-      det.total = total;
-      det.importe = importe;
-      det.impuesto = impuesto;
-      console.log('Partida actualizada: ', det);
-      items.setControl(index, new FormControl(det));
-      acuImporte += importe;
-      acuImpuesto += impuesto;
-      acuTotal += total;
-    }
-
-    this.form.patchValue({
-      importe: acuImporte,
-      impuesto: acuImpuesto,
-      total: acuTotal,
-    });
   }
 
   onSubmit() {
@@ -191,7 +184,6 @@ export class CargoEditFormComponent implements OnInit, OnDestroy {
         cargo,
       };
     });
-
     this.addPartidas(items);
   }
 
@@ -199,6 +191,11 @@ export class CargoEditFormComponent implements OnInit, OnDestroy {
     items
       .map((item) => new FormControl(item))
       .forEach((control) => this.getPartidas().push(control));
+  }
+
+  onDeletePartida(rowData: { index: number; data: any }) {
+    const control = this.getPartidas().removeAt(rowData.index);
+    this.recalcular();
   }
 
   getCargoControl() {
@@ -215,8 +212,6 @@ export class CargoEditFormComponent implements OnInit, OnDestroy {
     if (this.form) {
       this.getPartidas().clear();
       this.addPartidas(this._cargo.partidas);
-    } else {
-      console.log('Creación de forma...');
     }
   }
 

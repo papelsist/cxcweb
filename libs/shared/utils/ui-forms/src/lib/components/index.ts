@@ -5,6 +5,7 @@ import { TipoDeCambioFieldComponent } from './tipo-de-cambio-field/tipo-de-cambi
 import { MonedaFieldComponent } from './moneda-field/moneda-field.component';
 import { SucursalFieldComponent } from './sucursal-field/sucursal-field.component';
 import { FomraDePagoFieldComponent } from './forma-de-pago-field/forma-de-pago-field.component';
+import { DeleteEntityComponent } from './delete-entity/delete-entity.component';
 
 export const COMPONENTS = [
   FechaFieldComponent,
@@ -14,6 +15,7 @@ export const COMPONENTS = [
   MonedaFieldComponent,
   SucursalFieldComponent,
   FomraDePagoFieldComponent,
+  DeleteEntityComponent,
 ];
 
 export * from './fecha-field/fecha-field.component';
@@ -23,3 +25,4 @@ export * from './tipo-de-cambio-field/tipo-de-cambio-field.component';
 export * from './moneda-field/moneda-field.component';
 export * from './sucursal-field/sucursal-field.component';
 export * from './forma-de-pago-field/forma-de-pago-field.component';
+export * from './delete-entity/delete-entity.component';

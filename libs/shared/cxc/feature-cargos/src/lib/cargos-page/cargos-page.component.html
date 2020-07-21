@@ -1,12 +1,18 @@
 <mat-card>
   <div class="push-left push-right" fxLayout="row" fxLayoutAlign="start center">
-    <span class="mat-title">Notas de Cargo </span>
+    <span fxLayout fxLayoutAlign="start center">
+      <span class="mat-title">Notas de Cargo </span>
+      <span class="sub-title">(Cartera: {{ cartera.clave }})</span>
+    </span>
     <span fxFlex></span>
     <td-search-box placeholder="Filtrar" fxFlex></td-search-box>
 
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>more_vert</mat-icon>
     </button>
+    <nx-papelsa-periodo-picker
+      (periodoChanged)="onPeriodoChanged($event)"
+    ></nx-papelsa-periodo-picker>
 
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="create()">

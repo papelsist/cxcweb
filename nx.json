@@ -94,6 +94,12 @@
     },
     "shared-utils-ui-forms": {
       "tags": ["scope: shared", "type:ui"]
+    },
+    "shared-cfdi-ui-common": {
+      "tags": []
+    },
+    "shared-cfdi-data-access": {
+      "tags": ["scope: shared", "type: data-access"]
     }
   }
 }

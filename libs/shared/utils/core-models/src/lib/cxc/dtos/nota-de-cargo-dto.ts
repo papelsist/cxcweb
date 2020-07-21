@@ -15,4 +15,7 @@ export interface NotaDeCargoDto {
   lastUpdated?: string;
   createUser?: string;
   updateUser?: string;
+  cancelacion?: string;
+  cancelacionMotivo?: string;
+  cancelacionUsuario?: string;
 }

@@ -1,0 +1,18 @@
+<div mat-dialog-title>
+  Envío de CFDI
+</div>
+<mat-dialog-content>
+  <mat-form-field [style.width.%]="100">
+    <mat-label>Email destino:</mat-label>
+    <input matInput type="email" placeholder="Email" [formControl]="control" />
+    <mat-error>Dirección incorrecta</mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]>Cancelar</button>
+  <button mat-button (click)="onSubmit()" [disabled]="control.invalid">
+    <mat-icon>email</mat-icon>
+    <span>Enviar</span>
+  </button>
+</mat-dialog-actions>

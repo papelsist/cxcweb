@@ -26,7 +26,7 @@ export class CargoPartidasComponent extends BaseGridComponent
 
   private _partidas = [];
 
-  @Output() delete = new EventEmitter();
+  @Output() delete = new EventEmitter<{ index: number; data: any }>();
   @Output() doubleClick = new EventEmitter();
   @Input() columns: ITdDataTableColumn[] = [
     { name: 'renglon', label: 'Rgl', width: 50 },
@@ -76,6 +76,11 @@ export class CargoPartidasComponent extends BaseGridComponent
       width: 100,
       format: (value) => this.formatCurrency(value),
     },
+    {
+      name: 'delete',
+      label: ':',
+      width: 50,
+    },
   ];
 
   constructor(@Inject(LOCALE_ID) locale) {
@@ -95,5 +100,9 @@ export class CargoPartidasComponent extends BaseGridComponent
 
   get partidas() {
     return this._partidas;
+  }
+
+  onDelete(index: number, data: any) {
+    this.delete.emit({ index, data });
   }
 }

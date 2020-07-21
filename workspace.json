@@ -877,6 +877,76 @@
           "style": "scss"
         }
       }
+    },
+    "shared-cfdi-ui-common": {
+      "projectType": "library",
+      "root": "libs/shared/cfdi/ui-common",
+      "sourceRoot": "libs/shared/cfdi/ui-common/src",
+      "prefix": "nx-papelsa",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/cfdi/ui-common/tsconfig.lib.json",
+              "libs/shared/cfdi/ui-common/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/cfdi/ui-common/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/cfdi/ui-common/jest.config.js",
+            "tsConfig": "libs/shared/cfdi/ui-common/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/cfdi/ui-common/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-cfdi-data-access": {
+      "projectType": "library",
+      "root": "libs/shared/cfdi/data-access",
+      "sourceRoot": "libs/shared/cfdi/data-access/src",
+      "prefix": "nx-papelsa",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/cfdi/data-access/tsconfig.lib.json",
+              "libs/shared/cfdi/data-access/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/cfdi/data-access/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/cfdi/data-access/jest.config.js",
+            "tsConfig": "libs/shared/cfdi/data-access/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/cfdi/data-access/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {

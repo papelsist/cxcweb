@@ -7,5 +7,20 @@
     >
       {{ index + 1 }}
     </ng-template>
+    <ng-template
+      tdDataTableTemplate="delete"
+      let-index="index"
+      let-value="value"
+    >
+      <button
+        class="delete-button"
+        mat-icon-button
+        (click)="onDelete(index, value)"
+        [disabled]="parent.disabled"
+        color="warn"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </ng-template>
   </td-data-table>
 </div>

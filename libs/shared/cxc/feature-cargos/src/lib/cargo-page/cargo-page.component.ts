@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Observable } from 'rxjs';
-import { map, switchMap, shareReplay } from 'rxjs/operators';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { map, switchMap, shareReplay, finalize, delay } from 'rxjs/operators';
 
 import { NotaDeCargo } from '@nx-papelsa/shared/utils/core-models';
 import { CargosService } from '@nx-papelsa/shared/cxc/data-acces';
 import { TdDialogService } from '@covalent/core/dialogs';
+import { TdLoadingService } from '@covalent/core/loading';
 
 @Component({
   selector: 'nx-papelsa-cargo-page',
@@ -16,10 +17,14 @@ import { TdDialogService } from '@covalent/core/dialogs';
 export class CargoPageComponent implements OnInit {
   cargo$: Observable<NotaDeCargo>;
 
+  _loading$ = new BehaviorSubject<boolean>(false);
+  loading$ = this._loading$.asObservable();
+
   constructor(
     private route: ActivatedRoute,
     private service: CargosService,
-    private dialogService: TdDialogService
+    private dialogService: TdDialogService,
+    private loadingService: TdLoadingService
   ) {}
 
   ngOnInit(): void {
@@ -50,5 +55,80 @@ export class CargoPageComponent implements OnInit {
         });
       }
     );
+  }
+
+  onTimbrar(cargo: Partial<NotaDeCargo>) {
+    this.dialogService
+      .openConfirm({
+        title: 'Comprobante fiscal digital',
+        message: 'Timbrar la nota de cargo: ' + cargo.folio,
+        cancelButton: 'Cancelar',
+        acceptButton: 'Timbrar',
+      })
+      .afterClosed()
+      .subscribe((res) => this.doTimbrar(cargo));
+  }
+
+  private doTimbrar(cargo: Partial<NotaDeCargo>) {
+    this._loading$.next(true);
+    this.service
+      .timbrar(cargo.id)
+      .pipe(finalize(() => this._loading$.next(false)))
+      .subscribe(
+        () => this.load(),
+        (err) => this.onError(err)
+      );
+  }
+
+  onDelete(cargo: Partial<NotaDeCargo>) {
+    console.log('Eliminar: ', cargo);
+  }
+
+  onCancelar(
+    cargo: Partial<NotaDeCargo>,
+    event: { id: string; motivo: string }
+  ) {
+    console.log('Cancelar :', event);
+    this.doCancelar(cargo, event.motivo);
+  }
+
+  doCancelar(cargo: Partial<NotaDeCargo>, motivo: string) {
+    this._loading$.next(true);
+    this.service
+      .cancelar(cargo.id, motivo)
+      .pipe(finalize(() => this._loading$.next(false)))
+      .subscribe(
+        () => {
+          this.load();
+          this.dialogService.openAlert({
+            title: 'Cancelación de Cargo',
+            message:
+              'Cancelación de Nota exitosa. Cancelación del CFDI en proceso',
+            closeButton: 'Cerrar',
+          });
+        },
+        (err) => this.onError(err)
+      );
+  }
+
+  mostrarCancelacionInfo(cargo: Partial<NotaDeCargo>) {
+    if (cargo.cancelacion) {
+      this.dialogService.openAlert({
+        title: 'Cancelado por: ' + cargo.cancelacionUsuario,
+        message: `Motivo: ${cargo.cancelacionMotivo}`,
+        closeButton: 'Cerrar',
+      });
+    }
+  }
+
+  onError(error: any) {
+    console.error('Error al actualizar Nota de cargo', error);
+    const s_err =
+      error.status === 404 ? `${error.message}` : `${error?.message?.message}`;
+    this.dialogService.openAlert({
+      title: 'Error actualizando Cargo',
+      message: s_err,
+      closeButton: 'Cerrar',
+    });
   }
 }

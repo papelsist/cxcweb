@@ -55,9 +55,14 @@
       title="Agregar Facturas"
       [clienteId]="cargo.cliente.id"
       (selection)="onAgregarFacturas($event)"
+      [disabled]="cargo.cfdi"
     ></nx-papelsa-cxc-selector-cxc-btn>
   </div>
-  <nx-papelsa-cxc-cargo-partidas-table [partidas]="getPartidas().value">
+  <nx-papelsa-cxc-cargo-partidas-table
+    [parent]="form"
+    [partidas]="getPartidas().value"
+    (delete)="onDeletePartida($event)"
+  >
   </nx-papelsa-cxc-cargo-partidas-table>
 
   <div class="totales" fxLayout fxLayoutAlign="end center" fxLayoutGap="10px">

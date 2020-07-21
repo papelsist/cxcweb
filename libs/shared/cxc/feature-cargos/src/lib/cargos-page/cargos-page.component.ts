@@ -10,6 +10,7 @@ import { CargosService } from '@nx-papelsa/shared/cxc/data-acces';
 import {
   NotaDeCargoDto,
   NotaDeCargoCreateDto,
+  Periodo,
 } from '@nx-papelsa/shared/utils/core-models';
 import { groupByProperty } from '@nx-papelsa/shared/utils/collections';
 
@@ -23,6 +24,7 @@ import { CreateCargoDialogComponent } from './components';
 export class CargosPageComponent implements OnInit {
   cargos$: Observable<NotaDeCargoDto[]>;
   selected: NotaDeCargoDto[] = [];
+  cartera: { clave: string; descripcion: string };
   constructor(
     private service: CargosService,
     private router: Router,
@@ -31,7 +33,8 @@ export class CargosPageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.reload();
+    this.cartera = this.route.snapshot.data.cartera;
+    this.reload();
   }
 
   reload() {
@@ -40,7 +43,7 @@ export class CargosPageComponent implements OnInit {
 
   create() {
     this.dialog
-      .open(CreateCargoDialogComponent, { data: { cartera: 'CRE' } })
+      .open(CreateCargoDialogComponent, { data: { cartera: this.cartera } })
       .afterClosed()
       .pipe(filter((data) => data != null))
       .subscribe((dto) => this.doPersist(dto));
@@ -68,6 +71,8 @@ export class CargosPageComponent implements OnInit {
     const grupos = groupByProperty(disponibles, 'cliente');
     console.log(grupos);
   }
+
+  onPeriodoChanged(periodo: Periodo) {}
 
   // isSendMailEnabled() {
   //   const disponibles = this.selected.filter((item) => item.cfdi);

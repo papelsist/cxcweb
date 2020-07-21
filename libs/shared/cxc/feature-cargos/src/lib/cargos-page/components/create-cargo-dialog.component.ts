@@ -21,7 +21,7 @@ import {
     >
       <nx-papelsa-cliente-field
         formControlName="cliente"
-        [tipo]="cartera === 'CRE' ? 'CREDITO' : 'TODOS'"
+        [tipo]="cartera.clave === 'CRE' ? 'CREDITO' : 'TODOS'"
       ></nx-papelsa-cliente-field>
 
       <div fxFlex fxLayout fxLayoutGap="5px">
@@ -71,7 +71,8 @@ import {
 export class CreateCargoDialogComponent implements OnInit {
   form: FormGroup;
 
-  cartera: 'CRE' | 'CHE' | 'CHO';
+  // cartera: 'CRE' | 'CHE' | 'CHO';
+  cartera: { clave: string; descripcion: string };
 
   constructor(
     private dialogRef: MatDialogRef<
@@ -90,7 +91,7 @@ export class CreateCargoDialogComponent implements OnInit {
 
   buildForm() {
     this.form = this.fb.group({
-      tipo: [this.cartera, [Validators.required]],
+      tipo: [this.cartera.clave, [Validators.required]],
       cliente: [null, [Validators.required]],
       formaDePago: [FormaDePago.TRANSFERENCIA, Validators.required],
       usoDeCfdi: ['G01', [Validators.required]],

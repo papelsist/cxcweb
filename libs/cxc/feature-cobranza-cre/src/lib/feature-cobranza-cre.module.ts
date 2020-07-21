@@ -35,6 +35,7 @@ import { MatListModule } from '@angular/material/list';
               import('@nx-papelsa/shared/cxc/feature-cargos').then(
                 (m) => m.FeatureCargosModule
               ),
+            data: { cartera: { clave: 'CRE', descripcion: 'Crédito' } },
           },
         ],
       },

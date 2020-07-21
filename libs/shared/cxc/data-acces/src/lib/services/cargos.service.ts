@@ -1,8 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, delay } from 'rxjs/operators';
 
 import {
   Periodo,
@@ -58,5 +58,30 @@ export class CargosService {
     return this.http
       .put<NotaDeCargo>(url, update.changes)
       .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  timbrar(id: string): Observable<NotaDeCargo> {
+    const url = `${this.apiUrl}/timbrar/${id}`;
+    return this.http
+      .post<NotaDeCargo>(url, {})
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  cancelar(id: string, motivo: string): Observable<NotaDeCargo> {
+    const url = `${this.apiUrl}/cancelar/${id}`;
+    const params = new HttpParams().set('motivo', motivo);
+    return this.http.put<NotaDeCargo>(url, {}, { params }).pipe(
+      delay(2000),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  print(cargo: Partial<NotaDeCargo>) {
+    const url = `${this.apiUrl}/print/${cargo.id}`;
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+    return this.http.get(url, {
+      headers: headers,
+      responseType: 'blob',
+    });
   }
 }

@@ -20,6 +20,7 @@ import { SelectorCxcComponent } from './selector-cxc.component';
         [color]="color"
         *ngIf="title; else onlyIcon"
         (click)="seleccionar()"
+        [disabled]="disabled"
       >
         <mat-icon>playlist_add_check</mat-icon>
         <span>{{ title }}</span>
@@ -30,6 +31,7 @@ import { SelectorCxcComponent } from './selector-cxc.component';
           mat-icon-button
           [color]="color"
           (click)="seleccionar()"
+          [disabled]="disabled"
         >
           <mat-icon>playlist_add_check</mat-icon>
         </button>
@@ -47,6 +49,7 @@ export class SelectorCxcBtnComponent implements OnInit {
    * Lista de Facturas (ids) a exluir del selector
    */
   @Input() excludes: string[];
+  @Input() disabled = false;
 
   loading = false;
   constructor(private service: CxcService, private dialog: MatDialog) {}
