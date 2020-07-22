@@ -103,6 +103,9 @@
     },
     "shared-sxcore": {
       "tags": ["scope: shared", "type:ui"]
+    },
+    "shared-cxc-feature-bonificaciones": {
+      "tags": ["scope: shared", "type: feature"]
     }
   }
 }

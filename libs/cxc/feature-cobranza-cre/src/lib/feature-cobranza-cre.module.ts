@@ -23,12 +23,20 @@ import { MatListModule } from '@angular/material/list';
         component: CreditoPageComponent,
         children: [
           {
-            path: 'devoluciones',
+            path: 'bonificaciones',
             loadChildren: () =>
-              import('@nx-papelsa/shared/cxc/feature-devoluciones').then(
-                (m) => m.FeatureDevolucionesModule
+              import('@nx-papelsa/shared/cxc/feature-bonificaciones').then(
+                (m) => m.FeatureBonificacionesModule
               ),
+            data: { cartera: { clave: 'CRE', descripcion: 'Crédito' } },
           },
+          // {
+          //   path: 'devoluciones',
+          //   loadChildren: () =>
+          //     import('@nx-papelsa/shared/cxc/feature-devoluciones').then(
+          //       (m) => m.FeatureDevolucionesModule
+          //     ),
+          // },
           {
             path: 'cargos',
             loadChildren: () =>

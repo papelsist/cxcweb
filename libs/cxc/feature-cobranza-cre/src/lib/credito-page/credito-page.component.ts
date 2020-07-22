@@ -47,7 +47,9 @@ export class CreditoPageComponent implements OnInit {
     },
   ];
 
-  constructor() {}
+  constructor() {
+    console.log('Credito main page loaded...');
+  }
 
   ngOnInit(): void {}
 }
