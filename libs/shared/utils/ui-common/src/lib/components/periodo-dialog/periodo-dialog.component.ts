@@ -10,7 +10,12 @@ import { Periodo } from '@nx-papelsa/shared/utils/core-models';
   template: `
     <h2 mat-dialog-title>{{ title }}</h2>
     <mat-dialog-content>
-      <form [formGroup]="form">
+      <form
+        [formGroup]="form"
+        fxLayout
+        fxLayoutAlign="center center"
+        fxLayoutGap="5px"
+      >
         <mat-form-field>
           <input
             matInput

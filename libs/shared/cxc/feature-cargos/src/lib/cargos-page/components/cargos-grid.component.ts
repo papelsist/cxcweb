@@ -32,6 +32,7 @@ import { BooleanRendererComponent } from './boolean-renderer.component';
         (selectionChanged)="onChangeSelection($event)"
         (gridReady)="onGridReady($event)"
         (modelUpdated)="onModelUpdated($event)"
+        [quickFilterText]="searchTerm"
       >
       </ag-grid-angular>
     </div>
@@ -55,6 +56,8 @@ import { BooleanRendererComponent } from './boolean-renderer.component';
 export class CargosGridComponent implements OnInit {
   @Input() rows: NotaDeCargoDto[];
   @Input() columnDefs = this.buildColumnDef();
+  @Input() searchTerm: string;
+
   @Output() selectionChange = new EventEmitter<NotaDeCargoDto[]>();
   @Output() drillDown = new EventEmitter<NotaDeCargoDto>();
   gridApi: GridApi;
@@ -91,6 +94,7 @@ export class CargosGridComponent implements OnInit {
 
   onModelUpdated(event) {
     if (this.gridApi) {
+      console.log('Model update...s');
       this.gridColumnApi.autoSizeAllColumns();
     }
   }
@@ -129,6 +133,14 @@ export class CargosGridComponent implements OnInit {
     }
   }
 
+  // private _term: string;
+
+  // @Input()
+  // set searchTerm(value: string) {
+  //   this._term = value;
+  //   this.gridApi.getFilterModel
+  // }
+
   private buildColumnDef(): ColDef[] {
     return [
       {
@@ -144,6 +156,12 @@ export class CargosGridComponent implements OnInit {
         width: 100,
       },
       {
+        headerName: 'Concepto',
+        field: 'concepto',
+        sortable: true,
+        width: 110,
+      },
+      {
         headerName: 'Fecha',
         field: 'fecha',
         sortable: true,
@@ -155,32 +173,35 @@ export class CargosGridComponent implements OnInit {
         field: 'nombre',
         sortable: true,
         filter: true,
+        width: 250,
+        resizable: true,
       },
       {
         headerName: 'Comentario',
         field: 'comentario',
         sortable: true,
         filter: true,
+        width: 250,
+        resizable: true,
       },
       {
         headerName: 'Mon',
         field: 'moneda',
-        maxWidth: 90,
+        width: 70,
       },
       {
         headerName: 'Total',
         field: 'total',
         sortable: true,
         filter: true,
+        width: 110,
         valueFormatter: (params) => this.formatCurrency(params.value),
       },
       {
         headerName: 'CFDI',
         field: 'cfdi',
         cellRendererFramework: BooleanRendererComponent,
-        // filter: true,
-        // valueFormatter: (params) =>
-        //   params.value ? params.value.id.substr(-6, 6) : 'PENDIENTE',
+        width: 90,
       },
     ];
   }

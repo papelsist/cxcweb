@@ -947,6 +947,38 @@
           "style": "scss"
         }
       }
+    },
+    "shared-sxcore": {
+      "projectType": "library",
+      "root": "libs/shared/sxcore",
+      "sourceRoot": "libs/shared/sxcore/src",
+      "prefix": "nx-papelsa",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/sxcore/tsconfig.lib.json",
+              "libs/shared/sxcore/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared/sxcore/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/sxcore/jest.config.js",
+            "tsConfig": "libs/shared/sxcore/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/sxcore/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {

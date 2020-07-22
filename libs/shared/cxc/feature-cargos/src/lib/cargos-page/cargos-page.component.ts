@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -25,12 +25,20 @@ export class CargosPageComponent implements OnInit {
   cargos$: Observable<NotaDeCargoDto[]>;
   selected: NotaDeCargoDto[] = [];
   cartera: { clave: string; descripcion: string };
+  periodo: Periodo;
+  filter$ = new BehaviorSubject<string>('');
+
+  STORAGE_KEY = 'nx-papelsa-cxc-cargos-page.periodo';
+
   constructor(
     private service: CargosService,
     private router: Router,
     private route: ActivatedRoute,
     private dialog: MatDialog
-  ) {}
+  ) {
+    this.periodo = Periodo.fromStorage(this.STORAGE_KEY);
+    console.log('Periodo: ', this.periodo);
+  }
 
   ngOnInit() {
     this.cartera = this.route.snapshot.data.cartera;
@@ -38,7 +46,7 @@ export class CargosPageComponent implements OnInit {
   }
 
   reload() {
-    this.cargos$ = this.service.list();
+    this.cargos$ = this.service.list(this.periodo, this.cartera.clave);
   }
 
   create() {
@@ -72,7 +80,14 @@ export class CargosPageComponent implements OnInit {
     console.log(grupos);
   }
 
-  onPeriodoChanged(periodo: Periodo) {}
+  onPeriodoChanged(periodo: Periodo) {
+    this.periodo = periodo;
+    Periodo.saveOnStorage(this.STORAGE_KEY, periodo);
+    this.reload();
+  }
+  filter(event: string) {
+    this.filter$.next(event);
+  }
 
   // isSendMailEnabled() {
   //   const disponibles = this.selected.filter((item) => item.cfdi);

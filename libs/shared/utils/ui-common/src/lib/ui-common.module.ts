@@ -35,7 +35,7 @@ const COMMON_MODULES = [
   FlexLayoutModule,
   FormsModule,
   UiMaterialModule,
-  MatMomentDateModule,
+  // MatMomentDateModule,
 ];
 
 @NgModule({
@@ -43,11 +43,6 @@ const COMMON_MODULES = [
   imports: [...COMMON_MODULES],
   exports: [...COMMON_MODULES, ...UI_COMMONS_COMPONENTS],
   entryComponents: [...UI_COMMONS_ENTRY_COMPONENTS],
-  // {
-  //   provide: DateAdapter,
-  //   useClass: MomentDateAdapter,
-  //   deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-  // },
 })
 export class UiCommonModule {
   /**
@@ -59,12 +54,12 @@ export class UiCommonModule {
       ngModule: RootUiCommonModule,
       providers: [
         { provide: MAT_DATE_LOCALE, useValue: 'es-MX' },
-        {
-          provide: DateAdapter,
-          useClass: MomentDateAdapter,
-          deps: [MAT_DATE_LOCALE],
-        },
-        { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+        // {
+        //   provide: DateAdapter,
+        //   useClass: MomentDateAdapter,
+        //   deps: [MAT_DATE_LOCALE],
+        // },
+        // { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
       ],
     };
   }

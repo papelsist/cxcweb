@@ -23,8 +23,8 @@ export class CargosService {
 
   list(
     periodo: Periodo = Periodo.fromNow(30),
-    max = 50,
-    cartera = 'CRE'
+    cartera = 'CRE',
+    max = 50
   ): Observable<NotaDeCargoDto[]> {
     const data = periodo.toApiJSON();
     const params = new HttpParams()

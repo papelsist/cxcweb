@@ -87,7 +87,8 @@
       ],
       "@nx-papelsa/shared/cfdi/data-access": [
         "libs/shared/cfdi/data-access/src/index.ts"
-      ]
+      ],
+      "@nx-papelsa/shared/sxcore": ["libs/shared/sxcore/src/index.ts"]
     },
     "allowSyntheticDefaultImports": true
   },

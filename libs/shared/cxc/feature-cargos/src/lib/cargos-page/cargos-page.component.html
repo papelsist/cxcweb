@@ -5,14 +5,21 @@
       <span class="sub-title">(Cartera: {{ cartera.clave }})</span>
     </span>
     <span fxFlex></span>
-    <td-search-box placeholder="Filtrar" fxFlex></td-search-box>
+
+    <td-search-box
+      placeholder="Filtrar"
+      (searchDebounce)="filter($event)"
+      fxFlex
+    ></td-search-box>
+
+    <nx-papelsa-periodo-picker
+      (periodoChanged)="onPeriodoChanged($event)"
+      [periodo]="periodo"
+    ></nx-papelsa-periodo-picker>
 
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>more_vert</mat-icon>
     </button>
-    <nx-papelsa-periodo-picker
-      (periodoChanged)="onPeriodoChanged($event)"
-    ></nx-papelsa-periodo-picker>
 
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="create()">
@@ -39,5 +46,6 @@
     [rows]="cargos$ | async"
     (drillDown)="onDrilldown($event)"
     (selectionChange)="onSelection($event)"
+    [searchTerm]="filter$ | async"
   ></nx-papelsa-cxc-cargos-grid>
 </mat-card>

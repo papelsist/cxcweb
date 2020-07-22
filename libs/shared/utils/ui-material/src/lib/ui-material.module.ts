@@ -12,6 +12,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatSelectModule } from '@angular/material/select';
 
 import { COMPONENTS } from './components';
@@ -28,6 +29,7 @@ const MATERIAL = [
   MatTableModule,
   MatToolbarModule,
   MatDatepickerModule,
+  MatMomentDateModule,
   MatSelectModule,
 ];
 

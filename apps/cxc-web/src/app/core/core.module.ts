@@ -12,6 +12,9 @@ import { MatListModule } from '@angular/material/list';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+// Refactor - Valid from here
+import { SxcoreModule } from '@nx-papelsa/shared/sxcore';
+
 @NgModule({
   declarations: [MainPageComponent, ToolbarComponent],
   imports: [
@@ -23,6 +26,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatIconModule,
     MatListModule,
     FlexLayoutModule,
+    SxcoreModule,
   ],
   exports: [
     MainPageComponent,
