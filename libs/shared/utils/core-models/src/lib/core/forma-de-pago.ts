@@ -10,3 +10,13 @@ export enum FormaDePago {
   CHEQUE_PSTF = 'CHEQUE_PSTF',
   POR_DEFINIR = 'POR_DEFINIR',
 }
+
+export const FORMAS_DE_PAGO_SAT = [
+  { clave: '99', descripcion: 'POR DEFINIR (99)' },
+  { clave: '15', descripcion: 'CONDONACION (15)' },
+];
+
+export const SAT_FORMAS_DE_PAGO = {
+  POR_DEFINIR: { clave: '99', descripcion: 'POR DEFINIR (99)' },
+  CONTONACION: { clave: '15', descripcion: 'CONDONACION (15)' },
+};

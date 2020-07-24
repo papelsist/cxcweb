@@ -4,7 +4,11 @@ import { FormGroup } from '@angular/forms';
 @Component({
   selector: 'nx-papelsa-moneda-field',
   template: `
-    <mat-form-field [formGroup]="parent" [appearance]="appearance">
+    <mat-form-field
+      [formGroup]="parent"
+      [appearance]="appearance"
+      [style.width.%]="100"
+    >
       <mat-label>Moneda</mat-label>
       <mat-select placeholder="Moneda" [formControlName]="property">
         <mat-option *ngFor="let moneda of monedas" [value]="moneda.clave"

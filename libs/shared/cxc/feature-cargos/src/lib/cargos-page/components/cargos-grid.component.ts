@@ -13,8 +13,7 @@ import { formatCurrency, formatDate } from '@angular/common';
 import { GridApi, ColumnApi, ColDef, GridOptions } from 'ag-grid-community';
 
 import { NotaDeCargoDto } from '@nx-papelsa/shared/utils/core-models';
-
-import { BooleanRendererComponent } from './boolean-renderer.component';
+import { AgBooleanRendererComponent } from '@nx-papelsa/shared/utils/ui-common';
 
 @Component({
   selector: 'nx-papelsa-cxc-cargos-grid',
@@ -200,7 +199,7 @@ export class CargosGridComponent implements OnInit {
       {
         headerName: 'CFDI',
         field: 'cfdi',
-        cellRendererFramework: BooleanRendererComponent,
+        cellRendererFramework: AgBooleanRendererComponent,
         width: 90,
       },
     ];

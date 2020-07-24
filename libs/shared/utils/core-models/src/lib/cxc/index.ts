@@ -1,3 +1,4 @@
+export * from './cartera';
 export * from './cuenta-por-cobrar';
 export * from './cobro';
 export * from './nota-de-cargo';

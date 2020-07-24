@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { UiMaterialModule } from '@nx-papelsa/shared/utils/ui-material';
 import { UiCovalentModule } from '@nx-papelsa/shared/utils/ui-covalent';
 import { UiCommonModule } from '@nx-papelsa/shared/utils/ui-common';
-import { DataAccessModule } from '@nx-papelsa/shared/cfdi/data-access';
 
 import { CfdiXmlComponent } from './cfdi-xml/cfdi-xml.component';
 import { CfdiPdfComponent } from './cfdi-pdf/cfdi-pdf.component';
@@ -14,12 +13,7 @@ import { CfdiCancelarComponent } from './cfdi-cancelar/cfdi-cancelar.component';
 import { CFDI_COMPONENTS, CFDI_ENTRY_COMPONENTS } from './components';
 
 @NgModule({
-  imports: [
-    UiCommonModule,
-    UiMaterialModule,
-    UiCovalentModule,
-    DataAccessModule,
-  ],
+  imports: [UiCommonModule, UiMaterialModule, UiCovalentModule],
   declarations: [
     CfdiXmlComponent,
     CfdiPdfComponent,

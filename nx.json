@@ -38,9 +38,6 @@
     "shared-utils-core-models": {
       "tags": ["scope:shared", "type:utils"]
     },
-    "shared-data-access": {
-      "tags": ["scope: shared", "type: data-access"]
-    },
     "cxc-feature-cobranza-cre": {
       "tags": ["scope:cxc", "type:feature"]
     },
@@ -106,6 +103,9 @@
     },
     "shared-cxc-feature-bonificaciones": {
       "tags": ["scope: shared", "type: feature"]
+    },
+    "shared-cxc-data-access-bonificaciones": {
+      "tags": ["scope: shared", "type:data-access"]
     }
   }
 }

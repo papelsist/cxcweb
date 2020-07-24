@@ -25,9 +25,6 @@
       "@nx-papelsa/shared/utils/core-models": [
         "libs/shared/utils/core-models/src/index.ts"
       ],
-      "@nx-papelsa/shared/data-access": [
-        "libs/shared/data-access/src/index.ts"
-      ],
       "@nx-papelsa/cxc/feature-cobranza-cre": [
         "libs/cxc/feature-cobranza-cre/src/index.ts"
       ],
@@ -91,6 +88,9 @@
       "@nx-papelsa/shared/sxcore": ["libs/shared/sxcore/src/index.ts"],
       "@nx-papelsa/shared/cxc/feature-bonificaciones": [
         "libs/shared/cxc/feature-bonificaciones/src/index.ts"
+      ],
+      "@nx-papelsa/shared/cxc/data-access-bonificaciones": [
+        "libs/shared/cxc/data-access-bonificaciones/src/index.ts"
       ]
     },
     "allowSyntheticDefaultImports": true

@@ -219,38 +219,6 @@
         }
       }
     },
-    "shared-data-access": {
-      "projectType": "library",
-      "root": "libs/shared/data-access",
-      "sourceRoot": "libs/shared/data-access/src",
-      "prefix": "nx-papelsa",
-      "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/shared/data-access/tsconfig.lib.json",
-              "libs/shared/data-access/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/shared/data-access/**/*"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/shared/data-access/jest.config.js",
-            "tsConfig": "libs/shared/data-access/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "libs/shared/data-access/src/test-setup.ts"
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      }
-    },
     "cxc-feature-cobranza-cre": {
       "projectType": "library",
       "root": "libs/cxc/feature-cobranza-cre",
@@ -1006,6 +974,41 @@
             "tsConfig": "libs/shared/cxc/feature-bonificaciones/tsconfig.spec.json",
             "passWithNoTests": true,
             "setupFile": "libs/shared/cxc/feature-bonificaciones/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-cxc-data-access-bonificaciones": {
+      "projectType": "library",
+      "root": "libs/shared/cxc/data-access-bonificaciones",
+      "sourceRoot": "libs/shared/cxc/data-access-bonificaciones/src",
+      "prefix": "nx-papelsa",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/cxc/data-access-bonificaciones/tsconfig.lib.json",
+              "libs/shared/cxc/data-access-bonificaciones/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/cxc/data-access-bonificaciones/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/cxc/data-access-bonificaciones/jest.config.js",
+            "tsConfig": "libs/shared/cxc/data-access-bonificaciones/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/cxc/data-access-bonificaciones/src/test-setup.ts"
           }
         }
       },
