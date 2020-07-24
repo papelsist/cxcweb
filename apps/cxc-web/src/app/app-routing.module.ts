@@ -3,6 +3,7 @@ import { RouterModule, Route } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 import { MainPageComponent } from './core/main-page/main-page.component';
+import { CXCCarteraGuard } from '@nx-papelsa/shared/cxc/data-acces';
 
 const routes: Route[] = [
   {
@@ -11,6 +12,8 @@ const routes: Route[] = [
       import('@nx-papelsa/cxc/feature-cobranza-cre').then(
         (m) => m.FeatureCobranzaCreModule
       ),
+    data: { cartera: { clave: 'CRE', descripcion: 'CREDITO' } },
+    canActivate: [CXCCarteraGuard],
   },
   // {
   //   path: 'cartera',

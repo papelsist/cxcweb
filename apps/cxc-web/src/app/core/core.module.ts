@@ -14,6 +14,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 // Refactor - Valid from here
 import { SxcoreModule } from '@nx-papelsa/shared/sxcore';
+import { DataAccesModule } from '@nx-papelsa/shared/cxc/data-acces';
 
 @NgModule({
   declarations: [MainPageComponent, ToolbarComponent],
@@ -27,6 +28,7 @@ import { SxcoreModule } from '@nx-papelsa/shared/sxcore';
     MatListModule,
     FlexLayoutModule,
     SxcoreModule,
+    DataAccesModule,
   ],
   exports: [
     MainPageComponent,

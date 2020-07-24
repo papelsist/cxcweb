@@ -1,32 +1,37 @@
-<mat-card>
+<mat-card *ngIf="cartera$ | async as cartera">
   <div class="push-left push-right" fxLayout="row" fxLayoutAlign="start center">
     <span fxLayout fxLayoutAlign="start center">
       <span class="mat-title">Notas de crédito por bonificación </span>
-      <span class="sub-title">(Cartera: CRE)</span>
+      <span class="sub-title">(Cartera: {{ cartera.descripcion }})</span>
     </span>
     <span fxFlex></span>
 
     <td-search-box
       placeholder="Filtrar"
       (searchDebounce)="filter($event)"
+      [value]="facade.search$ | async"
       fxFlex
     ></td-search-box>
 
-    <!-- <nx-papelsa-periodo-picker
-      (periodoChanged)="onPeriodoChanged($event)"
-      [periodo]="periodo"
-    ></nx-papelsa-periodo-picker> -->
+    <nx-papelsa-periodo-picker
+      (periodoChanged)="cambiarPeriodo($event)"
+      [periodo]="periodo$ | async"
+    ></nx-papelsa-periodo-picker>
 
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>more_vert</mat-icon>
     </button>
 
     <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="create()">
+      <a mat-menu-item (click)="onCreate(cartera)">
         <mat-icon>playlist_add</mat-icon>
         <span>Nuevo</span>
-      </button>
-      <button mat-menu-item (click)="reload()">
+      </a>
+      <button
+        mat-menu-item
+        *ngIf="periodo$ | async as per"
+        (click)="reload(per, cartera)"
+      >
         <mat-icon>refresh</mat-icon>
         <span>Refrescar</span>
       </button>
@@ -40,6 +45,14 @@
       </button> -->
     </mat-menu>
   </div>
+
+  <nx-papelsa-cxc-bonificaciones-grid
+    class="creditos-grid"
+    [rows]="bonificaciones$ | async"
+    [searchTerm]="facade.search$ | async"
+    (drillDown)="onDrillDown($event, cartera)"
+  >
+  </nx-papelsa-cxc-bonificaciones-grid>
 
   <!-- <nx-papelsa-cxc-cargos-grid
     class="cargos-grid"

@@ -6,7 +6,7 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
   selector: 'nx-papelsa-ag-boolean-renderer',
   template: ` <mat-icon *ngIf="checked" color="primary">check</mat-icon> `,
 })
-export class BooleanRendererComponent implements ICellRendererAngularComp {
+export class AgBooleanRendererComponent implements ICellRendererAngularComp {
   private params: any;
 
   checked = false;

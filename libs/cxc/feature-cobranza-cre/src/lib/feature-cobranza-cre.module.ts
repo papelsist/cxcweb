@@ -28,7 +28,6 @@ import { MatListModule } from '@angular/material/list';
               import('@nx-papelsa/shared/cxc/feature-bonificaciones').then(
                 (m) => m.FeatureBonificacionesModule
               ),
-            data: { cartera: { clave: 'CRE', descripcion: 'Crédito' } },
           },
           // {
           //   path: 'devoluciones',

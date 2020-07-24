@@ -39,6 +39,10 @@ export interface NotaDeCredito {
   lastUpdated: string;
   createUser?: string;
   updateUser?: string;
+
+  cancelacion?: string;
+  cancelacionMotivo?: string;
+  cancelacionUsuario?: string;
 }
 
 export interface NotaDeCreditoDet {
@@ -55,3 +59,10 @@ export interface NotaDeCreditoDet {
   sucursal: string;
   comentario?: string;
 }
+
+export const BONIFICACIONES_CONCEPTOS = [
+  'PRONTO PAGO',
+  'DIFERENCIA',
+  'ESPECIAL',
+  'OTRO',
+];

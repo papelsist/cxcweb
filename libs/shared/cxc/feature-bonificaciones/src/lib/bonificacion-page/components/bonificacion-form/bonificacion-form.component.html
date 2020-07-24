@@ -1,0 +1,38 @@
+<mat-card>
+  <div class="header" fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
+    <span class="mat-title">
+      Nota: {{ bonificacion.serie }}-{{ bonificacion.folio }}
+    </span>
+
+    <div
+      fxFlex
+      fxLayout
+      fxLayoutAlign="start center"
+      fxLayoutGap="10px"
+      class="mat-title"
+    >
+      <span>
+        {{ bonificacion.nombre }}
+      </span>
+    </div>
+
+    <!-- <span fxFlex></span> -->
+    <div class="mat-title">
+      <span>Fecha: {{ bonificacion.fecha | date: 'dd/MM/yyyy' }}</span>
+    </div>
+  </div>
+  <mat-card-actions>
+    <nx-papelsa-back-button></nx-papelsa-back-button>
+    <button
+      *ngIf="!bonificacion.cfdi"
+      mat-button
+      color="primary"
+      (click)="onSubmit()"
+      [disabled]="form.pristine || form.invalid"
+    >
+      <mat-icon>save</mat-icon>
+      <span>Actualizar</span>
+    </button>
+    <ng-content></ng-content>
+  </mat-card-actions>
+</mat-card>
