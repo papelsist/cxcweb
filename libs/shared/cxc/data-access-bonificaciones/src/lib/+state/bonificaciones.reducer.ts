@@ -53,6 +53,7 @@ const bonificacionesReducer = createReducer(
   on(
     BonificacionesActions.loadBonificaciones,
     BonificacionesActions.saveBonificacion,
+    BonificacionesActions.updateBonificacion,
     (state) => ({
       ...state,
       loading: true,
@@ -71,6 +72,7 @@ const bonificacionesReducer = createReducer(
   on(
     BonificacionesActions.loadBonificacionesFailure,
     BonificacionesActions.saveBonificacionFail,
+    BonificacionesActions.updateBonificacionFail,
     (state, { error }) => ({
       ...state,
       loading: false,
@@ -91,6 +93,15 @@ const bonificacionesReducer = createReducer(
       ...state,
       loading: false,
     })
+  ),
+  /// Update Bonificacion
+  on(
+    BonificacionesActions.updateBonificacionSuccess,
+    (state, { bonificacion }) =>
+      bonificacionesAdapter.upsertOne(bonificacion, {
+        ...state,
+        loading: false,
+      })
   )
 );
 

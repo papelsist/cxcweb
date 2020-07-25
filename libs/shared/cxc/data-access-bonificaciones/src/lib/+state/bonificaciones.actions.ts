@@ -5,6 +5,7 @@ import {
   Cartera,
   NotaDeCredito,
 } from '@nx-papelsa/shared/utils/core-models';
+import { Update } from '@ngrx/entity';
 
 export const loadBonificaciones = createAction(
   '[Bonificaciones] Load Bonificaciones',
@@ -50,5 +51,18 @@ export const saveBonificacionFail = createAction(
 );
 export const saveBonificacionSuccess = createAction(
   '[Bonificaciones Effecs] Save bonificacion success',
+  props<{ bonificacion: BonificacionesEntity }>()
+);
+
+export const updateBonificacion = createAction(
+  '[Bonificaciones Facade] Update bonificacion',
+  props<{ update: Update<BonificacionesEntity> }>()
+);
+export const updateBonificacionFail = createAction(
+  '[Bonificaciones Effects] Update bonificacion fail',
+  props<{ error: any }>()
+);
+export const updateBonificacionSuccess = createAction(
+  '[Bonificaciones Effecs] Update bonificacion success',
   props<{ bonificacion: BonificacionesEntity }>()
 );

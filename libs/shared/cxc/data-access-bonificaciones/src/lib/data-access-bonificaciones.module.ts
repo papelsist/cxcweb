@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+import { CovalentDialogsModule } from '@covalent/core/dialogs';
+
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import * as fromBonificaciones from './+state/bonificaciones.reducer';
@@ -15,6 +18,7 @@ import { BONIFICACIONES_GUARDS } from './guards';
       fromBonificaciones.reducer
     ),
     EffectsModule.forFeature([BonificacionesEffects]),
+    CovalentDialogsModule,
   ],
   providers: [BonificacionesFacade, ...BONIFICACIONES_GUARDS],
 })

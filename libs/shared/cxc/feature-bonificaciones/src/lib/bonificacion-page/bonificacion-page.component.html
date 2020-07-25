@@ -3,6 +3,7 @@
     #form
     *ngIf="bonificacion$ | async as bonificacion"
     [bonificacion]="bonificacion"
+    (update)="onUpdate($event)"
   >
     <ng-container *ngIf="bonificacion.cfdi && !bonificacion.cancelacion">
       <nx-papelsa-cfdi-pdf [cfdi]="bonificacion.cfdi"></nx-papelsa-cfdi-pdf>

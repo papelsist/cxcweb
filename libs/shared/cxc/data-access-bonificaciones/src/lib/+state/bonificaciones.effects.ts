@@ -13,6 +13,7 @@ import {
 } from '@nx-papelsa/shared/utils/core-models';
 import { BonificacionesService } from '../services/bonificaciones.service';
 import { Router } from '@angular/router';
+import { TdDialogService } from '@covalent/core/dialogs';
 
 @Injectable()
 export class BonificacionesEffects {
@@ -76,6 +77,28 @@ export class BonificacionesEffects {
     { dispatch: false }
   );
 
+  updateBonificaciones$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BonificacionesActions.updateBonificacion),
+      fetch({
+        run: ({ update }) => {
+          return this.service.update(update).pipe(
+            map((bonificacion) =>
+              BonificacionesActions.updateBonificacionSuccess({
+                bonificacion,
+              })
+            )
+          );
+        },
+
+        onError: (action, error) => {
+          console.error('Error actualizando Bonificacion', error);
+          return BonificacionesActions.updateBonificacionFail({ error });
+        },
+      })
+    )
+  );
+
   cambiarPeriodo$ = createEffect(
     () =>
       this.actions$.pipe(
@@ -90,9 +113,27 @@ export class BonificacionesEffects {
     { dispatch: false }
   );
 
+  errors$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(
+          BonificacionesActions.updateBonificacionFail,
+          BonificacionesActions.saveBonificacionFail
+        ),
+        tap(({ error }) => {
+          this.dialogService.openAlert({
+            title: 'Error en  el servidor',
+            message: `${error.message}`,
+          });
+        })
+      ),
+    { dispatch: false }
+  );
+
   constructor(
     private actions$: Actions,
     private service: BonificacionesService,
-    private router: Router
+    private router: Router,
+    private dialogService: TdDialogService
   ) {}
 }

@@ -7,6 +7,7 @@ import { SucursalFieldComponent } from './sucursal-field/sucursal-field.componen
 import { FomraDePagoFieldComponent } from './forma-de-pago-field/forma-de-pago-field.component';
 import { DeleteEntityComponent } from './delete-entity/delete-entity.component';
 import { FomraDePagoSatFieldComponent } from './forma-de-pago-field/forma-de-pago-sat-field.component';
+import { NumericFieldComponent } from './numeric-field/numeric-field.component';
 
 export const COMPONENTS = [
   FechaFieldComponent,
@@ -18,6 +19,7 @@ export const COMPONENTS = [
   FomraDePagoFieldComponent,
   FomraDePagoSatFieldComponent,
   DeleteEntityComponent,
+  NumericFieldComponent,
 ];
 
 export * from './fecha-field/fecha-field.component';
@@ -29,3 +31,4 @@ export * from './sucursal-field/sucursal-field.component';
 export * from './forma-de-pago-field/forma-de-pago-field.component';
 export * from './forma-de-pago-field/forma-de-pago-sat-field.component';
 export * from './delete-entity/delete-entity.component';
+export * from './numeric-field/numeric-field.component';

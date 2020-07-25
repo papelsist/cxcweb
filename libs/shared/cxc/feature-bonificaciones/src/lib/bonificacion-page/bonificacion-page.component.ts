@@ -6,6 +6,7 @@ import {
   BonificacionesFacade,
 } from '@nx-papelsa/shared/cxc/data-access-bonificaciones';
 import { NotaDeCredito } from '@nx-papelsa/shared/utils/core-models';
+import { Update } from '@ngrx/entity';
 
 @Component({
   selector: 'nx-papelsa-bonificacion-page',
@@ -20,6 +21,11 @@ export class BonificacionPageComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  onUpdate(bonificacion: Update<BonificacionesEntity>) {
+    console.log('Actualizar Bonificacion: ', bonificacion);
+    this.facade.update(bonificacion);
+  }
 
   onTimbrar(bonificacion: Partial<NotaDeCredito>) {}
   onCancelar(bonificacion: Partial<NotaDeCredito>) {}

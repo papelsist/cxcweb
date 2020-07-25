@@ -13,6 +13,8 @@ import { AgGridModule } from 'ag-grid-angular';
 
 import { BonificacionesGridComponent } from './bonificaciones-grid/bonificaciones-grid.component';
 import { BonificacionConceptoFieldComponent } from './bonificacion-concepto/bonificacion-concepto-field.component';
+import { TipoDeCalculoFieldComponent } from './tipo-de-calculo-field/tipo-de-calculo-field.component';
+import { BaseDeCalculoFieldComponent } from './base-de-calculo/base-de-calculo.component';
 
 @NgModule({
   imports: [
@@ -26,7 +28,14 @@ import { BonificacionConceptoFieldComponent } from './bonificacion-concepto/boni
   declarations: [
     BonificacionesGridComponent,
     BonificacionConceptoFieldComponent,
+    TipoDeCalculoFieldComponent,
+    BaseDeCalculoFieldComponent,
   ],
-  exports: [BonificacionesGridComponent, BonificacionConceptoFieldComponent],
+  exports: [
+    BonificacionesGridComponent,
+    BonificacionConceptoFieldComponent,
+    TipoDeCalculoFieldComponent,
+    BaseDeCalculoFieldComponent,
+  ],
 })
 export class UiBonificacionesModule {}

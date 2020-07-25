@@ -1,6 +1,7 @@
 import { Cliente } from '../core/cliente';
 import { Cfdi } from '../core';
 import { CuentaPorCobrar } from './cuenta-por-cobrar';
+import { CuentaPorCobrarDTO } from '../dtos';
 
 export interface NotaDeCredito {
   id: string;
@@ -8,6 +9,7 @@ export interface NotaDeCredito {
   nombre: string;
   serie: string;
   folio: number;
+  concepto?: string;
   tipo: 'BONIFICACION' | 'DEVOLUCION';
   tipoCartera: 'CRE' | 'CON' | 'CHE' | 'JUR' | 'COD';
   tipoDeCalculo?: 'PORCENTAJE' | 'PRORRATEO';
@@ -46,16 +48,18 @@ export interface NotaDeCredito {
 }
 
 export interface NotaDeCreditoDet {
-  id: string;
+  id: string | null;
   cuentaPorCobrar: Partial<CuentaPorCobrar>;
   base: number;
   impuesto: number;
   importe: number;
+  total: number;
   documento: number;
   tipoDeDocumento: string;
   fechaDocumento: string;
   totalDocumento: number;
   saldoDocumento: number;
+  uuid?: string;
   sucursal: string;
   comentario?: string;
 }
@@ -66,3 +70,26 @@ export const BONIFICACIONES_CONCEPTOS = [
   'ESPECIAL',
   'OTRO',
 ];
+
+export function buildNotaDetFromFactura(
+  cxc: CuentaPorCobrarDTO
+): NotaDeCreditoDet {
+  const {
+    cfdi: { uuid },
+  } = cxc;
+  return {
+    id: null,
+    base: 0.0,
+    importe: 0.0,
+    impuesto: 0.0,
+    total: 0.0,
+    cuentaPorCobrar: { id: cxc.id },
+    documento: cxc.documento,
+    tipoDeDocumento: cxc.tipo,
+    fechaDocumento: cxc.fecha,
+    saldoDocumento: cxc.saldo,
+    totalDocumento: cxc.total,
+    sucursal: cxc.sucursal,
+    uuid,
+  };
+}

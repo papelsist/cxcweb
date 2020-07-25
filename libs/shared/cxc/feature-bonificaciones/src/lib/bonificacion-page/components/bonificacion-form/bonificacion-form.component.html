@@ -1,26 +1,69 @@
-<mat-card>
-  <div class="header" fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
-    <span class="mat-title">
-      Nota: {{ bonificacion.serie }}-{{ bonificacion.folio }}
-    </span>
+<mat-card fxLayout="column" [formGroup]="form">
+  <nx-papelsa-cxc-bonificacion-header
+    [parent]="form"
+    [bonificacion]="bonificacion"
+  ></nx-papelsa-cxc-bonificacion-header>
 
-    <div
-      fxFlex
-      fxLayout
-      fxLayoutAlign="start center"
-      fxLayoutGap="10px"
-      class="mat-title"
-    >
-      <span>
-        {{ bonificacion.nombre }}
-      </span>
-    </div>
-
-    <!-- <span fxFlex></span> -->
-    <div class="mat-title">
-      <span>Fecha: {{ bonificacion.fecha | date: 'dd/MM/yyyy' }}</span>
-    </div>
+  <div fxLayout fxLayoutGap="5px" fxLayoutAlign="start baseline">
+    <nx-papelsa-bonificacion-concepto
+      [parent]="form"
+    ></nx-papelsa-bonificacion-concepto>
+    <nx-papelsa-moneda-field
+      [parent]="form"
+      [style.width.px]="130"
+    ></nx-papelsa-moneda-field>
+    <nx-papelsa-tipo-de-cambio-field
+      [parent]="form"
+      property="tc"
+    ></nx-papelsa-tipo-de-cambio-field>
+    <nx-papelsa-forma-de-pago-sat
+      [parent]="form"
+    ></nx-papelsa-forma-de-pago-sat>
+    <span fxFlex></span>
+    <nx-papelsa-cxc-selector-cxc-btn
+      title="Agregar facturas"
+      [clienteId]="bonificacion.cliente.id"
+      (selection)="onAgregarFacturas($event)"
+    ></nx-papelsa-cxc-selector-cxc-btn>
   </div>
+
+  <div fxLayout fxLayoutGap="5px" fxLayoutAlign="start baseline">
+    <nx-papelsa-cxc-tipo-calculo [parent]="form"></nx-papelsa-cxc-tipo-calculo>
+    <nx-papelsa-cxc-base-calculo [parent]="form"></nx-papelsa-cxc-base-calculo>
+
+    <mat-form-field [style.width.px]="100">
+      <mat-label>Descuento (%)</mat-label>
+      <input type="number" matInput formControlName="descuento" #descuento1 />
+      <mat-error>Valor inválido (1 - 50)</mat-error>
+      <mat-hint align="end" *ngIf="descuento1.value && descuento1.value > 0"
+        >Dcto % (0 a 50)</mat-hint
+      >
+    </mat-form-field>
+
+    <mat-form-field [style.width.px]="100">
+      <mat-label>Descuento 2</mat-label>
+      <input type="number" matInput formControlName="descuento2" />
+      <mat-error>Valor inválido (1 - 50)</mat-error>
+      <mat-hint align="end">(%) 0 a 50</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field fxFlex>
+      <mat-label>Comentario</mat-label>
+      <input matInput formControlName="comentario" #comentario />
+      <mat-error>Longitud excedida</mat-error>
+      <mat-hint align="end">( {{ comentario.value.length }}/ 255 )</mat-hint>
+    </mat-form-field>
+  </div>
+
+  <!-- Form-->
+  <div class="bonificacion-form"></div>
+
+  <div class="partidas">
+    <nx-papelsa-cxc-bonificacion-partidas-table
+      [partidas]="bonificacion.partidas"
+    ></nx-papelsa-cxc-bonificacion-partidas-table>
+  </div>
+
   <mat-card-actions>
     <nx-papelsa-back-button></nx-papelsa-back-button>
     <button

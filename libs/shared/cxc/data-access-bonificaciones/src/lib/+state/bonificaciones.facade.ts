@@ -9,6 +9,7 @@ import {
   setSearchTerm,
   loadBonificaciones,
   saveBonificacion,
+  updateBonificacion,
 } from './bonificaciones.actions';
 
 import {
@@ -18,6 +19,8 @@ import {
 } from '@nx-papelsa/shared/utils/core-models';
 
 import { CXCFacade } from '@nx-papelsa/shared/cxc/data-acces';
+import { BonificacionesEntity } from './bonificaciones.models';
+import { Update } from '@ngrx/entity';
 
 @Injectable()
 export class BonificacionesFacade {
@@ -69,6 +72,10 @@ export class BonificacionesFacade {
 
   save(bonificacion: Partial<NotaDeCredito>) {
     this.dispatch(saveBonificacion({ bonificacion }));
+  }
+
+  update(update: Update<BonificacionesEntity>) {
+    this.dispatch(updateBonificacion({ update }));
   }
 
   edit(nota: Partial<NotaDeCredito>, cartera: Cartera) {
