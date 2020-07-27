@@ -106,6 +106,12 @@
     },
     "shared-cxc-data-access-bonificaciones": {
       "tags": ["scope: shared", "type:data-access"]
+    },
+    "shared-cxc-data-access-cobros": {
+      "tags": ["scope:shared", "type:data-access"]
+    },
+    "shared-cxc-feature-facturas": {
+      "tags": []
     }
   }
 }

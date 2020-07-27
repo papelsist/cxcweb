@@ -23,6 +23,20 @@ import { MatListModule } from '@angular/material/list';
         component: CreditoPageComponent,
         children: [
           {
+            path: 'facturas',
+            loadChildren: () =>
+              import('@nx-papelsa/shared/cxc/feature-facturas').then(
+                (m) => m.FeatureFacturasModule
+              ),
+          },
+          {
+            path: 'cobros',
+            loadChildren: () =>
+              import('@nx-papelsa/shared/cxc/feature-cobros').then(
+                (m) => m.FeatureCobrosModule
+              ),
+          },
+          {
             path: 'bonificaciones',
             loadChildren: () =>
               import('@nx-papelsa/shared/cxc/feature-bonificaciones').then(

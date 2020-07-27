@@ -91,6 +91,12 @@
       ],
       "@nx-papelsa/shared/cxc/data-access-bonificaciones": [
         "libs/shared/cxc/data-access-bonificaciones/src/index.ts"
+      ],
+      "@nx-papelsa/shared/cxc/data-access-cobros": [
+        "libs/shared/cxc/data-access-cobros/src/index.ts"
+      ],
+      "@nx-papelsa/shared/cxc/feature-facturas": [
+        "libs/shared/cxc/feature-facturas/src/index.ts"
       ]
     },
     "allowSyntheticDefaultImports": true
