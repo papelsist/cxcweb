@@ -1,1 +1,14 @@
-<p>cobro-page works!</p>
+<mat-card *ngIf="cobro$ | async as cobro">
+  <div class="header" fxLayout fxLayoutAlign="center center" fxLayoutGap="10px">
+    <span fxFlexs>
+      {{ cobro.nombre }}
+    </span>
+    <span>{{ cobro.tipo }}</span>
+    <span> Fecha: {{ cobro.fecha }} </span>
+  </div>
+</mat-card>
+<div>
+  <pre>
+    {{ cobro$ | async | json }}
+  </pre>
+</div>

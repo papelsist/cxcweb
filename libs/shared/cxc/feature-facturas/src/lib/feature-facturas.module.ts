@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router';
 
     RouterModule.forChild([
       {
-        path: 'all',
+        path: '',
         loadChildren: () =>
           import('./facturas-page/facturas-page.module').then(
             (m) => m.FacturasPageModule

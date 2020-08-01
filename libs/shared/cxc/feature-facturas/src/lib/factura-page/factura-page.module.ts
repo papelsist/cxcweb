@@ -1,18 +1,21 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
+
+import { UiCommonModule } from '@nx-papelsa/shared/utils/ui-common';
+import { UiMaterialModule } from '@nx-papelsa/shared/utils/ui-material';
+import { UiCovalentModule } from '@nx-papelsa/shared/utils/ui-covalent';
+import { UiFormsModule } from '@nx-papelsa/shared/utils/ui-forms';
+
 import { FacturaPageComponent } from './factura-page.component';
-
-
-const routes: Routes = [
-  { path: '', component: FacturaPageComponent }
-];
 
 @NgModule({
   declarations: [FacturaPageComponent],
   imports: [
-    CommonModule,
-    RouterModule.forChild(routes)
-  ]
+    UiCommonModule,
+    UiMaterialModule,
+    UiCovalentModule,
+    UiFormsModule,
+    RouterModule.forChild([{ path: '', component: FacturaPageComponent }]),
+  ],
 })
-export class FacturaPageModule { }
+export class FacturaPageModule {}

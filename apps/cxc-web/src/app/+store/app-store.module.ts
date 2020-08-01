@@ -8,6 +8,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { CustomSerializer } from '@nx-papelsa/shared/utils/core-models';
 
 import { environment } from '../../environments/environment';
+import { DataPersistence } from '@nrwl/angular';
 
 @NgModule({
   imports: [
@@ -30,5 +31,6 @@ import { environment } from '../../environments/environment';
       serializer: CustomSerializer,
     }),
   ],
+  providers: [DataPersistence],
 })
 export class AppStoreModule {}

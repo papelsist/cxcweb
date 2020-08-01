@@ -1,18 +1,25 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
+
+import { RouterModule } from '@angular/router';
+
+import { UiCommonModule } from '@nx-papelsa/shared/utils/ui-common';
+import { UiMaterialModule } from '@nx-papelsa/shared/utils/ui-material';
+import { UiCovalentModule } from '@nx-papelsa/shared/utils/ui-covalent';
+import { UiFormsModule } from '@nx-papelsa/shared/utils/ui-forms';
+
+import { AgGridModule } from 'ag-grid-angular';
+
 import { FacturasPageComponent } from './facturas-page.component';
-
-
-const routes: Routes = [
-  { path: '', component: FacturasPageComponent }
-];
 
 @NgModule({
   declarations: [FacturasPageComponent],
   imports: [
-    CommonModule,
-    RouterModule.forChild(routes)
-  ]
+    UiCommonModule,
+    UiMaterialModule,
+    UiCovalentModule,
+    UiFormsModule,
+    AgGridModule.withComponents(),
+    RouterModule.forChild([{ path: '', component: FacturasPageComponent }]),
+  ],
 })
-export class FacturasPageModule { }
+export class FacturasPageModule {}

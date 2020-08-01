@@ -12,7 +12,7 @@ import { formatCurrency, formatDate } from '@angular/common';
 
 import { GridApi, ColumnApi, ColDef, GridOptions } from 'ag-grid-community';
 
-import { Cobro } from '@nx-papelsa/shared/utils/core-models';
+import { Cobro, formatFormaDePago } from '@nx-papelsa/shared/utils/core-models';
 import { AgBooleanRendererComponent } from '@nx-papelsa/shared/utils/ui-common';
 
 @Component({
@@ -134,52 +134,61 @@ export class CobrosGridComponent implements OnInit {
   private buildColumnDef(): ColDef[] {
     return [
       {
-        headerName: 'Serie',
-        field: 'serie',
-        sortable: true,
-        width: 110,
-      },
-      {
-        headerName: 'Folio',
-        field: 'folio',
-        sortable: true,
-        filter: true,
-        width: 100,
-      },
-      {
         headerName: 'Fecha',
         field: 'fecha',
         sortable: true,
-        width: 110,
+        width: 120,
         valueFormatter: (params) => this.formatDate(params.value),
+      },
+      {
+        headerName: 'T',
+        field: 'tipo',
+        width: 80,
+        sortable: true,
+        filter: true,
+      },
+      {
+        headerName: 'F.P.',
+        field: 'formaDePago',
+        width: 110,
+        valueFormatter: (params) => formatFormaDePago(params.value),
+        sortable: true,
+        filter: true,
       },
       {
         headerName: 'Nombre',
         field: 'nombre',
         sortable: true,
         filter: true,
-        width: 250,
         resizable: true,
       },
       {
-        headerName: 'Comentario',
-        field: 'comentario',
+        headerName: 'Sucursal',
+        field: 'sucursalNombre',
+        maxWidth: 110,
         sortable: true,
         filter: true,
-        width: 250,
-        resizable: true,
       },
+
       {
         headerName: 'Mon',
         field: 'moneda',
         width: 70,
       },
       {
-        headerName: 'Total',
-        field: 'total',
+        headerName: 'Importe',
+        field: 'importe',
         sortable: true,
         filter: true,
-        width: 110,
+        width: 120,
+        valueFormatter: (params) => this.formatCurrency(params.value),
+      },
+      {
+        headerName: 'Disponible',
+        field: 'disponible',
+        sortable: true,
+        filter: true,
+        width: 120,
         valueFormatter: (params) => this.formatCurrency(params.value),
       },
       {

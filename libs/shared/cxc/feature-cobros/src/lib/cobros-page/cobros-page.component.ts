@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Periodo, Cobro, Cartera } from '@nx-papelsa/shared/utils/core-models';
 
-import { CXCFacade } from '@nx-papelsa/shared/cxc/data-acces';
-
-import { Observable } from 'rxjs';
+import { CobrosFacade } from '@nx-papelsa/shared/cxc/data-access-cobros';
 
 @Component({
   selector: 'nx-papelsa-cobros-page',
@@ -12,15 +10,13 @@ import { Observable } from 'rxjs';
   styleUrls: ['./cobros-page.component.scss'],
 })
 export class CobrosPageComponent implements OnInit {
-  cartera$ = this.cxcFacade.cartera$;
-  periodo$: Observable<Periodo>;
+  cartera$ = this.facade.cartera$;
+  loading$ = this.facade.loading$;
+  periodo$ = this.facade.periodo$;
+  cobros$ = this.facade.allCobros$;
+  search$ = this.facade.search$;
 
-  cobros$: Observable<Cobro[]>;
-  loading$: Observable<boolean>;
-
-  search$: Observable<string>;
-
-  constructor(private cxcFacade: CXCFacade) {}
+  constructor(private facade: CobrosFacade) {}
 
   ngOnInit(): void {}
 
@@ -29,7 +25,7 @@ export class CobrosPageComponent implements OnInit {
   }
 
   onDrillDown(event: Partial<Cobro>, cartera: Cartera) {
-    // this.facade.edit(event, cartera);
+    this.facade.edit(event.id, cartera);
   }
 
   filter(event: string) {
