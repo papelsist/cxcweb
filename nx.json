@@ -112,6 +112,9 @@
     },
     "shared-cxc-feature-facturas": {
       "tags": []
+    },
+    "shared-cxc-data-access-facturas": {
+      "tags": ["scope:shared", "type:data-access"]
     }
   }
 }
