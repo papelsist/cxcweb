@@ -100,7 +100,8 @@
       ],
       "@nx-papelsa/shared/cxc/data-access-facturas": [
         "libs/shared/cxc/data-access-facturas/src/index.ts"
-      ]
+      ],
+      "@nx-papelsa/auth": ["libs/auth/src/index.ts"]
     },
     "allowSyntheticDefaultImports": true
   },

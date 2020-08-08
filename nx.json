@@ -115,6 +115,9 @@
     },
     "shared-cxc-data-access-facturas": {
       "tags": ["scope:shared", "type:data-access"]
+    },
+    "auth": {
+      "tags": []
     }
   }
 }
