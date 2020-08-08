@@ -6,15 +6,20 @@ import * as fromFacturas from './+state/facturas.reducer';
 import { FacturasEffects } from './+state/facturas.effects';
 import { FacturasFacade } from './+state/facturas.facade';
 
+import { FACTURAS_GUARDS } from './guards';
+
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 @NgModule({
   imports: [
     CommonModule,
+    MatSnackBarModule,
     StoreModule.forFeature(
       fromFacturas.FACTURAS_FEATURE_KEY,
       fromFacturas.reducer
     ),
     EffectsModule.forFeature([FacturasEffects]),
   ],
-  providers: [FacturasFacade],
+  providers: [FacturasFacade, ...FACTURAS_GUARDS],
 })
 export class DataAccessFacturasModule {}

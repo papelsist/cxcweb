@@ -14,6 +14,21 @@ export const getFacturasState = createFeatureSelector<
 
 const { selectAll, selectEntities } = facturasAdapter.getSelectors();
 
+export const getFacturasPeriodo = createSelector(
+  getFacturasState,
+  (state: State) => state.periodo
+);
+
+export const getFacturasSearchTerm = createSelector(
+  getFacturasState,
+  (state: State) => state.searchTerm
+);
+
+export const getFacturasLoading = createSelector(
+  getFacturasState,
+  (state: State) => state.loading
+);
+
 export const getFacturasLoaded = createSelector(
   getFacturasState,
   (state: State) => state.loaded

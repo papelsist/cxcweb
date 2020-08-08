@@ -5,3 +5,4 @@ export { FacturasActions, FacturasFeature, FacturasSelectors };
 export * from './lib/+state/facturas.models';
 export * from './lib/+state/facturas.facade';
 export * from './lib/data-access-facturas.module';
+export * from './lib/guards';

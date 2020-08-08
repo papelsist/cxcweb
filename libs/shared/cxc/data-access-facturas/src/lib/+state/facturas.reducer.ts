@@ -3,13 +3,17 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 import * as FacturasActions from './facturas.actions';
 import { FacturasEntity } from './facturas.models';
+import { Periodo } from '@nx-papelsa/shared/utils/core-models';
 
 export const FACTURAS_FEATURE_KEY = 'facturas';
 
 export interface State extends EntityState<FacturasEntity> {
   selectedId?: string | number; // which Facturas record has been selected
   loaded: boolean; // has the Facturas list been loaded
+  loading: boolean;
   error?: string | null; // last none error (if any)
+  periodo: Periodo;
+  searchTerm?: string;
 }
 
 export interface FacturasPartialState {
@@ -23,21 +27,39 @@ export const facturasAdapter: EntityAdapter<FacturasEntity> = createEntityAdapte
 export const initialState: State = facturasAdapter.getInitialState({
   // set initial required properties
   loaded: false,
+  loading: false,
+  periodo: Periodo.fromNow(60),
 });
 
 const facturasReducer = createReducer(
   initialState,
+  on(FacturasActions.setFacturasPeriodo, (state, { periodo }) => ({
+    ...state,
+    periodo,
+  })),
+
+  on(FacturasActions.setFacturasSearchTerm, (state, { searchTerm }) => ({
+    ...state,
+    searchTerm,
+  })),
   on(FacturasActions.loadFacturas, (state) => ({
     ...state,
-    loaded: false,
+    loading: true,
     error: null,
   })),
   on(FacturasActions.loadFacturasSuccess, (state, { facturas }) =>
-    facturasAdapter.addAll(facturas, { ...state, loaded: true })
+    facturasAdapter.setAll(facturas, { ...state, loaded: true, loading: false })
   ),
   on(FacturasActions.loadFacturasFailure, (state, { error }) => ({
     ...state,
     error,
+  })),
+  on(FacturasActions.upsertFactura, (state, { factura }) =>
+    facturasAdapter.upsertOne(factura, { ...state })
+  ),
+  on(FacturasActions.setCurrentFacturaId, (state, { id }) => ({
+    ...state,
+    selectedId: id,
   }))
 );
 

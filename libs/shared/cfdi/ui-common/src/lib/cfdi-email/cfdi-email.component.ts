@@ -28,6 +28,7 @@ import { CfdiEnvioDialogComponent } from '../components';
 })
 export class CfdiEmailComponent implements OnInit {
   @Input() cfdi: Partial<Cfdi>;
+  @Input() nombre;
   @Input() target: string;
   @Input() color = 'primary';
   loading = false;
@@ -44,7 +45,7 @@ export class CfdiEmailComponent implements OnInit {
   send() {
     this.dialog
       .open(CfdiEnvioDialogComponent, {
-        data: { email: this.target },
+        data: { email: this.target, nombre: this.nombre },
         width: '450px',
       })
       .afterClosed()
@@ -59,7 +60,7 @@ export class CfdiEmailComponent implements OnInit {
   private doSend(cfdi: Partial<Cfdi>, target: string) {
     this.loadingService.register();
     this.service
-      .enviar(cfdi, target)
+      .enviar(cfdi, target, this.nombre)
       .pipe(finalize(() => this.loadingService.resolve()))
       .subscribe(
         (res) => {},

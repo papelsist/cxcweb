@@ -14,6 +14,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatSelectModule } from '@angular/material/select';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatListModule } from '@angular/material/list';
 
 import { COMPONENTS } from './components';
 
@@ -31,6 +33,8 @@ const MATERIAL = [
   MatDatepickerModule,
   MatMomentDateModule,
   MatSelectModule,
+  MatBadgeModule,
+  MatListModule,
 ];
 
 @NgModule({

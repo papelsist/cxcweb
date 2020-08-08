@@ -4,7 +4,11 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { CfdiDto, Cfdi } from '@nx-papelsa/shared/utils/core-models';
+import {
+  CfdiDto,
+  Cfdi,
+  GrupoDeCfdis,
+} from '@nx-papelsa/shared/utils/core-models';
 
 @Injectable({
   providedIn: 'root',
@@ -49,11 +53,24 @@ export class CfdiService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  enviar(cfdi: Partial<Cfdi>, target: string): Observable<Cfdi> {
-    const url = `${this.apiUrl}/enviarEmail/${cfdi.id}`;
-    const params = new HttpParams().set('target', target);
+  enviar(cfdi: Partial<CfdiDto>, target: string, nombre: string) {
+    const cfdis = [cfdi];
+    const grupos: GrupoDeCfdis[] = [{ nombre, target, cfdis }];
+    return this.enviarComprobantes(grupos);
+  }
+
+  enviarComprobantes(registros: GrupoDeCfdis[]) {
+    const payload = {
+      grupos: registros.map((r) => {
+        const { target, nombre } = r;
+        const cfdis = r.cfdis.map((item) => item.id);
+        return { target, nombre, cfdis };
+      }),
+    };
+
+    const url = `${this.apiUrl}/enviarComprobantes`;
     return this.http
-      .get<Cfdi>(url, { params })
+      .put(url, payload)
       .pipe(catchError((error: any) => throwError(error)));
   }
 }

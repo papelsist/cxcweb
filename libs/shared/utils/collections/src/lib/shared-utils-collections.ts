@@ -15,6 +15,11 @@ export function groupByProperty(source: any[], property: string) {
   return groupBy(source, property);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function groupByFn(source: any[], fn: any) {
+  return groupBy(source, fn);
+}
+
 export const MonedaUtils = {
   round: round,
   calcularImporteDelTotal: (total: number) => {

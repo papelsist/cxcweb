@@ -1,6 +1,7 @@
+import { CuentaPorCobrarDTO } from '@nx-papelsa/shared/utils/core-models';
 /**
  * Interface for the 'Facturas' data
  */
-export interface FacturasEntity {
-  id: string | number; // Primary ID
+export interface FacturasEntity extends CuentaPorCobrarDTO {
+  comentario?: string;
 }

@@ -9,6 +9,7 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class CfdiEnvioDialogComponent implements OnInit {
   control: FormControl;
+  nombre: string;
   constructor(
     private dialogRef: MatDialogRef<CfdiEnvioDialogComponent>,
     @Inject(MAT_DIALOG_DATA) private data: any
@@ -17,6 +18,7 @@ export class CfdiEnvioDialogComponent implements OnInit {
       validators: [Validators.required, Validators.email],
       updateOn: 'change',
     });
+    this.nombre = data.nombre || 'SIN_NOMBRE';
   }
 
   ngOnInit() {}

@@ -1,1 +1,24 @@
-<p>factura-page works!</p>
+<ng-container *ngIf="factura$ | async as factura">
+  <div class="container">
+    <nx-papelsa-cxc-cxcpanel [cxc]="factura"></nx-papelsa-cxc-cxcpanel>
+    <nx-papelsa-cxc-totalespanel [cxc]="factura"></nx-papelsa-cxc-totalespanel>
+    <nx-papelsa-cxc-credito-panel
+      [credito]="credito"
+      *ngIf="factura.credito as credito"
+    ></nx-papelsa-cxc-credito-panel>
+    <nx-papelsa-cxc-cfdipanel
+      [cfdi]="factura.cfdi"
+      [cliente]="factura.cliente"
+    ></nx-papelsa-cxc-cfdipanel>
+  </div>
+
+  <nx-papelsa-cxc-ventapanel
+    [venta]="factura.venta"
+  ></nx-papelsa-cxc-ventapanel>
+
+  <!-- <div *ngIf="factura$ | async as factura">
+    <pre>
+      {{ factura | json }}
+    </pre>
+  </div> -->
+</ng-container>

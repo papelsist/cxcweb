@@ -1,5 +1,45 @@
-<mat-card>
-  <div>
-    <span>Cuentas por cobrar</span>
+<mat-card *ngIf="cartera$ | async as cartera">
+  <div class="push-left push-right" fxLayout="row" fxLayoutAlign="start center">
+    <span fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
+      <span class="mat-title">Bitácora de facturas </span>
+      <span class="mat-title">(Cartera: {{ cartera.clave }})</span>
+    </span>
+    <span fxFlex></span>
+
+    <td-search-box
+      placeholder="Filtrar"
+      (searchDebounce)="filter($event)"
+      fxFlex
+    ></td-search-box>
+
+    <nx-papelsa-periodo-picker
+      (periodoChanged)="onPeriodoChanged($event)"
+      [periodo]="periodo$ | async"
+    ></nx-papelsa-periodo-picker>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="reload()">
+        <mat-icon>refresh</mat-icon>
+        <span>Refrescar</span>
+      </button>
+      <nx-papelsa-cfdi-email-bulk
+        [facturas]="disponibles$ | async"
+        (done)="grid.clearSelection()"
+      ></nx-papelsa-cfdi-email-bulk>
+    </mat-menu>
   </div>
+  <div><mat-divider></mat-divider></div>
+  <nx-papelsa-facturas-grid
+    #grid
+    class="facturas-panel"
+    [rows]="facturas$ | async"
+    (drillDown)="onDrilldown($event, cartera)"
+    (selectionChange)="onSelection($event)"
+    [searchTerm]="search$ | async"
+    (print)="onPrint($event)"
+  ></nx-papelsa-facturas-grid>
 </mat-card>

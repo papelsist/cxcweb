@@ -27,6 +27,7 @@ import {
   UI_COMMONS_COMPONENTS,
   UI_COMMONS_ENTRY_COMPONENTS,
 } from './components';
+import { FormatService } from './format.service';
 
 const COMMON_MODULES = [
   CommonModule,
@@ -54,6 +55,7 @@ export class UiCommonModule {
       ngModule: RootUiCommonModule,
       providers: [
         { provide: MAT_DATE_LOCALE, useValue: 'es-MX' },
+        FormatService,
         // {
         //   provide: DateAdapter,
         //   useClass: MomentDateAdapter,

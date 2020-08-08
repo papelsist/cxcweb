@@ -1,10 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { BonificacionesEntity } from './bonificaciones.models';
-import {
-  Periodo,
-  Cartera,
-  NotaDeCredito,
-} from '@nx-papelsa/shared/utils/core-models';
+import { Periodo } from '@nx-papelsa/shared/utils/core-models';
 import { Update } from '@ngrx/entity';
 
 export const loadBonificaciones = createAction(

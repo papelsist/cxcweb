@@ -24,3 +24,14 @@ $theme: mat-light-theme($primary, $accent, $warn);
   $theme,
   $typography
 ); // $typography is an **optional** argument for the covalent-theme
+
+.warn-cell {
+  // font-size: 1rem;
+  color: mat-color($warn);
+  // background-color: mat-color($accent, default-contrast);
+  // background-color: silver;
+}
+
+.warn-grid-row {
+  color: mat-color($warn);
+}
