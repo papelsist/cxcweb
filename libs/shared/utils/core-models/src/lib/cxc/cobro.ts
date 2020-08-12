@@ -1,5 +1,6 @@
 import { Cliente } from '../core/cliente';
 import { Cfdi } from '../core';
+import { CuentaPorCobrar } from './cuenta-por-cobrar';
 
 export interface Cobro {
   id: string;
@@ -14,7 +15,7 @@ export interface Cobro {
   moneda: string;
   tipoDeCambio: number;
 
-  primerAplicacion: string;
+  primeraAplicacion: string;
   anticipo: boolean;
   enviado: boolean;
 
@@ -33,10 +34,29 @@ export interface Cobro {
   lastUpdated: string;
   createUser: string;
   updateUser: string;
+  cierre?: string;
+  cierreUser?: string;
+  timbrable: boolean;
 }
 
 export interface AplicacionDeCobro {
-  id: string;
+  id?: string;
+  cuentaPorCobrar: Partial<CuentaPorCobrar>;
+  cobro: Partial<Cobro>;
+  importe: number;
+  fecha: string;
+  formaDePago: string;
+  recibo: string;
+  sucursal?: string;
+  fechaDocumento?: string;
+  folioDocumento?: string;
+  serieDocumento?: string;
+  totalDocumento?: number;
+  pagoslDocumento?: number;
+  saldoDocumento?: number;
+  uuidDocumento?: string;
+  moneda?: string;
+  tipoDeCambio?: number;
 }
 
 export function formatFormaDePago(formaDePago: string) {

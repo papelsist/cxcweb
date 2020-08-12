@@ -21,7 +21,7 @@ import { CfdiCancelarDialogComponent } from '../components';
       [disabled]="disabled"
     >
       <mat-icon>cancel</mat-icon>
-      <span>Cancelar</span>
+      <span>{{ title }}</span>
     </button>
   `,
   styles: [],
@@ -31,6 +31,7 @@ export class CfdiCancelarComponent implements OnInit {
   @Input() cfdi: Partial<Cfdi>;
   @Input() color = 'warn';
   @Input() disabled = false;
+  @Input() title = 'Cancelar CFDI';
   @Output() cancelar = new EventEmitter();
   loading = false;
 

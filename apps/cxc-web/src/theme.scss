@@ -35,3 +35,6 @@ $theme: mat-light-theme($primary, $accent, $warn);
 .warn-grid-row {
   color: mat-color($warn);
 }
+.accent {
+  color: mat-color($accent);
+}

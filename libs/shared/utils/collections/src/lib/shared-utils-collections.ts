@@ -11,6 +11,11 @@ export function sumByProperty(source: any[], property: string) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function sumByFn(source: any[], fn: any) {
+  return sumBy(source, fn);
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function groupByProperty(source: any[], property: string) {
   return groupBy(source, property);
 }

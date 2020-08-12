@@ -38,3 +38,34 @@ export const setCurrentCobroId = createAction(
 export const toggleDisponibles = createAction(
   '[Cobros page] Toggle Disponibles'
 );
+
+export const eliminarAplicacion = createAction(
+  '[Cobro Page Facade] Eliminar aplicacion de cobro',
+  props<{ id: string; aplicacionId: string }>()
+);
+export const eliminarAplicacionFail = createAction(
+  '[Cobros Effects] Eliminar aplicacion fail',
+  props<{ error: any }>()
+);
+
+export const aplicarCobros = createAction(
+  '[Cobros Facade] Aplicar cobros',
+  props<{ cobro: string; cuentas: string[] }>()
+);
+export const aplicarCobrosFail = createAction(
+  '[Cobros Effects] Aplicar cobros fail',
+  props<{ error: any }>()
+);
+
+export const generarRecibo = createAction(
+  '[Cobros Facade Cobro Page] Generar recibo de pago',
+  props<{ id: string }>()
+);
+export const generarReciboFail = createAction(
+  '[Cobros Effects] Generar recibo de pago fail',
+  props<{ error: any }>()
+);
+export const generarReciboSuccess = createAction(
+  '[Cobros Effects] Generar recibo de pago success',
+  props<{ cobro: Cobro }>()
+);

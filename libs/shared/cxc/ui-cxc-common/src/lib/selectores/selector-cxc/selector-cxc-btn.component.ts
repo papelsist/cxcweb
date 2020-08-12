@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { delay, switchMap, tap } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { delay, switchMap, tap, finalize, catchError } from 'rxjs/operators';
 
 import { CuentaPorCobrarDTO } from '@nx-papelsa/shared/utils/core-models';
 import { CxcService } from '@nx-papelsa/shared/cxc/data-acces';
@@ -21,8 +22,9 @@ import { SelectorCxcComponent } from './selector-cxc.component';
         *ngIf="title; else onlyIcon"
         (click)="seleccionar()"
         [disabled]="disabled"
+        [matTooltip]="tooltip"
       >
-        <mat-icon>playlist_add_check</mat-icon>
+        <mat-icon>playlist_add</mat-icon>
         <span>{{ title }}</span>
       </button>
       <ng-template #onlyIcon>
@@ -32,8 +34,9 @@ import { SelectorCxcComponent } from './selector-cxc.component';
           [color]="color"
           (click)="seleccionar()"
           [disabled]="disabled"
+          [matTooltip]="tooltip"
         >
-          <mat-icon>playlist_add_check</mat-icon>
+          <mat-icon>playlist_add</mat-icon>
         </button>
       </ng-template>
     </ng-template>
@@ -42,6 +45,7 @@ import { SelectorCxcComponent } from './selector-cxc.component';
 export class SelectorCxcBtnComponent implements OnInit {
   @Input() color = 'primary';
   @Input() title: string;
+  @Input() tooltip: string;
   @Input() clienteId: string;
   @Output() selection = new EventEmitter<CuentaPorCobrarDTO[]>();
 
@@ -62,15 +66,24 @@ export class SelectorCxcBtnComponent implements OnInit {
       .facturasPendientes(this.clienteId)
       .pipe(
         delay(500),
-        tap(() => (this.loading = false)),
-        switchMap((facturas) =>
-          this.dialog
-            .open(SelectorCxcComponent, {
-              data: { facturas, excludes: this.excludes },
-            })
-            .afterClosed()
-        )
+        finalize(() => (this.loading = false)),
+        catchError((error: any) => throwError(error))
       )
-      .subscribe((res) => this.selection.emit(res));
+      .subscribe(
+        (facturas) => this.doSeleccionar(facturas),
+        (error) => console.error('Error ', error)
+      );
+  }
+
+  doSeleccionar(facturas: CuentaPorCobrarDTO[]) {
+    this.dialog
+      .open(SelectorCxcComponent, {
+        data: { facturas, excludes: this.excludes },
+        width: '75%',
+      })
+      .afterClosed()
+      .subscribe((selected) => {
+        if (selected) this.selection.emit(selected);
+      });
   }
 }

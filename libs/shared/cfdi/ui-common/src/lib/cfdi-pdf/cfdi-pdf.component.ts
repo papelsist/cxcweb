@@ -12,9 +12,9 @@ import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'nx-papelsa-cfdi-pdf',
   template: `
-    <button mat-button type="button" (click)="imprimir()">
+    <button mat-button type="button" (click)="imprimir()" [disabled]="disabled">
       <mat-icon>picture_as_pdf</mat-icon>
-      <span>Imprimir CFDI</span>
+      <span>{{ title }}</span>
     </button>
   `,
   styles: [],
@@ -23,6 +23,8 @@ import { finalize } from 'rxjs/operators';
 export class CfdiPdfComponent implements OnInit {
   @Input() cfdi: Partial<Cfdi>;
   @Input() color = 'default';
+  @Input() disabled = false;
+  @Input() title = 'Imprimir CFDI';
   loading = false;
 
   constructor(

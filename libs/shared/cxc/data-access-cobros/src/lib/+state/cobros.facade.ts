@@ -11,8 +11,16 @@ import {
   toggleDisponibles,
 } from './cobros.actions';
 
-import { Periodo, Cartera, Cobro } from '@nx-papelsa/shared/utils/core-models';
+import {
+  Periodo,
+  Cartera,
+  Cobro,
+  AplicacionDeCobro,
+  CuentaPorCobrarDTO,
+} from '@nx-papelsa/shared/utils/core-models';
+
 import { CXCFacade } from '@nx-papelsa/shared/cxc/data-acces';
+import * as CobrosActions from '../+state/cobros.actions';
 
 @Injectable()
 export class CobrosFacade {
@@ -56,5 +64,43 @@ export class CobrosFacade {
       'edit',
       id,
     ]);
+  }
+
+  aplicar(cobro: Partial<Cobro>, facturas: Partial<CuentaPorCobrarDTO>[]) {
+    const command = {
+      cobro: cobro.id,
+      cuentas: facturas.map((item) => item.id),
+    };
+    this.dispatch(
+      CobrosActions.aplicarCobros({ cobro: cobro.id, cuentas: command.cuentas })
+    );
+  }
+
+  eliminarAplicacion(
+    cobro: Partial<Cobro>,
+    aplicacion: Partial<AplicacionDeCobro>
+  ) {
+    const cob = {
+      id: cobro.id,
+      aplicaciones: cobro.aplicaciones.filter(
+        (item) => item.id !== aplicacion.id
+      ),
+    };
+    console.log('Cobro actualizado: ', cob);
+
+    this.dispatch(
+      CobrosActions.eliminarAplicacion({
+        id: cobro.id,
+        aplicacionId: aplicacion.id,
+      })
+    );
+  }
+
+  generarRecibo(cobro: Partial<Cobro>) {
+    this.dispatch(
+      CobrosActions.generarRecibo({
+        id: cobro.id,
+      })
+    );
   }
 }

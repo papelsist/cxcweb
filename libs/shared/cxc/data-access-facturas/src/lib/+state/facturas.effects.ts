@@ -57,11 +57,17 @@ export class FacturasEffects {
       ) => {
         console.error('Error', error);
         const { message, status, url } = error;
-        this.snack.open(
-          `Error en el servidor: ${message} Statud: ${status} Api URL: ${url}`,
-          'Cerrar',
-          { duration: 10000 }
-        );
+        if (status === 403) {
+          const m403 =
+            'Derechos insuficientes para accesar accesar las facturas';
+          this.snack.open(`(${status})  ${m403}  `, 'Cerrar', {
+            duration: 10000,
+          });
+        } else {
+          this.snack.open(`(${status})  ${message}  URL: ${url}`, 'Cerrar', {
+            duration: 10000,
+          });
+        }
         return FacturasActions.loadFacturasFailure({ error });
       },
     })

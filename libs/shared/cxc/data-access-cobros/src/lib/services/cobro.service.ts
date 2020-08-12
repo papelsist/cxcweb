@@ -52,4 +52,27 @@ export class CobroService {
       .put<Cobro>(url, update.changes)
       .pipe(catchError((error: any) => throwError(error)));
   }
+
+  aplicarCobros(id: string, cuentas: string[]): Observable<Cobro> {
+    const url = `${this.apiUrl}/aplicar/${id}`;
+    const payload = { cobro: id, cuentas };
+    return this.http
+      .put<Cobro>(url, payload)
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  eliminarAplicacion(id: string, aplicaciones: string[]): Observable<Cobro> {
+    const url = `${this.apiUrl}/eliminarAplicacion/${id}`;
+    const payload = { cobro: id, aplicaciones };
+    return this.http
+      .put<Cobro>(url, payload)
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  generarRecibo(id: string): Observable<Cobro> {
+    const url = `${this.apiUrl}/timbrar/${id}`;
+    return this.http
+      .put<Cobro>(url, {})
+      .pipe(catchError((error: any) => throwError(error)));
+  }
 }

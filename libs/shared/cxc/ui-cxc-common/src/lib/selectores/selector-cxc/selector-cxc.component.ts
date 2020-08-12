@@ -4,13 +4,16 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { CuentaPorCobrarDTO } from '@nx-papelsa/shared/utils/core-models';
 import { ITdDataTableColumn } from '@covalent/core/data-table';
+import { FormatService } from '@nx-papelsa/shared/utils/ui-common';
 
 @Component({
   selector: 'nx-papelsa-selector-cxc',
   template: `
     <div mat-dialog-title>
-      <span>Selector de Cuentas por cobrar</span>
+      <span>Facturas pendientes</span>
     </div>
+    <mat-divider></mat-divider>
+
     <mat-dialog-content>
       <td-data-table
         #dataTable
@@ -51,10 +54,31 @@ export class SelectorCxcComponent implements OnInit {
   facturas: CuentaPorCobrarDTO[] = [];
 
   @Input() columns: ITdDataTableColumn[] = [
-    { name: 'sucursal', label: 'Sucursal', width: 110 },
+    { name: 'sucursal', label: 'Sucursal', width: 120 },
     { name: 'tipo', label: 'Tipo', width: 100 },
+    { name: 'tipoDocumento', label: 'Origen', width: 100 },
     { name: 'documento', label: 'Docto', width: 110 },
-    { name: 'fecha', label: 'Fecha', width: 110 },
+    { name: 'fecha', label: 'Fecha', width: 100 },
+    { name: 'moneda', label: 'Mon', width: 90 },
+    {
+      name: 'total',
+      label: 'Total',
+      width: 110,
+      format: (value) => this.format.formatCurrency(value),
+    },
+    {
+      name: 'pagos',
+      label: 'Pagos',
+      width: 110,
+      format: (value) => this.format.formatCurrency(value),
+    },
+    {
+      name: 'saldo',
+      label: 'Saldo',
+      width: 110,
+      format: (value) => this.format.formatCurrency(value),
+    },
+    { name: 'atraso', label: 'Atraso', width: 110 },
   ];
 
   @Input() clickable = true;
@@ -62,7 +86,8 @@ export class SelectorCxcComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
-    private dialogRef: MatDialogRef<SelectorCxcComponent, CuentaPorCobrarDTO[]>
+    private dialogRef: MatDialogRef<SelectorCxcComponent, CuentaPorCobrarDTO[]>,
+    private format: FormatService
   ) {
     this.facturas = data.facturas;
   }

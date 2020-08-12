@@ -28,7 +28,7 @@ import { CfdiEnvioDialogComponent } from '../components';
 })
 export class CfdiEmailComponent implements OnInit {
   @Input() cfdi: Partial<Cfdi>;
-  @Input() nombre;
+  @Input() nombre: string;
   @Input() target: string;
   @Input() color = 'primary';
   loading = false;
@@ -40,12 +40,15 @@ export class CfdiEmailComponent implements OnInit {
     private dialog: MatDialog
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (!this.nombre) this.nombre = this.cfdi.receptor;
+  }
 
   send() {
+    console.log('Enviando: ', this.cfdi);
     this.dialog
       .open(CfdiEnvioDialogComponent, {
-        data: { email: this.target, nombre: this.nombre },
+        data: { email: this.target, nombre: this.nombre || this.cfdi.receptor },
         width: '450px',
       })
       .afterClosed()

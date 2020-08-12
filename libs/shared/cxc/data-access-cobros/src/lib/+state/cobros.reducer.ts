@@ -45,24 +45,40 @@ const cobrosReducer = createReducer(
     searchTerm,
   })),
 
-  on(CobrosActions.loadCobros, (state) => ({
-    ...state,
-    loaded: false,
-    loading: true,
-    error: null,
-  })),
+  on(
+    CobrosActions.loadCobros,
+    CobrosActions.aplicarCobros,
+    CobrosActions.eliminarAplicacion,
+    CobrosActions.generarRecibo,
+    (state) => ({
+      ...state,
+      loaded: false,
+      loading: true,
+      error: null,
+    })
+  ),
   on(CobrosActions.loadCobrosSuccess, (state, { cobros }) =>
     cobrosAdapter.setAll(cobros, { ...state, loaded: true, loading: false })
   ),
-  on(CobrosActions.loadCobrosFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error,
-  })),
-  on(CobrosActions.upsertCobro, (state, { cobro }) =>
-    cobrosAdapter.upsertOne(cobro, {
+  on(
+    CobrosActions.loadCobrosFailure,
+    CobrosActions.aplicarCobrosFail,
+    CobrosActions.eliminarAplicacionFail,
+    CobrosActions.generarReciboFail,
+    (state, { error }) => ({
       ...state,
+      loading: false,
+      error,
     })
+  ),
+  on(
+    CobrosActions.upsertCobro,
+    CobrosActions.generarReciboSuccess,
+    (state, { cobro }) =>
+      cobrosAdapter.upsertOne(cobro, {
+        ...state,
+        loading: false,
+      })
   ),
   on(CobrosActions.setCurrentCobroId, (state, { id }) => ({
     ...state,

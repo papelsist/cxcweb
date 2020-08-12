@@ -24,7 +24,6 @@ export class CobroExistsGuard implements CanActivate {
   }
 
   hasCobroInApi(id: string): Observable<boolean> {
-    console.log('Buscando: ', id);
     return this.service.get(id).pipe(
       map((cobro) => fromActions.upsertCobro({ cobro })),
       tap((action) => this.store.dispatch(action)),
