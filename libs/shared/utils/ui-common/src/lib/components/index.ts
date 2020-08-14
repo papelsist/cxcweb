@@ -3,7 +3,9 @@ import { PeriodoDialogComponent } from './periodo-dialog/periodo-dialog.componen
 import { PeriodoPickerComponent } from './periodo-picker/periodo-picker.component';
 import { AgBooleanRendererComponent } from './ag-boolean-renderer/ag-boolean-renderer.component';
 import { AgPrinterRendererComponent } from './ag-printer-renderer/ag-printer-renderer.component';
+import { BaseComponent } from './base-component/base.component';
 export const UI_COMMONS_COMPONENTS = [
+  // BaseComponent,
   BaseGridComponent,
   PeriodoDialogComponent,
   PeriodoPickerComponent,
@@ -15,6 +17,7 @@ export const UI_COMMONS_ENTRY_COMPONENTS = [
   AgBooleanRendererComponent,
 ];
 
+export * from './base-component/base.component';
 export * from './base-grid/base-grid.component';
 export * from './periodo-dialog/periodo-dialog.component';
 export * from './periodo-picker/periodo-picker.component';
