@@ -1,15 +1,14 @@
 package sx.cfdi
 
+
 import groovy.util.logging.Slf4j
 import groovy.transform.ToString
 
-
-import org.springframework.http.HttpStatus
-
 import grails.gorm.transactions.Transactional
+import grails.gorm.transactions.NotTransactional
+// import grails.transaction.NotTransactional
 import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
-import grails.transaction.NotTransactional
 
 import org.apache.commons.lang3.exception.ExceptionUtils
 
@@ -19,9 +18,7 @@ import com.luxsoft.cfdix.v33.NotaPdfGenerator
 import com.luxsoft.cfdix.v33.ReciboDePagoPdfGenerator
 
 import sx.core.Cliente
-import sx.core.Venta
 import sx.cxc.Cobro
-import sx.cxc.CuentaPorCobrar
 import sx.cxc.NotaDeCargo
 import sx.cxc.NotaDeCredito
 import sx.reports.ReportService
@@ -133,7 +130,7 @@ class CfdiController extends RestfulController{
        return reportService.run('ReciboDePagoCFDI33.jrxml', data['PARAMETROS'], data['CONCEPTOS'])
     }
 
-    
+
 
     @NotTransactional
     def enviarComprobantes(EnvioTask task) {
@@ -148,7 +145,7 @@ class CfdiController extends RestfulController{
             def mjLog =  mailJetService.enviarComprobantes(grupo)
             result[grupo.target] = mjLog
         }
-        
+
         respond result, status:200
     }
 

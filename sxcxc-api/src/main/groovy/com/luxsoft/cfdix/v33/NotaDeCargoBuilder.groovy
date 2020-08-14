@@ -4,7 +4,7 @@ import groovy.util.logging.Slf4j
 import lx.cfdi.v33.CfdiUtils
 import org.bouncycastle.util.encoders.Base64
 
-import lx.cfdi.utils.DateUtils
+import sx.cfdi.DateUtils
 import lx.cfdi.v33.CMetodoPago
 import lx.cfdi.v33.CTipoDeComprobante
 import lx.cfdi.v33.CTipoFactor

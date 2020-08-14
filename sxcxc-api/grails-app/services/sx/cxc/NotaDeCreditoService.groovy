@@ -5,7 +5,6 @@ import org.apache.commons.lang3.exception.ExceptionUtils
 
 import lx.cfdi.v33.Comprobante
 import com.luxsoft.cfdix.v33.NotaBuilder
-
 import sx.core.Sucursal
 import sx.core.Folio
 import sx.cfdi.Cfdi
@@ -15,7 +14,7 @@ import sx.core.LogUser
 import sx.core.AppConfig
 import sx.cfdi.CfdiService
 import sx.cfdi.CfdiTimbradoService
-import com.luxsoft.utils.MonedaUtils
+import sx.utils.MonedaUtils
 
 @Transactional
 class NotaDeCreditoService implements LogUser{
@@ -29,7 +28,7 @@ class NotaDeCreditoService implements LogUser{
     Sucursal sucursal = null
 
     /**
-    * Persiste la nota de crédito asignandole folio 
+    * Persiste la nota de crédito asignandole folio
     */
     def save(NotaDeCredito nota) {
         if(nota.id) throw new NotaDeCreditoException("Nota existente Id: ${nota.id}");
@@ -352,8 +351,7 @@ class NotaDeCreditoService implements LogUser{
         assert nota.cfdi, 'Nota sin XML generado no se puede cancelar'
         assert nota.cfdi.uuid, 'Nota sin timbrar no se puede cancelar'
         Cfdi cfdi = nota.cfdi
-        cfdiTimbradorService.cancelar(cfdi)
-        cfdiTimbradoService
+        cfdiTimbradoService.cancelar(cfdi)
         nota.comentario = 'CANCELADA'
         nota.save flush: true
     }

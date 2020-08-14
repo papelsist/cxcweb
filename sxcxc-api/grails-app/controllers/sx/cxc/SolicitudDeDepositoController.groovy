@@ -8,13 +8,11 @@ import grails.gorm.transactions.Transactional
 import grails.rest.RestfulController
 import grails.plugin.springsecurity.annotation.Secured
 
-import com.luxsoft.utils.Periodo
-import sx.core.AppConfig
+import sx.utils.Periodo
+
 import sx.core.Folio
 import sx.core.Sucursal
 import sx.reports.ReportService
-import sx.tesoreria.Banco
-import sx.tesoreria.CuentaDeBanco
 import sx.tesoreria.SolicitudDeDepositoService
 
 @Slf4j
@@ -316,17 +314,17 @@ class SolicitudDeDepositoController extends RestfulController<SolicitudDeDeposit
 
     def buscarPosibleDuplicadaCallcenter(PosibleDuplicadoCommand command) {
         def duplicada = SolicitudDeDeposito.where{
-            total == command.total && 
-            banco.id == command.banco && 
-            cuenta.id == command.cuenta && 
+            total == command.total &&
+            banco.id == command.banco &&
+            cuenta.id == command.cuenta &&
             fechaDeposito == command.fechaDeposito
         }.find()
-        
+
         if(!duplicada) {
             notFound()
             return
         }
-        
+
         respond duplicada
     }
 
@@ -405,5 +403,5 @@ class PosibleDuplicadoCommand {
     String cuenta
     BigDecimal total
     Date fechaDeposito
-    
+
 }

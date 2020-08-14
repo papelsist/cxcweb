@@ -1,20 +1,20 @@
 package com.luxsoft.cfdix.v33
 
-
-import com.luxsoft.utils.ImporteALetra
 import groovy.util.logging.Slf4j
-import lx.cfdi.v33.CfdiUtils
-import lx.cfdi.v33.Comprobante
-import lx.cfdi.v33.Pagos
-import lx.cfdi.v33.Pagos.Pago.DoctoRelacionado
+
 import net.glxn.qrgen.QRCode
 import net.glxn.qrgen.image.ImageType
 import org.apache.commons.io.FileUtils
 
+import lx.cfdi.v33.CfdiUtils
+import lx.cfdi.v33.Comprobante
+import lx.cfdi.v33.Pagos
+import lx.cfdi.v33.Pagos.Pago.DoctoRelacionado
+
+import sx.utils.ImporteALetra
 import sx.cfdi.Cfdi
 import sx.cfdi.CfdiTimbre
 import sx.cxc.Cobro
-
 
 import java.text.MessageFormat
 

@@ -11,13 +11,13 @@ import org.apache.commons.lang3.exception.ExceptionUtils
 
 import com.luxsoft.cfdix.v33.NotaDeCargoPdfGenerator
 import sx.reports.ReportService
-import com.luxsoft.utils.Periodo
+import sx.utils.Periodo
 
 
 @Secured("hasRole('ROLE_CXC_USER')")
 @Slf4j
 class NotaDeCargoController extends RestfulController<NotaDeCargo> {
-    
+
     static responseFormats = ['json']
 
     NotaDeCargoService notaDeCargoService
@@ -68,7 +68,7 @@ class NotaDeCargoController extends RestfulController<NotaDeCargo> {
         if(params.cartera) {
             query = query.where { tipo == params.cartera}
         }
-        
+
         if(params.periodo) {
             def periodo = params.periodo
             query = query.where{ fecha >= periodo.fechaInicial && fecha <= periodo.fechaFinal}

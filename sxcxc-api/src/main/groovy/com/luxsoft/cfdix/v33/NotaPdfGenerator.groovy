@@ -1,6 +1,6 @@
 package com.luxsoft.cfdix.v33
 
-import com.luxsoft.utils.ImporteALetra
+import sx.utils.ImporteALetra
 import lx.cfdi.v33.CfdiUtils
 import lx.cfdi.v33.Comprobante
 import net.glxn.qrgen.QRCode

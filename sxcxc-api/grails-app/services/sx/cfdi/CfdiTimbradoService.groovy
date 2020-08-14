@@ -2,9 +2,10 @@ package sx.cfdi
 
 import grails.gorm.transactions.Transactional
 import grails.util.Environment
+
 import org.apache.commons.io.FileUtils
 
-import com.luxsoft.utils.ZipUtils
+import sx.utils.ZipUtils
 import org.bouncycastle.util.encoders.Base64
 import sx.cfdi.providers.edicom.CFDi
 import sx.cfdi.providers.edicom.CancelaResponse

@@ -87,7 +87,9 @@ dependencies {
     runtime 'org.grails.plugins:grails-console:2.1.1'
 
     // CFDI support
-    compile 'lx.cfdi:v33:1.0.5'
+    // implementation 'lx.cfdi.utils:1.0.5'
+    implementation('lx.cfdi:v33:1.0.5')
+
     compile 'sx.cfdi.providers:edicom:1.0.0'
     compile 'org.apache.commons:commons-compress:1.15'
     compile 'net.glxn:qrgen:1.2'
@@ -107,8 +109,8 @@ dependencies {
 bootRun {
     ignoreExitValue true
     jvmArgs(
-        '-Dspring.output.ansi.enabled=always', 
-        '-noverify', 
+        '-Dspring.output.ansi.enabled=always',
+        '-noverify',
         '-XX:TieredStopAtLevel=1',
         '-Xmx1024m')
     sourceResources sourceSets.main

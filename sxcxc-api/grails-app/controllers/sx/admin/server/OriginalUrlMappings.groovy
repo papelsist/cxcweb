@@ -1,14 +1,8 @@
 package sx.admin.server
 
-class UrlMappings {
+class OriginalUrlMappings {
 
     static mappings = {
-        delete "/$controller/$id(.$format)?"(action:"delete")
-        get "/$controller(.$format)?"(action:"index")
-        get "/$controller/$id(.$format)?"(action:"show")
-        post "/$controller(.$format)?"(action:"save")
-        put "/$controller/$id(.$format)?"(action:"update")
-        patch "/$controller/$id(.$format)?"(action:"patch")
 
         // Catalogos principales
         "/api/sucursales"(resources: "sucursal")
@@ -38,8 +32,8 @@ class UrlMappings {
         // Tesoreria
         "/api/tesoreria/bancos"(resources: "banco")
         "/api/tesoreria/cuentas"(resources: "cuentaDeBanco")
-        
-        
+
+
         //Comprobantes fiscales de proveedores CFDI's
         "/api/cfdis"(resources: "cfdi")
         "/api/cfdis/mostrarXml/$id?"(controller:"cfdi", action:"mostrarXml")
@@ -72,7 +66,7 @@ class UrlMappings {
         "/api/tesoreria/solicitudes/cobranzaCod"(controller: 'solicitudDeDeposito', action: 'cobranzaCod',  method: 'GET')
         "/api/tesoreria/solicitudes/disponibles"(controller: 'solicitudDeDeposito', action: 'disponibles',  method: 'GET')
         "/api/tesoreria/solicitudes/ventasDiarias"(controller: 'solicitudDeDeposito', action: 'ventasDiarias',  method: 'GET')
-        
+
 
         // CXC
         "/api/cxc/cobro"(resources: "cobro", excludes:['create', 'save','edit','patch']) {
@@ -81,7 +75,7 @@ class UrlMappings {
         "/api/cxc/cobro/cobrosMonetarios"(controller: "cobro", action: 'cobrosMonetarios', method: 'GET')
         "/api/cxc/cobro/disponibles"(controller: "cobro", action: 'disponibles', method: 'GET')
         "/api/cxc/cobro/aplicar/$id"(controller: "cobro", action: 'aplicar', method: 'PUT')
-        
+
         "/api/cxc/cobro/eliminarAplicacion/$id"(controller: "cobro", action: 'eliminarAplicacion', method: 'PUT')
         "/api/cxc/cobro/saldar/$id"(controller: "cobro", action: 'saldar', method: 'PUT')
         "/api/cxc/cobro/registrarChequeDevuelto/$id"(controller: "cobro", action: 'registrarChequeDevuelto', method: 'PUT')

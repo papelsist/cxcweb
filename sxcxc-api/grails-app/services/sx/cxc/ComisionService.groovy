@@ -1,8 +1,14 @@
 package sx.cxc
 
-import com.luxsoft.utils.MonedaUtils
+import groovy.util.logging.Slf4j
+
+
 import org.apache.commons.lang3.exception.ExceptionUtils
 
+import sx.utils.MonedaUtils
+
+// @GrailsCompileStatic
+@Slf4j
 class ComisionService {
 
     public List<Comision> generarComisionesCobrador(String tipo, Date fechaIni, Date fechaFin){

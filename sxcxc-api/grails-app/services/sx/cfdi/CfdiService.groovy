@@ -1,34 +1,22 @@
 package sx.cfdi
 
-import com.luxsoft.cfdix.CFDIXUtils
-import com.luxsoft.cfdix.v33.V33PdfGenerator
-import grails.core.GrailsApplication
-import grails.gorm.transactions.Transactional
-import grails.util.Environment
-import grails.web.context.ServletContextHolder
-import groovy.xml.XmlUtil
-import lx.cfdi.v33.CfdiUtils
-import lx.cfdi.v33.Pagos
-import lx.cfdi.v33.Comprobante
-import lx.cfdi.v33.pagos.PagosUtils
-import org.apache.commons.lang3.StringEscapeUtils
-import org.apache.commons.lang3.StringUtils
-import org.grails.core.io.ResourceLocator
-import sx.core.AppConfig
-import sx.core.Venta
-import sx.reports.ReportService
-
-import javax.xml.XMLConstants
 import javax.xml.bind.JAXBContext
 import javax.xml.bind.Marshaller
 
-import javax.xml.validation.Schema
-import javax.xml.validation.SchemaFactory
 
 
-import com.luxsoft.utils.ZipUtils
-import org.apache.commons.io.FileUtils
+import grails.gorm.transactions.Transactional
+import grails.util.Environment
+import grails.web.context.ServletContextHolder
 
+import lx.cfdi.v33.CfdiUtils
+import lx.cfdi.v33.Pagos
+import lx.cfdi.v33.Comprobante
+
+import sx.core.AppConfig
+import sx.core.Venta
+import sx.reports.ReportService
+import com.luxsoft.cfdix.v33.V33PdfGenerator
 
 @Transactional
 class CfdiService {
@@ -167,8 +155,8 @@ class CfdiService {
         def xml = getXml(cfdi)
         def pdf = generarImpresionV33(cfdi, true).toByteArray()
 
-        String message = """Apreciable cliente por este medio le hacemos llegar la factura electrónica de su compra. Este correo se envía de manera autmática favor de no responder a la dirección del mismo. Cualquier duda o aclaración 
-            la puede dirigir a: servicioaclientes@papelsa.com.mx 
+        String message = """Apreciable cliente por este medio le hacemos llegar la factura electrónica de su compra. Este correo se envía de manera autmática favor de no responder a la dirección del mismo. Cualquier duda o aclaración
+            la puede dirigir a: servicioaclientes@papelsa.com.mx
         """
         sendMail {
             multipart false
@@ -223,7 +211,7 @@ class CfdiService {
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true)
         String xsiSchemaLocation = "http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv33.xsd"
         marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, xsiSchemaLocation)
-    
+
         ByteArrayOutputStream os = new ByteArrayOutputStream()
         marshaller.marshal(comprobante, os)
         return os.toByteArray()

@@ -9,10 +9,10 @@ import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
 
 import sx.reports.ReportService
-import sx.core.Sucursal
+
 import sx.inventario.DevolucionDeVenta
 import com.luxsoft.cfdix.v33.NotaPdfGenerator
-import com.luxsoft.utils.Periodo
+import sx.utils.Periodo
 
 
 /**
@@ -66,7 +66,7 @@ class NotaDeCreditoController extends RestfulController<NotaDeCredito>{
 
     @Override
     protected List<NotaDeCredito> listAllResources(Map params) {
-        
+
         params.max = Math.max(params.max?:10, 100)
         params.sort = params.sort?:'lastUpdated'
         params.order = params.order?: 'desc'
@@ -74,17 +74,17 @@ class NotaDeCreditoController extends RestfulController<NotaDeCredito>{
         log.debug('Buscando notas: {}',params)
 
         def query = NotaDeCredito.where{ }
-        
+
         if(params.cartera) {
             String cartera = params.cartera
             query = query.where{tipoCartera == cartera}
         }
-        
+
         if(params.periodo) {
             def periodo = params.periodo
             query = query.where{fecha >= periodo.fechaInicial && fecha <= periodo.fechaFinal}
         }
-        
+
         def list = query.list(params)
         respond list
     }
@@ -92,7 +92,7 @@ class NotaDeCreditoController extends RestfulController<NotaDeCredito>{
     def search() {
         params.max = params.max ?: 10
         def query = NotaDeCredito.where{ }
-        
+
         if(params.term) {
             def search = '%' + params.term + '%'
             if(params.term.isInteger()) {

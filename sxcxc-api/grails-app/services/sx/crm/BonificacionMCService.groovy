@@ -1,15 +1,16 @@
 package sx.crm
 
-import com.luxsoft.utils.MonedaUtils
-import grails.compiler.GrailsCompileStatic
-import grails.gorm.transactions.Transactional
-import grails.transaction.NotTransactional
-import groovy.sql.Sql
-import org.apache.commons.lang.exception.ExceptionUtils
-import sx.core.Cliente
-
 import javax.sql.DataSource
 import java.sql.SQLException
+import groovy.sql.Sql
+// import grails.compiler.GrailsCompileStatic
+// import grails.gorm.transactions.Transactional
+import grails.gorm.transactions.NotTransactional
+
+import org.apache.commons.lang.exception.ExceptionUtils
+
+import sx.utils.MonedaUtils
+import sx.core.Cliente
 
 // @Transactional
 // @GrailsCompileStatic
@@ -18,7 +19,7 @@ class BonificacionMCService {
     DataSource dataSource
 
     String SQL ="""
-            SELECT 
+            SELECT
         X.cliente_id as clienteId
         ,X.nombre
         ,(X.neto) as ventas
@@ -27,7 +28,7 @@ class BonificacionMCService {
         ,x.facs as facturas
         ,x.suc as sucursal
         FROM (
-        select a.cliente_id 
+        select a.cliente_id
         ,(SELECT x.clave FROM cliente x where x.ID=a.CLIENTE_ID) as clave
         ,v.nombre
         ,sum(a.subtotal) as neto
@@ -35,7 +36,7 @@ class BonificacionMCService {
         ,count(*) as facs
         ,max(A.fecha) as ult_vta
         ,A.tipo
-        ,(SELECT s.nombre FROM sucursal s where s.ID=a.sucursal_id) as suc 
+        ,(SELECT s.nombre FROM sucursal s where s.ID=a.sucursal_id) as suc
         from cuenta_por_cobrar a  join venta v on(v.cuenta_por_cobrar_id=a.id)
         where YEAR(a.fecha) = ? and MONTH(a.fecha) = ? AND A.TIPO IN('CON','COD')
         and a.cliente_id not in('402880fc5e4ec411015e4ec8fbbb045c','402880fc5e4ec411015e4ec9349204ae','402880fc5e4ec411015e4ecc5dfc0554')
@@ -44,7 +45,7 @@ class BonificacionMCService {
         ) AS X
         group by X.cliente_id
         order by sum(X.neto) desc
-        limit 200 
+        limit 200
 
     """
     @NotTransactional

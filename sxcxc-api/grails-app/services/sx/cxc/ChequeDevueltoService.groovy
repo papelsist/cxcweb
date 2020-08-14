@@ -1,17 +1,15 @@
 package sx.cxc
 
-import com.luxsoft.utils.MonedaUtils
-
 import grails.gorm.transactions.Transactional
+
 import sx.core.Empresa
 import sx.core.Folio
 import sx.tesoreria.MovimientoDeCuenta
-
+import sx.utils.MonedaUtils
 
 // @GrailsCompileStatic
 @Transactional
 class ChequeDevueltoService {
-
 
 
     ChequeDevuelto registrarChequeDevuelto(CobroCheque cobroCheque, Date fecha) {

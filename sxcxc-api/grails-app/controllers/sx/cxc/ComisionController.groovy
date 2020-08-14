@@ -1,6 +1,7 @@
 package sx.cxc
 
-import com.luxsoft.utils.Periodo
+import groovy.transform.TypeCheckingMode
+import sx.utils.Periodo
 import grails.compiler.GrailsCompileStatic
 import grails.rest.RestfulController
 import sx.reports.ReportService
@@ -19,6 +20,7 @@ class ComisionController extends RestfulController<Comision>{
     }
 
     @Override
+    @GrailsCompileStatic(TypeCheckingMode.SKIP)
     protected List<Comision> listAllResources(Map params) {
         if(params.fechaInicial) {
             Periodo periodo = new Periodo()
@@ -28,6 +30,7 @@ class ComisionController extends RestfulController<Comision>{
         return super.listAllResources(params)
     }
 
+    @GrailsCompileStatic(TypeCheckingMode.SKIP)
     def generarComisiones(GenerarComisionesCommand command) {
         List res = comisionService.generarComisionesCobrador(command.tipo, command.fechaInicial, command.fechaFinal)
         respond res

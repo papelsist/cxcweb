@@ -7,7 +7,7 @@ import grails.gorm.transactions.ReadOnly
 
 import sx.core.Cliente
 import sx.core.AppConfig
-import com.luxsoft.utils.Periodo
+import sx.utils.Periodo
 
 @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
 @Slf4j
@@ -43,13 +43,13 @@ class CuentaPorCobrarService {
     List<CuentaPorCobrarDTO> findAll(String cartera, Periodo periodo, Map params = [max: 100] ) {
         List<CuentaPorCobrar> rows = CuentaPorCobrar
                 .findAll(
-                """from CuentaPorCobrar c 
-                  where c.fecha between :fechaInicial and :fechaFinal 
-                    and c.tipo = :tipo 
+                """from CuentaPorCobrar c
+                  where c.fecha between :fechaInicial and :fechaFinal
+                    and c.tipo = :tipo
                     order by c.fecha
                 """
-                , [tipo: cartera, 
-                fechaInicial:periodo.fechaInicial, 
+                , [tipo: cartera,
+                fechaInicial:periodo.fechaInicial,
                 fechaFinal:periodo.fechaFinal]
                 , params)
         List<CuentaPorCobrarDTO> res = rows.collect { cxc -> new CuentaPorCobrarDTO(cxc)}
@@ -74,8 +74,8 @@ class CuentaPorCobrarService {
     List<CuentaPorCobrarDTO> findPendientes(Cliente cliente) {
         List<CuentaPorCobrar> rows = CuentaPorCobrar
                 .findAll(
-                """from CuentaPorCobrar c 
-                    where c.cliente.id = :clienteId 
+                """from CuentaPorCobrar c
+                    where c.cliente.id = :clienteId
                       and c.saldoReal > 0
                       and c.cfdi is not null
                     order by c.fecha

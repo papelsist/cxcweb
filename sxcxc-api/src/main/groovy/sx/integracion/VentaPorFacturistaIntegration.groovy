@@ -9,7 +9,7 @@ import org.apache.commons.lang.exception.ExceptionUtils
 
 import sx.bi.VentaPorFacturista
 import sx.core.Sucursal
-import com.luxsoft.utils.Periodo
+import sx.utils.Periodo
 
 @Component
 @Slf4j

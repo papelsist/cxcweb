@@ -1,16 +1,17 @@
 package sx.cfdi
 
+import groovy.transform.CompileDynamic
+
 import grails.compiler.GrailsCompileStatic
 import grails.gorm.transactions.Transactional
-import groovy.transform.CompileDynamic
-import groovy.util.logging.Log4j
-import sx.core.Empresa
+
 import wslite.soap.SOAPClient
 import wslite.soap.SOAPResponse
 
+import sx.core.Empresa
+
 @GrailsCompileStatic
 @Transactional
-@Log4j
 class CfdiEdicomService {
 
     private Empresa empresa

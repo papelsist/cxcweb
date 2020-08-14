@@ -1,7 +1,9 @@
 package sx.tesoreria
 
-import com.luxsoft.utils.Periodo
 import grails.gorm.transactions.Transactional
+
+import sx.utils.Periodo
+
 import sx.core.Empresa
 import sx.cxc.Cobro
 import sx.cxc.CobroDeposito

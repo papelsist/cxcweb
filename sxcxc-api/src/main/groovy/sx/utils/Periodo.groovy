@@ -1,4 +1,4 @@
-package com.luxsoft.utils
+package sx.utils
 
 import grails.databinding.BindingFormat
 import grails.web.databinding.WebDataBinding
@@ -11,15 +11,15 @@ import java.text.SimpleDateFormat
 
 // @Validateable
 class Periodo implements Comparable<Periodo>, WebDataBinding{
-	
+
 
 	Date fechaInicial
 
 
 	Date fechaFinal
-	
+
 	static String defaultFormat='dd/MM/yyyy'
-	
+
 	static constraints = {
 		fechaInicial()
 		fechaFinal(nullable:false,validator:{val,object->
@@ -29,13 +29,13 @@ class Periodo implements Comparable<Periodo>, WebDataBinding{
 				return true
 		})
 	}
-	
+
 	static transients = ['listaDeDias']
-	
+
 	Periodo(){
 
 	}
-	
+
 	Periodo(Date f1,Date f2){
 		fechaInicial=f1
 		fechaFinal=f2
@@ -44,7 +44,7 @@ class Periodo implements Comparable<Periodo>, WebDataBinding{
 	def List<Periodo> toMeses(){
 		return periodosMensuales(this)
 	}
-	
+
 	String toString(){
 		"${fechaInicial?.format(defaultFormat)} - ${fechaFinal?.format(defaultFormat)}"
 	}
@@ -52,11 +52,11 @@ class Periodo implements Comparable<Periodo>, WebDataBinding{
 	String mothLabel(){
 		"${fechaInicial?.format('MMMM')} - ${fechaFinal?.format('MMM')}"
 	}
-	
+
 	def int dias(){
 		return fechaFinal-fechaInicial
 	}
-	
+
 	public List<Date> getListaDeDias(){
 		final List<Date> list=new ArrayList<Date>();
 		final Calendar calendar=Calendar.getInstance();
@@ -69,8 +69,8 @@ class Periodo implements Comparable<Periodo>, WebDataBinding{
 		}
 		return list;
 	}
-	
-	
+
+
 
 	@Override
 	public int compareTo(Periodo p2) {
@@ -80,7 +80,7 @@ class Periodo implements Comparable<Periodo>, WebDataBinding{
 		}
 		return fechaInicial.compareTo(p2.fechaInicial);
 	}
-	
+
 	public static Periodo getCurrentMonth() {
 		Calendar now=Calendar.getInstance()
 		return getPeriodoEnUnMes(now.get(Calendar.MONTH),now.get(Calendar.YEAR))
@@ -93,12 +93,12 @@ class Periodo implements Comparable<Periodo>, WebDataBinding{
     }
 
 	/**
-	* Regresa el periodo correspondiente a un mes 
+	* Regresa el periodo correspondiente a un mes
 	**/
 	static Periodo fromMes(int mes){
 		return getPeriodoEnUnMes(mes)
 	}
-	
+
 	public static Periodo getPeriodoEnUnMes(int mes){
 		Calendar cal=Calendar.getInstance();
 		cal.set(Calendar.MONTH,mes);
@@ -116,30 +116,30 @@ class Periodo implements Comparable<Periodo>, WebDataBinding{
 		cal.set(Calendar.YEAR,ano);
 		cal.set(Calendar.MONTH,mes);
 		cal.set(Calendar.DATE,1);
-		
+
 		Date start=cal.getTime();
 		int last=cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 		cal.set(Calendar.DATE,last);
-		
+
 		Date end=cal.getTime();
 		Periodo p=new Periodo(fechaInicial:start,fechaFinal:end);
 		return p;
 	}
-	
+
 	public static Periodo getPeriodoAnual(int year){
 		Periodo p1=getPeriodoEnUnMes(0,year);
 		Periodo p2=getPeriodoEnUnMes(11,year);
 		Periodo p=new Periodo(fechaInicial:p1.fechaInicial,fechaFinal:p2.fechaFinal);
 		return p;
 	}
-	
+
 	public static List<Periodo> getPeriodosDelYear(int year){
 		Periodo p1=getPeriodoEnUnMes(0,year);
 		Periodo p2=getPeriodoEnUnMes(11,year);
 		Periodo p=new Periodo(p1.getFechaInicial(),p2.getFechaFinal());
 		return periodosMensuales(p);
 	}
-	
+
 	public static List<Periodo> periodosMensuales(final Periodo p){
 		List<Periodo> periodos=new ArrayList<Periodo>();
 		Set<Map<Integer,Integer>> meses=getMeses(p);
@@ -156,11 +156,11 @@ class Periodo implements Comparable<Periodo>, WebDataBinding{
 		}
 		return periodos;
 	}
-	
-	
-	
+
+
+
 	public static Set<Map<Integer,Integer>> getMeses(final Periodo p){
-		
+
 		Set<Map<Integer,Integer>> set=new TreeSet<Map<Integer,Integer>>(new Comparator(){
 
 			@SuppressWarnings("unchecked")
@@ -176,9 +176,9 @@ class Periodo implements Comparable<Periodo>, WebDataBinding{
 				}
 				return y1.compareTo(y2);
 			}
-			
+
 		});
-		
+
 		///Set<Map<Integer,Integer>> set=new HashSet<Map<Integer,Integer>>();
 		//set=SetUtils.orderedSet(set);
 		for(Date d:p.getListaDeDias()){
@@ -189,17 +189,17 @@ class Periodo implements Comparable<Periodo>, WebDataBinding{
 			//System.out.println("Analizando: Ao:"+year+"\t Mes: "+month);
 			set.add(yearMonth);
 		}
-		
+
 		return set;
 	}
-	
+
 	public static int obtenerMes(Date d){
 		Calendar c=Calendar.getInstance();
 		c.setTime(d);
 		int mes=c.get(Calendar.MONTH);
 		return mes;
 	}
-	
+
 	public static int obtenerYear(Date d){
 		Calendar c=Calendar.getInstance();
 		c.setTime(d);
@@ -222,14 +222,14 @@ class Periodo implements Comparable<Periodo>, WebDataBinding{
 		Date inicio=cal.getTime()
 		Periodo p=new Periodo(fechaInicial:inicio,fechaFinal:new Date())
 		return p;
-		
+
 	}
-	
+
 
 	static final List MESES=['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO','JULIO','AGOSTO','SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE']
 	static final List TRIMESTRES=['PRIMER','SEGUNDO','TERCERO','CUARTO']
 	static final List CUATRIMESTRES=['PRIMER','SEGUNDO','TERCERO']
 	static final List SEMESTRES=['PRIMER','SEGUNDO']
-	
+
 
 }

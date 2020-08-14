@@ -1,20 +1,20 @@
 package com.luxsoft.cfdix.v33
 
+import java.text.MessageFormat
+
 import groovy.util.logging.Slf4j
 
-import com.luxsoft.utils.ImporteALetra
 import lx.cfdi.v33.CfdiUtils
 import lx.cfdi.v33.Comprobante
+
 import net.glxn.qrgen.QRCode
 import net.glxn.qrgen.image.ImageType
 import org.apache.commons.io.FileUtils
 
+import sx.utils.ImporteALetra
 import sx.cfdi.Cfdi
 import sx.cfdi.CfdiTimbre
 import sx.cxc.NotaDeCargo
-
-
-import java.text.MessageFormat
 
 /**
  *
@@ -27,16 +27,16 @@ class NotaDeCargoPdfGenerator {
     def getReportData(NotaDeCargo nota){
         assert nota.cfdi
         Cfdi cfdi = nota.cfdi
-        Comprobante comprobante 
+        Comprobante comprobante
         File xmlFile = FileUtils.toFile(cfdi.url)
-        
+
         if(xmlFile.exists()) {
             comprobante = CfdiUtils.read(xmlFile)
         } else {
             def data = cfdiLocationService.getXml(cfdi)
-            comprobante = CfdiUtils.read(data)   
+            comprobante = CfdiUtils.read(data)
         }
-        
+
 
         def conceptos = comprobante.conceptos.concepto
 

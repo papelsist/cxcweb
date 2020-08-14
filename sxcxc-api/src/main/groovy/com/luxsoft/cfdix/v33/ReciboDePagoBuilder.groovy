@@ -1,17 +1,19 @@
 package com.luxsoft.cfdix.v33
 
 import groovy.util.logging.Slf4j
-import lx.cfdi.v33.CfdiUtils
-import lx.cfdi.v33.Pagos
+
 import org.bouncycastle.util.encoders.Base64
 
-import lx.cfdi.utils.DateUtils
+import lx.cfdi.v33.CfdiUtils
+import lx.cfdi.v33.Pagos
+
 import lx.cfdi.v33.CMetodoPago
 import lx.cfdi.v33.CTipoDeComprobante
 import lx.cfdi.v33.CTipoFactor
 import lx.cfdi.v33.CUsoCFDI
 import lx.cfdi.v33.Comprobante
 import lx.cfdi.v33.ObjectFactory
+import sx.cfdi.DateUtils
 import sx.cfdi.Cfdi
 import sx.core.Folio
 import sx.cxc.AplicacionDeCobro
@@ -19,7 +21,6 @@ import sx.cxc.Cobro
 import sx.core.Empresa
 import sx.cxc.CobroCheque
 import sx.cxc.CobroTransferencia
-import sx.cxc.CuentaPorCobrar
 import sx.cxc.SolicitudDeDeposito
 import sx.utils.MonedaUtils
 
@@ -133,7 +134,7 @@ class ReciboDePagoBuilder {
         pagos.version = '1.0'
 
         Pagos.Pago pago = factory.createPagosPago()
-        pago.fechaPago = getFechaDePago(cobro) 
+        pago.fechaPago = getFechaDePago(cobro)
         pago.formaDePagoP = getFormaDePago()
         pago.monedaP = cobro.moneda.currencyCode
         if(this.cobro.moneda.currencyCode != 'MXN') {
@@ -164,7 +165,7 @@ class ReciboDePagoBuilder {
             if(!cfdi) {
                 throw new RuntimeException("La cuenta por cobrar ${cxc.tipo} ${cxc.documento} no tiene CFDI")
             }
-            
+
             // log.info('CxC: {} ({})', cxc.id, cxc.moneda)
 
             relacionado.idDocumento = cfdi.uuid
@@ -175,29 +176,29 @@ class ReciboDePagoBuilder {
                 //relacionado.tipoCambioDR = cxc.tipoDeCambio
                 relacionado.tipoCambioDR = MonedaUtils.round(1 / aplicacion.tipoDeCambio, 6)
             }
-            
+
             relacionado.metodoDePagoDR = 'PPD'
             relacionado.numParcialidad = 1
 
             BigDecimal saldoAnterior = cxc.total
 
-            
-            def pagosAplicados = AplicacionDeCobro.findAll(""" 
-                select sum(a.importe * a.tipoDeCambio) from AplicacionDeCobro a 
-                  where a.cuentaPorCobrar.id = ?  
+
+            def pagosAplicados = AplicacionDeCobro.findAll("""
+                select sum(a.importe * a.tipoDeCambio) from AplicacionDeCobro a
+                  where a.cuentaPorCobrar.id = ?
                     and a.cobro.cfdi != null
                     and a.cobro.formaDePago not in ('DEVOLUCION','BONIFICACION')
-                    """, 
-                [cxc.id])[0] ?: 0.0
-            
-            def notasAplicadas = AplicacionDeCobro.findAll("""
-                select sum(a.importe) from AplicacionDeCobro a 
-                  where a.cuentaPorCobrar.id = ?  
-                    and a.cobro.formaDePago in ('DEVOLUCION','BONIFICACION')
-                """, 
+                    """,
                 [cxc.id])[0] ?: 0.0
 
-            
+            def notasAplicadas = AplicacionDeCobro.findAll("""
+                select sum(a.importe) from AplicacionDeCobro a
+                  where a.cuentaPorCobrar.id = ?
+                    and a.cobro.formaDePago in ('DEVOLUCION','BONIFICACION')
+                """,
+                [cxc.id])[0] ?: 0.0
+
+
             // def aplicacionesAnteriores = aplicacionesDePagos + aplicacionesDePagos
             def pagosAnteriores = MonedaUtils.round(pagosAplicados + notasAplicadas, 2)
 
@@ -208,15 +209,15 @@ class ReciboDePagoBuilder {
             relacionado.impSaldoAnt = MonedaUtils.round(saldoAnterior, 2)
             relacionado.impPagado = MonedaUtils.round(aplicacion.importe, 2)
 
-            
+
             if(relacionado.tipoCambioDR) {
                 // relacionado.impSaldoAnt = MonedaUtils.round(saldoAnterior * relacionado.tipoCambioDR, 2)
                 // relacionado.impPagado = MonedaUtils.round(aplicacion.importe * relacionado.tipoCambioDR, 2)
             }
 
             relacionado.impSaldoInsoluto = relacionado.impSaldoAnt - relacionado.impPagado
-            
-            
+
+
             if(this.cobro.moneda.currencyCode != cxc.moneda.currencyCode) {
                 log.debug('Pagos anteriores: {} Descuentos: {}', pagosAplicados, notasAplicadas)
                 log.debug("Fac: ${cxc.documento} Total: ${cxc.total} Saldo anterior: ${saldoAnterior } Pago aplicado: ${relacionado.impPagado} Saldo Insoluto: ${relacionado.impSaldoInsoluto} MonedaDR: ${relacionado.monedaDR} TC: ${relacionado.tipoCambioDR}")
@@ -239,7 +240,7 @@ class ReciboDePagoBuilder {
          if(sol){
              fechaPago = sol.fechaDeposito
          }
-        
+
          return  DateUtils.getCfdiDate(fechaPago)
     }
 

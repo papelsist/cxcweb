@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat
 import java.text.MessageFormat
 
 import sx.cfdi.Cfdi
-import com.luxsoft.utils.ImporteALetra
+import sx.utils.ImporteALetra
 
 import lx.cfdi.v33.Comprobante
 import sx.cfdi.CfdiTimbre

@@ -1,6 +1,6 @@
 package sx.cfdi
 
-import com.luxsoft.utils.ZipUtils
+import sx.utils.ZipUtils
 import grails.util.Environment
 import org.apache.commons.io.FileUtils
 import sx.core.AppConfig

@@ -7,10 +7,10 @@ import grails.plugin.springsecurity.annotation.Secured
 
 import sx.reports.ReportService
 import sx.core.Cliente
-import sx.core.Venta
+
 import sx.core.Sucursal
-import com.luxsoft.utils.ImporteALetra
-import com.luxsoft.utils.Periodo
+import sx.utils.ImporteALetra
+
 
 @Secured("hasAnyRole('ROLE_ADMIN', 'ROLE_CXC', 'ROLE_CXC_ADMIN')")
 @Slf4j
@@ -36,7 +36,7 @@ class CuentaPorCobrarController extends RestfulController<CuentaPorCobrar>{
 
     @Override
     protected List<CuentaPorCobrar> listAllResources(Map params) {
-       
+
         def query = CuentaPorCobrar.where {}
         params.sort = params.sort ?:'lastUpdated'
         params.order = params.order ?:'desc'

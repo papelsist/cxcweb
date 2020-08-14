@@ -4,7 +4,7 @@ import groovy.util.logging.Slf4j
 import groovy.transform.ToString
 
 import com.luxsoft.cfdix.v33.ReciboDePagoPdfGenerator
-import com.luxsoft.utils.Periodo
+import sx.utils.Periodo
 import grails.compiler.GrailsCompileStatic
 import grails.rest.RestfulController
 import grails.plugin.springsecurity.annotation.Secured
@@ -116,7 +116,7 @@ class CobroController extends RestfulController<Cobro>{
 
 
 
-    
+
 
     def cobrosMonetarios(CobranzaPorFechaCommand command) {
         // log.debug('Cobros {}', params)
@@ -261,7 +261,7 @@ class CobroController extends RestfulController<Cobro>{
         respond([message: message], status: 500)
     }
 
-    
+
  }
 
 // @ToString(includeNames=true,includePackage=false)

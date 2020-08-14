@@ -1,15 +1,15 @@
-package com.luxsoft.utils
+package sx.utils
 
 // import grails.validation.Validateable
 
 // @Validateable
 class Mes {
-	
+
 	String nombre
 	int clave
 
 	static List MESES
-	
+
 	static List getMeses() {
 		if(!MESES){
 			[
@@ -25,17 +25,17 @@ class Mes {
 				new Mes(nombre:'Octubre',clave:9),
 				new Mes(nombre:'Noviembre',clave:10),
 				new Mes(nombre:'Diciembre',clave:11),
-				
+
 			]
 		}
 		return MESES
-		
+
 	}
 
 	static Mes findMesByNombre(String nombre){
 		return getMeses().find{it.nombre.toUpperCase()==nombre.toUpperCase()}
 	}
-	
+
 	static List getNombres(){
 		getMeses().collect{it.nombre}
 	}
@@ -47,8 +47,8 @@ class Mes {
 	String toString(){
 		return "$nombre ($clave)"
 	}
-	
-	
+
+
 }
 
 

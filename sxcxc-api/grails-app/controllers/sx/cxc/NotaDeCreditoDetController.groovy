@@ -1,10 +1,13 @@
 package sx.cxc
 
+import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
-import grails.transaction.Transactional
+// import grails.gorm.transactions.Transactional
+// import grails.gorm.transactions.NotTransactional
 
 import static org.springframework.http.HttpStatus.NO_CONTENT
 
+@Secured("hasAnyRole('ROLE_ADMIN', 'ROLE_CXC', 'ROLE_CXC_ADMIN')")
 class NotaDeCreditoDetController extends RestfulController<NotaDeCreditoDet>{
 
     static responseFormats = ['json']

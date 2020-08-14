@@ -12,16 +12,17 @@ import sx.cfdi.CfdiService
 import sx.cfdi.CfdiTimbradoService
 
 import com.luxsoft.cfdix.v33.NotaDeCargoBuilder
-import com.luxsoft.utils.MonedaUtils
+
 
 import sx.core.LogUser
 import sx.core.AppConfig
 import sx.core.Folio
 import sx.core.Sucursal
+import sx.utils.MonedaUtils
 
 @Transactional
 @Slf4j
-class NotaDeCargoService implements LogUser{
+class NotaDeCargoService implements LogUser {
 
     CfdiTimbradoService cfdiTimbradoService
 
@@ -65,7 +66,7 @@ class NotaDeCargoService implements LogUser{
             logEntity(cxc)
             // cxc.save()
         }
-        
+
     }
 
 
@@ -93,7 +94,7 @@ class NotaDeCargoService implements LogUser{
         return cxc
     }
 
-    
+
 
     def delete(NotaDeCargo nota){
         if(nota.cfdi) {
@@ -138,7 +139,7 @@ class NotaDeCargoService implements LogUser{
         cargo.cancelacionUsuario = getCurrentUserName()
         cargo.save()
 
-        // 2o Cancelar la cuenta por cobrar 
+        // 2o Cancelar la cuenta por cobrar
         cancelarCuentaPorCobrar(cxc, motivo, cargo.cancelacionUsuario)
 
         // 3o Cancelar el CFDI
@@ -222,7 +223,7 @@ class NotaDeCargoService implements LogUser{
 
     /**
     * Depreciado, se actualiza en la UI
-    *   
+    *
     */
     private actualizarPartidas(NotaDeCargo nota){
         nota.partidas.each { NotaDeCargoDet det ->
@@ -241,7 +242,7 @@ class NotaDeCargoService implements LogUser{
 
     /**
     * Depreciado, se actualiza en la UI
-    *   
+    *
     */
     def calcularProrrateo(NotaDeCargo nota) {
         assert nota.total >0 , 'Nota de cargo requiere total para proceder Total registrado: ' + nota.total
@@ -271,7 +272,7 @@ class NotaDeCargoService implements LogUser{
 
     /**
     * Depreciado, se actualiza en la UI
-    *   
+    *
     */
     def calcularPorentaje(NotaDeCargo nota) {
         log.debug('Generando Nota de cargo por el {}%', nota.cargo)

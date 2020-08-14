@@ -3,7 +3,7 @@ package com.luxsoft.cfdix.v33
 import groovy.util.logging.Slf4j
 import org.bouncycastle.util.encoders.Base64
 
-import lx.cfdi.utils.DateUtils
+import sx.cfdi.DateUtils
 import lx.cfdi.v33.CMetodoPago
 import lx.cfdi.v33.CTipoDeComprobante
 import lx.cfdi.v33.CTipoFactor

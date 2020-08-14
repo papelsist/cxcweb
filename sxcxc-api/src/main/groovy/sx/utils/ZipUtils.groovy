@@ -1,4 +1,4 @@
-package com.luxsoft.utils
+package sx.utils
 
 import java.util.zip.ZipInputStream
 

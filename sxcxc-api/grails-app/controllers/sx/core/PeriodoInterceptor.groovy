@@ -4,7 +4,7 @@ import grails.compiler.GrailsCompileStatic
 
 import groovy.util.logging.Slf4j
 
-import com.luxsoft.utils.Periodo
+import sx.utils.Periodo
 
 
 @Slf4j
