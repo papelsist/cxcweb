@@ -11,9 +11,7 @@ class OriginalUrlMappings {
         "/api/marcas"(resources: "marca")
         "/api/clases"(resources: "clase")
         "/api/productos"(resources: "producto")
-        "/api/proveedores"(resources: "proveedor"){
-            "/productos"(resources:'proveedorProducto')
-        }
+        "/api/proveedores"(resources: "proveedor", includes: ['list'])
         "/api/clientes"(resources: "cliente"){
             "/credito"(resources: 'clienteCredito')
             "/socios"(resources: 'socio')
@@ -175,9 +173,6 @@ class OriginalUrlMappings {
         // "/api/security/users/findByNip"( controller:'user', action: 'findByNip', method: 'GET')
 
 
-        "/"(controller: 'application', action:'index')
-        "/api/session"(controller: 'application', action: 'session')
-        "500"(view: '/error')
-        "404"(view: '/notFound')
+        
     }
 }

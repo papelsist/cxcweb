@@ -62,9 +62,8 @@ class CfdiController extends RestfulController{
     @Transactional
     def print( Cfdi cfdi) {
         log.info('Imprimiendo CFDI: ', params)
-        // def pdf = cfdiPrintService.getPdf(cfdi)
-        def pdf = generarImpresionV33(cfdi)
-        render (file: pdf.toByteArray(), contentType: 'application/pdf', filename: 'NotaDeCredito.pdf')
+        def pdf = cfdiPrintService.getPdf(cfdi)
+        render (file: pdf, contentType: 'application/pdf', filename: cfdi.fileName)
     }
 
     def descargarXml(Cfdi cfdi) {
@@ -81,54 +80,54 @@ class CfdiController extends RestfulController{
         // render (file: file, contentType: 'text/xml', filename: cfdi.fileName)
     }
 
-    private generarImpresionV33( Cfdi cfdi) {
-        if (cfdi.origen == 'VENTA'){
-            return generarPdfFactura()
-        } else if(cfdi.origen == 'NOTA_CARGO'){
-            return generarPdfNotaDeCargo(cfdi)
-        } else if(cfdi.tipoDeComprobante == 'P' ){
-            return generarPdfReciboDePago(cfdi)
-        } else {
-            return generarPdfNota(cfdi)
-        }
-    }
+    // private generarImpresionV33( Cfdi cfdi) {
+    //     if (cfdi.origen == 'VENTA'){
+    //         return generarPdfFactura()
+    //     } else if(cfdi.origen == 'NOTA_CARGO'){
+    //         return generarPdfNotaDeCargo(cfdi)
+    //     } else if(cfdi.tipoDeComprobante == 'P' ){
+    //         return generarPdfReciboDePago(cfdi)
+    //     } else {
+    //         return generarPdfNota(cfdi)
+    //     }
+    // }
 
-    private generarPdfFactura(Cfdi cfdi){
-        def realPath = servletContext.getRealPath("/reports") ?: 'reports'
-        def data = V33PdfGenerator.getReportData(cfdi)
-        Map parametros = data['PARAMETROS']
-        parametros.PAPELSA = realPath + '/PAPEL_CFDI_LOGO.jpg'
-        parametros.IMPRESO_IMAGEN = realPath + '/Impreso.jpg'
-        parametros.FACTURA_USD = realPath + '/facUSD.jpg'
-        return reportService.run('PapelCFDI3.jrxml', data['PARAMETROS'], data['CONCEPTOS'])
-    }
+    // private generarPdfFactura(Cfdi cfdi){
+    //     def realPath = servletContext.getRealPath("/reports") ?: 'reports'
+    //     def data = V33PdfGenerator.getReportData(cfdi)
+    //     Map parametros = data['PARAMETROS']
+    //     parametros.PAPELSA = realPath + '/PAPEL_CFDI_LOGO.jpg'
+    //     parametros.IMPRESO_IMAGEN = realPath + '/Impreso.jpg'
+    //     parametros.FACTURA_USD = realPath + '/facUSD.jpg'
+    //     return reportService.run('PapelCFDI3.jrxml', data['PARAMETROS'], data['CONCEPTOS'])
+    // }
 
-    private generarPdfNota( Cfdi cfdi) {
-        def realPath = servletContext.getRealPath("/reports") ?: 'reports'
-        NotaDeCredito nota = NotaDeCredito.where{cfdi == cfdi}.find()
-        def data = NotaPdfGenerator.getReportData(nota)
-        Map parametros = data['PARAMETROS']
-        parametros.LOGO = realPath + '/PAPEL_CFDI_LOGO.jpg'
-        return reportService.run('PapelCFDI3Nota.jrxml', data['PARAMETROS'], data['CONCEPTOS'])
-    }
+    // private generarPdfNota( Cfdi cfdi) {
+    //     def realPath = servletContext.getRealPath("/reports") ?: 'reports'
+    //     NotaDeCredito nota = NotaDeCredito.where{cfdi == cfdi}.find()
+    //     def data = NotaPdfGenerator.getReportData(nota)
+    //     Map parametros = data['PARAMETROS']
+    //     parametros.LOGO = realPath + '/PAPEL_CFDI_LOGO.jpg'
+    //     return reportService.run('PapelCFDI3Nota.jrxml', data['PARAMETROS'], data['CONCEPTOS'])
+    // }
 
-    private generarPdfNotaDeCargo( Cfdi cfdi) {
-        def realPath = servletContext.getRealPath("/reports") ?: 'reports'
-        NotaDeCargo cargo = NotaDeCargo.where{cfdi == cfdi}.find()
-        def data = notaDeCargoPdfGenerator.getReportData(cargo)
-        Map parametros = data['PARAMETROS']
-        parametros.LOGO = realPath + '/PAPEL_CFDI_LOGO.jpg'
-        return reportService.run('PapelCFDI3Nota.jrxml', data['PARAMETROS'], data['CONCEPTOS'])
-    }
+    // private generarPdfNotaDeCargo( Cfdi cfdi) {
+    //     def realPath = servletContext.getRealPath("/reports") ?: 'reports'
+    //     NotaDeCargo cargo = NotaDeCargo.where{cfdi == cfdi}.find()
+    //     def data = notaDeCargoPdfGenerator.getReportData(cargo)
+    //     Map parametros = data['PARAMETROS']
+    //     parametros.LOGO = realPath + '/PAPEL_CFDI_LOGO.jpg'
+    //     return reportService.run('PapelCFDI3Nota.jrxml', data['PARAMETROS'], data['CONCEPTOS'])
+    // }
 
-    private generarPdfReciboDePago( Cfdi cfdi) {
-        def realPath = servletContext.getRealPath("/reports") ?: 'reports'
-        Cobro cobro = Cobro.where{cfdi == cfdi}.find()
-        def data = ReciboDePagoPdfGenerator.getReportData(cobro)
-        Map parametros = data['PARAMETROS']
-        parametros.LOGO = realPath + '/PAPEL_CFDI_LOGO.jpg'
-       return reportService.run('ReciboDePagoCFDI33.jrxml', data['PARAMETROS'], data['CONCEPTOS'])
-    }
+    // private generarPdfReciboDePago( Cfdi cfdi) {
+    //     def realPath = servletContext.getRealPath("/reports") ?: 'reports'
+    //     Cobro cobro = Cobro.where{cfdi == cfdi}.find()
+    //     def data = ReciboDePagoPdfGenerator.getReportData(cobro)
+    //     Map parametros = data['PARAMETROS']
+    //     parametros.LOGO = realPath + '/PAPEL_CFDI_LOGO.jpg'
+    //    return reportService.run('ReciboDePagoCFDI33.jrxml', data['PARAMETROS'], data['CONCEPTOS'])
+    // }
 
 
 
@@ -168,7 +167,7 @@ class CfdiController extends RestfulController{
                 la puede dirigir a: servicioaclientes@papelsa.com.mx
             """
             def xml = cfdi.getUrl().getBytes()
-            def pdf = generarImpresionV33(cfdi).toByteArray()
+            def pdf = cfdiPrintService.getPdf(cfdi)
             sendMail {
                 multipart false
                 to targetEmail
@@ -225,7 +224,7 @@ class CfdiController extends RestfulController{
                 la puede dirigir a: servicioaclientes@papelsa.com.mx
                 """
                 def xml = cfdi.getUrl().getBytes()
-                def pdf = generarImpresionV33(cfdi).toByteArray()
+                def pdf = cfdiPrintService.getPdf(cfdi)
 
                 sendMail {
                     multipart false

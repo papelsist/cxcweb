@@ -1,4 +1,5 @@
 grails.plugin.springsecurity.active = true
+grails.plugin.springsecurity.password.algorithm = 'bcrypt'
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'sx.security.User'
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'sx.security.UserRole'
 grails.plugin.springsecurity.authority.className = 'sx.security.Role'
@@ -31,7 +32,10 @@ grails.plugin.springsecurity.filterChain.chainMap = [
             pattern: '/api/**',
             filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter'
     ],
-    // [pattern: '/**',             filters: 'JOINED_FILTERS']
+    [
+            pattern: '/api/login',
+            filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter'
+    ],
     [
             pattern: '/**',
             filters: 'JOINED_FILTERS,-restTokenValidationFilter,-restExceptionTranslationFilter'

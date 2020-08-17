@@ -36,7 +36,8 @@ import org.apache.commons.lang3.exception.ExceptionUtils
 // @CompileDynamic
 class FirebaseService {
 
-    
+    static lazyInit = false
+
     private FirebaseApp app
 
     @Value('${siipapx.firebase.url:https://siipapx-436ce.firebaseio.com}')

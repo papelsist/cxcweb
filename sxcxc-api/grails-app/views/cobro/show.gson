@@ -1,0 +1,41 @@
+import sx.cxc.Cobro
+
+model {
+    Cobro cobro
+}
+
+json g.render(cobro, [deep:false, excludes:['cliente', 'sucursal', 'aplicaciones', 'moneda', 'transferencia', 'cfdi']]){
+    sucursal  {
+        id cobro.sucursal.id
+        nombre cobro.sucursal.nombre
+    }
+    nombre cobro.cliente.nombre
+    sucursalNombre cobro.sucursal.nombre
+    cliente g.render(cobro.cliente, [includes: ['id', 'nombre', 'rfc']]) {
+        id cobro.cliente.id
+        nombre cobro.cliente.nombre
+        rfc cobro.cliente.rfc
+        cfdiMail cobro.cliente.cfdiMail
+    }
+    moneda cobro.moneda.currencyCode
+    disponible cobro.getDisponible()
+    saldo cobro.saldo
+    aplicaciones g.render(cobro.aplicaciones)
+    if(cobro.cheque) {
+        cheque g.render(cobro.cheque)
+        bancoOrigen cobro.cheque.bancoOrigen.nombre
+    }
+    cfdi g.render(cobro.cfdi)
+    if(cobro.cfdi) {
+        recibo cobro.cfdi.uuid
+    }
+    if( ['EFECTIVO', 'CHEQUE', 'TRANSFERENCIA', 'TARJETA_DEBITO', 'TARJETA_CREDITO'].contains(cobro.formaDePago )) {
+        timbrable true
+    } else {
+        timbrable false
+    }
+
+}
+
+
+

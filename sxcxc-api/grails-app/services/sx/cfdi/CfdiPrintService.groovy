@@ -1,47 +1,68 @@
 package sx.cfdi
 
+import groovy.transform.CompileDynamic
+import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
 
 import grails.web.context.ServletContextHolder
+import grails.compiler.GrailsCompileStatic
 
-import sx.reports.ReportService
+
 import com.luxsoft.cfdix.v33.V33PdfGeneratorPos
 import com.luxsoft.cfdix.v33.ReciboDePagoPdfGenerator
+import com.luxsoft.cfdix.v33.ReciboDePagoPdfGenerator
+
 import sx.cxc.Cobro
+import sx.cxc.NotaDeCargo
+import sx.cxc.NotaDeCredito
+import sx.reports.ReportService
 
 /**
  * Servicios de impresion de facturas centralizados
  *
  */
+ @Slf4j
+ // @GrailsCompileStatic
 class CfdiPrintService {
 
     CfdiLocationService cfdiLocationService
 
     ReportService reportService
 
-    Byte[] getPdf(Cfdi cfdi){
+    byte[] getPdf(Cfdi cfdi){
+        log.debug('Genenrando PDF para CFDI: {}-{} Origen: {}', cfdi.serie, cfdi.folio, cfdi.origen)
         String fileName = cfdi.url.getPath().substring(cfdi.url.getPath().lastIndexOf('/')+1)
         fileName = fileName.replaceAll('.xml', '.pdf')
         File file = new File(cfdiLocationService.getCfdiLocation(cfdi), fileName)
-        if(file.exists()){
-            return file.getBytes()
-        } else {
+        if(!file.exists()){
             log.info('No hay impresion generada, generando archivo PDF');
             ByteArrayOutputStream out = generarPdf(cfdi)
             file.setBytes(out.toByteArray())
-            return file.getBytes()
-        }
+        } 
+        return file.getBytes()
     }
 
-    public generarPdf( Cfdi cfdi) {
-        if (cfdi.origen == 'VENTA'){
-            return generarFactrura(cfdi)
-        } else if(cfdi.origen == 'NOTA_CARGO'){
-            // return generarPdfNotaDeCargo(cfdi)
-        } else if(cfdi.tipoDeComprobante == 'P' ){
-            return generarReciboDePago(cfdi)
-        } else {
-            // return generarPdfNota(cfdi)
-            throw new RuntimeException('Tipo de factura no soportado')
+    /**
+    * Generar el JasperPrint para el CFDI
+    *
+    *
+    *
+    **/
+    public ByteArrayOutputStream generarPdf( Cfdi cfdi) {
+        switch(cfdi.origen) {
+            case 'VENTA':
+                return generarFactrura(cfdi)
+            break
+            case 'NOTA_CREDITO':
+                return generarNotaDeCredito(cfdi)
+            case 'NOTA_CARGO':
+                return generarNotaDeCargo(cfdi)
+            case 'COBROS':
+            case 'PAGOS':
+                return generarReciboDePago(cfdi)
+            default:
+                throw new RuntimeException("Origen de CFDI incorrecto: {cfdi.origen}")
+            break
         }
     }
 
@@ -49,9 +70,9 @@ class CfdiPrintService {
     * Genera el JasperPrint PDF (ByteArrayOutputStream) para Comprobantes tipo VENTA
     * 
     **/
-    public generarFactrura(Cfdi cfdi){
-        def realPath = ServletContextHolder.getServletContext().getRealPath("/reports") ?: 'reports'
-        def data = V33PdfGeneratorPos.getReportData(cfdi)
+    public ByteArrayOutputStream  generarFactrura(Cfdi cfdi){
+        String realPath = ServletContextHolder.getServletContext().getRealPath("/reports") ?: 'reports'
+        Map data = V33PdfGeneratorPos.getReportData(cfdi)
         Map parametros = data['PARAMETROS']
         parametros.PAPELSA = realPath + '/PAPEL_CFDI_LOGO.jpg'
         parametros.IMPRESO_IMAGEN = realPath + '/Impreso.jpg'
@@ -59,12 +80,44 @@ class CfdiPrintService {
         return reportService.run('PapelCFDI3.jrxml', data['PARAMETROS'], data['CONCEPTOS'])
     }
 
-    public generarReciboDePago( Cfdi cfdi) {
-        def realPath = ServletContextHolder.getServletContext().getRealPath("/reports") ?: 'reports'
+    /** 
+    * Genera el JasperPrint PDF (ByteArrayOutputStream) para Comprobantes tipo Nota de Credito
+    * 
+    **/
+    public ByteArrayOutputStream generarNotaDeCredito( Cfdi cfdi) {
+        String realPath = servletContext.getRealPath("/reports") ?: 'reports'
+        NotaDeCredito nota = NotaDeCredito.where{cfdi == cfdi}.find()
+        Map data = NotaPdfGenerator.getReportData(nota)
+        Map parametros = data['PARAMETROS']
+        parametros.LOGO = realPath + '/PAPEL_CFDI_LOGO.jpg'
+        return reportService.run('PapelCFDI3Nota.jrxml', data['PARAMETROS'], data['CONCEPTOS'])
+    }
+
+    /** 
+    * Genera el JasperPrint PDF (ByteArrayOutputStream) para Comprobantes tipo Nota de Cargo
+    * 
+    **/
+    public ByteArrayOutputStream generarNotaDeCargo( Cfdi cfdi) {
+        def realPath = servletContext.getRealPath("/reports") ?: 'reports'
+        NotaDeCargo cargo = NotaDeCargo.where{cfdi == cfdi}.find()
+        def data = notaDeCargoPdfGenerator.getReportData(cargo)
+        Map parametros = data['PARAMETROS']
+        parametros.LOGO = realPath + '/PAPEL_CFDI_LOGO.jpg'
+        return reportService.run('PapelCFDI3Nota.jrxml', data['PARAMETROS'], data['CONCEPTOS'])
+    }
+
+    /** 
+    * Genera el JasperPrint PDF (ByteArrayOutputStream) para Comprobantes tipo Recibo de Pago
+    * 
+    **/
+    public ByteArrayOutputStream generarReciboDePago( Cfdi cfdi) {
+        String realPath = ServletContextHolder.getServletContext().getRealPath("/reports") ?: 'reports'
         Cobro cobro = Cobro.where{cfdi == cfdi}.find()
-        def data = ReciboDePagoPdfGenerator.getReportData(cobro)
+        Map data = ReciboDePagoPdfGenerator.getReportData(cobro)
         Map parametros = data['PARAMETROS']
         parametros.LOGO = realPath + '/PAPEL_CFDI_LOGO.jpg'
        return reportService.run('ReciboDePagoCFDI33.jrxml', data['PARAMETROS'], data['CONCEPTOS'])
     }
+
+    
 }

@@ -2,14 +2,16 @@ package sx.security
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import grails.compiler.GrailsCompileStatic
 
+@GrailsCompileStatic
 @EqualsAndHashCode(includes='username')
 @ToString(includes='username', includeNames=true, includePackage=false)
 class User implements Serializable {
 
     private static final long serialVersionUID = 1
 
-    transient springSecurityService
+    // String id
 
     String username
     String password
@@ -28,38 +30,24 @@ class User implements Serializable {
     String puesto
     String nip
 
-    User() {}
-
-    User(String username, String password) {
-        //this()
-        this.username = username
-        this.password = password
-    }
-
     Set<Role> getAuthorities() {
-        UserRole.findAllByUser(this)*.role
+        (UserRole.findAllByUser(this) as List<UserRole>)*.role as Set<Role>
     }
 
-    def beforeInsert() {
-        encodePassword()
-        capitalizarNombre()
+    static constraints = {
+        password nullable: false, blank: false, password: true
+        username nullable: false, blank: false, unique: true
+
+        email nullable:true,email:true
+        numeroDeEmpleado nullable:true
+        sucursal nullable:true,maxSize:20
+        puesto nullable:true,maxSize:30
+        nip nullable: true
     }
 
-
-
-    def beforeUpdate() {
-        if (isDirty('password')) {
-            encodePassword()
-        }
-        if (isDirty('apellidoPaterno') || isDirty('apellidoMaterno') || isDirty('nombres')) {
-            capitalizarNombre()
-
-        }
-    }
-
-    protected void encodePassword() {
-        nip = password
-        password = springSecurityService?.passwordEncoder ? springSecurityService.encodePassword(password) : password
+    static mapping = {
+        // id generator:'uuid'
+        password column: '`password`'
     }
 
     private capitalizarNombre(){
@@ -67,23 +55,5 @@ class User implements Serializable {
         apellidoMaterno=apellidoMaterno.toUpperCase()
         nombres=nombres.toUpperCase()
         nombre="$nombres $apellidoPaterno $apellidoMaterno"
-    }
-
-    static transients = ['springSecurityService']
-
-    static constraints = {
-        username blank: false, unique: true
-        password blank: false
-
-        email nullable:true,email:true
-        numeroDeEmpleado nullable:true
-        sucursal nullable:true,maxSize:20
-        puesto nullable:true,maxSize:30
-        nip nullable: true
-
-    }
-
-    static mapping = {
-        password column: '`password`'
     }
 }
