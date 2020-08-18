@@ -3,7 +3,21 @@
     [parent]="form"
     [bonificacion]="bonificacion"
   ></nx-papelsa-cxc-bonificacion-header>
-
+  <div><mat-divider></mat-divider></div>
+  <td-message
+    *ngIf="bonificacion.cancelacionMotivo"
+    color="warn"
+    icon="warning"
+    label="CANCELADA: {{ bonificacion.cancelacion | date: 'dd/MM/yyyy' }}"
+    sublabel="Motivo: {{ bonificacion.cancelacionMotivo }} Usuario : {{
+      bonificacion.cancelacionUsuario
+    }}"
+  >
+    <button td-message-actions mat-button>
+      <span>Descargar Acuse</span>
+      <mat-icon>get_app</mat-icon>
+    </button>
+  </td-message>
   <div fxLayout fxLayoutGap="5px" fxLayoutAlign="start baseline">
     <nx-papelsa-bonificacion-concepto
       [parent]="form"
@@ -19,33 +33,56 @@
     <nx-papelsa-forma-de-pago-sat
       [parent]="form"
     ></nx-papelsa-forma-de-pago-sat>
-    <span fxFlex></span>
-    <nx-papelsa-cxc-selector-cxc-btn
-      title="Agregar facturas"
-      [clienteId]="bonificacion.cliente.id"
-      (selection)="onAgregarFacturas($event)"
-    ></nx-papelsa-cxc-selector-cxc-btn>
+    <ng-container *ngIf="bonificacion.cfdi as cfdi">
+      <mat-form-field>
+        <mat-label>CFDI</mat-label>
+        <input
+          type="text"
+          matInput
+          value="{{ cfdi.serie }}-{{ cfdi.folio }}"
+          readonly
+        />
+        <mat-hint>{{ cfdi.uuid.substr(-6) }}</mat-hint>
+      </mat-form-field>
+      <!-- <mat-form-field>
+        <mat-label>UUID</mat-label>
+        <input type="text" matInput [value]="cfdi.uuid" readonly />
+      </mat-form-field> -->
+    </ng-container>
+    <span fxFlex *ngIf="!bonificacion.cfdi"></span>
   </div>
 
   <div fxLayout fxLayoutGap="5px" fxLayoutAlign="start baseline">
     <nx-papelsa-cxc-tipo-calculo [parent]="form"></nx-papelsa-cxc-tipo-calculo>
     <nx-papelsa-cxc-base-calculo [parent]="form"></nx-papelsa-cxc-base-calculo>
 
-    <mat-form-field [style.width.px]="100">
-      <mat-label>Descuento (%)</mat-label>
-      <input type="number" matInput formControlName="descuento" #descuento1 />
-      <mat-error>Valor inválido (1 - 50)</mat-error>
-      <mat-hint align="end" *ngIf="descuento1.value && descuento1.value > 0"
-        >Dcto % (0 a 50)</mat-hint
-      >
+    <mat-form-field
+      [style.width.px]="100"
+      *ngIf="tipoDeCalculo === 'PRORRATEO'"
+    >
+      <mat-label>Monto</mat-label>
+      <input type="number" matInput formControlName="monto" #monto />
+      <mat-error>Monto invalido</mat-error>
+      <mat-hint align="end">Prorrateo</mat-hint>
     </mat-form-field>
 
-    <mat-form-field [style.width.px]="100">
-      <mat-label>Descuento 2</mat-label>
-      <input type="number" matInput formControlName="descuento2" />
-      <mat-error>Valor inválido (1 - 50)</mat-error>
-      <mat-hint align="end">(%) 0 a 50</mat-hint>
-    </mat-form-field>
+    <ng-container *ngIf="tipoDeCalculo === 'PORCENTAJE'">
+      <mat-form-field [style.width.px]="100">
+        <mat-label>Descuento (%)</mat-label>
+        <input type="number" matInput formControlName="descuento" #descuento1 />
+        <mat-error>Valor inválido (1 - 50)</mat-error>
+        <mat-hint align="end" *ngIf="descuento1.value && descuento1.value > 0"
+          >Dcto % (0 a 50)</mat-hint
+        >
+      </mat-form-field>
+
+      <mat-form-field [style.width.px]="100">
+        <mat-label>Descuento 2</mat-label>
+        <input type="number" matInput formControlName="descuento2" />
+        <mat-error>Valor inválido (1 - 50)</mat-error>
+        <mat-hint align="end">(%) 0 a 50</mat-hint>
+      </mat-form-field>
+    </ng-container>
 
     <mat-form-field fxFlex>
       <mat-label>Comentario</mat-label>
@@ -53,17 +90,46 @@
       <mat-error>Longitud excedida</mat-error>
       <mat-hint align="end">( {{ comentario.value.length }}/ 255 )</mat-hint>
     </mat-form-field>
+    <mat-form-field>
+      <mat-label>Creada por:</mat-label>
+      <input matInput [value]="bonificacion.createUser" disabled="true" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Actualizada por:</mat-label>
+      <input matInput [value]="bonificacion.updateUser" disabled="true" />
+    </mat-form-field>
   </div>
-
-  <!-- Form-->
-  <div class="bonificacion-form"></div>
 
   <div class="partidas">
-    <nx-papelsa-cxc-bonificacion-partidas-table
-      [partidas]="bonificacion.partidas"
-    ></nx-papelsa-cxc-bonificacion-partidas-table>
+    <mat-toolbar>
+      <span>Conceptos</span>
+      <span fxFlex></span>
+      <nx-papelsa-cxc-selector-cxc-btn
+        [clienteId]="bonificacion.cliente.id"
+        color="default"
+        tooltip="Agregar factura"
+        (selection)="onAgregarFacturas($event)"
+        [disabled]="form.disabled"
+      ></nx-papelsa-cxc-selector-cxc-btn>
+    </mat-toolbar>
+    <nx-papelsa-bonificacion-partidas-table
+      [partidas]="getPartidas().value"
+      (delete)="onDeletePartida($event)"
+      (edit)="onEditPartida($event)"
+      [baseDelCalculo]="!manual ? form.get('baseDelCalculo').value : ''"
+      [manual]="manual"
+      [disabled]="form.disabled"
+    >
+    </nx-papelsa-bonificacion-partidas-table>
   </div>
-
+  <td-message
+    *ngIf="form.errors?.importeInvalido"
+    label="Error"
+    sublabel="Los conceptos no tienen importe"
+    color="warn"
+    icon="error"
+  >
+  </td-message>
   <mat-card-actions>
     <nx-papelsa-back-button></nx-papelsa-back-button>
     <button

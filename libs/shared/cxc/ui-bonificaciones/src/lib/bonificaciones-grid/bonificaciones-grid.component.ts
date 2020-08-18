@@ -134,10 +134,16 @@ export class BonificacionesGridComponent implements OnInit {
   private buildColumnDef(): ColDef[] {
     return [
       {
+        headerName: 'Tipo',
+        field: 'tipoDeCalculo',
+        sortable: true,
+        width: 110,
+      },
+      {
         headerName: 'Serie',
         field: 'serie',
         sortable: true,
-        width: 110,
+        width: 100,
       },
       {
         headerName: 'Folio',
@@ -150,7 +156,7 @@ export class BonificacionesGridComponent implements OnInit {
         headerName: 'Fecha',
         field: 'fecha',
         sortable: true,
-        width: 110,
+        width: 120,
         valueFormatter: (params) => this.formatDate(params.value),
       },
       {
@@ -158,7 +164,6 @@ export class BonificacionesGridComponent implements OnInit {
         field: 'nombre',
         sortable: true,
         filter: true,
-        width: 250,
         resizable: true,
       },
       {
@@ -187,6 +192,16 @@ export class BonificacionesGridComponent implements OnInit {
         field: 'cfdi',
         cellRendererFramework: AgBooleanRendererComponent,
         width: 90,
+      },
+      {
+        headerName: 'Modificado',
+        field: 'lastUpdated',
+        valueFormatter: (params) =>
+          this.formatDate(params.value, 'dd/MM/yyyy HH:mm'),
+      },
+      {
+        headerName: 'Actualizó',
+        field: 'updateUser',
       },
     ];
   }

@@ -28,7 +28,7 @@ import { FormGroup } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseDeCalculoFieldComponent implements OnInit {
-  @Input() tipos = ['SALDO', 'TOTAL'];
+  @Input() tipos = ['Saldo', 'Total'];
 
   @Input() parent: FormGroup;
   @Input() property = 'baseDelCalculo';

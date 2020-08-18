@@ -20,7 +20,7 @@ import sx.utils.Periodo
  *
  */
 @Slf4j
-@Secured("hasRole('ROLE_CXC_USER')")
+@Secured("hasAnyRole('ROLE_ADMIN', 'ROLE_CXC', 'ROLE_CXC_ADMIN')")
 class NotaDeCreditoController extends RestfulController<NotaDeCredito>{
 
     static responseFormats = ['json']
@@ -262,7 +262,18 @@ class NotaDeCreditoController extends RestfulController<NotaDeCredito>{
     def timbrar(NotaDeCredito nota) {
         assert !nota.cfdi, 'Nota ya timbrada'
         nota = notaDeCreditoService.timbrar(nota)
-        respond nota
+        respond(nota, view: 'show')
+    }
+
+    def cancelar(NotaDeCredito nota) {
+        if(nota == null) {
+            notFound()
+            return
+        }
+        log.info('Cancelando: {}', params)
+        String motivo = params.motivo
+        nota = notaDeCreditoService.cancelar(nota, motivo)
+        respond(nota, view: 'show')
     }
 
     def aplicar(NotaDeCredito nota){

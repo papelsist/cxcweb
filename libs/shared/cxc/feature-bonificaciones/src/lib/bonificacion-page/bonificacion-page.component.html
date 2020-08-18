@@ -1,33 +1,41 @@
-<div class="bonificacion-container">
-  <nx-papelsa-bonificacion-form
-    #form
-    *ngIf="bonificacion$ | async as bonificacion"
-    [bonificacion]="bonificacion"
-    (update)="onUpdate($event)"
-  >
-    <ng-container *ngIf="bonificacion.cfdi && !bonificacion.cancelacion">
-      <nx-papelsa-cfdi-pdf [cfdi]="bonificacion.cfdi"></nx-papelsa-cfdi-pdf>
-      <nx-papelsa-cfdi-xml [cfdi]="bonificacion.cfdi"></nx-papelsa-cfdi-xml>
-      <nx-papelsa-cfdi-email
-        [cfdi]="bonificacion.cfdi"
-        [target]="bonificacion.cliente.cfdiMail"
-      ></nx-papelsa-cfdi-email>
-      <nx-papelsa-cfdi-cancelar
-        [cfdi]="bonificacion.cfdi"
-        (cancelar)="onCancelar(bonificacion, $event)"
-      ></nx-papelsa-cfdi-cancelar>
-    </ng-container>
+<ng-template
+  tdLoading
+  [tdLoadingUntil]="!(loading$ | async)"
+  tdLoadingStrategy="overlay"
+>
+  <div class="bonificacion-container">
+    <nx-papelsa-bonificacion-form
+      #form
+      *ngIf="bonificacion$ | async as bonificacion"
+      [bonificacion]="bonificacion"
+      (update)="onUpdate($event)"
+    >
+      <ng-container *ngIf="bonificacion.cfdi && !bonificacion.cancelacion">
+        <nx-papelsa-cfdi-pdf [cfdi]="bonificacion.cfdi"></nx-papelsa-cfdi-pdf>
+        <nx-papelsa-cfdi-xml [cfdi]="bonificacion.cfdi"></nx-papelsa-cfdi-xml>
+        <nx-papelsa-cfdi-email
+          [cfdi]="bonificacion.cfdi"
+          [target]="bonificacion.cliente.cfdiMail"
+        ></nx-papelsa-cfdi-email>
+        <nx-papelsa-cfdi-cancelar
+          [cfdi]="bonificacion.cfdi"
+          (cancelar)="onCancelar(bonificacion, $event)"
+        ></nx-papelsa-cfdi-cancelar>
+      </ng-container>
 
-    <ng-container *ngIf="!bonificacion.cfdi">
-      <nx-papelsa-cfdi-timbrar
-        color="accent"
-        (timbrar)="onTimbrar(bonificacion)"
-        [disabled]="form.isDirty()"
-      ></nx-papelsa-cfdi-timbrar>
-      <nx-papelsa-delete-entity
-        [entity]="bonificacion"
-        (delete)="onDelete($event)"
-      ></nx-papelsa-delete-entity>
-    </ng-container>
-  </nx-papelsa-bonificacion-form>
-</div>
+      <ng-container *ngIf="!bonificacion.cfdi">
+        <nx-papelsa-cfdi-timbrar
+          color="accent"
+          (timbrar)="onTimbrar(bonificacion)"
+          [disabled]="form.isDirty()"
+        ></nx-papelsa-cfdi-timbrar>
+        <nx-papelsa-delete-entity
+          [entity]="bonificacion"
+          title="Eliminar bonificación"
+          message="Folio: {{ bonificacion.folio }}"
+          (delete)="onDelete(bonificacion)"
+        ></nx-papelsa-delete-entity>
+      </ng-container>
+    </nx-papelsa-bonificacion-form>
+  </div>
+</ng-template>

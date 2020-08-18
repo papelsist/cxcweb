@@ -43,135 +43,7 @@ class NotaDeCreditoService implements LogUser{
         return nota
     }
 
-    /**
-    *
-    *   @deprecated  As of version 3.0.0 Should use saveBonificacion and updateBonificacion
-    */
-    def generarBonificacion(NotaDeCredito nota) {
-        nota.tipo = 'BONIFICACION'
-        String serie = "BON${nota.tipoCartera}"
-        nota.serie = serie
-        nota.folio = Folio.nextFolio('NOTA_DE_CREDITO', serie)
-        log.debug('Folio: {}', nota.folio)
-        if(nota.tipoDeCalculo == 'PRORRATEO') {
-            if (nota.total <= 0.0) {
-                throw new NotaDeCreditoException('Nota de credito por bonificacion con prorrateo requiere de un total')
-            }
-            nota = calcularProrrateo(nota)
-            Cobro cobro = generarCobro(nota)
-            nota.cobro = cobro
-            nota.save failOnError: true, flush: true
-            return nota
-
-        } else {
-            if (nota.descuento <= 0.0) {
-                throw new NotaDeCreditoException('Nota de credito por bonificacion por porcentaje requiere de un descuento')
-            }
-            nota = calcularPorentaje(nota)
-            Cobro cobro = generarCobro(nota)
-            nota.cobro = cobro
-            nota.save failOnError: true, flush: true
-            return nota
-        }
-    }
-
-    def calcularProrrateo(NotaDeCredito nota) {
-
-        BigDecimal importe = nota.total
-        boolean sobreSaldo = nota.baseDelCalculo == 'Saldo' ? true : false
-        List<CuentaPorCobrar> facturas = nota.partidas.collect{ it.cuentaPorCobrar}
-
-        log.debug('Generando bonificaion por {} facturas', facturas.size())
-
-        if(sobreSaldo) {
-            def facSinSaldo = facturas.find { it.saldo <= 0.0}
-            if(facSinSaldo) sobreSaldo = false; // Debemos usar el Total
-        }
-
-        BigDecimal base = facturas.sum 0.0,{ item-> sobreSaldo ? item.getSaldo() : item.getTotal()}
-
-        log.debug("Importe a prorratear: ${importe} Base del prorrateo ${base}")
-        def acu = 0.0
-
-        nota.partidas.each {  NotaDeCreditoDet det ->
-
-            CuentaPorCobrar cxc = det.cuentaPorCobrar
-
-            def monto = sobreSaldo ? cxc.getSaldo(): cxc.total
-
-            def por = monto / base
-
-            def asignado = MonedaUtils.round(importe * por)
-
-            acu = acu + asignado
-
-            det.cuentaPorCobrar = cxc
-
-            det.tipoDeDocumento = cxc.tipo
-
-            det.fechaDocumento = cxc.fecha
-
-            det.documento = cxc.documento
-
-            det.sucursal = cxc.sucursal.nombre
-
-            det.importe = asignado
-
-            det.totalDocumento = cxc.total
-
-            det.saldoDocumento = cxc.getSaldo()
-
-            det.base = MonedaUtils.calcularImporteDelTotal(det.importe)
-            det.impuesto = MonedaUtils.calcularImpuesto(det.base)
-            det.importe = det.base + det.impuesto
-
-            log.debug('Procesando factura {} Asignando {} a NotaDet', cxc.documento, asignado)
-            log.debug('Asignando partida {}', cxc.documento)
-
-        }
-
-        nota.importe = nota.partidas.sum 0.0, {it.base}
-        nota.impuesto = nota.partidas.sum 0.0, {it.impuesto}
-        nota.total = nota.partidas.sum 0.0, {it.importe}
-
-        log.debug('Partidas totales de la nota: {}', nota.partidas.size())
-        return nota
-    }
-
-    def calcularPorentaje(NotaDeCredito nota) {
-        log.debug('Generando bonificaion del {}%', nota.descuento)
-        def acu = 0.0
-        def descuento = nota.descuento / 100
-        if ( nota.descuento2 > 0 ){
-            def descuento2 = nota.descuento2;
-            def r = 1.00 - descuento;
-            def r2 = (descuento2 * r)/100
-            def neto = descuento + r2;
-            descuento = neto;
-        }
-        boolean sobreSaldo = nota.baseDelCalculo == 'Saldo' ? true : false
-        nota.partidas.each {  NotaDeCreditoDet det ->
-            CuentaPorCobrar cxc = det.cuentaPorCobrar
-            def monto = sobreSaldo ? det.cuentaPorCobrar.getSaldo() : det.cuentaPorCobrar.getTotal()
-            def asignado = MonedaUtils.round(monto * descuento)
-            log.debug('Procesando factura {} Asignando {} a NotaDet', cxc.documento, asignado)
-            acu = acu + asignado
-            det.cuentaPorCobrar = cxc
-            det.tipoDeDocumento = cxc.tipo
-            det.fechaDocumento = cxc.fecha
-            det.documento = cxc.documento
-            det.sucursal = cxc.sucursal.nombre
-            det.importe = asignado
-            det.totalDocumento = cxc.total
-            det.saldoDocumento = cxc.getSaldo()
-            log.debug('Asignando partida {}', cxc.documento)
-        }
-        nota.total = acu
-        nota.importe = MonedaUtils.calcularImporteDelTotal(nota.total)
-        nota.impuesto = MonedaUtils.calcularImpuesto(nota.importe)
-        log.debug('Partidas totales de la nota: {}', nota.partidas.size())
-        return nota
-    }
+    
 
     def generarNotaDeDevolucion(NotaDeCredito nota, DevolucionDeVenta rmd) {
         if (rmd.cobro && nota.tipoCartera == 'CRE') {
@@ -224,18 +96,16 @@ class NotaDeCreditoService implements LogUser{
     def generarCfdi(NotaDeCredito nota) {
         Comprobante comprobante = this.notaBuilder.build(nota);
         Cfdi cfdi = cfdiService.generarCfdi(comprobante, 'E', 'NOTA_CREDITO')
-        nota.cfdi = cfdi
-        nota.save flush: true
-        return nota
+        return cfdi
     }
 
     def timbrar(NotaDeCredito nota){
         try {
-            if(!nota.cfdi) {
-                nota = generarCfdi(nota)
-            }
-            def cfdi = nota.cfdi
+            def cfdi = generarCfdi(nota)
             cfdi = cfdiTimbradoService.timbrar(cfdi)
+            nota.cfdi = cfdi
+            nota.cobro = generarCobro(nota)
+            nota.save failOnError: true, flush: true
             return nota
         } catch (Throwable ex){
             ex.printStackTrace()
@@ -341,18 +211,30 @@ class NotaDeCreditoService implements LogUser{
                 rmd.cobro = null
                 rmd.save()
             }
-            cobro.delete flush: true
+            if(cobro) 
+                cobro.delete flush: true
         }
-
-
     }
 
-    def cancelar(NotaDeCredito nota) {
-        assert nota.cfdi, 'Nota sin XML generado no se puede cancelar'
-        assert nota.cfdi.uuid, 'Nota sin timbrar no se puede cancelar'
+    def cancelar(NotaDeCredito nota, String motivo) {
+        // throw new UnsupportedOperationException('Aun no es posible cancelar Notas de Credito en esta version del sistema')
+        if(!nota.cfdi) throw new RuntimeException('Nota sin CFDI generado no se puede cancelar')
+        if(!nota.cfdi.uuid) throw new RuntimeException('Nota con CFDI sin timbrar no se puede cancelar')
+        
         Cfdi cfdi = nota.cfdi
-        cfdiTimbradoService.cancelar(cfdi)
+        cfdi.status = 'CANCELACION_PENDIENTE'
+        cfdi.save flush: true
+
+        Cobro cobro = nota.cobro
+        if(cobro) {
+            cobro.comentario = 'CANCELADO'
+            cobro.delete flush: true
+        }
+        
         nota.comentario = 'CANCELADA'
+        nota.cancelacion = new Date()
+        nota.cancelacionMotivo = motivo
+        nota.cancelacionUsuario = getCurrentUserName()
         nota.save flush: true
     }
 

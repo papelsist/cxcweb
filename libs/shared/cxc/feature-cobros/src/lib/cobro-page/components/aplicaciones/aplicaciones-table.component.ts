@@ -7,13 +7,11 @@ import {
   OnChanges,
   ChangeDetectionStrategy,
   SimpleChanges,
-  ViewChild,
 } from '@angular/core';
 
 import { AplicacionDeCobro } from '@nx-papelsa/shared/utils/core-models';
 import { MatTableDataSource } from '@angular/material/table';
 import { sumByProperty, sumByFn } from '@nx-papelsa/shared/utils/collections';
-import sumBy from 'lodash/sumBy';
 
 @Component({
   selector: 'nx-papelsa-cobro-aplicaciones',

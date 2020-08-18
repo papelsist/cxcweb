@@ -31,6 +31,9 @@ $theme: mat-light-theme($primary, $accent, $warn);
   // background-color: mat-color($accent, default-contrast);
   // background-color: silver;
 }
+.accent-cell {
+  color: mat-color($accent);
+}
 
 .warn-grid-row {
   color: mat-color($warn);

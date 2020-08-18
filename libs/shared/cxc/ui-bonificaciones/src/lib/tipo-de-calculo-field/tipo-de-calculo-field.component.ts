@@ -28,7 +28,7 @@ import { FormGroup } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TipoDeCalculoFieldComponent implements OnInit {
-  @Input() tipos = ['PORCENTAJE', 'PRORRATEO'];
+  @Input() tipos = ['PORCENTAJE', 'PRORRATEO', 'MANUAL'];
   @Input() property = 'tipoDeCalculo';
   @Input() parent: FormGroup;
   @Input() apparence: 'legacy' | 'standard' | 'fill' | 'outline' = 'standard';

@@ -51,6 +51,9 @@ const bonificacionesReducer = createReducer(
   })),
 
   on(
+    BonificacionesActions.deleteBonificacion,
+    BonificacionesActions.cancelarBonificacion,
+    BonificacionesActions.timbrarBonificacion,
     BonificacionesActions.loadBonificaciones,
     BonificacionesActions.saveBonificacion,
     BonificacionesActions.updateBonificacion,
@@ -70,6 +73,9 @@ const bonificacionesReducer = createReducer(
       })
   ),
   on(
+    BonificacionesActions.deleteBonificacionFail,
+    BonificacionesActions.cancelarBonificacionFail,
+    BonificacionesActions.timbrarBonificacionFail,
     BonificacionesActions.loadBonificacionesFailure,
     BonificacionesActions.saveBonificacionFail,
     BonificacionesActions.updateBonificacionFail,
@@ -96,12 +102,20 @@ const bonificacionesReducer = createReducer(
   ),
   /// Update Bonificacion
   on(
+    BonificacionesActions.cancelarBonificacionSuccess,
+    BonificacionesActions.timbrarBonificacionSuccess,
     BonificacionesActions.updateBonificacionSuccess,
     (state, { bonificacion }) =>
       bonificacionesAdapter.upsertOne(bonificacion, {
         ...state,
         loading: false,
+        error: null,
       })
+  ),
+  on(
+    BonificacionesActions.deleteBonificacionSuccess,
+    (state, { bonificacion }) =>
+      bonificacionesAdapter.removeOne(bonificacion.id, { ...state })
   )
 );
 

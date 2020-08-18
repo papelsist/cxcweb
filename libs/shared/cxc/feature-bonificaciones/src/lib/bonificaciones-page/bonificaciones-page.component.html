@@ -1,7 +1,7 @@
 <mat-card *ngIf="cartera$ | async as cartera">
   <div class="push-left push-right" fxLayout="row" fxLayoutAlign="start center">
     <span fxLayout fxLayoutAlign="start center">
-      <span class="mat-title">Notas de crédito por bonificación </span>
+      <span class="mat-title">Bonificaciones </span>
       <span class="sub-title">(Cartera: {{ cartera.descripcion }})</span>
     </span>
     <span fxFlex></span>
@@ -35,14 +35,6 @@
         <mat-icon>refresh</mat-icon>
         <span>Refrescar</span>
       </button>
-      <!-- <button
-        mat-menu-item
-        [disabled]="getDisponiblesParaEnvio().length === 0"
-        (click)="enviarPorCorreo(getDisponiblesParaEnvio())"
-      >
-        <mat-icon>email</mat-icon>
-        <span>Envia por correo</span>
-      </button> -->
     </mat-menu>
   </div>
 
@@ -53,12 +45,4 @@
     (drillDown)="onDrillDown($event, cartera)"
   >
   </nx-papelsa-cxc-bonificaciones-grid>
-
-  <!-- <nx-papelsa-cxc-cargos-grid
-    class="cargos-grid"
-    [rows]="cargos$ | async"
-    (drillDown)="onDrilldown($event)"
-    (selectionChange)="onSelection($event)"
-    [searchTerm]="filter$ | async"
-  ></nx-papelsa-cxc-cargos-grid> -->
 </mat-card>

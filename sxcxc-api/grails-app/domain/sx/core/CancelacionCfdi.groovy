@@ -1,7 +1,12 @@
 package sx.core
 
 import sx.cfdi.Cfdi
-
+/**
+*
+*
+* @deprecated Eesta entidad ha sido sustituida por: sx.cfdi.CancelacionDeCfdi
+*/
+@Deprecated
 class CancelacionCfdi {
 
     String id

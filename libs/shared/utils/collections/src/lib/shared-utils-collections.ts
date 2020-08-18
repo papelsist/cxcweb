@@ -33,6 +33,16 @@ export const MonedaUtils = {
     return importe;
   },
   calcularImpuesto: (importe: number) => round(importe * IVA, 2),
+  aplicarDescuentos: (importe: number, descuentos: number[]) => {
+    let neto = importe;
+    descuentos.forEach((dd) => {
+      if (!dd && dd > 0.0) {
+        const descuento = (neto * dd) / 100;
+        neto = round(neto - descuento, 2);
+      }
+    });
+    return neto;
+  },
 };
 
 export function calcularImporteDelTotal(total: number) {
@@ -43,4 +53,15 @@ export function calcularImporteDelTotal(total: number) {
 
 export function calcularImpuesto(importe: number) {
   return round(importe * IVA, 2);
+}
+
+export function aplicarDescuentos(importe: number, descuentos: number[]) {
+  let neto = importe;
+  descuentos
+    .map((descto) => descto / 100)
+    .forEach((dd) => {
+      const descuento = round(neto * dd, 2);
+      neto = neto - descuento;
+    });
+  return neto;
 }

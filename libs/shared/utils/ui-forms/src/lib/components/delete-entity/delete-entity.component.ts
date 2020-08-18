@@ -34,8 +34,8 @@ export class DeleteEntityComponent implements OnInit {
   onDelete() {
     this.dialogService
       .openConfirm({
-        title: 'Eliminar registro',
-        message: `Seguro que desea eliminar el registro  ${this.suffix}?`,
+        title: this.title,
+        message: this.message,
         cancelButton: 'Cancelar',
         acceptButton: 'Aceptar',
       })
