@@ -34,7 +34,7 @@
       [parent]="form"
     ></nx-papelsa-forma-de-pago-sat>
     <ng-container *ngIf="bonificacion.cfdi as cfdi">
-      <mat-form-field>
+      <mat-form-field class="cfdi-folio">
         <mat-label>CFDI</mat-label>
         <input
           type="text"
@@ -42,14 +42,27 @@
           value="{{ cfdi.serie }}-{{ cfdi.folio }}"
           readonly
         />
-        <mat-hint>{{ cfdi.uuid.substr(-6) }}</mat-hint>
       </mat-form-field>
-      <!-- <mat-form-field>
+      <mat-form-field class="cfdi-uuid">
         <mat-label>UUID</mat-label>
-        <input type="text" matInput [value]="cfdi.uuid" readonly />
-      </mat-form-field> -->
+        <input type="text" matInput [value]="cfdi.uuid.substr(-8)" readonly />
+      </mat-form-field>
     </ng-container>
-    <span fxFlex *ngIf="!bonificacion.cfdi"></span>
+
+    <ng-container>
+      <div
+        fxFlex
+        fxLayout
+        fxLayoutAlign="end center"
+        fxLayoutGap="10px"
+        class="disponible"
+      >
+        <span>Aplicado:</span>
+        <span>{{ bonificacion?.cobro?.aplicado | currency }}</span>
+        <span>Disponible:</span>
+        <span>{{ bonificacion.disponible | currency }}</span>
+      </div>
+    </ng-container>
   </div>
 
   <div fxLayout fxLayoutGap="5px" fxLayoutAlign="start baseline">

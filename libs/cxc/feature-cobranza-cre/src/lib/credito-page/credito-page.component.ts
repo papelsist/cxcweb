@@ -21,17 +21,18 @@ export class CreditoPageComponent implements OnInit {
       description: 'Aplicaciones de cobros',
       icon: 'payments',
     },
-    {
-      path: 'devoluciones',
-      label: 'Devoluciones',
-      description: 'Notas de crédito por devolución',
-      icon: 'thumb_down_alt',
-    },
+
     {
       path: 'bonificaciones',
       label: 'Bonificaciones',
       description: 'Notas de crédito por descuento',
       icon: 'all_inbox',
+    },
+    {
+      path: 'devoluciones',
+      label: 'Devoluciones',
+      description: 'Notas de crédito por devolución',
+      icon: 'thumb_down_alt',
     },
     {
       path: 'cargos',
@@ -44,6 +45,12 @@ export class CreditoPageComponent implements OnInit {
       label: 'Bonificaciones MC',
       description: 'Mejores clientes',
       icon: 'redeem',
+    },
+    {
+      path: 'cfdis',
+      label: 'CFDIs',
+      description: 'Comprobantes fiscales',
+      icon: 'code',
     },
   ];
 

@@ -43,13 +43,13 @@ import { MatListModule } from '@angular/material/list';
                 (m) => m.FeatureBonificacionesModule
               ),
           },
-          // {
-          //   path: 'devoluciones',
-          //   loadChildren: () =>
-          //     import('@nx-papelsa/shared/cxc/feature-devoluciones').then(
-          //       (m) => m.FeatureDevolucionesModule
-          //     ),
-          // },
+          {
+            path: 'devoluciones',
+            loadChildren: () =>
+              import('@nx-papelsa/shared/cxc/feature-devoluciones').then(
+                (m) => m.FeatureDevolucionesModule
+              ),
+          },
           {
             path: 'cargos',
             loadChildren: () =>

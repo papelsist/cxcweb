@@ -13,6 +13,7 @@ import {
   timbrarBonificacion,
   cancelarBonificacion,
   deleteBonificacion,
+  aplicar,
 } from './bonificaciones.actions';
 
 import {
@@ -102,5 +103,9 @@ export class BonificacionesFacade {
 
   delete(bonificacion: Partial<NotaDeCredito>) {
     this.dispatch(deleteBonificacion({ bonificacion }));
+  }
+
+  aplicar(bonificacion: Partial<NotaDeCredito>) {
+    this.dispatch(aplicar({ bonificacion }));
   }
 }

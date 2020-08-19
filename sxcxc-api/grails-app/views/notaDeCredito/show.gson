@@ -14,12 +14,13 @@ json g.render(notaDeCredito, [deep: false, excludes:['moneda','partidas', 'cobro
     }
     moneda notaDeCredito.moneda.currencyCode
     partidas g.render(notaDeCredito.partidas, [deep:false, excludes:['nota']] )
-    // partidas g.render(notaDeCredito.partidas )
     cobro g.render(notaDeCredito.cobro)
     if(notaDeCredito.cobro) {
         disponible notaDeCredito.cobro.disponible
+        aplicado notaDeCredito.cobro.aplicado
     } else {
         disponible 0.0
+        aplicado 0.0
     }
     cfdi g.render(notaDeCredito.cfdi)
 }

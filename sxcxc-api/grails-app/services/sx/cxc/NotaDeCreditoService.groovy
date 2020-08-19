@@ -1,5 +1,7 @@
 package sx.cxc
 
+import groovy.util.logging.Slf4j
+
 import grails.gorm.transactions.Transactional
 import org.apache.commons.lang3.exception.ExceptionUtils
 
@@ -17,6 +19,7 @@ import sx.cfdi.CfdiTimbradoService
 import sx.utils.MonedaUtils
 
 @Transactional
+@Slf4j
 class NotaDeCreditoService implements LogUser{
 
     NotaBuilder notaBuilder
@@ -141,7 +144,8 @@ class NotaDeCreditoService implements LogUser{
             } else {
                 this.aplicarCobroDeDevolucion(nota)
             }
-            cobro.save()
+            cobro.save flush: true
+            cobro.refresh()
             return nota
         }
     }
@@ -160,7 +164,7 @@ class NotaDeCreditoService implements LogUser{
                 def aplicacion = new AplicacionDeCobro()
                 aplicacion.cuentaPorCobrar = cxc
                 aplicacion.fecha = new Date()
-                aplicacion.importe = det.importe
+                aplicacion.importe = det.total
                 cobro.addToAplicaciones(aplicacion)
                 if(!cobro.primeraAplicacion) {
                     cobro.primeraAplicacion = aplicacion.fecha
@@ -220,6 +224,7 @@ class NotaDeCreditoService implements LogUser{
         // throw new UnsupportedOperationException('Aun no es posible cancelar Notas de Credito en esta version del sistema')
         if(!nota.cfdi) throw new RuntimeException('Nota sin CFDI generado no se puede cancelar')
         if(!nota.cfdi.uuid) throw new RuntimeException('Nota con CFDI sin timbrar no se puede cancelar')
+        if(nota.cobro.aplicado > 0.0) throw new RuntimeException('Nota con aplicaciones no se puede cancelar. Primero debe cancelar las aplicaciones registradas')
         
         Cfdi cfdi = nota.cfdi
         cfdi.status = 'CANCELACION_PENDIENTE'

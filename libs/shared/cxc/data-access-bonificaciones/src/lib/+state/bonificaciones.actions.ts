@@ -101,3 +101,16 @@ export const deleteBonificacionSuccess = createAction(
   '[Bonificaciones effects] Delete bonificacion success',
   props<{ bonificacion: Partial<BonificacionesEntity> }>()
 );
+
+export const aplicar = createAction(
+  '[Bonificacion Component] Aplicar bonificacion',
+  props<{ bonificacion: Partial<BonificacionesEntity> }>()
+);
+export const aplicarFail = createAction(
+  '[Bonificaciones effects] Aplicar bonificacion fail',
+  props<{ error: any }>()
+);
+export const aplicarSuccess = createAction(
+  '[Bonificaciones effects] Aplicar bonificacion success',
+  props<{ bonificacion: BonificacionesEntity }>()
+);

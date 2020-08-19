@@ -55,7 +55,6 @@ export class BonificacionFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    console.log('Editando: ', this.bonificacion);
     this.buildForm(this.bonificacion);
     if (this.bonificacion.cfdi || this.bonificacion.cancelacion) {
       this.form.disable();
@@ -209,10 +208,11 @@ export class BonificacionFormComponent implements OnInit, OnDestroy {
   @Input()
   set bonificacion(value: Partial<NotaDeCredito>) {
     this._bonificacion = value;
+    console.log('Bonificaion: ', this._bonificacion);
     if (this.form) {
       this.form.markAsPristine();
       if (this.bonificacion.cfdi || this.bonificacion.cancelacion) {
-        this.form.disable();
+        this.form.disable({ emitEvent: false });
       }
     }
   }
@@ -223,5 +223,8 @@ export class BonificacionFormComponent implements OnInit, OnDestroy {
 
   get manual() {
     return this.tipoDeCalculo === 'MANUAL';
+  }
+  get total() {
+    return this.form.get('total').value;
   }
 }

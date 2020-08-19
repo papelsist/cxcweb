@@ -7,7 +7,10 @@ import {
 } from '@nx-papelsa/shared/cxc/data-access-bonificaciones';
 import { NotaDeCredito } from '@nx-papelsa/shared/utils/core-models';
 import { Update } from '@ngrx/entity';
-import { BaseComponent } from '@nx-papelsa/shared/utils/ui-common';
+import {
+  BaseComponent,
+  FormatService,
+} from '@nx-papelsa/shared/utils/ui-common';
 import { TdDialogService } from '@covalent/core/dialogs';
 
 @Component({
@@ -21,7 +24,8 @@ export class BonificacionPageComponent extends BaseComponent implements OnInit {
 
   constructor(
     private facade: BonificacionesFacade,
-    private dialogService: TdDialogService
+    private dialogService: TdDialogService,
+    private formatService: FormatService
   ) {
     super();
     this.bonificacion$ = facade.selectedBonificacion$;
@@ -49,6 +53,19 @@ export class BonificacionPageComponent extends BaseComponent implements OnInit {
 
   onDelete(bonificacion: Partial<NotaDeCredito>) {
     this.facade.delete(bonificacion);
+  }
+
+  onAplicar(bonificacion: Partial<NotaDeCredito>) {
+    if (bonificacion.disponible > 0.0) {
+      this.confirm(
+        'Aplicación automática',
+        `Aplicar ${this.formatService.formatCurrency(
+          bonificacion.disponible
+        )} a las facturas registradas en los conceptos? `
+      ).subscribe((res) => {
+        if (res) this.facade.aplicar(bonificacion);
+      });
+    }
   }
 
   confirm(title: string, message: string): Observable<any> {

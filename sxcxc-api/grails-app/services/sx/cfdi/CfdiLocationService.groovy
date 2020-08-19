@@ -1,9 +1,13 @@
 package sx.cfdi
 
-import sx.utils.ZipUtils
+
 import grails.util.Environment
+import grails.gorm.transactions.Transactional
+
 import org.apache.commons.io.FileUtils
+
 import sx.core.AppConfig
+import sx.utils.ZipUtils
 
 class CfdiLocationService {
 
@@ -11,7 +15,8 @@ class CfdiLocationService {
 
     private AppConfig config
 
-    Byte[] getXml(Cfdi cfdi, Boolean downloadIfNotFound = true){
+    @Transactional
+    byte[] getXml(Cfdi cfdi, Boolean downloadIfNotFound = true){
         String fileName = cfdi.url.getPath().substring(cfdi.url.getPath().lastIndexOf('/')+1)
         File file = new File(getCfdiLocation(cfdi), fileName)
 

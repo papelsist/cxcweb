@@ -31,10 +31,7 @@ export const initialState: State = bonificacionesAdapter.getInitialState({
   // set initial required properties
   loaded: false,
   loading: false,
-  periodo: Periodo.fromStorage(
-    BONIFICACIONES_STORAGE_PERIODO_KEY,
-    Periodo.fromNow(10)
-  ),
+  periodo: Periodo.fromNow(30),
 });
 
 const bonificacionesReducer = createReducer(
@@ -51,6 +48,7 @@ const bonificacionesReducer = createReducer(
   })),
 
   on(
+    BonificacionesActions.aplicar,
     BonificacionesActions.deleteBonificacion,
     BonificacionesActions.cancelarBonificacion,
     BonificacionesActions.timbrarBonificacion,
@@ -73,6 +71,7 @@ const bonificacionesReducer = createReducer(
       })
   ),
   on(
+    BonificacionesActions.aplicarFail,
     BonificacionesActions.deleteBonificacionFail,
     BonificacionesActions.cancelarBonificacionFail,
     BonificacionesActions.timbrarBonificacionFail,
@@ -102,6 +101,7 @@ const bonificacionesReducer = createReducer(
   ),
   /// Update Bonificacion
   on(
+    BonificacionesActions.aplicarSuccess,
     BonificacionesActions.cancelarBonificacionSuccess,
     BonificacionesActions.timbrarBonificacionSuccess,
     BonificacionesActions.updateBonificacionSuccess,

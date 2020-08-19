@@ -21,10 +21,20 @@
           [cfdi]="bonificacion.cfdi"
           (cancelar)="onCancelar(bonificacion, $event)"
         ></nx-papelsa-cfdi-cancelar>
+        <button
+          mat-button
+          *ngIf="bonificacion.disponible > 0"
+          matTooltip="Aplicación automática a las facturas de los conceptos"
+          (click)="onAplicar(bonificacion)"
+        >
+          <mat-icon>grading</mat-icon>
+          <span>Aplicar</span>
+        </button>
       </ng-container>
 
       <ng-container *ngIf="!bonificacion.cfdi">
         <nx-papelsa-cfdi-timbrar
+          *ngIf="bonificacion.total > 0.0"
           color="accent"
           (timbrar)="onTimbrar(bonificacion)"
           [disabled]="form.isDirty()"

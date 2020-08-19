@@ -38,9 +38,7 @@ class OriginalUrlMappings {
         "/api/cfdis/descargarXml/$id?"(controller:"cfdi", action:"descargarXml", method: 'GET')
         "/api/cfdis/print/$id"(controller: "cfdi", action: 'print', method: 'GET')
         "/api/cfdis/enviarComprobantes"(controller:"cfdi", action:"enviarComprobantes", method: 'PUT')
-        "/api/cfdis/enviarEmail/$id?"(controller:"cfdi", action:"enviarEmail")
-        "/api/cfdis/envioBatch"(controller: "cfdi", action: 'envioBatch', method: 'PUT')
-        "/api/cfdis/envioBatchNormal"(controller: "cfdi", action: 'envioBatchNormal', method: 'PUT')
+        
 
         // Ventas
         "/api/ventas"(resources:"venta")
@@ -97,7 +95,7 @@ class OriginalUrlMappings {
         "/api/cxc/notas/generarConRmd/$id"(controller: 'notaDeCredito', action: 'generarConRmd', method: 'POST')
         "/api/cxc/notas/timbrar/$id"(controller: 'notaDeCredito', action: 'timbrar', method: 'PUT')
         "/api/cxc/notas/cancelar/$id"(controller: 'notaDeCredito', action: 'cancelar', method: 'PUT')
-        "/api/cxc/notas/aplicar/$id"(controller: 'notaDeCredito', action: 'aplicar', method: 'POST')
+        "/api/cxc/notas/aplicar/$id"(controller: 'notaDeCredito', action: 'aplicar', method: 'PUT')
         "/api/cxc/notas/print/$id"(controller: 'notaDeCredito', action: 'print', method: 'GET')
         "/api/cxc/notas/reporteDeNotasDeCredito"(controller: 'notaDeCredito', action: 'reporteDeNotasDeCredito', method: 'GET')
 

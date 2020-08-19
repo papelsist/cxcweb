@@ -9,7 +9,10 @@ import { map, tap } from 'rxjs/operators';
 import * as fromAuth from '../+state/auth.reducer';
 import * as AuthActions from './auth.actions';
 import { AuthService } from '../services/auth.service';
-import { saveSessionInStore } from '../+state/auth.entities';
+import {
+  saveSessionInStore,
+  removeSessionFromStore,
+} from '../+state/auth.entities';
 
 @Injectable()
 export class AuthEffects {
@@ -46,6 +49,18 @@ export class AuthEffects {
         map(() => AuthActions.fetchUserInfo())
       ),
     { dispatch: true }
+  );
+
+  logout$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.logout),
+        tap(() => removeSessionFromStore()),
+        tap(() => {
+          this.router.navigate(['/login']);
+        })
+      ),
+    { dispatch: false }
   );
 
   fetchUser$ = createEffect(() =>

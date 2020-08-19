@@ -2,6 +2,7 @@ import { Cliente } from '../core/cliente';
 import { Cfdi } from '../core';
 import { CuentaPorCobrar } from './cuenta-por-cobrar';
 import { CuentaPorCobrarDTO } from '../dtos';
+import { Cobro } from './cobro';
 
 export interface NotaDeCredito {
   id: string;
@@ -30,7 +31,8 @@ export interface NotaDeCredito {
   descuento: number;
   descuento2: number;
   financiero: boolean;
-  cobro?: { id: string };
+  cobro?: Partial<Cobro>;
+  disponible?: number;
   rmd?: number;
   rmdSucursal?: string;
   sinReferencia?: boolean;

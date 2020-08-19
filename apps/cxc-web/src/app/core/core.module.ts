@@ -9,6 +9,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -27,6 +29,7 @@ import { AuthModule } from '@nx-papelsa/auth';
     MatButtonModule,
     MatIconModule,
     MatListModule,
+    MatMenuModule,
     FlexLayoutModule,
     SxcoreModule,
     DataAccesModule,

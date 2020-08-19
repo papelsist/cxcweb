@@ -277,8 +277,14 @@ class NotaDeCreditoController extends RestfulController<NotaDeCredito>{
     }
 
     def aplicar(NotaDeCredito nota){
+        if(nota == null) {
+            notFound()
+            return
+        }
+        log.info('Aplicando nota: {}', nota.folio)
         nota = notaDeCreditoService.aplicar(nota)
-        respond nota
+        nota.refresh()
+        respond(nota, view: 'show')
     }
 
     def reporteDeNotasDeCredito() {

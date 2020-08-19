@@ -49,10 +49,10 @@ class AplicacionDeCobroListenerService {
     void afterInsert(PostInsertEvent event) {
         AplicacionDeCobro aplicacion = getAplicacion(event)
         if ( aplicacion ) {
-            log.info('Inserted aplicacion cxc: {} ', aplicacion.cuentaPorCobrar.id)
+            log.info('Inserted aplicacion cxc: {} ', aplicacion.id)
             CuentaPorCobrar.withNewSession {
                 CuentaPorCobrar cxc = CuentaPorCobrar.get(aplicacion.cuentaPorCobrar.id)
-                log.info('Saldo: {}', cxc.saldoReal)
+                log.info('CXC: {} Saldo: {}', cxc.id, cxc.saldoReal)
             }
         }
     }
@@ -61,10 +61,10 @@ class AplicacionDeCobroListenerService {
     void afterDelete(PostDeleteEvent event) {   
         AplicacionDeCobro aplicacion = getAplicacion(event)
         if ( aplicacion ) {
-            log.info('Delete aplicacion cxc: {} ', aplicacion.cuentaPorCobrar.id)
+            log.info('Delete aplicacion cxc: {} ', aplicacion.id)
             CuentaPorCobrar.withNewSession {
                 CuentaPorCobrar cxc = CuentaPorCobrar.get(aplicacion.cuentaPorCobrar.id)
-                log.info('Saldo: {}', cxc.saldoReal)
+                log.info('CXC: {} Saldo: {}', cxc.id, cxc.saldoReal)
             }
             
         }

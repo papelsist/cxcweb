@@ -43,6 +43,12 @@ const authReducer = createReducer(
     ...state,
     appInfo: { ...sessionInfo.appInfo },
     user: { ...sessionInfo.user },
+  })),
+  on(AuthActions.logout, (state) => ({
+    ...state,
+    error: null,
+    user: null,
+    session: null,
   }))
 );
 

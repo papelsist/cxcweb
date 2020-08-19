@@ -6,6 +6,7 @@ import groovy.util.logging.Slf4j
 
 import grails.web.context.ServletContextHolder
 import grails.compiler.GrailsCompileStatic
+import grails.gorm.transactions.Transactional
 
 
 import com.luxsoft.cfdix.v33.V33PdfGeneratorPos
@@ -29,17 +30,23 @@ class CfdiPrintService {
 
     ReportService reportService
 
+    @Transactional
     byte[] getPdf(Cfdi cfdi){
         log.debug('Genenrando PDF para CFDI: {}-{} Origen: {}', cfdi.serie, cfdi.folio, cfdi.origen)
         String fileName = cfdi.url.getPath().substring(cfdi.url.getPath().lastIndexOf('/')+1)
         fileName = fileName.replaceAll('.xml', '.pdf')
         File file = new File(cfdiLocationService.getCfdiLocation(cfdi), fileName)
+        validarExistenciaXml(cfdi)
         if(!file.exists()){
-            log.info('No hay impresion generada, generando archivo PDF');
+            log.info('No hay impresion generada, generando archivo PDF: {}', fileName);
             ByteArrayOutputStream out = generarPdf(cfdi)
             file.setBytes(out.toByteArray())
         } 
         return file.getBytes()
+    }
+
+    private validarExistenciaXml(Cfdi cfdi) {
+        cfdiLocationService.getXml(cfdi)
     }
 
     /**
@@ -49,10 +56,10 @@ class CfdiPrintService {
     *
     **/
     public ByteArrayOutputStream generarPdf( Cfdi cfdi) {
+
         switch(cfdi.origen) {
             case 'VENTA':
                 return generarFactrura(cfdi)
-            break
             case 'NOTA_CREDITO':
                 return generarNotaDeCredito(cfdi)
             case 'NOTA_CARGO':

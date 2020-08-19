@@ -17,6 +17,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { COMPONENTS } from './components';
 
@@ -37,6 +38,7 @@ const MATERIAL = [
   MatBadgeModule,
   MatListModule,
   MatTooltipModule,
+  MatSnackBarModule,
 ];
 
 @NgModule({

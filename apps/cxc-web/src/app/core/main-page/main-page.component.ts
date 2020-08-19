@@ -24,7 +24,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.auth.displayName$.subscribe((dn) => console.log('User: ', dn));
     this.auth.fetchUserInfo();
   }
 

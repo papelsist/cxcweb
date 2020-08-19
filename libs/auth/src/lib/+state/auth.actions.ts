@@ -28,3 +28,5 @@ export const fetchUserInfoSuccess = createAction(
   '[Auth effects] Fetch user info success',
   props<{ sessionInfo: SessionInfo }>()
 );
+
+export const logout = createAction('[Auth Facade] Logout');

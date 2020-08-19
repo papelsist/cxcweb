@@ -1,11 +1,15 @@
 package sx.cloud
 
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
+
 import groovy.util.logging.Slf4j
 import groovy.json.JsonSlurper
 
 import org.springframework.beans.factory.annotation.Value
 
 import grails.compiler.GrailsCompileStatic
+import grails.gorm.transactions.Transactional
 import grails.util.Environment
 
 import com.mailjet.client.errors.MailjetException
@@ -43,14 +47,20 @@ class MailJetService {
 
   private MailjetClient client 
 
-
-
+  @Transactional
   def enviarComprobantes(EnvioDeComprobantes command) {
     if(!command.source) command.source = mailJetDefaultSender 
     String message = buildDefaultMessage(command)
     log.debug('Enviando {} comprobantes a: {} email:{}', command.cfdis.size(), command.nombre, command.target)
     
-    JSONArray attachments = buildAttachments(command)
+    JSONArray attachments
+    
+    if(command.zip) {
+      attachments = buildZipAttachment(command)
+    } else {
+      attachments = buildAttachments(command)
+    }
+    
     
     MailjetRequest request = new MailjetRequest(Emailv31.resource)
       .property(Emailv31.MESSAGES, new JSONArray()
@@ -240,7 +250,48 @@ class MailJetService {
   Boolean isSandboxMode() {
       return Environment.isDevelopmentMode()
   }
+
+  JSONArray buildZipAttachment(EnvioDeComprobantes command) {
+    def zipData = zip(command.cfdis)
+    def xmlEncoded = zipData.encodeBase64()
+    
+    JSONArray attachments = new JSONArray()
+    .put(new JSONObject()
+      .put("ContentType", "application/x-compressed")
+      .put("Filename", "comprobantes.zip")
+      .put("Base64Content", pdfEncoded)
+    )
+    return attachments
+  }
   
+  Byte[] zip(List<String> cfdis){
+    byte[] buffer = new byte[1024];
+    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()
+    ZipOutputStream zos = new ZipOutputStream(byteArrayOutputStream)
+    cfdis.each { it ->
+
+      Cfdi cfdi = Cfdi.get(it)
+      String name = cfdi.fileName
+
+      // XML
+      ZipEntry ze = new ZipEntry(name);
+      zos.putNextEntry(ze);
+      Byte[] xml = cfdiLocationService.getXml(cfdi)
+      zos.write(xml)
+      zos.closeEntry();
+      
+      // PDF
+      ZipEntry pdfEntry = new ZipEntry(name.replaceAll('xml', 'pdf'))
+      def pdf = cfdiPrintService.getPdf(cfdi)
+      zos.putNextEntry(pdfEntry);
+      zos.write(pdf.bytes)
+      zos.closeEntry();
+
+    }
+
+    zos.close();
+    return byteArrayOutputStream.toByteArray()  
+  }
 
 }
 

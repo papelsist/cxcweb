@@ -32,4 +32,8 @@ export class AuthFacade {
   fetchUserInfo() {
     this.dispatch(AuthActions.fetchUserInfo());
   }
+
+  logout() {
+    this.dispatch(AuthActions.logout());
+  }
 }

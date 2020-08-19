@@ -38,3 +38,7 @@ export function readSessionFromStore(): AuthSession | null {
 export function saveSessionInStore(session: AuthSession) {
   localStorage.setItem(SESSION_KEY, JSON.stringify(session));
 }
+
+export function removeSessionFromStore() {
+  localStorage.removeItem(SESSION_KEY);
+}
