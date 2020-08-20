@@ -14,12 +14,7 @@ export const MainNavigation: NavigationRoute[] = [
   {
     path: '/contado',
     label: 'Contado',
-    description: '/Cartéra de contado',
-  },
-  {
-    path: '/cod',
-    label: 'COD',
-    description: '/Cartéra de COD',
+    description: 'Cartéra de contado',
   },
   {
     path: '/cheque',

@@ -10,8 +10,9 @@ import grails.gorm.transactions.Transactional
 
 
 import com.luxsoft.cfdix.v33.V33PdfGeneratorPos
+import com.luxsoft.cfdix.v33.NotaPdfGenerator
 import com.luxsoft.cfdix.v33.ReciboDePagoPdfGenerator
-import com.luxsoft.cfdix.v33.ReciboDePagoPdfGenerator
+import com.luxsoft.cfdix.v33.NotaDeCargoPdfGenerator
 
 import sx.cxc.Cobro
 import sx.cxc.NotaDeCargo
@@ -29,6 +30,8 @@ class CfdiPrintService {
     CfdiLocationService cfdiLocationService
 
     ReportService reportService
+
+    NotaDeCargoPdfGenerator notaDeCargoPdfGenerator
 
     @Transactional
     byte[] getPdf(Cfdi cfdi){
@@ -92,7 +95,7 @@ class CfdiPrintService {
     * 
     **/
     public ByteArrayOutputStream generarNotaDeCredito( Cfdi cfdi) {
-        String realPath = servletContext.getRealPath("/reports") ?: 'reports'
+        String realPath = ServletContextHolder.getServletContext().getRealPath("/reports") ?: 'reports'
         NotaDeCredito nota = NotaDeCredito.where{cfdi == cfdi}.find()
         Map data = NotaPdfGenerator.getReportData(nota)
         Map parametros = data['PARAMETROS']
@@ -105,7 +108,7 @@ class CfdiPrintService {
     * 
     **/
     public ByteArrayOutputStream generarNotaDeCargo( Cfdi cfdi) {
-        def realPath = servletContext.getRealPath("/reports") ?: 'reports'
+        def realPath = ServletContextHolder.getServletContext().getRealPath("/reports") ?: 'reports'
         NotaDeCargo cargo = NotaDeCargo.where{cfdi == cfdi}.find()
         def data = notaDeCargoPdfGenerator.getReportData(cargo)
         Map parametros = data['PARAMETROS']

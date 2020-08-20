@@ -118,6 +118,9 @@
     },
     "auth": {
       "tags": []
+    },
+    "shared-cxc-data-access-devoluciones": {
+      "tags": ["scope:scs", "type:data-access"]
     }
   }
 }

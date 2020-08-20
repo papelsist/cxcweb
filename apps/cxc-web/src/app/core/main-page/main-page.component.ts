@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 
 import { AuthFacade } from '@nx-papelsa/auth';
+import { MainNavigation } from './navigation';
 
 @Component({
   selector: 'nx-papelsa-main-page',
@@ -11,7 +12,7 @@ import { AuthFacade } from '@nx-papelsa/auth';
 export class MainPageComponent implements OnInit, OnDestroy {
   mobileQuery: MediaQueryList;
   private _mobileQueryListener;
-  fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
+  mainNavigation = MainNavigation;
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,

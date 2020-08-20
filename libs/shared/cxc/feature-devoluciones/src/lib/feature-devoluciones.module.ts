@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
+import { DataAccessDevolucionesModule } from '@nx-papelsa/shared/cxc/data-access-devoluciones';
+
 @NgModule({
   imports: [
     CommonModule,
-
+    DataAccessDevolucionesModule,
     RouterModule.forChild([
       {
         path: '',

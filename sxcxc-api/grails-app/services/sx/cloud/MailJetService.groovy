@@ -6,6 +6,7 @@ import java.util.zip.ZipOutputStream
 import groovy.util.logging.Slf4j
 import groovy.json.JsonSlurper
 
+
 import org.springframework.beans.factory.annotation.Value
 
 import grails.compiler.GrailsCompileStatic
@@ -72,7 +73,7 @@ class MailJetService {
                         .put(new JSONObject()
                             .put("Email", command.target)
                             .put("Name", command.nombre)))
-                    .put(Emailv31.Message.SUBJECT, "Comprobantes electrónicos")
+                    .put(Emailv31.Message.SUBJECT, "Comprobantes fiscales")
                     .put(Emailv31.Message.TEXTPART, message)
                     // .put(Emailv31.Message.HTMLPART, "<h3>Dear passenger 1, welcome to <a href=\"https://www.mailjet.com/\">Mailjet</a>!</h3><br />May the delivery force be with you!")
                     .put(Emailv31.Message.ATTACHMENTS, attachments)));
@@ -235,7 +236,7 @@ class MailJetService {
 
   String buildDefaultMessage(EnvioDeComprobantes command) {
     """Apreciable cliente por este medio le hacemos llegar ${command.cfdis.size()} comprobantes fiscales. 
-      Este correo se envía de manera autmática favor de no responder a la dirección del mismo. 
+      Este correo se envia de manera autmatica favor de no responder a la direccion del mismo. 
       Cualquier duda o aclaración la puede dirigir a: servicioaclientes@papelsa.com.mx 
             """
   }
@@ -249,17 +250,18 @@ class MailJetService {
   
   Boolean isSandboxMode() {
       return Environment.isDevelopmentMode()
+      
   }
 
   JSONArray buildZipAttachment(EnvioDeComprobantes command) {
     def zipData = zip(command.cfdis)
-    def xmlEncoded = zipData.encodeBase64()
+    def encodedData = zipData.encodeBase64()
     
     JSONArray attachments = new JSONArray()
     .put(new JSONObject()
       .put("ContentType", "application/x-compressed")
       .put("Filename", "comprobantes.zip")
-      .put("Base64Content", pdfEncoded)
+      .put("Base64Content", encodedData)
     )
     return attachments
   }
@@ -276,15 +278,15 @@ class MailJetService {
       // XML
       ZipEntry ze = new ZipEntry(name);
       zos.putNextEntry(ze);
-      Byte[] xml = cfdiLocationService.getXml(cfdi)
+      byte[] xml = cfdiLocationService.getXml(cfdi)
       zos.write(xml)
       zos.closeEntry();
       
       // PDF
       ZipEntry pdfEntry = new ZipEntry(name.replaceAll('xml', 'pdf'))
-      def pdf = cfdiPrintService.getPdf(cfdi)
       zos.putNextEntry(pdfEntry);
-      zos.write(pdf.bytes)
+      byte[] pdf = cfdiPrintService.getPdf(cfdi)
+      zos.write(pdf)
       zos.closeEntry();
 
     }

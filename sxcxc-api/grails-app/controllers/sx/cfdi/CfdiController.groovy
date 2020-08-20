@@ -105,7 +105,7 @@ public class EnvioDeComprobantes {
     String source;
     String nombre;
     List<String> cfdis
-    Boolean zip = true
+    Boolean zip = false
 
     static constraints = {
         source email: true, nullable: true

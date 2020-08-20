@@ -13,7 +13,11 @@
       fxLayoutGap="10px"
       fxLayoutGap.lt-md="2px"
     >
-      <a href="/credito" mat-button>
+      <a
+        mat-button
+        [routerLink]="'/credito'"
+        routerLinkActive="router-link-active"
+      >
         <mat-icon>dynamic_feed</mat-icon>
         <span>Crédito</span>
       </a>

@@ -1,3 +1,4 @@
+@import 'theme.scss';
 @import '../../../node_modules/ag-grid-community/src/styles/ag-grid.scss';
 @import '../../../node_modules/ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin.scss';
 
@@ -49,4 +50,9 @@ body {
 }
 .pull-left {
   margin-left: auto;
+}
+
+.router-link-active {
+  // background-color: mat-color($accent, default-contrast);
+  color: mat-color($accent);
 }

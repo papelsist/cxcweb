@@ -7,6 +7,7 @@ import { UiMaterialModule } from '@nx-papelsa/shared/utils/ui-material';
 import { UiCovalentModule } from '@nx-papelsa/shared/utils/ui-covalent';
 
 import { COMPONENTS } from './components';
+import { ReportService } from './report.service';
 
 @NgModule({
   imports: [
@@ -17,5 +18,6 @@ import { COMPONENTS } from './components';
   ],
   declarations: [...COMPONENTS],
   exports: [...COMPONENTS],
+  providers: [ReportService],
 })
 export class UiFormsModule {}

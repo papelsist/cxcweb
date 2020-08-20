@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
-import { NavigationRoute } from '@nx-papelsa/shared/utils/core-models';
+import {
+  NavigationRoute,
+  Periodo,
+  Cartera,
+} from '@nx-papelsa/shared/utils/core-models';
+import { ReportService } from '@nx-papelsa/shared/utils/ui-forms';
+import { CXCFacade } from '@nx-papelsa/shared/cxc/data-acces';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'nx-papelsa-credito-page',
@@ -54,9 +61,47 @@ export class CreditoPageComponent implements OnInit {
     },
   ];
 
-  constructor() {
+  cartera$: Observable<Cartera>;
+
+  constructor(private facade: CXCFacade, private reportService: ReportService) {
     console.log('Credito main page loaded...');
+    this.cartera$ = facade.cartera$;
   }
 
   ngOnInit(): void {}
+
+  reporteDeNotas(cartera: Cartera) {
+    const url = 'cxc/notas/reporteDeNotasDeCredito';
+    const params = { ORIGEN: cartera.clave };
+    const key = `sx.papelsa.notas.periodo.${cartera.clave.toLowerCase()}`;
+    const periodo = Periodo.fromStorage(key, Periodo.mesActual());
+    this.reportService.runReportePorPeriodo(
+      url,
+      periodo,
+      params,
+      `Notas de Crédito (${cartera.descripcion})`,
+      null,
+      (per: Periodo) => {
+        Periodo.saveOnStorage(key, per);
+      }
+    );
+  }
+
+  reporteDeCobranza(cartera: Cartera) {
+    const url = 'cxc/cobro/reporteDeCobranza';
+    const params = { cartera: cartera.clave };
+    const key = `sx.papelsa.cobranza.fecha.${cartera.clave.toLowerCase()}`;
+    const pfecha = Periodo.fromStorage(key, Periodo.fromNow(1));
+    this.reportService.runReportePorFecha(
+      url,
+      pfecha.fechaFinal,
+      params,
+      `Cobranza (${cartera.descripcion})`,
+      null,
+      (fecha: Date) => {
+        const resPer = new Periodo(fecha, fecha);
+        Periodo.saveOnStorage(key, resPer);
+      }
+    );
+  }
 }

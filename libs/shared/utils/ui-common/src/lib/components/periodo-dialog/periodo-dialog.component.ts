@@ -9,6 +9,8 @@ import { Periodo } from '@nx-papelsa/shared/utils/core-models';
   selector: 'nx-papelsa-periodo-dialog',
   template: `
     <h2 mat-dialog-title>{{ title }}</h2>
+    <p>{{ subtitle }}</p>
+
     <mat-dialog-content>
       <form
         [formGroup]="form"
@@ -56,13 +58,15 @@ export class PeriodoDialogComponent implements OnInit {
   periodo: Periodo;
   form: FormGroup;
   title: string;
+  subtitle: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<PeriodoDialogComponent>,
     private fb: FormBuilder
   ) {
-    this.title = data.title || 'Seleccione un periodo';
+    this.title = data.title || 'Reporte por periodo';
+    this.subtitle = data.subtitle || 'Seleccione el periodo ';
     this.periodo = data.periodo || new Periodo();
     this.buildForm();
     this.form.setValue(this.periodo);
