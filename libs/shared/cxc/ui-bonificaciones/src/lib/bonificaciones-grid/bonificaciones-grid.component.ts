@@ -107,15 +107,24 @@ export class BonificacionesGridComponent implements OnInit {
     if (params.node.rowPinned) {
       return { 'font-weight': 'bold' };
     }
-    if (params.data.status === 'CERRADO') {
-      return { 'font-weight': 'bold', 'font-style': 'italic', color: 'green' };
-    }
-    if (!params.data.cfdi) {
-      return {
-        'font-weight': 'bold',
-        'font-style': 'italic',
-        color: 'rgb(190, 119, 26)',
-      };
+
+    if (params.data.cancelacion) {
+      return { 'font-weight': 'bold', 'font-style': 'italic', color: 'red' };
+    } else {
+      if (params.data.status === 'CERRADO') {
+        return {
+          'font-weight': 'bold',
+          'font-style': 'italic',
+          color: 'green',
+        };
+      }
+      if (!params.data.cfdi) {
+        return {
+          'font-weight': 'bold',
+          'font-style': 'italic',
+          color: 'rgb(190, 119, 26)',
+        };
+      }
     }
   }
 
@@ -202,6 +211,12 @@ export class BonificacionesGridComponent implements OnInit {
       {
         headerName: 'Actualizó',
         field: 'updateUser',
+      },
+      {
+        headerName: 'Cancelada',
+        field: 'cancelacion',
+        valueFormatter: (params) =>
+          this.formatDate(params.value, 'dd/MM/yyyy HH:mm'),
       },
     ];
   }
