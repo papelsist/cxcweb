@@ -56,7 +56,11 @@ export class BonificacionFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.buildForm(this.bonificacion);
-    if (this.bonificacion.cfdi || this.bonificacion.cancelacion) {
+    if (
+      this.bonificacion.cfdi ||
+      this.bonificacion.cancelacion ||
+      this.bonificacion.autorizo
+    ) {
       this.form.disable();
     }
     this.addListeners();
@@ -94,6 +98,7 @@ export class BonificacionFormComponent implements OnInit, OnDestroy {
         importe: [bonificacion.importe, Validators.required],
         impuesto: [bonificacion.impuesto, Validators.required],
         total: [bonificacion.total, Validators.required],
+        autorizo: [bonificacion.autorizo],
       },
       { updateOn: 'blur', validators: this.validar.bind(this) }
     );

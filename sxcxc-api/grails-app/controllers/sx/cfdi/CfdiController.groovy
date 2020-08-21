@@ -25,7 +25,7 @@ import sx.cloud.MailJetService
 @Secured("hasAnyRole('ROLE_ADMIN', 'ROLE_CXC', 'ROLE_CXC_ADMIN')")
 @Slf4j
 class CfdiController extends RestfulController {
-    
+
     CfdiLocationService cfdiLocationService
 
     CfdiPrintService cfdiPrintService
@@ -46,7 +46,7 @@ class CfdiController extends RestfulController {
         def xml = cfdiLocationService.getXml(cfdi)
         render (file: xml, contentType: 'text/xml', filename: cfdi.fileName, encoding: "UTF-8")
     }
-    
+
     def print( Cfdi cfdi) {
         if(cfdi == null ){
             notFound()

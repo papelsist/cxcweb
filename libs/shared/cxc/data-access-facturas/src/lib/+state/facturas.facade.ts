@@ -16,16 +16,18 @@ import {
   setFacturasPeriodo,
   setFacturasSearchTerm,
   loadFacturas,
+  togglePendientes,
 } from './facturas.actions';
 
 @Injectable()
 export class FacturasFacade {
   loaded$ = this.store.pipe(select(FacturasSelectors.getFacturasLoaded));
-  loading$ = this.store.pipe(select(FacturasSelectors.getFacturasLoaded));
+  loading$ = this.store.pipe(select(FacturasSelectors.getFacturasLoading));
   allFacturas$ = this.store.pipe(select(FacturasSelectors.getAllFacturas));
   selectedFactura$ = this.store.pipe(select(FacturasSelectors.getSelected));
   search$ = this.store.pipe(select(FacturasSelectors.getFacturasSearchTerm));
   periodo$ = this.store.pipe(select(FacturasSelectors.getFacturasPeriodo));
+  pendientes$ = this.store.pipe(select(FacturasSelectors.getPendientes));
 
   current$ = this.store.pipe(select(FacturasSelectors.getSelectedId));
   cartera$ = this.cxcFacade.cartera$;
@@ -58,5 +60,9 @@ export class FacturasFacade {
       'edit',
       factura.id,
     ]);
+  }
+
+  pendientes() {
+    this.dispatch(togglePendientes());
   }
 }

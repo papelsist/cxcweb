@@ -37,3 +37,7 @@ export const setCurrentFacturaId = createAction(
   '[FacturaExists Guard]',
   props<{ id: string }>()
 );
+
+export const togglePendientes = createAction(
+  '[Facturas Page] Toggle Pendientes'
+);

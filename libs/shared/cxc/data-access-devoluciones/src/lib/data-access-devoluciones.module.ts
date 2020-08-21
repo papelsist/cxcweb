@@ -5,6 +5,9 @@ import { EffectsModule } from '@ngrx/effects';
 import * as fromDevoluciones from './+state/devoluciones.reducer';
 import { DevolucionesEffects } from './+state/devoluciones.effects';
 import { DevolucionesFacade } from './+state/devoluciones.facade';
+import { DEVOLUCIONES_GUARDS } from './guards';
+
+import { CovalentDialogsModule } from '@covalent/core/dialogs';
 
 @NgModule({
   imports: [
@@ -14,7 +17,8 @@ import { DevolucionesFacade } from './+state/devoluciones.facade';
       fromDevoluciones.reducer
     ),
     EffectsModule.forFeature([DevolucionesEffects]),
+    CovalentDialogsModule,
   ],
-  providers: [DevolucionesFacade],
+  providers: [DevolucionesFacade, ...DEVOLUCIONES_GUARDS],
 })
 export class DataAccessDevolucionesModule {}

@@ -8,6 +8,9 @@ import { FomraDePagoFieldComponent } from './forma-de-pago-field/forma-de-pago-f
 import { DeleteEntityComponent } from './delete-entity/delete-entity.component';
 import { FomraDePagoSatFieldComponent } from './forma-de-pago-field/forma-de-pago-sat-field.component';
 import { NumericFieldComponent } from './numeric-field/numeric-field.component';
+import { UsuarioNipFieldComponent } from './usuario-nip-field/usuario-nip-field.component';
+import { AutorizacionComponent } from './autorizacion/autorizacion.component';
+import { AutorizacionDialogComponent } from './autorizacion/autorizacion-dialog.component';
 
 export const COMPONENTS = [
   FechaFieldComponent,
@@ -20,6 +23,9 @@ export const COMPONENTS = [
   FomraDePagoSatFieldComponent,
   DeleteEntityComponent,
   NumericFieldComponent,
+  UsuarioNipFieldComponent,
+  AutorizacionComponent,
+  AutorizacionDialogComponent,
 ];
 
 export * from './fecha-field/fecha-field.component';
@@ -32,3 +38,6 @@ export * from './forma-de-pago-field/forma-de-pago-field.component';
 export * from './forma-de-pago-field/forma-de-pago-sat-field.component';
 export * from './delete-entity/delete-entity.component';
 export * from './numeric-field/numeric-field.component';
+export * from './usuario-nip-field/usuario-nip-field.component';
+export * from './autorizacion/autorizacion.component';
+export * from './autorizacion/autorizacion-dialog.component';

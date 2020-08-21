@@ -40,27 +40,23 @@ class CuentaPorCobrarController extends RestfulController<CuentaPorCobrar>{
         def query = CuentaPorCobrar.where {}
         params.sort = params.sort ?:'lastUpdated'
         params.order = params.order ?:'desc'
+        log.info('[GET] {}', params)
 
+        if(params.cartera) {
+            String cartera = params.cartera
+            query = query.where{tipo == cartera}
+        }
+        def pendientes = params.pendientes
+        log.info('Pendientes: {}', pendientes)
+        if(params.pendientes != null) {
+            log.info('Enviando toda la cartera')
+            query = query.where{saldoReal > 0.0}
+            return query.list([sort: 'fecha', order: 'desc', max: 300])
+        }
 
-        if(params.documento){
-          int documento = params.int('documento')
-          query = query.where { documento >= documento }
-        }
-        if(params.cliente){
-            query = query.where { cliente.id == params.cliente}
-        }
-        return query.list(params)
-        /*
-        params.sort = params.sort ?: 'lastUpdated'
-        params.order = params.order ?:'desc'
-        params.max = params.max ?: 100
-        log.info('[GET - CXC] {}', params)
         def periodo = params.periodo
-        def cartera = params.cartera
-        def res = cuentaPorCobrarService.findAll(cartera, periodo, params)
-        log.infoç(res)
-        respond res
-        */
+        query = query.where{fecha >= periodo.fechaInicial && fecha <= periodo.fechaFinal}
+        return query.list(params)
     }
 
     def search() {
@@ -125,8 +121,14 @@ class CuentaPorCobrarController extends RestfulController<CuentaPorCobrar>{
         params.max = params.max ?: 200
         def periodo = params.periodo
         def cartera = params.cartera
+        def pendientes = params.pendientes
         log.info('Facturas [GET] {}', params)
-        respond cuentaPorCobrarService.findAll(cartera, periodo, params)
+        if(pendientes) {
+          log.info('Enviando toda la cartera')
+          respond cuentaPorCobrarService.findAllPendientes(cartera)
+        } else {
+          respond cuentaPorCobrarService.findAll(cartera, periodo, params)
+        }
     }
 
     def pendientes(Cliente cliente) {

@@ -85,6 +85,9 @@ class NotaDeCredito {
     String cancelacionMotivo
     String cancelacionUsuario
 
+    String autorizo
+    Date autorizoFecha
+
     String createUser
     String updateUser
     Date dateCreated
@@ -119,6 +122,8 @@ class NotaDeCredito {
         cancelacion nullable: true
         cancelacionMotivo nullable: true
         cancelacionUsuario nullable: true
+        autorizo nullable: true
+        autorizoFecha nullable: true
     }
 
     static hasMany =[partidas:NotaDeCreditoDet]

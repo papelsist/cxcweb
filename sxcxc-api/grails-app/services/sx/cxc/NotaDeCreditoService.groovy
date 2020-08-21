@@ -10,11 +10,13 @@ import com.luxsoft.cfdix.v33.NotaBuilder
 import sx.core.Sucursal
 import sx.core.Folio
 import sx.cfdi.Cfdi
+import sx.cfdi.CancelacionDeCfdi
 import sx.core.Venta
 import sx.inventario.DevolucionDeVenta
 import sx.core.LogUser
 import sx.core.AppConfig
 import sx.cfdi.CfdiService
+import sx.cfdi.CancelacionService
 import sx.cfdi.CfdiTimbradoService
 import sx.utils.MonedaUtils
 
@@ -27,6 +29,8 @@ class NotaDeCreditoService implements LogUser{
     CfdiService cfdiService
 
     CfdiTimbradoService cfdiTimbradoService
+
+    CancelacionService cancelacionService
 
     Sucursal sucursal = null
 
@@ -46,7 +50,7 @@ class NotaDeCreditoService implements LogUser{
         return nota
     }
 
-    
+
 
     def generarNotaDeDevolucion(NotaDeCredito nota, DevolucionDeVenta rmd) {
         if (rmd.cobro && nota.tipoCartera == 'CRE') {
@@ -215,7 +219,7 @@ class NotaDeCreditoService implements LogUser{
                 rmd.cobro = null
                 rmd.save()
             }
-            if(cobro) 
+            if(cobro)
                 cobro.delete flush: true
         }
     }
@@ -224,19 +228,24 @@ class NotaDeCreditoService implements LogUser{
         // throw new UnsupportedOperationException('Aun no es posible cancelar Notas de Credito en esta version del sistema')
         if(!nota.cfdi) throw new RuntimeException('Nota sin CFDI generado no se puede cancelar')
         if(!nota.cfdi.uuid) throw new RuntimeException('Nota con CFDI sin timbrar no se puede cancelar')
-        if(nota.cobro.aplicado > 0.0) throw new RuntimeException('Nota con aplicaciones no se puede cancelar. Primero debe cancelar las aplicaciones registradas')
-        
+        // if(nota.cobro.aplicado > 0.0) throw new RuntimeException('Nota con aplicaciones no se puede cancelar. Primero debe cancelar las aplicaciones registradas')
+
         Cfdi cfdi = nota.cfdi
-        cfdi.status = 'CANCELACION_PENDIENTE'
-        cfdi.save flush: true
+        // cfdi.status = 'CANCELACION_PENDIENTE'
+        //cfdi.save flush: true
+        CancelacionDeCfdi cancelacion = cancelacionService.cancelarCfdi(cfdi)
 
         Cobro cobro = nota.cobro
+        nota.cobro = null
         if(cobro) {
-            cobro.comentario = 'CANCELADO'
+            if(nota.tipo.startsWith('DEV') ){
+                DevolucionDeVenta rmd = DevolucionDeVenta.where{cobro == cobro}.find()
+                rmd.cobro = null
+                rmd.save flish: true
+            }
             cobro.delete flush: true
         }
-        
-        nota.comentario = 'CANCELADA'
+
         nota.cancelacion = new Date()
         nota.cancelacionMotivo = motivo
         nota.cancelacionUsuario = getCurrentUserName()

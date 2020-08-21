@@ -1,33 +1,28 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { UiCommonModule } from '@nx-papelsa/shared/utils/ui-common';
+import { UiFormsModule } from '@nx-papelsa/shared/utils/ui-forms';
 import { UiMaterialModule } from '@nx-papelsa/shared/utils/ui-material';
+import { UiCovalentModule } from '@nx-papelsa/shared/utils/ui-covalent';
+import { UiCxcCommonModule } from '@nx-papelsa/shared/cxc/ui-cxc-common';
+import { CfdiUiCommonModule } from '@nx-papelsa/shared/cfdi/ui-common';
 import { UiDevolucionesModule } from '@nx-papelsa/shared/cxc/ui-devoluciones';
 
-import { DevolucionResolver } from '@nx-papelsa/shared/cxc/data-acces';
 import { DevolucionPageComponent } from './devolucion-page.component';
-
-import { UiCovalentModule } from '@nx-papelsa/shared/utils/ui-covalent';
-
-const routes: Routes = [
-  {
-    path: '',
-    component: DevolucionPageComponent,
-    resolve: { devolucion: DevolucionResolver },
-  },
-];
+import { COMPONENTS } from './components';
 
 @NgModule({
-  declarations: [DevolucionPageComponent],
+  declarations: [DevolucionPageComponent, ...COMPONENTS],
   imports: [
-    CommonModule,
+    UiCommonModule,
+    UiFormsModule,
     UiMaterialModule,
-    FlexLayoutModule,
-    UiDevolucionesModule,
     UiCovalentModule,
-    RouterModule.forChild(routes),
+    UiCxcCommonModule,
+    UiDevolucionesModule,
+    CfdiUiCommonModule,
+    RouterModule.forChild([{ path: '', component: DevolucionPageComponent }]),
   ],
 })
 export class DevolucionPageModule {}

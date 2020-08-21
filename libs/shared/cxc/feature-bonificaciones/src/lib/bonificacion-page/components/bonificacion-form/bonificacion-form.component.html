@@ -18,21 +18,25 @@
       <mat-icon>get_app</mat-icon>
     </button>
   </td-message>
-  <div fxLayout fxLayoutGap="5px" fxLayoutAlign="start baseline">
+  <div fxLayout fxLayoutGap="10px" fxLayoutAlign="start baseline">
     <nx-papelsa-bonificacion-concepto
+      class="concepto"
       [parent]="form"
     ></nx-papelsa-bonificacion-concepto>
     <nx-papelsa-moneda-field
       [parent]="form"
-      [style.width.px]="130"
+      [style.width.px]="120"
     ></nx-papelsa-moneda-field>
     <nx-papelsa-tipo-de-cambio-field
       [parent]="form"
       property="tc"
+      [style.width.px]="90"
     ></nx-papelsa-tipo-de-cambio-field>
+
     <nx-papelsa-forma-de-pago-sat
       [parent]="form"
     ></nx-papelsa-forma-de-pago-sat>
+
     <ng-container *ngIf="bonificacion.cfdi as cfdi">
       <mat-form-field class="cfdi-folio">
         <mat-label>CFDI</mat-label>
@@ -80,7 +84,7 @@
     </mat-form-field>
 
     <ng-container *ngIf="tipoDeCalculo === 'PORCENTAJE'">
-      <mat-form-field [style.width.px]="100">
+      <mat-form-field [style.width.px]="90">
         <mat-label>Descuento (%)</mat-label>
         <input type="number" matInput formControlName="descuento" #descuento1 />
         <mat-error>Valor inválido (1 - 50)</mat-error>
@@ -89,7 +93,7 @@
         >
       </mat-form-field>
 
-      <mat-form-field [style.width.px]="100">
+      <mat-form-field [style.width.px]="90">
         <mat-label>Descuento 2</mat-label>
         <input type="number" matInput formControlName="descuento2" />
         <mat-error>Valor inválido (1 - 50)</mat-error>
@@ -142,6 +146,20 @@
     color="warn"
     icon="error"
   >
+  </td-message>
+  <td-message
+    #messageDemo
+    *ngIf="bonificacion.autorizo"
+    color="accent"
+    label="Autorizada"
+    sublabel="{{
+      bonificacion.autorizoFecha | date: 'dd/MM/yyyy: hh:mm'
+    }} Por: {{ bonificacion.autorizo }}"
+    icon="verified"
+  >
+    <button td-message-actions mat-icon-button (click)="messageDemo.close()">
+      <mat-icon>cancel</mat-icon>
+    </button>
   </td-message>
   <mat-card-actions>
     <nx-papelsa-back-button></nx-papelsa-back-button>

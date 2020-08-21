@@ -14,6 +14,7 @@ export interface State extends EntityState<FacturasEntity> {
   error?: string | null; // last none error (if any)
   periodo: Periodo;
   searchTerm?: string;
+  pendientes: boolean;
 }
 
 export interface FacturasPartialState {
@@ -29,6 +30,7 @@ export const initialState: State = facturasAdapter.getInitialState({
   loaded: false,
   loading: false,
   periodo: Periodo.fromNow(60),
+  pendientes: false,
 });
 
 const facturasReducer = createReducer(
@@ -60,6 +62,10 @@ const facturasReducer = createReducer(
   on(FacturasActions.setCurrentFacturaId, (state, { id }) => ({
     ...state,
     selectedId: id,
+  })),
+  on(FacturasActions.togglePendientes, (state) => ({
+    ...state,
+    pendientes: !state.pendientes,
   }))
 );
 

@@ -1,10 +1,14 @@
 package sx.core
 
+import groovy.util.logging.Slf4j
+
 import grails.rest.*
-import sx.security.User
 import grails.plugin.springsecurity.annotation.Secured
 import org.apache.commons.lang3.exception.ExceptionUtils
 
+import sx.security.User
+
+@Slf4j
 @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
 class AuthController {
 

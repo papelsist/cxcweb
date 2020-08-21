@@ -32,7 +32,7 @@ export class FacturasEffects {
   //     })
   //   )
   // );
-  loadCobros$ = createEffect(() =>
+  loadFacturas$ = createEffect(() =>
     this.ds.fetch(FacturasActions.loadFacturas, {
       run: (
         action: ReturnType<typeof FacturasActions.loadFacturas>,
@@ -40,9 +40,9 @@ export class FacturasEffects {
       ) => {
         const {
           cobranza: { cartera },
-          facturas: { periodo },
+          facturas: { periodo, pendientes },
         } = state;
-        return this.service.facturas(periodo, cartera).pipe(
+        return this.service.facturas(periodo, cartera, pendientes).pipe(
           map((facturas) =>
             FacturasActions.loadFacturasSuccess({
               facturas,
@@ -71,6 +71,13 @@ export class FacturasEffects {
         return FacturasActions.loadFacturasFailure({ error });
       },
     })
+  );
+
+  togglePendientes$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FacturasActions.togglePendientes),
+      map((a) => FacturasActions.loadFacturas())
+    )
   );
 
   constructor(

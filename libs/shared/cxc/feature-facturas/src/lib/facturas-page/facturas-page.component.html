@@ -2,7 +2,7 @@
   <div class="push-left push-right" fxLayout="row" fxLayoutAlign="start center">
     <span fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
       <span class="mat-title">Facturas </span>
-      <span class="mat-title">(Cartera: {{ cartera.clave }})</span>
+      <span class="mat-title">({{ cartera.descripcion }})</span>
     </span>
     <span fxFlex></span>
 
@@ -15,7 +15,15 @@
     <nx-papelsa-periodo-picker
       (periodoChanged)="onPeriodoChanged($event)"
       [periodo]="periodo$ | async"
+      [disabled]="pendientes$ | async"
     ></nx-papelsa-periodo-picker>
+
+    <mat-checkbox
+      (change)="togglePendientes($event)"
+      [checked]="pendientes$ | async"
+    >
+      Pendientes
+    </mat-checkbox>
 
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>more_vert</mat-icon>
@@ -33,6 +41,12 @@
     </mat-menu>
   </div>
   <div><mat-divider></mat-divider></div>
+  <ng-template
+    tdLoading
+    [tdLoadingUntil]="!(loading$ | async)"
+    tdLoadingStrategy="overlay"
+  >
+  </ng-template>
   <nx-papelsa-facturas-grid
     #grid
     class="facturas-panel"

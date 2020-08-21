@@ -12,19 +12,53 @@ import { formatCurrency, formatDate } from '@angular/common';
 
 import { GridApi, ColumnApi, ColDef, GridOptions } from 'ag-grid-community';
 
-import { DevolucionDto } from '@nx-papelsa/shared/utils/core-models';
+import { NotaDeCredito } from '@nx-papelsa/shared/utils/core-models';
+import { AgBooleanRendererComponent } from '@nx-papelsa/shared/utils/ui-common';
 
 @Component({
-  selector: 'nx-papelsa-devoluciones-grid',
-  templateUrl: './devoluciones-grid.component.html',
-  styleUrls: ['./devoluciones-grid.component.scss'],
+  selector: 'nx-papelsa-cxc-devoluciones-grid',
+  template: `
+    <div class="grid-container">
+      <ag-grid-angular
+        #agGrid
+        class="ag-theme-alpine grid"
+        style="width: 100%; height: 100%;"
+        [rowData]="rows"
+        [columnDefs]="columnDefs"
+        [gridOptions]="gridOptions"
+        rowSelection="multiple"
+        [rowMultiSelectWithClick]="true"
+        (selectionChanged)="onChangeSelection($event)"
+        (gridReady)="onGridReady($event)"
+        (modelUpdated)="onModelUpdated($event)"
+        [quickFilterText]="searchTerm"
+      >
+      </ag-grid-angular>
+    </div>
+  `,
+  styles: [
+    `
+      .grid-container {
+        display: flex;
+        height: 100%;
+        width: 100%;
+
+        .grid {
+          height: calc(100% - 1px);
+          width: calc(100% - 1px);
+        }
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DevolucionesGridComponent implements OnInit {
-  @Input() rows: DevolucionDto[];
+  @Input() rows: NotaDeCredito[];
   @Input() columnDefs = this.buildColumnDef();
-  @Output() selectionChange = new EventEmitter<DevolucionDto[]>();
-  @Output() drillDown = new EventEmitter<DevolucionDto>();
+  @Input() searchTerm: string;
+
+  @Output() selectionChange = new EventEmitter<NotaDeCredito[]>();
+  @Output() drillDown = new EventEmitter<NotaDeCredito>();
   gridApi: GridApi;
   gridColumnApi: ColumnApi;
   gridOptions: GridOptions;
@@ -38,7 +72,7 @@ export class DevolucionesGridComponent implements OnInit {
 
   buildGridOptions() {
     this.gridOptions = <GridOptions>{};
-    // this.gridOptions.columnDefs = this.buildColsDef();
+
     this.defaultColDef = {
       editable: false,
       filter: 'agTextColumnFilter',
@@ -47,7 +81,6 @@ export class DevolucionesGridComponent implements OnInit {
       resizable: true,
     };
     this.gridOptions.getRowStyle = this.buildRowStyle.bind(this);
-
     this.gridOptions.onRowDoubleClicked = (event) => {
       this.drillDown.emit(event.data);
     };
@@ -57,11 +90,13 @@ export class DevolucionesGridComponent implements OnInit {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
   }
+
   onModelUpdated(event) {
     if (this.gridApi) {
       this.gridColumnApi.autoSizeAllColumns();
     }
   }
+
   onChangeSelection(event) {
     const selectedNodes = this.gridApi.getSelectedNodes();
     const selectedData = selectedNodes.map((node) => node.data);
@@ -72,21 +107,31 @@ export class DevolucionesGridComponent implements OnInit {
     if (params.node.rowPinned) {
       return { 'font-weight': 'bold' };
     }
-    if (params.data.status === 'CERRADO') {
-      return { 'font-weight': 'bold', 'font-style': 'italic', color: 'green' };
-    }
-    if (!params.data.cfdi) {
-      return {
-        'font-weight': 'bold',
-        'font-style': 'italic',
-        color: 'rgb(190, 119, 26)',
-      };
+
+    if (params.data.cancelacion) {
+      return { 'font-weight': 'bold', 'font-style': 'italic', color: 'red' };
+    } else {
+      if (params.data.status === 'CERRADO') {
+        return {
+          'font-weight': 'bold',
+          'font-style': 'italic',
+          color: 'green',
+        };
+      }
+      if (!params.data.cfdi) {
+        return {
+          'font-weight': 'bold',
+          'font-style': 'italic',
+          color: 'rgb(190, 119, 26)',
+        };
+      }
     }
   }
 
   formatCurrency(data: any) {
     return formatCurrency(data, this.locale, '$');
   }
+
   formatDate(data: any, format: string = 'dd/MM/yyyy') {
     if (data) {
       return formatDate(data, format, this.locale);
@@ -98,58 +143,80 @@ export class DevolucionesGridComponent implements OnInit {
   private buildColumnDef(): ColDef[] {
     return [
       {
-        headerName: 'RMD',
-        field: 'documento',
+        headerName: 'Tipo',
+        field: 'tipo',
         sortable: true,
-        filter: true,
-        checkboxSelection: true,
+        width: 110,
+      },
+      {
+        headerName: 'Serie',
+        field: 'serie',
+        sortable: true,
         width: 100,
       },
       {
-        headerName: 'Factura',
-        field: 'factura',
+        headerName: 'Folio',
+        field: 'folio',
         sortable: true,
         filter: true,
-        width: 140,
+        width: 100,
       },
       {
         headerName: 'Fecha',
         field: 'fecha',
         sortable: true,
-        width: 110,
+        width: 120,
         valueFormatter: (params) => this.formatDate(params.value),
-      },
-      {
-        headerName: 'Sucursal',
-        field: 'sucursal',
-        sortable: true,
-        filter: true,
-        width: 110,
       },
       {
         headerName: 'Nombre',
         field: 'nombre',
         sortable: true,
         filter: true,
+        resizable: true,
       },
-
+      {
+        headerName: 'Comentario',
+        field: 'comentario',
+        sortable: true,
+        filter: true,
+        width: 250,
+        resizable: true,
+      },
+      {
+        headerName: 'Mon',
+        field: 'moneda',
+        width: 70,
+      },
       {
         headerName: 'Total',
         field: 'total',
         sortable: true,
+        filter: true,
+        width: 110,
         valueFormatter: (params) => this.formatCurrency(params.value),
-      },
-      {
-        headerName: 'Nota',
-        field: 'nota',
-        valueFormatter: (params) =>
-          params.value ? `${params.value.serie} - ${params.value.folio}` : '',
       },
       {
         headerName: 'CFDI',
         field: 'cfdi',
+        cellRendererFramework: AgBooleanRendererComponent,
+        width: 90,
+      },
+      {
+        headerName: 'Modificado',
+        field: 'lastUpdated',
         valueFormatter: (params) =>
-          params.value ? params.value.substr(-6, 6) : 'PENDIENTE',
+          this.formatDate(params.value, 'dd/MM/yyyy HH:mm'),
+      },
+      {
+        headerName: 'Actualizó',
+        field: 'updateUser',
+      },
+      {
+        headerName: 'Cancelada',
+        field: 'cancelacion',
+        valueFormatter: (params) =>
+          this.formatDate(params.value, 'dd/MM/yyyy HH:mm'),
       },
     ];
   }

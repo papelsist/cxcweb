@@ -1,44 +1,99 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-
 import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
+
+import { Update } from '@ngrx/entity';
+import {
+  DevolucionesFacade,
+  DevolucionesEntity,
+} from '@nx-papelsa/shared/cxc/data-access-devoluciones';
+import { NotaDeCredito, User } from '@nx-papelsa/shared/utils/core-models';
+
+import {
+  BaseComponent,
+  FormatService,
+} from '@nx-papelsa/shared/utils/ui-common';
 
 import { TdDialogService } from '@covalent/core/dialogs';
-
-import { Devolucion } from '@nx-papelsa/shared/utils/core-models';
 
 @Component({
   selector: 'nx-papelsa-devolucion-page',
   templateUrl: './devolucion-page.component.html',
   styleUrls: ['./devolucion-page.component.scss'],
 })
-export class DevolucionPageComponent implements OnInit {
-  devolucion$: Observable<Devolucion>;
-  constructor(
-    private route: ActivatedRoute,
-    private _dialogService: TdDialogService
-  ) {}
+export class DevolucionPageComponent extends BaseComponent implements OnInit {
+  devolucion$: Observable<DevolucionesEntity>;
+  loading$ = this.facade.loading$;
 
-  ngOnInit(): void {
-    console.log('Route: ', this.route.snapshot.data);
-    //this.devolucion$ = this.route.data.map()
-    this.devolucion$ = this.route.data.pipe(pluck('devolucion'));
+  constructor(
+    private facade: DevolucionesFacade,
+    private dialogService: TdDialogService,
+    private formatService: FormatService
+  ) {
+    super();
+    this.devolucion$ = facade.selectedDevolucion$;
   }
 
-  generarNota(devolucion: Partial<Devolucion>) {
-    this._dialogService
-      .openConfirm({
-        message: 'Generar nota de crédito ',
-        title: 'Alert',
-        cancelButton: 'Cancelar',
-        acceptButton: 'Generar',
-      })
-      .afterClosed()
-      .subscribe((accept: boolean) => {
-        if (accept) {
-          console.log('Generar nota de crédito');
-        }
+  ngOnInit(): void {
+    this.devolucion$.subscribe((d) => console.log(d));
+  }
+
+  onUpdate(devolucion: Update<DevolucionesEntity>) {
+    console.log('Actualizar Devolucion: ', devolucion);
+    // this.facade.update(devolucion);
+  }
+
+  onTimbrar(devolucion: Partial<NotaDeCredito>) {
+    this.confirm(
+      'Generar comprobante fiscal (CFDI)',
+      `Total: $${devolucion.total}`
+    ).subscribe((res) => {
+      // if (res) this.facade.timbrar(devolucion);
+    });
+  }
+
+  onCancelar(devolucion: Partial<NotaDeCredito>, { motivo }) {
+    this.facade.cancelar(devolucion, motivo);
+  }
+
+  onDelete(devolucion: Partial<NotaDeCredito>) {
+    // this.facade.delete(devolucion);
+  }
+
+  porAutrizar(devolucion: Partial<NotaDeCredito>) {
+    return !devolucion.autorizo && devolucion.total > 0;
+  }
+
+  onAutorizar(event: User, devolucion: Partial<NotaDeCredito>) {
+    const changes = {
+      autorizo: event.nombre,
+      autorizoFecha: new Date().toISOString(),
+    };
+    // this.facade.update({ id: devolucion.id, changes });
+  }
+
+  onAplicar(devolucion: Partial<NotaDeCredito>) {
+    if (devolucion.disponible > 0.0) {
+      this.confirm(
+        'Aplicación automática',
+        `Aplicar ${this.formatService.formatCurrency(
+          devolucion.disponible
+        )} a las facturas registradas en los conceptos? `
+      ).subscribe((res) => {
+        // if (res) this.facade.aplicar(devolucion);
       });
+    }
+  }
+
+  confirm(title: string, message: string): Observable<any> {
+    const acceptButton = 'Aceptar';
+    const cancelButton = 'Cancelar';
+    return this.dialogService
+      .openConfirm({
+        title,
+        message,
+        acceptButton,
+        cancelButton,
+      })
+      .afterClosed();
   }
 }

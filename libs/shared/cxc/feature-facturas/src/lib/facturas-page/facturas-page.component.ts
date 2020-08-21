@@ -21,8 +21,11 @@ export class FacturasPageComponent implements OnInit {
   periodo$ = this.facade.periodo$;
   facturas$ = this.facade.allFacturas$;
   search$ = this.facade.search$;
+  pendientes$ = this.facade.pendientes$;
+  loading$ = this.facade.loading$;
 
   _selected$ = new BehaviorSubject<CuentaPorCobrarDTO[]>([]);
+
   selected$ = this._selected$.asObservable();
   disponibles$ = this.selected$.pipe(
     map((selected) => selected.filter((item) => item.total > 0 && item.cfdi))
@@ -60,5 +63,9 @@ export class FacturasPageComponent implements OnInit {
 
   onPrint(cxc: CuentaPorCobrarDTO) {
     console.log('Print: ', cxc);
+  }
+
+  togglePendientes({ checked }) {
+    this.facade.pendientes();
   }
 }

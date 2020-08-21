@@ -5,7 +5,7 @@ import {
   BonificacionesEntity,
   BonificacionesFacade,
 } from '@nx-papelsa/shared/cxc/data-access-bonificaciones';
-import { NotaDeCredito } from '@nx-papelsa/shared/utils/core-models';
+import { NotaDeCredito, User } from '@nx-papelsa/shared/utils/core-models';
 import { Update } from '@ngrx/entity';
 import {
   BaseComponent,
@@ -53,6 +53,18 @@ export class BonificacionPageComponent extends BaseComponent implements OnInit {
 
   onDelete(bonificacion: Partial<NotaDeCredito>) {
     this.facade.delete(bonificacion);
+  }
+
+  porAutrizar(bonificacion: Partial<NotaDeCredito>) {
+    return !bonificacion.autorizo && bonificacion.total > 0;
+  }
+
+  onAutorizar(event: User, bonificacion: Partial<NotaDeCredito>) {
+    const changes = {
+      autorizo: event.nombre,
+      autorizoFecha: new Date().toISOString(),
+    };
+    this.facade.update({ id: bonificacion.id, changes });
   }
 
   onAplicar(bonificacion: Partial<NotaDeCredito>) {

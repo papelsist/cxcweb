@@ -1,28 +1,53 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>
-      Devoluciones de ventas
-    </mat-card-title>
-    <mat-card-subtitle>
-      Cartéra de Crédito
-    </mat-card-subtitle>
-    <div class="actions">
-      <button mat-icon-button>
-        <mat-icon>search</mat-icon>
-      </button>
-      <button mat-icon-button (click)="reload()">
-        <mat-icon>refresh</mat-icon>
-      </button>
-      <button mat-icon-button>
-        <mat-icon>filter_list</mat-icon>
-      </button>
-    </div>
-  </mat-card-header>
+<mat-card *ngIf="cartera$ | async as cartera">
+  <div class="push-left push-right" fxLayout="row" fxLayoutAlign="start center">
+    <span fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
+      <span class="mat-title">Devoluciones </span>
+      <span class="mat-title">({{ cartera.descripcion }})</span>
+    </span>
+    <span fxFlex></span>
 
-  <div class="grid-container">
-    <nx-papelsa-devoluciones-grid
-      [rows]="devoluciones$ | async"
-      (drillDown)="showInfo($event)"
-    ></nx-papelsa-devoluciones-grid>
+    <td-search-box
+      placeholder="Filtrar"
+      (searchDebounce)="filter($event)"
+      fxFlex
+    ></td-search-box>
+
+    <nx-papelsa-periodo-picker
+      (periodoChanged)="onPeriodoChanged($event)"
+      [periodo]="periodo$ | async"
+    ></nx-papelsa-periodo-picker>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="reload()">
+        <mat-icon>refresh</mat-icon>
+        <span>Refrescar</span>
+      </button>
+      <!-- <nx-papelsa-cfdi-email-bulk
+        [facturas]="disponiblesEnvio$ | async"
+        (done)="grid.clearSelection()"
+      ></nx-papelsa-cfdi-email-bulk> -->
+      <nx-papelsa-cfdi-email-bulk
+        [facturas]="disponiblesEnvio$ | async"
+      ></nx-papelsa-cfdi-email-bulk>
+    </mat-menu>
   </div>
+  <div><mat-divider></mat-divider></div>
+  <ng-template
+    tdLoading
+    [tdLoadingUntil]="!(loading$ | async)"
+    tdLoadingStrategy="overlay"
+  >
+  </ng-template>
+
+  <nx-papelsa-cxc-devoluciones-grid
+    class="devoluciones-panel"
+    [rows]="devoluciones$ | async"
+    [searchTerm]="search$ | async"
+    (drillDown)="onDrillDown($event, cartera)"
+  >
+  </nx-papelsa-cxc-devoluciones-grid>
 </mat-card>

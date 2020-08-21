@@ -14,6 +14,16 @@ export const getDevolucionesState = createFeatureSelector<
 
 const { selectAll, selectEntities } = devolucionesAdapter.getSelectors();
 
+export const getDevolucionesPeriodo = createSelector(
+  getDevolucionesState,
+  (state: State) => state.periodo
+);
+
+export const getDevolucionesSearchTerm = createSelector(
+  getDevolucionesState,
+  (state: State) => state.searchTerm
+);
+
 export const getDevolucionesLoaded = createSelector(
   getDevolucionesState,
   (state: State) => state.loaded

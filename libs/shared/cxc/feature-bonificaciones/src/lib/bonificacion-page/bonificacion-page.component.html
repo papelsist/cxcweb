@@ -33,11 +33,18 @@
       </ng-container>
 
       <ng-container *ngIf="!bonificacion.cfdi">
+        <nx-papelsa-autorizacion
+          *ngIf="!bonificacion.autorizo"
+          [disabled]="!porAutrizar(bonificacion)"
+          descripcion="Bonificación: {{ bonificacion.concepto }}"
+          (autorizacion)="onAutorizar($event, bonificacion)"
+        >
+        </nx-papelsa-autorizacion>
         <nx-papelsa-cfdi-timbrar
           *ngIf="bonificacion.total > 0.0"
           color="accent"
           (timbrar)="onTimbrar(bonificacion)"
-          [disabled]="form.isDirty()"
+          [disabled]="form.isDirty() || !bonificacion.autorizo"
         ></nx-papelsa-cfdi-timbrar>
         <nx-papelsa-delete-entity
           [entity]="bonificacion"
@@ -46,6 +53,17 @@
           (delete)="onDelete(bonificacion)"
         ></nx-papelsa-delete-entity>
       </ng-container>
+
+      <div
+        fxFlex
+        fxLayout
+        fxLayoutAlign="end center"
+        fxLayoutGap="5px"
+        *ngIf="bonificacion.autorizo"
+      >
+        <mat-icon>verified</mat-icon>
+        <span> Autorizada</span>
+      </div>
     </nx-papelsa-bonificacion-form>
   </div>
 </ng-template>

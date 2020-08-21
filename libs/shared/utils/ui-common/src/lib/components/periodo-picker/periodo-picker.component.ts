@@ -7,7 +7,12 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'nx-papelsa-periodo-picker',
   template: `
-    <button color="primary" mat-button (click)="seleccionar()">
+    <button
+      color="primary"
+      mat-button
+      (click)="seleccionar()"
+      [disabled]="disabled"
+    >
       <mat-icon>event</mat-icon> {{ periodo.toString() }}
     </button>
   `,
@@ -17,6 +22,7 @@ export class PeriodoPickerComponent implements OnInit {
   @Input() toolTip = 'Cambiar el periodo';
 
   @Input() periodo = new Periodo();
+  @Input() disabled = false;
   @Output() periodoChanged = new EventEmitter();
 
   constructor(private dialog: MatDialog) {}

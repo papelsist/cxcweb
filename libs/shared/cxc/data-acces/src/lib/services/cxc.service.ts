@@ -40,15 +40,19 @@ export class CxcService {
   facturas(
     periodo: Periodo,
     cartera: Cartera,
+    pendientes: boolean,
     max = 50
   ): Observable<CuentaPorCobrarDTO[]> {
     const url = `${this.apiUrl}/facturas`;
     const data = periodo.toApiJSON();
-    const params = new HttpParams()
+    let params = new HttpParams()
       .set('cartera', cartera.clave)
       .set('fechaInicial', data.fechaInicial)
       .set('fechaFinal', data.fechaFinal)
       .set('max', max.toString());
+    if (pendientes) {
+      params = params.set('pendientes', 'true');
+    }
     return this.http
       .get<CuentaPorCobrarDTO[]>(url, { params })
       .pipe(catchError((error: any) => throwError(error)));

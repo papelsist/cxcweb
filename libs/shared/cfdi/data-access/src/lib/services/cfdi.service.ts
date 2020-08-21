@@ -62,9 +62,9 @@ export class CfdiService {
   enviarComprobantes(registros: GrupoDeCfdis[]) {
     const payload = {
       grupos: registros.map((r) => {
-        const { target, nombre } = r;
+        const { target, nombre, zip } = r;
         const cfdis = r.cfdis.map((item) => item.id);
-        return { target, nombre, cfdis };
+        return { target, nombre, zip, cfdis };
       }),
     };
 

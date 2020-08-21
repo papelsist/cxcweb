@@ -58,15 +58,15 @@ class CuentaPorCobrarService {
     }
 
     @ReadOnly
-    List<CuentaPorCobrarDTO> findAllPendientes() {
+    List<CuentaPorCobrarDTO> findAllPendientes(String cartera) {
         List<CuentaPorCobrar> rows = CuentaPorCobrar
                 .findAll(
                         """from CuentaPorCobrar c where c.tipo = :tipo and c.saldoReal > 0
                     order by c.fecha
                 """
-                , [tipo:'CRE'])
+                , [tipo: cartera])
         List<CuentaPorCobrarDTO> res = rows.collect { cxc -> new CuentaPorCobrarDTO(cxc)}
-        log.info('Registros de cartera: ', res.size())
+        log.info('Registros de cartera: {}', res.size())
         return res
     }
 

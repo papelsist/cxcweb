@@ -17,4 +17,9 @@ export class EnvioBulkDialogComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  onSubmit() {
+    // console.log('Grupos: ', this.grupos);
+    this.dialogRef.close(this.grupos);
+  }
 }

@@ -18,6 +18,10 @@ export const getFacturasPeriodo = createSelector(
   getFacturasState,
   (state: State) => state.periodo
 );
+export const getPendientes = createSelector(
+  getFacturasState,
+  (state: State) => state.pendientes
+);
 
 export const getFacturasSearchTerm = createSelector(
   getFacturasState,

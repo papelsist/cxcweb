@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { DataAccessDevolucionesModule } from '@nx-papelsa/shared/cxc/data-access-devoluciones';
+import {
+  DataAccessDevolucionesModule,
+  DevolucionExistsGuard,
+} from '@nx-papelsa/shared/cxc/data-access-devoluciones';
 
 @NgModule({
   imports: [
@@ -17,11 +20,12 @@ import { DataAccessDevolucionesModule } from '@nx-papelsa/shared/cxc/data-access
           ),
       },
       {
-        path: 'show/:id',
+        path: 'edit/:id',
         loadChildren: () =>
           import('./devolucion-page/devolucion-page.module').then(
             (m) => m.DevolucionPageModule
           ),
+        canActivate: [DevolucionExistsGuard],
       },
     ]),
   ],

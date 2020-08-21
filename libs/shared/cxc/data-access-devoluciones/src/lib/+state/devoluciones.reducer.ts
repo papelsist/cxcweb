@@ -28,22 +28,65 @@ export const devolucionesAdapter: EntityAdapter<DevolucionesEntity> = createEnti
 export const initialState: State = devolucionesAdapter.getInitialState({
   loaded: false,
   loading: false,
-  periodo: Periodo.fromNow(30),
+  periodo: Periodo.fromNow(60),
 });
 
 const devolucionesReducer = createReducer(
   initialState,
+  on(DevolucionesActions.setPeriodoDeDevoluciones, (state, { periodo }) => ({
+    ...state,
+    periodo,
+  })),
+
+  on(
+    DevolucionesActions.setDevolucionesSearchTerm,
+    (state, { searchTerm }) => ({
+      ...state,
+      searchTerm,
+    })
+  ),
   on(DevolucionesActions.loadDevoluciones, (state) => ({
     ...state,
+    loading: true,
     loaded: false,
     error: null,
   })),
-  on(DevolucionesActions.loadDevolucionesSuccess, (state, { devoluciones }) =>
-    devolucionesAdapter.setAll(devoluciones, { ...state, loaded: true })
-  ),
-  on(DevolucionesActions.loadDevolucionesFailure, (state, { error }) => ({
+  on(DevolucionesActions.cancelarDevolucion, (state) => ({
     ...state,
-    error,
+    loading: true,
+    error: null,
+  })),
+  on(DevolucionesActions.loadDevolucionesSuccess, (state, { devoluciones }) =>
+    devolucionesAdapter.setAll(devoluciones, {
+      ...state,
+      loaded: true,
+      loading: false,
+    })
+  ),
+  on(DevolucionesActions.cancelarDevolucionSuccess, (state, { devolucion }) =>
+    devolucionesAdapter.upsertOne(devolucion, {
+      ...state,
+      loading: false,
+      error: null,
+    })
+  ),
+  on(
+    DevolucionesActions.loadDevolucionesFailure,
+    DevolucionesActions.cancelarDevolucionFail,
+    (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })
+  ),
+  on(DevolucionesActions.upsertDevolucion, (state, { devolucion }) =>
+    devolucionesAdapter.upsertOne(devolucion, {
+      ...state,
+    })
+  ),
+  on(DevolucionesActions.setCurrentDevolucionId, (state, { id }) => ({
+    ...state,
+    selectedId: id,
   }))
 );
 

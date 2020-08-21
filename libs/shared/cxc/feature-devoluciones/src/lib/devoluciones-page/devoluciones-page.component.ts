@@ -1,10 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
-import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { DevolucionesService } from '@nx-papelsa/shared/cxc/data-acces';
-import { DevolucionDto } from '@nx-papelsa/shared/utils/core-models';
+import {
+  DevolucionesFacade,
+  DevolucionesEntity,
+} from '@nx-papelsa/shared/cxc/data-access-devoluciones';
+import {
+  Periodo,
+  Cartera,
+  NotaDeCredito,
+} from '@nx-papelsa/shared/utils/core-models';
 
 @Component({
   selector: 'nx-papelsa-devoluciones-page',
@@ -12,19 +19,35 @@ import { DevolucionDto } from '@nx-papelsa/shared/utils/core-models';
   styleUrls: ['./devoluciones-page.component.scss'],
 })
 export class DevolucionesPageComponent implements OnInit {
-  devoluciones$: Observable<DevolucionDto[]>;
+  cartera$ = this.facade.cartera$;
+  loading$ = this.facade.loading$;
+  periodo$ = this.facade.periodo$;
+  search$ = this.facade.search$;
+  devoluciones$ = this.facade.allDevoluciones$;
 
-  constructor(private service: DevolucionesService, private router: Router) {}
+  _selected$ = new BehaviorSubject<DevolucionesEntity[]>([]);
+  selected$ = this._selected$.asObservable();
+  disponiblesEnvio$ = this.selected$.pipe(
+    map((selected) => selected.filter((item) => item.cfdi))
+  );
+
+  constructor(private facade: DevolucionesFacade) {}
 
   ngOnInit(): void {
-    this.reload();
+    this.facade.loadDevoluciones();
   }
 
   reload() {
-    this.devoluciones$ = this.service.list();
+    this.facade.loadDevoluciones();
   }
-  showInfo(dto: DevolucionDto) {
-    console.log('DTO: ', dto.id);
-    this.router.navigate(['credito', 'devoluciones', 'show', dto.id]);
+
+  onPeriodoChanged(periodo: Periodo) {
+    this.facade.cambiarPeriodo(periodo);
+  }
+  filter(event: string) {
+    this.facade.setSearchTerm(event);
+  }
+  onDrillDown(event: Partial<NotaDeCredito>, cartera: Cartera) {
+    this.facade.edit(event, cartera);
   }
 }

@@ -7,7 +7,11 @@ import * as DevolucionesSelectors from './devoluciones.selectors';
 import * as DevolucionesActions from './devoluciones.actions';
 
 import { CXCFacade } from '@nx-papelsa/shared/cxc/data-acces';
-import { Periodo, Cartera } from '@nx-papelsa/shared/utils/core-models';
+import {
+  Periodo,
+  Cartera,
+  NotaDeCredito,
+} from '@nx-papelsa/shared/utils/core-models';
 
 @Injectable()
 export class DevolucionesFacade {
@@ -18,10 +22,18 @@ export class DevolucionesFacade {
   loading$ = this.store.pipe(
     select(DevolucionesSelectors.getDevolucionesLoading)
   );
+  search$ = this.store.pipe(
+    select(DevolucionesSelectors.getDevolucionesSearchTerm)
+  );
+  periodo$ = this.store.pipe(
+    select(DevolucionesSelectors.getDevolucionesPeriodo)
+  );
+
   allDevoluciones$ = this.store.pipe(
     select(DevolucionesSelectors.getAllDevoluciones)
   );
-  selectedDevoluciones$ = this.store.pipe(
+
+  selectedDevolucion$ = this.store.pipe(
     select(DevolucionesSelectors.getSelected)
   );
 
@@ -45,7 +57,22 @@ export class DevolucionesFacade {
     );
   }
 
-  loadDevoluciones(periodo: Periodo, cartera: Cartera) {
-    this.dispatch(DevolucionesActions.loadDevoluciones({ periodo, cartera }));
+  loadDevoluciones(periodo?: Periodo, cartera?: Cartera) {
+    this.dispatch(DevolucionesActions.loadDevoluciones({}));
+  }
+
+  edit(nota: Partial<NotaDeCredito>, cartera: Cartera) {
+    this.router.navigate([
+      cartera.descripcion.toLowerCase(),
+      'devoluciones',
+      'edit',
+      nota.id,
+    ]);
+  }
+  cancelar(devolucion: Partial<NotaDeCredito>, motivo: string) {
+    console.log('Cancelando Devolucion: ', devolucion.id);
+    this.dispatch(
+      DevolucionesActions.cancelarDevolucion({ devolucion, motivo })
+    );
   }
 }

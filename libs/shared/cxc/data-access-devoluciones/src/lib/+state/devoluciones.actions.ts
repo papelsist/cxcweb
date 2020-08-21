@@ -14,7 +14,7 @@ export const setPeriodoDeDevoluciones = createAction(
 
 export const loadDevoluciones = createAction(
   '[Devoluciones] Load Devoluciones',
-  props<{ periodo: Periodo; cartera: Cartera }>()
+  props<{ periodo?: Periodo; cartera?: Cartera }>()
 );
 
 export const loadDevolucionesSuccess = createAction(
@@ -25,4 +25,28 @@ export const loadDevolucionesSuccess = createAction(
 export const loadDevolucionesFailure = createAction(
   '[Devoluciones] Load Devoluciones Failure',
   props<{ error: any }>()
+);
+
+export const setCurrentDevolucionId = createAction(
+  '[Devolucion exists guard] Set current devolucion id',
+  props<{ id: string }>()
+);
+
+export const upsertDevolucion = createAction(
+  '[Devolucion exists guard] Upsert devolucion',
+  props<{ devolucion: DevolucionesEntity }>()
+);
+
+// CANCELACION
+export const cancelarDevolucion = createAction(
+  '[Devolucion Component] Cancelar devolucion',
+  props<{ devolucion: Partial<DevolucionesEntity>; motivo: string }>()
+);
+export const cancelarDevolucionFail = createAction(
+  '[Devoluciones effects] Cancelar devolucion fail',
+  props<{ error: any }>()
+);
+export const cancelarDevolucionSuccess = createAction(
+  '[Devoluciones effects] Cancelar devolucion success',
+  props<{ devolucion: DevolucionesEntity }>()
 );

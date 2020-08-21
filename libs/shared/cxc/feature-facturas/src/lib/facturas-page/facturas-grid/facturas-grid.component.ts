@@ -231,7 +231,8 @@ export class FacturasGridComponent implements OnInit {
         headerName: 'CFDI',
         field: 'cfdi',
         maxWidth: 100,
-        valueFormatter: (params) => formatUUID(params.value.uuid),
+        valueFormatter: (params) =>
+          params.value ? formatUUID(params.value.uuid) : '',
       },
       {
         headerName: 'Comentario',

@@ -205,9 +205,12 @@ export class BonificacionesEffects {
             fromBonificaciones.BONIFICACIONES_STORAGE_PERIODO_KEY,
             periodo
           )
+        ),
+        map(({ periodo }) =>
+          BonificacionesActions.loadBonificaciones({ periodo, cartera: 'CRE' })
         )
       ),
-    { dispatch: false }
+    { dispatch: true }
   );
 
   errors$ = createEffect(

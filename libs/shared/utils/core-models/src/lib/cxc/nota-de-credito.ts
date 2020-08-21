@@ -46,6 +46,9 @@ export interface NotaDeCredito {
   cancelacion?: string;
   cancelacionMotivo?: string;
   cancelacionUsuario?: string;
+
+  autorizo?: string;
+  autorizoFecha?: string;
 }
 
 export interface NotaDeCreditoDet {

@@ -65,6 +65,17 @@ class NotaDeCreditoController extends RestfulController<NotaDeCredito>{
     }
 
     @Override
+    def show() {
+      NotaDeCredito nc = NotaDeCredito.get(params.id)
+      if(nc == null) {
+        notFound()
+        return
+      }
+      log.info('[GET] Nota: {}', nc.folio)
+      respond nc
+    }
+
+    @Override
     protected List<NotaDeCredito> listAllResources(Map params) {
 
         params.max = Math.max(params.max?:10, 100)
@@ -80,13 +91,18 @@ class NotaDeCreditoController extends RestfulController<NotaDeCredito>{
             query = query.where{tipoCartera == cartera}
         }
 
+        if(params.tipo) {
+          String tipo = params.tipo
+          query = query.where{tipo == tipo}
+        }
+
         if(params.periodo) {
             def periodo = params.periodo
             query = query.where{fecha >= periodo.fechaInicial && fecha <= periodo.fechaFinal}
         }
 
         def list = query.list(params)
-        respond list
+        return list
     }
 
     def search() {

@@ -48,7 +48,7 @@
             La dirección de envio no es válida
           </mat-error>
         </mat-form-field>
-        <mat-checkbox [ngModel]="grupo.zip">
+        <mat-checkbox [(ngModel)]="grupo.zip">
           Comprimir archivos
         </mat-checkbox>
         <button
@@ -60,13 +60,11 @@
           Cambira
         </button>
       </div>
-      <!-- <mat-action-row>
-      </mat-action-row> -->
     </div>
   </mat-expansion-panel>
 </mat-accordion>
 
 <mat-dialog-actions>
   <button mat-button [mat-dialog-close]>Cancelar</button>
-  <button mat-button color="primary" [mat-dialog-close]="true">Enviar</button>
+  <button mat-button color="primary" (click)="onSubmit()">Enviar</button>
 </mat-dialog-actions>
