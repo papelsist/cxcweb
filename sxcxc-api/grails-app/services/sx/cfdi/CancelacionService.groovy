@@ -24,8 +24,8 @@ class CancelacionService implements  LogUser {
     SOAPClient client = new SOAPClient("https://cfdiws.sedeb2b.com/EdiwinWS/services/CFDi?wsdl")
 
     // @CompileDynamic
-    // @Transactional
-    CancelacionDeCfdi cancelarCfdi(Cfdi cfdi, boolean isTest = this.isCancelacionDePrueba()) {
+    @Transactional
+    CancelacionDeCfdi cancelarCfdi(Cfdi cfdi, boolean isTest = false) {
 
         CancelacionDeCfdi found = CancelacionDeCfdi.where {cfdi == cfdi}.find()
         if(found) {
@@ -135,6 +135,7 @@ class CancelacionService implements  LogUser {
      *
      * @param cancelacion
      */
+     @Transactional
     def actualizarStatus(CancelacionDeCfdi cancelacion) {
         String url = 'http://cfdi.service.ediwinws.edicom.com'
         Empresa empresa = Empresa.first()
@@ -257,9 +258,12 @@ class CancelacionService implements  LogUser {
     }
 
     Boolean isCancelacionDePrueba() {
+      return false
+      /*
         Boolean produccion = (Environment.current == Environment.PRODUCTION)
         Boolean queretaro = Environment.current.name == 'queretaro'
         return !(produccion || queretaro)
+        */
     }
 
 
