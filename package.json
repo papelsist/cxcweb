@@ -26,7 +26,8 @@
     "help": "nx help",
     "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
     "build:stats": "nx build --statsJson",
-    "analyze": "webpack-bundle-analyzer dist/apps/cxc-web/stats-es2015.json"
+    "analyze": "webpack-bundle-analyzer dist/apps/cxc-web/stats-es2015.json",
+    "server": "./sxcxc-api/.gradlew bootRun"
   },
   "private": true,
   "dependencies": {
