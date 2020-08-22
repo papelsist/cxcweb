@@ -35,10 +35,11 @@ class OriginalUrlMappings {
         //Comprobantes fiscales de proveedores CFDI's
         "/api/cfdis"(resources: "cfdi")
         "/api/cfdis/mostrarXml/$id?"(controller:"cfdi", action:"mostrarXml")
+        "/api/cfdis/mostrarAcuseDeCancelacionXml/$id?"(controller:"cfdi", action:"mostrarAcuseDeCancelacionXml")
         "/api/cfdis/descargarXml/$id?"(controller:"cfdi", action:"descargarXml", method: 'GET')
         "/api/cfdis/print/$id"(controller: "cfdi", action: 'print', method: 'GET')
         "/api/cfdis/enviarComprobantes"(controller:"cfdi", action:"enviarComprobantes", method: 'PUT')
-        
+
 
         // Ventas
         "/api/ventas"(resources:"venta")
@@ -172,6 +173,6 @@ class OriginalUrlMappings {
         // "/api/security/users/findByNip"( controller:'user', action: 'findByNip', method: 'GET')
 
 
-        
+
     }
 }

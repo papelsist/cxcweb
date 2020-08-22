@@ -73,4 +73,21 @@ export class CfdiService {
       .put(url, payload)
       .pipe(catchError((error: any) => throwError(error)));
   }
+
+  mostrarCancelacionXml(cfdi: Partial<Cfdi>) {
+    const url = `${this.apiUrl}/mostrarAcuseDeCancelacionXml/${cfdi.id}`;
+    const headers = new HttpHeaders().set('Content-type', 'text/xml');
+    return this.http
+      .get(url, {
+        headers: headers,
+        responseType: 'blob',
+      })
+      .subscribe((res) => {
+        const blob = new Blob([res], {
+          type: 'text/xml',
+        });
+        const fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL, '_blank');
+      });
+  }
 }

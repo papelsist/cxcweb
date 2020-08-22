@@ -33,7 +33,6 @@ export interface NotaDeCredito {
   financiero: boolean;
   cobro?: Partial<Cobro>;
   disponible?: number;
-  rmdSucursal?: string;
   sinReferencia?: boolean;
 
   cfdi?: Partial<Cfdi>;

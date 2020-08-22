@@ -155,7 +155,7 @@ class CancelacionService implements  LogUser {
             }
         }
         Map responseData = procesaStatusResponse(response)
-        log.info('Respnose data: {}', responseData)
+        log.info('Actualizando cancelacion Response: {}', responseData)
         cancelacion.properties = responseData
         cancelacion.comentario = "CONSUSLTA DE CANCELACION "
         logEntity(cancelacion)

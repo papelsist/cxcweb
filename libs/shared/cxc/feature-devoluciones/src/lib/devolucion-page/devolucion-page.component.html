@@ -53,6 +53,10 @@
           (delete)="onDelete(devolucion)"
         ></nx-papelsa-delete-entity>
       </ng-container>
+      <nx-papelsa-cfdi-cancel-xml
+        [cfdi]="devolucion.cfdi"
+        *ngIf="devolucion.cancelacion"
+      ></nx-papelsa-cfdi-cancel-xml>
 
       <div
         fxFlex

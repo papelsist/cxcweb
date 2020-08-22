@@ -13,10 +13,6 @@
       devolucion.cancelacionUsuario
     }}"
   >
-    <button td-message-actions mat-button>
-      <span>Descargar Acuse</span>
-      <mat-icon>get_app</mat-icon>
-    </button>
   </td-message>
   <div fxLayout fxLayoutGap="10px" fxLayoutAlign="start baseline">
     <!-- <nx-papelsa-devolucion-concepto
@@ -56,6 +52,11 @@
     <mat-form-field>
       <mat-label>Total:</mat-label>
       <input matInput value="{{ devolucion.total | currency }}" readonly />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>RMD</mat-label>
+      <input matInput value="{{ devolucion['rmd'] || 'FALTA' }}" readonly />
+      <mat-hint>{{ devolucion['rmdSucursal'] || 'FALTA' }}</mat-hint>
     </mat-form-field>
 
     <ng-container>

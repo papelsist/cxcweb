@@ -32,6 +32,8 @@ class CfdiController extends RestfulController {
 
     MailJetService mailJetService
 
+    CancelacionService cancelacionService
+
     static responseFormats = ['json']
 
     CfdiController(){
@@ -69,6 +71,23 @@ class CfdiController extends RestfulController {
         response.outputStream << contentStream
         webRequest.renderView = false
         // render (file: file, contentType: 'text/xml', filename: cfdi.fileName)
+    }
+
+    def mostrarAcuseDeCancelacionXml(Cfdi cfdi){
+        if(cfdi == null ){
+            notFound()
+            return
+        }
+        CancelacionDeCfdi cancelacion = CancelacionDeCfdi.findByCfdi(cfdi)
+        if(cancelacion == null) {
+          throw new RuntimeException("No existe la entidad CancelacionDeCfdi para el cfdi: ${cfdi.uuid}")
+          return
+        }
+        if(cancelacion.status != 'Cancelado') {
+          cancelacion = cancelacionService.actualizarStatus(cancelacion)
+        }
+        def xml = cancelacion.ack
+        render (file: xml, contentType: 'text/xml', filename: cfdi.fileName, encoding: "UTF-8")
     }
 
     def enviarComprobantes(EnvioTask task) {

@@ -14,6 +14,7 @@ import { CfdiCancelarComponent } from './cfdi-cancelar/cfdi-cancelar.component';
 
 import { CFDI_COMPONENTS, CFDI_ENTRY_COMPONENTS } from './components';
 import { CfdiEmailBulkComponent } from './cfdi-email/cfdi-email-bulk.component';
+import { CfdiCancelXmlComponent } from './cfdi-cancel-xml/cfdi-cancel-xml.component';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { CfdiEmailBulkComponent } from './cfdi-email/cfdi-email-bulk.component';
     CfdiEmailComponent,
     CfdiCancelarComponent,
     CfdiEmailBulkComponent,
+    CfdiCancelXmlComponent,
     ...CFDI_COMPONENTS,
   ],
   exports: [
@@ -38,6 +40,7 @@ import { CfdiEmailBulkComponent } from './cfdi-email/cfdi-email-bulk.component';
     CfdiEmailComponent,
     CfdiCancelarComponent,
     CfdiEmailBulkComponent,
+    CfdiCancelXmlComponent,
     ...CFDI_COMPONENTS,
   ],
   entryComponents: [...CFDI_ENTRY_COMPONENTS],

@@ -54,6 +54,11 @@
         ></nx-papelsa-delete-entity>
       </ng-container>
 
+      <nx-papelsa-cfdi-cancel-xml
+        [cfdi]="bonificacion.cfdi"
+        *ngIf="bonificacion.cancelacion"
+      ></nx-papelsa-cfdi-cancel-xml>
+
       <div
         fxFlex
         fxLayout

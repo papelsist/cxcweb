@@ -83,7 +83,7 @@ class MailJetService {
                     // .put(Emailv31.Message.HTMLPART, "<h3>Dear passenger 1, welcome to <a href=\"https://www.mailjet.com/\">Mailjet</a>!</h3><br />May the delivery force be with you!")
                     .put(Emailv31.Message.ATTACHMENTS, attachments)));
 
-    // request.property(Emailv31.SANDBOX_MODE, isSandboxMode())
+    request.property(Emailv31.SANDBOX_MODE, isSandboxMode())
     MailjetResponse response = getClient().post(request);
     def status = response.getStatus()
     def data = response.getData()

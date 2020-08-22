@@ -64,16 +64,32 @@ class NotaDeCreditoController extends RestfulController<NotaDeCredito>{
         return instance
     }
 
+
+    /*
     @Override
     def show() {
-      NotaDeCredito nc = NotaDeCredito.get(params.id)
-      if(nc == null) {
+      NotaDeCredito nota = NotaDeCredito.get(params.id)
+      if(nota == null) {
         notFound()
         return
       }
-      log.info('[GET] Nota: {}', nc.folio)
-      respond nc
+      log.info('[GET] Nota: {} {}  ', nota.tipo, nota.folio)
+      if(nota.tipo == 'DEVOLUCION') {
+          if(!nota.rmd || !nota.rmdSucursal) {
+            log.info('Falta localizar el RMD')
+            def rmd = DevolucionDeVenta.findByCobro(nota.cobro)
+            if(rmd){
+              NotaDeCredito.withNewTransaction {
+                nota.rmd = rmd.documento
+                nota.rmdSucursal = rmd.sucursal.nombre
+                nota.save flush: true
+              }
+            }
+          }
+      }
+      respond nota
     }
+    */
 
     @Override
     protected List<NotaDeCredito> listAllResources(Map params) {
