@@ -32,7 +32,7 @@ import sx.cfdi.CfdiPrintService
 
 @Slf4j
 // @GrailsCompileStatic
-@ToString(includeNames=true,includePackage=false, excludes = ['cfdiPrintService', 'mailJetPrivateKey', 'mailJetDefaultSender'])
+@ToString(includeNames=true,includePackage=false, excludes = ['cfdiPrintService', 'cfdiLocationService', 'cfdiPrintService', 'client'])
 class MailJetService {
 
   @Value('${MJ_APIKEY_PUBLIC}')

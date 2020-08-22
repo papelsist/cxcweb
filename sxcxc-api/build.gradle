@@ -141,7 +141,7 @@ task buildConf() {
         String fileName = "sx-cxc-server.conf"
         File file = file("build/libs/${fileName}")
         file.append("JAVA_OPTS=-Xmx1024M")
-        file.append("\nRUN_ARGS=\"--JDBC_CONNECTION_STRING=localhos/siipapx_dev --server.port=9095\"")
+        file.append("\nRUN_ARGS=\"--JDBC_CONNECTION_STRING=localhost/siipapx_dev --server.port=9095\"")
 
     }
 }
