@@ -5,7 +5,7 @@ import java.util.zip.ZipOutputStream
 
 import groovy.util.logging.Slf4j
 import groovy.json.JsonSlurper
-
+import groovy.transform.ToString
 
 import org.springframework.beans.factory.annotation.Value
 
@@ -32,6 +32,7 @@ import sx.cfdi.CfdiPrintService
 
 @Slf4j
 // @GrailsCompileStatic
+@ToString(includeNames=true,includePackage=false, excludes = ['cfdiPrintService', 'mailJetPrivateKey', 'mailJetDefaultSender'])
 class MailJetService {
 
   @Value('${MJ_APIKEY_PUBLIC}')
