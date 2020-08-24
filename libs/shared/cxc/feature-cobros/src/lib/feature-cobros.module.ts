@@ -19,7 +19,7 @@ import {
           import('./cobros-page/cobros-page.module').then(
             (m) => m.CobrosPageModule
           ),
-        canActivate: [CobrosGuard],
+        canActivate: [],
       },
       {
         path: 'edit/:id',

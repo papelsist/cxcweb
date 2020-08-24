@@ -44,8 +44,11 @@ class NotaBuilder {
         subTotalAcumulado = 0.0
         descuentoAcumulado = 0.0
         if (nota.tipo.startsWith('DEV')){
-            rmd = DevolucionDeVenta.where{ cobro == this.nota.cobro}.find()
-            assert rmd, 'No existe el RMD '
+            // rmd = DevolucionDeVenta.where{ cobro == this.nota.cobro}.find()
+            rmd = nota.devolucion
+            if(rmd == null)
+              throw new RuntimeException('No existe RMD asociado a la nota')
+
         }
         buildComprobante()
             .buildEmisor()

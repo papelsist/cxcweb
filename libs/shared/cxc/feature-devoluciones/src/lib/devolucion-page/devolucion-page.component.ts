@@ -33,30 +33,28 @@ export class DevolucionPageComponent extends BaseComponent implements OnInit {
     this.devolucion$ = facade.selectedDevolucion$;
   }
 
-  ngOnInit(): void {
-    this.devolucion$.subscribe((d) => console.log(d));
-  }
+  ngOnInit(): void {}
 
   onUpdate(devolucion: Update<DevolucionesEntity>) {
     console.log('Actualizar Devolucion: ', devolucion);
-    // this.facade.update(devolucion);
+    this.facade.update(devolucion);
   }
 
-  onTimbrar(devolucion: Partial<NotaDeCredito>) {
+  onTimbrar(devolucion: NotaDeCredito) {
     this.confirm(
       'Generar comprobante fiscal (CFDI)',
       `Total: $${devolucion.total}`
     ).subscribe((res) => {
-      // if (res) this.facade.timbrar(devolucion);
+      if (res) this.facade.timbrar(devolucion);
     });
   }
 
-  onCancelar(devolucion: Partial<NotaDeCredito>, { motivo }) {
+  onCancelar(devolucion: NotaDeCredito, { motivo }) {
     this.facade.cancelar(devolucion, motivo);
   }
 
-  onDelete(devolucion: Partial<NotaDeCredito>) {
-    // this.facade.delete(devolucion);
+  onDelete(devolucion: NotaDeCredito) {
+    this.facade.delete(devolucion);
   }
 
   porAutrizar(devolucion: Partial<NotaDeCredito>) {
@@ -71,7 +69,7 @@ export class DevolucionPageComponent extends BaseComponent implements OnInit {
     // this.facade.update({ id: devolucion.id, changes });
   }
 
-  onAplicar(devolucion: Partial<NotaDeCredito>) {
+  onAplicar(devolucion: NotaDeCredito) {
     if (devolucion.disponible > 0.0) {
       this.confirm(
         'Aplicación automática',
@@ -79,7 +77,7 @@ export class DevolucionPageComponent extends BaseComponent implements OnInit {
           devolucion.disponible
         )} a las facturas registradas en los conceptos? `
       ).subscribe((res) => {
-        // if (res) this.facade.aplicar(devolucion);
+        if (res) this.facade.aplicar(devolucion);
       });
     }
   }

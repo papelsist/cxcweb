@@ -7,6 +7,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils
 import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
+import static org.springframework.http.HttpStatus.*
 
 import sx.reports.ReportService
 
@@ -64,32 +65,33 @@ class NotaDeCreditoController extends RestfulController<NotaDeCredito>{
         return instance
     }
 
+    @Transactional
+    def update() {
+      if(handleReadOnly()) {
+          return
+      }
 
-    /*
-    @Override
-    def show() {
-      NotaDeCredito nota = NotaDeCredito.get(params.id)
-      if(nota == null) {
-        notFound()
-        return
+      NotaDeCredito instance = queryForResource(params.id)
+      if (instance == null) {
+          transactionStatus.setRollbackOnly()
+          notFound()
+          return
       }
-      log.info('[GET] Nota: {} {}  ', nota.tipo, nota.folio)
-      if(nota.tipo == 'DEVOLUCION') {
-          if(!nota.rmd || !nota.rmdSucursal) {
-            log.info('Falta localizar el RMD')
-            def rmd = DevolucionDeVenta.findByCobro(nota.cobro)
-            if(rmd){
-              NotaDeCredito.withNewTransaction {
-                nota.rmd = rmd.documento
-                nota.rmdSucursal = rmd.sucursal.nombre
-                nota.save flush: true
-              }
-            }
-          }
+
+      instance.properties = getObjectToBind()
+
+      instance.validate()
+      if (instance.hasErrors()) {
+          transactionStatus.setRollbackOnly()
+          respond instance.errors, view:'edit' // STATUS CODE 422
+          return
       }
-      respond nota
+
+      updateResource instance
+      respond instance, [view: 'show', status: OK]
     }
-    */
+
+
 
     @Override
     protected List<NotaDeCredito> listAllResources(Map params) {
@@ -139,6 +141,30 @@ class NotaDeCreditoController extends RestfulController<NotaDeCredito>{
     }
 
     def buscarRmd() {
+      params.max = 1000
+      params.sort = params.sort ?:'lastUpdated'
+      params.order = params.order ?:'desc'
+      String cartera = params.cartera
+      String clienteId = params.clienteId
+
+      if(cartera == 'CRE') {
+        def rows = DevolucionDeVenta.findAll("""
+          from DevolucionDeVenta d
+          where d.venta.cliente.id = :id
+            and d.cobro is null
+            and d.cancelado is null
+            and d.venta.tipo = :cart
+            order by d.fecha desc""",
+        [id: clienteId, cart: cartera])
+        log.debug('RMDs localizados: {}', rows.size())
+        respond rows
+        return
+      }
+      def emty = [:]
+      respond(emty)
+    }
+
+    def buscarRmdOld() {
         log.debug('Buscar RMDs {}', params)
         params.max = 1000
         params.sort = params.sort ?:'lastUpdated'

@@ -38,7 +38,7 @@ class CobroController extends RestfulController<Cobro>{
     protected List<Cobro> listAllResources(Map params) {
         log.debug('Cobros GET Params: {}', params)
         def query = Cobro.where {}
-        params.max = params.max?: 50
+        params.max = params.max?: 100
         params.sort = params.sort ?:'lastUpdated'
         params.order = params.order ?:'desc'
         if(params.cartera) {

@@ -21,7 +21,7 @@ export class CobrosPageComponent implements OnInit {
   ngOnInit(): void {}
 
   reload(periodo: Periodo, cartera: Cartera) {
-    // this.facade.loadBonificaciones(periodo, cartera.clave);
+    this.facade.loadCobros(periodo, cartera.clave);
   }
 
   onDrillDown(event: Partial<Cobro>, cartera: Cartera) {
@@ -29,10 +29,10 @@ export class CobrosPageComponent implements OnInit {
   }
 
   filter(event: string) {
-    // this.facade.setSearchTerm(event);
+    this.facade.setSearchTerm(event);
   }
 
   cambiarPeriodo(periodo: Periodo) {
-    // this.facade.cambiarPeriodo(periodo);
+    this.facade.cambiarPeriodo(periodo);
   }
 }

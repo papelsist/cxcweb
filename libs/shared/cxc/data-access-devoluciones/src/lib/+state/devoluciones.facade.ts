@@ -12,6 +12,8 @@ import {
   Cartera,
   NotaDeCredito,
 } from '@nx-papelsa/shared/utils/core-models';
+import { Update } from '@ngrx/entity';
+import { DevolucionesEntity } from './devoluciones.models';
 
 @Injectable()
 export class DevolucionesFacade {
@@ -61,6 +63,14 @@ export class DevolucionesFacade {
     this.dispatch(DevolucionesActions.loadDevoluciones({}));
   }
 
+  save(devolucion: Partial<NotaDeCredito>) {
+    this.dispatch(DevolucionesActions.saveDevolucion({ devolucion }));
+  }
+
+  update(update: Update<DevolucionesEntity>) {
+    this.dispatch(DevolucionesActions.updateDevolucion({ update }));
+  }
+
   edit(nota: Partial<NotaDeCredito>, cartera: Cartera) {
     this.router.navigate([
       cartera.descripcion.toLowerCase(),
@@ -69,10 +79,22 @@ export class DevolucionesFacade {
       nota.id,
     ]);
   }
-  cancelar(devolucion: Partial<NotaDeCredito>, motivo: string) {
+
+  cancelar(devolucion: NotaDeCredito, motivo: string) {
     console.log('Cancelando Devolucion: ', devolucion.id);
     this.dispatch(
       DevolucionesActions.cancelarDevolucion({ devolucion, motivo })
     );
+  }
+  delete(devolucion: NotaDeCredito) {
+    this.dispatch(DevolucionesActions.deleteDevolucion({ devolucion }));
+  }
+
+  timbrar(devolucion: NotaDeCredito) {
+    this.dispatch(DevolucionesActions.timbrarDevolucion({ devolucion }));
+  }
+
+  aplicar(devolucion: NotaDeCredito) {
+    this.dispatch(DevolucionesActions.aplicar({ devolucion }));
   }
 }

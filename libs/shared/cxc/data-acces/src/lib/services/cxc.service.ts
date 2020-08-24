@@ -9,6 +9,8 @@ import {
   CuentaPorCobrarDTO,
   CuentaPorCobrar,
   Cartera,
+  DevolucionDto,
+  Devolucion,
 } from '@nx-papelsa/shared/utils/core-models';
 
 @Injectable({
@@ -17,7 +19,7 @@ import {
 export class CxcService {
   private apiUrl: string;
 
-  constructor(private http: HttpClient, @Inject('apiUrl') api) {
+  constructor(private http: HttpClient, @Inject('apiUrl') private api) {
     this.apiUrl = `${api}/cuentasPorCobrar`;
   }
 
@@ -62,6 +64,16 @@ export class CxcService {
     const url = `${this.apiUrl}/pendientes/${clienteId}`;
     return this.http
       .get<CuentaPorCobrarDTO[]>(url)
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  rmdPendientes(clienteId: string, cartera: string): Observable<Devolucion[]> {
+    const url = `${this.api}/cxc/notas/buscarRmd`;
+    const params = new HttpParams()
+      .set('clienteId', clienteId)
+      .set('cartera', cartera);
+    return this.http
+      .get<Devolucion[]>(url, { params })
       .pipe(catchError((error: any) => throwError(error)));
   }
 

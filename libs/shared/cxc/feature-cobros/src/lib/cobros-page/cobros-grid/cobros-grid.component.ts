@@ -84,6 +84,9 @@ export class CobrosGridComponent implements OnInit {
     this.gridOptions.onRowDoubleClicked = (event) => {
       this.drillDown.emit(event.data);
     };
+    this.gridOptions.rowHeight = 35;
+    this.gridOptions.headerHeight = 40;
+    this.gridOptions.suppressCellSelection = true;
   }
 
   onGridReady(params) {
@@ -93,7 +96,8 @@ export class CobrosGridComponent implements OnInit {
 
   onModelUpdated(event) {
     if (this.gridApi) {
-      this.gridColumnApi.autoSizeAllColumns();
+      // this.gridColumnApi.autoSizeAllColumns();
+      this.gridApi.resetRowHeights();
     }
   }
 
@@ -161,6 +165,7 @@ export class CobrosGridComponent implements OnInit {
         sortable: true,
         filter: true,
         resizable: true,
+        minWidth: 250,
       },
       {
         headerName: 'Sucursal',
@@ -184,6 +189,14 @@ export class CobrosGridComponent implements OnInit {
         valueFormatter: (params) => this.formatCurrency(params.value),
       },
       {
+        headerName: 'Aplicado',
+        field: 'aplicado',
+        sortable: true,
+        filter: true,
+        width: 120,
+        valueFormatter: (params) => this.formatCurrency(params.value),
+      },
+      {
         headerName: 'Disponible',
         field: 'disponible',
         sortable: true,
@@ -196,6 +209,10 @@ export class CobrosGridComponent implements OnInit {
         field: 'cfdi',
         cellRendererFramework: AgBooleanRendererComponent,
         width: 90,
+      },
+      {
+        headerName: 'Comentario',
+        field: 'comentario',
       },
     ];
   }

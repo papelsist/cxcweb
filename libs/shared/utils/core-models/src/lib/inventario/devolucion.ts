@@ -12,6 +12,7 @@ export interface Devolucion extends TransactionLog {
   documento: number;
   fecha: string;
   sucursal: Partial<Sucursal>;
+  sucursalNombre?: string;
   importe: number;
   impuesto: number;
   total: number;

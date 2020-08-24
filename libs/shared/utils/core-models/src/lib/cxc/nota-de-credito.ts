@@ -3,6 +3,7 @@ import { Cfdi } from '../core';
 import { CuentaPorCobrar } from './cuenta-por-cobrar';
 import { CuentaPorCobrarDTO } from '../dtos';
 import { Cobro } from './cobro';
+import { Devolucion } from '../inventario';
 
 export interface NotaDeCredito {
   id: string;
@@ -32,6 +33,7 @@ export interface NotaDeCredito {
   descuento2: number;
   financiero: boolean;
   cobro?: Partial<Cobro>;
+  aplicado?: number;
   disponible?: number;
   sinReferencia?: boolean;
 
@@ -48,6 +50,7 @@ export interface NotaDeCredito {
 
   autorizo?: string;
   autorizoFecha?: string;
+  devolucion?: Partial<Devolucion>;
 }
 
 export interface NotaDeCreditoDet {

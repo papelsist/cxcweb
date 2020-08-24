@@ -33,18 +33,18 @@
       </ng-container>
 
       <ng-container *ngIf="!devolucion.cfdi">
-        <nx-papelsa-autorizacion
+        <!-- <nx-papelsa-autorizacion
           *ngIf="!devolucion.autorizo"
           [disabled]="!porAutrizar(devolucion)"
           descripcion="Bonificación: {{ devolucion.concepto }}"
           (autorizacion)="onAutorizar($event, devolucion)"
         >
-        </nx-papelsa-autorizacion>
+        </nx-papelsa-autorizacion> -->
         <nx-papelsa-cfdi-timbrar
-          *ngIf="devolucion.total > 0.0"
+          *ngIf="devolucion.devolucion && devolucion.total > 0"
           color="accent"
           (timbrar)="onTimbrar(devolucion)"
-          [disabled]="form.isDirty() || !devolucion.autorizo"
+          [disabled]="form.isDirty()"
         ></nx-papelsa-cfdi-timbrar>
         <nx-papelsa-delete-entity
           [entity]="devolucion"

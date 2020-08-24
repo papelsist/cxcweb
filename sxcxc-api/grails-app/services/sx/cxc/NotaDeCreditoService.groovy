@@ -46,58 +46,59 @@ class NotaDeCreditoService implements LogUser{
 
     def update(NotaDeCredito nota) {
         logEntity(nota)
+        if(nota.tipo == 'DEVOLUCION')
+          return registrarDevolucion(nota)
         nota.save failOnError: true, flush: true
         return nota
     }
 
-
-
-    def generarNotaDeDevolucion(NotaDeCredito nota, DevolucionDeVenta rmd) {
-        if (rmd.cobro && nota.tipoCartera == 'CRE') {
-            throw new NotaDeCreditoException("RMD ${rmd.documento} ${rmd.sucursal} Ya tiene nota de credito generada")
+    def registrarDevolucion(NotaDeCredito nota) {
+      DevolucionDeVenta rmd = nota.devolucion
+      if(rmd == null) {
+        throw new NotaDeCreditoException("La Nota ${nota.folio} no tiene asignada una devolucion de venta (RMD) ")
+      }
+      if (rmd.cobro && nota.tipoCartera == 'CRE') {
+        throw new NotaDeCreditoException("RMD ${rmd.documento} ${rmd.sucursal} Ya tiene nota de credito generada")
+      }
+      log.info('Registrando ')
+      nota.sucursal = rmd.sucursal
+      if(rmd.venta.moneda != 'MXN') {
+        Venta venta = rmd.venta
+        nota.moneda = rmd.venta.moneda
+        if(venta.cuentaPorCobrar.saldo <= 0.0) {
+          // Venta Pagada
+          AplicacionDeCobro apliacion = AplicacionDeCobro.where{cuentaPorCobrar == venta.cuentaPorCobrar}.find()
+          nota.tc = apliacion.cobro.tipoDeCambio
+        } else {
+          nota.tc = rmd.venta.tipoDeCambio
         }
-        log.debug('Generando nota de credito de devolucion para el rmd {} ', rmd.id)
-        nota.cliente = rmd.venta.cliente
-        nota.sucursal = rmd.sucursal
-        nota.tipo = 'DEVOLUCION'
-        if(rmd.venta.moneda != 'MXN') {
-            Venta venta = rmd.venta
-            nota.moneda = rmd.venta.moneda
-            if(venta.cuentaPorCobrar.saldo <= 0.0) {
-                // Venta Pagada
-                AplicacionDeCobro apliacion = AplicacionDeCobro.where{cuentaPorCobrar == venta.cuentaPorCobrar}.find()
-                nota.tc =apliacion.cobro.tipoDeCambio
-            } else {
-                nota.tc = rmd.venta.tipoDeCambio
-            }
-        }
-
-        nota.importe = rmd.importe
-        nota.impuesto = rmd.impuesto
-        nota.total = rmd.total
-        String serie = "DEV${nota.tipoCartera.toUpperCase()}"
-        nota.serie = serie
-        nota.folio = Folio.nextFolio('NOTA_DE_CREDITO', serie)
-        nota.comentario = "RMD:${rmd.documento} ${rmd.venta.cuentaPorCobrar.tipo} " +
+      }
+      nota.importe = rmd.importe
+      nota.impuesto = rmd.impuesto
+      nota.total = rmd.total
+      nota.comentario = "RMD:${rmd.documento} ${rmd.venta.cuentaPorCobrar.tipo} " +
                 "F-${rmd.venta.cuentaPorCobrar.documento} " +
                 "(${rmd.venta.cuentaPorCobrar.fecha.format('dd/MM/yyyy')}) " +
                 "${rmd.sucursal.nombre}"
-        if (nota.tipoCartera == 'CRE'){
-            log.debug('Generando cobro para nota de devoluion tipo {}', nota.tipoCartera)
-            Cobro cobro = generarCobro(nota)
-            nota.cobro = cobro
-            nota.save failOnError: true, flush: true
-            aplicar(nota)
-            rmd.cobro = cobro
-            rmd.save failOnError: true, flush: true
-            return nota
-        } else {
-            nota.cobro = rmd.cobro
-            nota.save failOnError: true, flush: true
-            //aplicar(nota)
-            return nota
-        }
+      // Generar partida
+      // nota.addToPartidas()
 
+      if (nota.tipoCartera == 'CRE'){
+        /* YA NO SE REQUIERE EL COBRO SE GENERA  AL TIMBRAR
+        log.debug('Generando cobro para nota de devoluion tipo {}', nota.tipoCartera)
+        Cobro cobro = generarCobro(nota)
+        nota.cobro = cobro
+        nota.save failOnError: true, flush: true
+        // aplicar(nota)
+        rmd.cobro = cobro
+        rmd.save failOnError: true, flush: true
+        return nota
+        */
+      } else {
+        nota.cobro = rmd.cobro
+        nota.save failOnError: true, flush: true
+        return nota
+      }
     }
 
     def generarCfdi(NotaDeCredito nota) {
@@ -122,21 +123,26 @@ class NotaDeCreditoService implements LogUser{
 
 
     private generarCobro(NotaDeCredito nota) {
-        Cobro cobro = new Cobro()
-        cobro.setCliente(nota.cliente)
-        cobro.setFecha(new Date())
-        cobro.importe = nota.total
-        cobro.moneda = nota.moneda
-        cobro.tipoDeCambio = nota.tc
-        cobro.tipo = nota.tipoCartera
-        cobro.comentario = nota.comentario
-        cobro.createUser = nota.createUser
-        cobro.updateUser = nota.updateUser
-        cobro.sucursal = nota.sucursal
-        cobro.referencia = nota.folio.toString()
-        cobro.formaDePago = nota.tipo
-        cobro.save failOnError: true, flush: true
-        return cobro
+      Cobro cobro = new Cobro()
+      cobro.setCliente(nota.cliente)
+      cobro.setFecha(new Date())
+      cobro.importe = nota.total
+      cobro.moneda = nota.moneda
+      cobro.tipoDeCambio = nota.tc
+      cobro.tipo = nota.tipoCartera
+      cobro.comentario = nota.comentario
+      cobro.createUser = nota.createUser
+      cobro.updateUser = nota.updateUser
+      cobro.sucursal = nota.sucursal
+      cobro.referencia = nota.folio.toString()
+      cobro.formaDePago = nota.tipo
+      cobro.save failOnError: true, flush: true
+      if(nota.devolucion) {
+        DevolucionDeVenta rmd = nota.devolucion
+        rmd.cobro = cobro
+        rmd.save failOnError: true, flush: true
+      }
+      return cobro
     }
 
     def aplicar(NotaDeCredito nota) {
@@ -202,26 +208,34 @@ class NotaDeCreditoService implements LogUser{
 
     def eliminar(NotaDeCredito nota) {
         if(nota.cfdi ){
-            Cfdi cfdi = nota.cfdi
-            if (cfdi) {
-                throw new NotaDeCreditoException('Nota de credito timbrada no se puede eliminar')
-            }
+          throw new NotaDeCreditoException('Nota de credito timbrada no se puede eliminar')
         }
+
         Cobro cobro = nota.cobro
         nota.cobro = null
+
+        if(nota.devolucion) {
+          DevolucionDeVenta rmd = nota.devolucion
+          rmd.cobro = null
+          rmd.save flush: true
+        }
+
+        if(cobro) {
+          cobro.delete flush: true
+        }
         nota.delete flush:true
 
-        // Eliminar el cobro si es de Devolucion
-
+        /*
         if(nota.tipoCartera == 'CRE'  || nota.tipo.startsWith('BON')) {
             if(nota.tipo.startsWith('DEV') ){
-                DevolucionDeVenta rmd = DevolucionDeVenta.where{cobro == cobro}.find()
+                DevolucionDeVenta rmd = nota.devolucion
                 rmd.cobro = null
                 rmd.save()
             }
             if(cobro)
                 cobro.delete flush: true
         }
+        */
     }
 
     def cancelar(NotaDeCredito nota, String motivo) {

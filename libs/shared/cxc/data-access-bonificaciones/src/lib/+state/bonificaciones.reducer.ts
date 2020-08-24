@@ -25,7 +25,10 @@ export interface BonificacionesPartialState {
 
 export const bonificacionesAdapter: EntityAdapter<BonificacionesEntity> = createEntityAdapter<
   BonificacionesEntity
->();
+>({
+  sortComparer: (d1, d2) =>
+    d1.folio > d2.folio ? -1 : d1.folio < d2.folio ? 1 : 0,
+});
 
 export const initialState: State = bonificacionesAdapter.getInitialState({
   // set initial required properties

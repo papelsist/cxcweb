@@ -143,8 +143,8 @@ export class DevolucionesGridComponent implements OnInit {
   private buildColumnDef(): ColDef[] {
     return [
       {
-        headerName: 'Tipo',
-        field: 'tipo',
+        headerName: 'Sucursal',
+        field: 'sucursalNombre',
         sortable: true,
         width: 110,
       },

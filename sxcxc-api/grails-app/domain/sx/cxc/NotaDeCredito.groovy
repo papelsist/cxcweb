@@ -3,16 +3,17 @@ package sx.cxc
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 import sx.cfdi.Cfdi
+import sx.inventario.DevolucionDeVenta
 import sx.core.Cliente
 import sx.core.Sucursal
 import sx.utils.MonedaUtils
 
 /*
- * Todo: Ajustes pendientes (manuales) a la base de datos de produccion para liberación 
+ * Todo: Ajustes pendientes (manuales) a la base de datos de produccion para liberación
  * - Permitir nulos en la columna de cobro
  * - Agrgar las columna de concepto para aumentar la clasificación de Notas de crédito
  * - Agregar columna de cancelacion y cancelacion_motivo (Para cuando ya tiene asociado un CFDI)
- * 
+ *
  *
  */
 @ToString(includeNames=true,includePackage=false, excludes = 'id, version, partidas')
@@ -88,6 +89,8 @@ class NotaDeCredito {
     String autorizo
     Date autorizoFecha
 
+    DevolucionDeVenta devolucion
+
     String createUser
     String updateUser
     Date dateCreated
@@ -124,6 +127,7 @@ class NotaDeCredito {
         cancelacionUsuario nullable: true
         autorizo nullable: true
         autorizoFecha nullable: true
+        devolucion nullable: true
     }
 
     static hasMany =[partidas:NotaDeCreditoDet]

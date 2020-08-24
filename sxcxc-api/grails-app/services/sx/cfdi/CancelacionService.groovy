@@ -25,7 +25,7 @@ class CancelacionService implements  LogUser {
 
     // @CompileDynamic
     @Transactional
-    CancelacionDeCfdi cancelarCfdi(Cfdi cfdi, boolean isTest = false) {
+    CancelacionDeCfdi cancelarCfdi(Cfdi cfdi, boolean isTest = isCancelacionDePrueba()) {
 
         CancelacionDeCfdi found = CancelacionDeCfdi.where {cfdi == cfdi}.find()
         if(found) {
@@ -258,12 +258,7 @@ class CancelacionService implements  LogUser {
     }
 
     Boolean isCancelacionDePrueba() {
-      return false
-      /*
-        Boolean produccion = (Environment.current == Environment.PRODUCTION)
-        Boolean queretaro = Environment.current.name == 'queretaro'
-        return !(produccion || queretaro)
-        */
+      return Environment.isDevelopmentMode()
     }
 
 

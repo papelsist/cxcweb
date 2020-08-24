@@ -15,10 +15,6 @@
   >
   </td-message>
   <div fxLayout fxLayoutGap="10px" fxLayoutAlign="start baseline">
-    <!-- <nx-papelsa-devolucion-concepto
-      class="concepto"
-      [parent]="form"
-    ></nx-papelsa-devolucion-concepto> -->
     <nx-papelsa-moneda-field
       [parent]="form"
       [style.width.px]="120"
@@ -33,6 +29,55 @@
       [parent]="form"
     ></nx-papelsa-forma-de-pago-sat>
 
+    <nx-papelsa-cxc-selector-rmd-btn
+      *ngIf="!devolucion.devolucion"
+      tooltip="Buscar RMD "
+      [clienteId]="devolucion.cliente.id"
+      (selection)="onSelectRmd($event)"
+    ></nx-papelsa-cxc-selector-rmd-btn>
+
+    <div
+      fxFlex
+      fxLayout
+      fxLayoutAlign="start center"
+      *ngIf="getRmdControl().value as rmd"
+    >
+      <mat-form-field>
+        <mat-label>RMD</mat-label>
+        <input matInput [value]="rmd.documento" readonly />
+        <mat-hint>{{ rmd.sucursalNombre }}</mat-hint>
+      </mat-form-field>
+      <mat-checkbox [checked]="rmd.parcial" [disabled]="true">
+        RMD Parcial
+      </mat-checkbox>
+    </div>
+
+    <span fxFlex></span>
+    <ng-container>
+      <div
+        fxFlex
+        fxLayout
+        fxLayoutAlign="end center"
+        fxLayoutGap="10px"
+        class="disponible"
+      >
+        <span>Total:</span>
+        <span fxFlex>{{ total | currency }}</span>
+        <span>Aplicado:</span>
+        <span fxFlex>{{ devolucion.aplicado | currency }}</span>
+        <span fxFlex>Disponible:</span>
+        <span>{{ devolucion.disponible | currency }}</span>
+      </div>
+    </ng-container>
+  </div>
+
+  <div fxLayout fxLayoutGap="5px" fxLayoutAlign="start baseline">
+    <mat-form-field fxFlex>
+      <mat-label>Comentario</mat-label>
+      <input matInput formControlName="comentario" #comentario />
+      <mat-error>Longitud excedida</mat-error>
+      <mat-hint align="end">( {{ comentario.value.length }}/ 255 )</mat-hint>
+    </mat-form-field>
     <ng-container *ngIf="devolucion.cfdi as cfdi">
       <mat-form-field class="cfdi-folio">
         <mat-label>CFDI</mat-label>
@@ -48,71 +93,6 @@
         <input type="text" matInput [value]="cfdi.uuid.substr(-8)" readonly />
       </mat-form-field>
     </ng-container>
-
-    <mat-form-field>
-      <mat-label>Total:</mat-label>
-      <input matInput value="{{ devolucion.total | currency }}" readonly />
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>RMD</mat-label>
-      <input matInput value="{{ devolucion['rmd'] || 'FALTA' }}" readonly />
-      <mat-hint>{{ devolucion['rmdSucursal'] || 'FALTA' }}</mat-hint>
-    </mat-form-field>
-
-    <ng-container>
-      <div
-        fxFlex
-        fxLayout
-        fxLayoutAlign="end center"
-        fxLayoutGap="10px"
-        class="disponible"
-      >
-        <span>Aplicado:</span>
-        <span>{{ devolucion?.cobro?.aplicado | currency }}</span>
-        <span>Disponible:</span>
-        <span>{{ devolucion.disponible | currency }}</span>
-      </div>
-    </ng-container>
-  </div>
-
-  <div fxLayout fxLayoutGap="5px" fxLayoutAlign="start baseline">
-    <!-- <nx-papelsa-cxc-tipo-calculo [parent]="form"></nx-papelsa-cxc-tipo-calculo>
-    <nx-papelsa-cxc-base-calculo [parent]="form"></nx-papelsa-cxc-base-calculo> -->
-
-    <!-- <mat-form-field
-      [style.width.px]="100"
-      *ngIf="tipoDeCalculo === 'PRORRATEO'"
-    >
-      <mat-label>Monto</mat-label>
-      <input type="number" matInput formControlName="monto" #monto />
-      <mat-error>Monto invalido</mat-error>
-      <mat-hint align="end">Prorrateo</mat-hint>
-    </mat-form-field> -->
-
-    <ng-container *ngIf="tipoDeCalculo === 'PORCENTAJE'">
-      <mat-form-field [style.width.px]="90">
-        <mat-label>Descuento (%)</mat-label>
-        <input type="number" matInput formControlName="descuento" #descuento1 />
-        <mat-error>Valor inválido (1 - 50)</mat-error>
-        <mat-hint align="end" *ngIf="descuento1.value && descuento1.value > 0"
-          >Dcto % (0 a 50)</mat-hint
-        >
-      </mat-form-field>
-
-      <mat-form-field [style.width.px]="90">
-        <mat-label>Descuento 2</mat-label>
-        <input type="number" matInput formControlName="descuento2" />
-        <mat-error>Valor inválido (1 - 50)</mat-error>
-        <mat-hint align="end">(%) 0 a 50</mat-hint>
-      </mat-form-field>
-    </ng-container>
-
-    <mat-form-field fxFlex>
-      <mat-label>Comentario</mat-label>
-      <input matInput formControlName="comentario" #comentario />
-      <mat-error>Longitud excedida</mat-error>
-      <mat-hint align="end">( {{ comentario.value.length }}/ 255 )</mat-hint>
-    </mat-form-field>
     <mat-form-field>
       <mat-label>Creada por:</mat-label>
       <input matInput [value]="devolucion.createUser" disabled="true" />
@@ -127,21 +107,11 @@
     <mat-toolbar>
       <span>Conceptos</span>
       <span fxFlex></span>
-      <nx-papelsa-cxc-selector-cxc-btn
-        [clienteId]="devolucion.cliente.id"
-        color="default"
-        tooltip="Agregar factura"
-        (selection)="onAgregarFacturas($event)"
-        [disabled]="form.disabled"
-      ></nx-papelsa-cxc-selector-cxc-btn>
     </mat-toolbar>
+
     <nx-papelsa-devolucion-partidas-table
-      [partidas]="getPartidas().value"
-      (delete)="onDeletePartida($event)"
-      (edit)="onEditPartida($event)"
-      [baseDelCalculo]="!manual ? form.get('baseDelCalculo').value : ''"
-      [manual]="manual"
-      [disabled]="form.disabled"
+      [partidas]="devolucion.partidas"
+      [disabled]="true"
     >
     </nx-papelsa-devolucion-partidas-table>
   </div>

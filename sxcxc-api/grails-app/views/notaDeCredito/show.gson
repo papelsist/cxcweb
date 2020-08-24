@@ -6,7 +6,7 @@ model {
 // json tmpl.notaDeCredito(notaDeCredito)
 
 json g.render(notaDeCredito, [deep: false, excludes:['moneda','partidas', 'cobro', 'cliente', 'sucursal']]) {
-    
+
     cliente g.render(notaDeCredito.cliente)
     sucursal {
       id notaDeCredito.sucursal.id
@@ -23,4 +23,9 @@ json g.render(notaDeCredito, [deep: false, excludes:['moneda','partidas', 'cobro
         aplicado 0.0
     }
     cfdi g.render(notaDeCredito.cfdi)
+    devolucion g.render(notaDeCredito.devolucion, [excludes: ['nota', 'cobro', 'sucursal', 'venta']]) {
+      sucursalNombre notaDeCredito.devolucion.sucursal.nombre
+      venta g.render(notaDeCredito.devolucion.venta)
+      partidas g.render(notaDeCredito.devolucion.partidas)
+    }
 }

@@ -41,7 +41,12 @@
       </button> -->
     </mat-menu>
   </div>
-
+  <ng-template
+    tdLoading
+    [tdLoadingUntil]="!(loading$ | async)"
+    tdLoadingStrategy="overlay"
+  >
+  </ng-template>
   <nx-papelsa-cobros-grid
     class="cobros-grid"
     [rows]="cobros$ | async"

@@ -22,6 +22,10 @@
     </button>
 
     <mat-menu #menu="matMenu">
+      <a mat-menu-item (click)="onCreate(cartera)">
+        <mat-icon>playlist_add</mat-icon>
+        <span>Nuevo</span>
+      </a>
       <button mat-menu-item (click)="reload()">
         <mat-icon>refresh</mat-icon>
         <span>Refrescar</span>

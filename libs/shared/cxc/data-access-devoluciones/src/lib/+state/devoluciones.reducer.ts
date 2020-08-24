@@ -23,7 +23,10 @@ export interface DevolucionesPartialState {
 
 export const devolucionesAdapter: EntityAdapter<DevolucionesEntity> = createEntityAdapter<
   DevolucionesEntity
->();
+>({
+  sortComparer: (d1, d2) =>
+    d1.folio > d2.folio ? -1 : d1.folio < d2.folio ? 1 : 0,
+});
 
 export const initialState: State = devolucionesAdapter.getInitialState({
   loaded: false,
@@ -51,11 +54,19 @@ const devolucionesReducer = createReducer(
     loaded: false,
     error: null,
   })),
-  on(DevolucionesActions.cancelarDevolucion, (state) => ({
-    ...state,
-    loading: true,
-    error: null,
-  })),
+  on(
+    DevolucionesActions.saveDevolucion,
+    DevolucionesActions.updateDevolucion,
+    DevolucionesActions.cancelarDevolucion,
+    DevolucionesActions.timbrarDevolucion,
+    DevolucionesActions.deleteDevolucion,
+    DevolucionesActions.aplicar,
+    (state) => ({
+      ...state,
+      loading: true,
+      error: null,
+    })
+  ),
   on(DevolucionesActions.loadDevolucionesSuccess, (state, { devoluciones }) =>
     devolucionesAdapter.setAll(devoluciones, {
       ...state,
@@ -63,16 +74,28 @@ const devolucionesReducer = createReducer(
       loading: false,
     })
   ),
-  on(DevolucionesActions.cancelarDevolucionSuccess, (state, { devolucion }) =>
-    devolucionesAdapter.upsertOne(devolucion, {
-      ...state,
-      loading: false,
-      error: null,
-    })
+  on(
+    DevolucionesActions.saveDevolucionSuccess,
+    DevolucionesActions.updateDevolucionSuccess,
+    DevolucionesActions.cancelarDevolucionSuccess,
+    DevolucionesActions.timbrarDevolucionSuccess,
+    DevolucionesActions.deleteDevolucionSuccess,
+    DevolucionesActions.aplicarSuccess,
+    (state, { devolucion }) =>
+      devolucionesAdapter.upsertOne(devolucion, {
+        ...state,
+        loading: false,
+        error: null,
+      })
   ),
   on(
     DevolucionesActions.loadDevolucionesFailure,
+    DevolucionesActions.saveDevolucionFail,
+    DevolucionesActions.updateDevolucionFail,
     DevolucionesActions.cancelarDevolucionFail,
+    DevolucionesActions.deleteDevolucionFail,
+    DevolucionesActions.timbrarDevolucionFail,
+    DevolucionesActions.aplicarFail,
     (state, { error }) => ({
       ...state,
       loading: false,
