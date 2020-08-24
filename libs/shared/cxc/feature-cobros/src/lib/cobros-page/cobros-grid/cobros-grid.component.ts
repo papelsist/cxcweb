@@ -111,10 +111,10 @@ export class CobrosGridComponent implements OnInit {
     if (params.node.rowPinned) {
       return { 'font-weight': 'bold' };
     }
-    if (params.data.status === 'CERRADO') {
+    if (params.data.cierre) {
       return { 'font-weight': 'bold', 'font-style': 'italic', color: 'green' };
     }
-    if (!params.data.cfdi) {
+    if (params.data.requiereRecibo && !params.data.cfdi) {
       return {
         'font-weight': 'bold',
         'font-style': 'italic',

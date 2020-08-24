@@ -53,7 +53,7 @@ export class CobrosFacade {
     this.dispatch(setSearchTerm({ searchTerm }));
   }
 
-  loadCobros(periodo: Periodo, cartera: string) {
+  loadCobros(periodo?: Periodo, cartera?: string) {
     this.dispatch(loadCobros({ periodo, cartera }));
   }
 

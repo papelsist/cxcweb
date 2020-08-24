@@ -63,6 +63,8 @@ class  Cobro {
     String createUser
     String updateUser
 
+    Boolean requiereRecibo
+
     static hasOne = [cheque: CobroCheque, deposito: CobroDeposito, transferencia: CobroTransferencia,tarjeta: CobroTarjeta]
 
     static hasMany =[aplicaciones: AplicacionDeCobro]
@@ -97,6 +99,7 @@ class  Cobro {
         aplicado formula:'(select IFNULL( sum(x.importe * IFNULL(x.tipo_de_cambio, 1.0)), 0) from aplicacion_de_cobro x where x.cobro_id=id)'
         saldo formula:'importe - diferencia -  (select IFNULL( sum(x.importe * IFNULL(x.tipo_de_cambio, 1)), 0)  from aplicacion_de_cobro x where x.cobro_id=id)'
         diferenciaFecha type: 'date'
+        requiereRecibo formula: "tipo in('CRE', 'CHE', 'JUR') and forma_de_pago not in('BONIFICACION', 'DEVOLUCION')"
     }
 
     static transients = ['disponible', 'fechaDeAplicacion', 'ingreso']

@@ -18,14 +18,19 @@ export class CobroService {
     this.apiUrl = `${api}/cxc/cobro`;
   }
 
-  list(periodo: Periodo, cartera: string, max = 50): Observable<Cobro[]> {
+  list(
+    periodo: Periodo,
+    cartera: string,
+    disponibles = true,
+    max = 500
+  ): Observable<Cobro[]> {
     const data = periodo.toApiJSON();
     const params = new HttpParams()
       .set('cartera', cartera)
-      // .set('monetarios', 'true')
       .set('fechaInicial', data.fechaInicial)
       .set('fechaFinal', data.fechaFinal)
-      .set('max', max.toString());
+      .set('pendientes', disponibles.toString())
+      .set('rows', max.toString());
     return this.http
       .get<Cobro[]>(this.apiUrl, { params: params })
       .pipe(catchError((error: any) => throwError(error)));

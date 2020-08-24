@@ -36,30 +36,19 @@ class CobroController extends RestfulController<Cobro>{
 
     @Override
     protected List<Cobro> listAllResources(Map params) {
-        log.debug('Cobros GET Params: {}', params)
-        def query = Cobro.where {}
-        params.max = params.max?: 100
-        params.sort = params.sort ?:'lastUpdated'
-        params.order = params.order ?:'desc'
-        if(params.cartera) {
-            String tipoCartera = params.cartera
-            if(tipoCartera == 'CON') {
-                tipoCartera = 'COD'
-            }
-            query = query.where { tipo == tipoCartera}
-        }
-        if(params.monetarios) {
-            query = query.where{formaDePago != 'DEVOLUCION'}
-            query = query.where{formaDePago != 'BONIFICACION'}
-        }
-        if(params.sucursal) {
-            query = query.where {sucursal == Sucursal.get(params.sucursal)}
-        }
-        if(params.term) {
-            def search = '%' + params.term + '%'
-            query = query.where { cliente.nombre =~ search || formaDePago =~ search }
-        }
-        return query.list(params)
+      log.debug('Params: {}', params)
+      params.max = params.rows?: 500
+      params.sort = params.sort ?:'lastUpdated'
+      params.order = params.order ?:'desc'
+
+      String cartera = params.cartera
+      def periodo = params.periodo
+
+      log.debug('Cobros GET Cartera: {} Periodo: {} Rows: {}', cartera, periodo, params.max)
+
+      def query = Cobro.where {tipo == cartera}
+      query = query.where{fecha >= periodo.fechaInicial && fecha <= periodo.fechaFinal}
+      return query.list(params)
     }
 
     def search(CobroSearchCommand command) {

@@ -3,26 +3,36 @@ import { Component, OnInit, Inject, Input } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { CuentaPorCobrarDTO } from '@nx-papelsa/shared/utils/core-models';
-import { ITdDataTableColumn } from '@covalent/core/data-table';
+import {
+  ITdDataTableColumn,
+  TdDataTableService,
+} from '@covalent/core/data-table';
 import { FormatService } from '@nx-papelsa/shared/utils/ui-common';
 
 @Component({
   selector: 'nx-papelsa-selector-cxc',
   template: `
-    <div mat-dialog-title>
-      <span>Facturas pendientes</span>
+    <div fxLayout fxLayoutAlign="start center">
+      <span class="mat-title">Facturas pendientes</span>
+      <span fxFlex></span>
+
+      <td-search-box
+        placeholder="Filtrar"
+        (searchDebounce)="filter($event)"
+        fxFlex
+      ></td-search-box>
     </div>
+
     <mat-divider></mat-divider>
 
     <mat-dialog-content>
       <td-data-table
         #dataTable
-        [data]="facturas"
+        [data]="filteredData"
         [columns]="columns"
         [selectable]="true"
         [multiple]="multiple"
         [clickable]="clickable"
-        (rowSelect)="onRowSelection($event)"
         [compareWith]="compareWith"
         [(ngModel)]="selectedRows"
       >
@@ -83,16 +93,21 @@ export class SelectorCxcComponent implements OnInit {
 
   @Input() clickable = true;
   @Input() multiple = true;
-
+  filterTerm = '';
+  filteredTotal: number;
+  filteredData: any[];
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
     private dialogRef: MatDialogRef<SelectorCxcComponent, CuentaPorCobrarDTO[]>,
-    private format: FormatService
+    private format: FormatService,
+    private _dataTableService: TdDataTableService
   ) {
     this.facturas = data.facturas;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.refreshTable();
+  }
 
   doSubmit() {
     this.dialogRef.close(this.selectedRows);
@@ -102,8 +117,30 @@ export class SelectorCxcComponent implements OnInit {
     return row.id === model.id; // or any property you want to compare by.
   }
 
-  onRowSelection(event) {
-    // console.log('Row selected: ', event);
-    // console.log('Selected sofar: ', this.selectedRows);
+  filter(filterTerm: string): void {
+    this.filterTerm = filterTerm;
+    this.refreshTable();
+  }
+
+  refreshTable(): void {
+    let newData: any[] = this.facturas;
+    const excludedColumns: string[] = this.columns
+      .filter((column: ITdDataTableColumn) => {
+        return (
+          (column.filter === undefined && column.hidden === true) ||
+          (column.filter !== undefined && column.filter === false)
+        );
+      })
+      .map((column: ITdDataTableColumn) => {
+        return column.name;
+      });
+    newData = this._dataTableService.filterData(
+      newData,
+      this.filterTerm,
+      true,
+      excludedColumns
+    );
+    this.filteredTotal = newData.length;
+    this.filteredData = newData;
   }
 }

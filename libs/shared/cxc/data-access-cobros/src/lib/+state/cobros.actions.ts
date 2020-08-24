@@ -4,7 +4,7 @@ import { Cobro, Periodo } from '@nx-papelsa/shared/utils/core-models';
 
 export const loadCobros = createAction(
   '[Cobros] Load Cobros',
-  props<{ periodo: Periodo; cartera: string }>()
+  props<{ periodo?: Periodo; cartera?: string }>()
 );
 
 export const loadCobrosSuccess = createAction(

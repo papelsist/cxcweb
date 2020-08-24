@@ -11,6 +11,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { CobrosPageComponent } from './cobros-page.component';
 import { COMPONENTS } from './components';
 import { CobrosGridComponent } from './cobros-grid/cobros-grid.component';
+import { CfdiUiCommonModule } from '@nx-papelsa/shared/cfdi/ui-common';
 
 @NgModule({
   declarations: [CobrosPageComponent, ...COMPONENTS, CobrosGridComponent],
@@ -19,6 +20,7 @@ import { CobrosGridComponent } from './cobros-grid/cobros-grid.component';
     UiMaterialModule,
     UiCovalentModule,
     UiFormsModule,
+    CfdiUiCommonModule,
     AgGridModule.withComponents(),
     RouterModule.forChild([
       {

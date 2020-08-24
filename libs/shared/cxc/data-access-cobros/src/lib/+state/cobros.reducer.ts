@@ -27,7 +27,7 @@ export const initialState: State = cobrosAdapter.getInitialState({
   loaded: false,
   loading: false,
   periodo: Periodo.fromNow(10),
-  disponibles: true,
+  disponibles: false,
 });
 
 const cobrosReducer = createReducer(

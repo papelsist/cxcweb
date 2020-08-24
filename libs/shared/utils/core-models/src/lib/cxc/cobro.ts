@@ -37,6 +37,7 @@ export interface Cobro {
   cierre?: string;
   cierreUser?: string;
   timbrable: boolean;
+  requiereRecibo: boolean;
 }
 
 export interface AplicacionDeCobro {
