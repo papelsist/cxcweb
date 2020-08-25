@@ -27,7 +27,7 @@
     "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
     "build:stats": "nx build --statsJson",
     "analyze": "webpack-bundle-analyzer dist/apps/cxc-web/stats-es2015.json",
-    "cxc-server": "http-server -p 8080 -c-1 dist/apps/cxc-web"
+    "cxc-server": "http-server dist/apps/cxc-web -c-1 -p 8080"
   },
   "private": true,
   "dependencies": {
