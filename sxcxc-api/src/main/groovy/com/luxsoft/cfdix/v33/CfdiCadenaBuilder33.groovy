@@ -58,6 +58,7 @@ class CfdiCadenaBuilder33 {
                 // source = new StreamSource(new File('/Users/rubencancino/dumps/xslt/cadenaoriginal_3_3.xslt'))
                 // source = new StreamSource('http://www.sat.gob.mx/sitio_internet/cfd/3/cadenaoriginal_3_3/cadenaoriginal_3_3.xslt')
             } else {
+              String userHome = System.getProperty('user.home')
               source = new StreamSource(new File("${userHome}/dumps/xslt/cadenaoriginal_3_3.xslt"))
                 // source = new StreamSource(new File('/home/xslt/cadenaoriginal_3_3.xslt'))
             }
