@@ -14,8 +14,11 @@ export class CobrosPageComponent extends BaseComponent implements OnInit {
   cartera$ = this.facade.cartera$;
   loading$ = this.facade.loading$;
   periodo$ = this.facade.periodo$;
+  periodoDisabled$ = this.facade.periodoDisabled$;
   cobros$ = this.facade.allCobros$;
   search$ = this.facade.search$;
+  disponibles$ = this.facade.disponibles$;
+  porTimbrar$ = this.facade.porTimbrar$;
 
   constructor(private facade: CobrosFacade) {
     super();
@@ -24,7 +27,7 @@ export class CobrosPageComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {
     this.facade.loaded$.subscribe((loaded) => {
       if (!loaded) {
-        console.log('Loaded: ', loaded);
+        this.facade.loadCobros();
       }
     });
   }
@@ -43,5 +46,12 @@ export class CobrosPageComponent extends BaseComponent implements OnInit {
 
   cambiarPeriodo(periodo: Periodo) {
     this.facade.cambiarPeriodo(periodo);
+  }
+
+  toggleDisponibles() {
+    this.facade.toggleDisponibles();
+  }
+  togglePorTimbrar() {
+    this.facade.togglePorTimbrar();
   }
 }

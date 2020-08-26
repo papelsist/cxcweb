@@ -51,6 +51,7 @@ const bonificacionesReducer = createReducer(
   })),
 
   on(
+    BonificacionesActions.solicitarAutorizacion,
     BonificacionesActions.aplicar,
     BonificacionesActions.deleteBonificacion,
     BonificacionesActions.cancelarBonificacion,
@@ -74,6 +75,7 @@ const bonificacionesReducer = createReducer(
       })
   ),
   on(
+    BonificacionesActions.solicitarAutorizacionFail,
     BonificacionesActions.aplicarFail,
     BonificacionesActions.deleteBonificacionFail,
     BonificacionesActions.cancelarBonificacionFail,
@@ -104,6 +106,7 @@ const bonificacionesReducer = createReducer(
   ),
   /// Update Bonificacion
   on(
+    BonificacionesActions.solicitarAutorizacionSuccess,
     BonificacionesActions.aplicarSuccess,
     BonificacionesActions.cancelarBonificacionSuccess,
     BonificacionesActions.timbrarBonificacionSuccess,

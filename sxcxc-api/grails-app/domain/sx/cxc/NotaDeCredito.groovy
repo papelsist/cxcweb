@@ -2,10 +2,12 @@ package sx.cxc
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+
 import sx.cfdi.Cfdi
-import sx.inventario.DevolucionDeVenta
+import sx.cloud.Autorizacion
 import sx.core.Cliente
 import sx.core.Sucursal
+import sx.inventario.DevolucionDeVenta
 import sx.utils.MonedaUtils
 
 /*
@@ -16,141 +18,160 @@ import sx.utils.MonedaUtils
  *
  *
  */
-@ToString(includeNames=true,includePackage=false, excludes = 'id, version, partidas')
-@EqualsAndHashCode(includeFields = true,includes = 'id, serie, folio')
+
+@ToString(includeNames = true, includePackage = false, excludes = 'id, version, partidas')
+@EqualsAndHashCode(includeFields = true, includes = 'id, serie, folio')
 class NotaDeCredito {
 
-    String id
+  String id
 
-    Cliente cliente
+  Cliente cliente
 
-    String nombre
+  String nombre
 
-    String concepto
+  String concepto
 
-    String serie
+  String serie
 
-    Long folio = -1
+  Long folio = -1
 
-    String tipo
+  String tipo
 
-    String tipoCartera
+  String tipoCartera
 
-    String tipoDeCalculo = 'PORCENTAJE'
+  String tipoDeCalculo = 'PORCENTAJE'
 
-    String baseDelCalculo = 'SALDO'
+  String baseDelCalculo = 'SALDO'
 
-    Date fecha = new Date()
+  Date fecha = new Date()
 
-    Currency moneda = Currency.getInstance('MXN')
+  Currency moneda = Currency.getInstance('MXN')
 
-    BigDecimal tc = 1.0
+  BigDecimal tc = 1.0
 
-    BigDecimal importe = 0.0
+  BigDecimal importe = 0.0
 
-    BigDecimal impuesto = 0.0
+  BigDecimal impuesto = 0.0
 
-    BigDecimal impuestoTasa = MonedaUtils.IVA
+  BigDecimal impuestoTasa = MonedaUtils.IVA
 
-    BigDecimal total = 0.0
+  BigDecimal total = 0.0
 
-    String comentario
+  String comentario
 
-    List<NotaDeCreditoDet> partidas = []
+  List<NotaDeCreditoDet> partidas = []
 
-    Sucursal sucursal
+  Sucursal sucursal
 
-    BigDecimal descuento = 0.0
+  BigDecimal descuento = 0.0
 
-    BigDecimal descuento2 = 0.0
+  BigDecimal descuento2 = 0.0
 
-    Boolean financiero = false
+  Boolean financiero = false
 
-    Cobro cobro
+  Cobro cobro
 
-    String sw2
+  String sw2
 
-    String usoDeCfdi
+  String usoDeCfdi
 
-    String formaDePago
+  String formaDePago
 
-    Long rmd
+  Long rmd
 
-    String rmdSucursal
+  String rmdSucursal
 
-    Boolean sinReferencia = false
+  Boolean sinReferencia = false
 
-    Cfdi cfdi
+  Cfdi cfdi
 
-    Date cancelacion
-    String cancelacionMotivo
-    String cancelacionUsuario
+  Date cancelacion
+  String cancelacionMotivo
+  String cancelacionUsuario
 
-    String autorizo
-    Date autorizoFecha
+  /**
+  *
+  */
+  @Deprecated()
+  String autorizo
 
-    DevolucionDeVenta devolucion
+  /**
+   *
+   */
+  @Deprecated()
+  Date autorizoFecha
 
-    String createUser
-    String updateUser
-    Date dateCreated
-    Date lastUpdated
+  DevolucionDeVenta devolucion
+
+  String createUser
+  String updateUser
+  Date dateCreated
+  Date lastUpdated
+
+  Autorizacion autorizacion
+  Date solicitud
+  String solicitudUser
 
 
-    static constraints = {
-        serie maxSize: 20
-        folio unique:'serie'
-        tipoCartera inList: ['CRE','CON', 'CHE', 'JUR', 'COD']
-        tipo(nullable:false,inList:['BONIFICACION', 'DEVOLUCION'])
-        tc(scale:6,validator:{ val,obj ->
-            if(obj.moneda!=MonedaUtils.PESOS && val <= 1.0)
-                return "tipoDeCambioError"
-            else
-                return true
-        })
-        comentario nullable:true
-        cfdi nullable:true
-        cobro nullable: true
-        sw2 nullable: true
-        usoDeCfdi nullable: true, maxSize:3
-        formaDePago nullable: true, maxSize: 40
-        rmd nullable: true
-        rmdSucursal nullable: true, maxSize: 30
-        nombre nullable: true
-        tipoDeCalculo nullable: true, maxSize: 20
-        baseDelCalculo nullable: true, maxSize: 20
-        concepto nullable: true, maxSize: 20
-        createUser nullable: true
-        updateUser nullable: true
-        cancelacion nullable: true
-        cancelacionMotivo nullable: true
-        cancelacionUsuario nullable: true
-        autorizo nullable: true
-        autorizoFecha nullable: true
-        devolucion nullable: true
+  static constraints = {
+    serie maxSize: 20
+    folio unique: 'serie'
+    tipoCartera inList: ['CRE', 'CON', 'CHE', 'JUR', 'COD']
+    tipo(nullable: false, inList: ['BONIFICACION', 'DEVOLUCION'])
+    tc(scale: 6, validator: { val, obj ->
+      if (obj.moneda != MonedaUtils.PESOS && val <= 1.0)
+        return "tipoDeCambioError"
+      else
+        return true
+    })
+    comentario nullable: true
+    cfdi nullable: true
+    cobro nullable: true
+    sw2 nullable: true
+    usoDeCfdi nullable: true, maxSize: 3
+    formaDePago nullable: true, maxSize: 40
+    rmd nullable: true
+    rmdSucursal nullable: true, maxSize: 30
+    nombre nullable: true
+    tipoDeCalculo nullable: true, maxSize: 20
+    baseDelCalculo nullable: true, maxSize: 20
+    concepto nullable: true, maxSize: 20
+    createUser nullable: true
+    updateUser nullable: true
+    cancelacion nullable: true
+    cancelacionMotivo nullable: true
+    cancelacionUsuario nullable: true
+    autorizo nullable: true
+    autorizoFecha nullable: true
+    devolucion nullable: true
+    autorizacion nullable: true
+    solicitud nullable: true
+    solicitudUser nullable: true
+  }
+
+  static hasMany = [partidas: NotaDeCreditoDet]
+
+  static embedded = ['autorizacion']
+
+  static mapping = {
+    id generator: 'uuid'
+    partidas cascade: "all-delete-orphan"
+    fecha type: 'date'
+  }
+
+  BigDecimal getTotalMN(String property) {
+    return "${property}" * tc
+  }
+
+  def beforeInsert() {
+    updateNombre();
+  }
+
+  def updateNombre() {
+    if (!this.nombre && this.cliente) {
+      this.nombre = this.cliente.nombre;
     }
-
-    static hasMany =[partidas:NotaDeCreditoDet]
-
-    static mapping ={
-        id generator:'uuid'
-        partidas cascade: "all-delete-orphan"
-        fecha type: 'date'
-    }
-
-    BigDecimal getTotalMN(String property){
-        return "${property}"*tc
-    }
-
-    def beforeInsert() {
-        updateNombre();
-    }
-
-    def updateNombre() {
-        if(!this.nombre && this.cliente) {
-            this.nombre = this.cliente.nombre;
-        }
-    }
+  }
 
 
 }

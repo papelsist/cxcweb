@@ -1,5 +1,5 @@
 import { Cliente } from '../core/cliente';
-import { Cfdi } from '../core';
+import { Cfdi, Autorizacion } from '../core';
 import { CuentaPorCobrar } from './cuenta-por-cobrar';
 import { CuentaPorCobrarDTO } from '../dtos';
 import { Cobro } from './cobro';
@@ -51,6 +51,11 @@ export interface NotaDeCredito {
   autorizo?: string;
   autorizoFecha?: string;
   devolucion?: Partial<Devolucion>;
+
+  autorizacion?: Autorizacion;
+  solicitud?: string;
+  solicitudUser?: string;
+  solicitudToken?: string;
 }
 
 export interface NotaDeCreditoDet {

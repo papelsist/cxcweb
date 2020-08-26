@@ -38,6 +38,9 @@ export const setCurrentCobroId = createAction(
 export const toggleDisponibles = createAction(
   '[Cobros page] Toggle Disponibles'
 );
+export const togglePorTimbrar = createAction(
+  '[Cobros page] Toggle Por timbrar'
+);
 
 export const eliminarAplicacion = createAction(
   '[Cobro Page Facade] Eliminar aplicacion de cobro',

@@ -9,6 +9,7 @@ import {
   setSearchTerm,
   loadCobros,
   toggleDisponibles,
+  togglePorTimbrar,
 } from './cobros.actions';
 
 import {
@@ -27,9 +28,12 @@ export class CobrosFacade {
   loaded$ = this.store.pipe(select(CobrosSelectors.getCobrosLoaded));
   loading$ = this.store.pipe(select(CobrosSelectors.getCobrosLoading));
   periodo$ = this.store.pipe(select(CobrosSelectors.getCobrosPeriodo));
+  periodoDisabled$ = this.store.pipe(select(CobrosSelectors.isPeriodoDisabled));
   search$ = this.store.pipe(select(CobrosSelectors.getCobrosSearchTerm));
   allCobros$ = this.store.pipe(select(CobrosSelectors.getAllCobros));
   selectedCobros$ = this.store.pipe(select(CobrosSelectors.getSelected));
+  disponibles$ = this.store.pipe(select(CobrosSelectors.getCobrosDisponibles));
+  porTimbrar$ = this.store.pipe(select(CobrosSelectors.getCobrosPorTimbrar));
   cartera$ = this.cxcFacade.cartera$;
   constructor(
     private store: Store<fromCobros.CobrosPartialState>,
@@ -47,6 +51,9 @@ export class CobrosFacade {
 
   toggleDisponibles() {
     this.dispatch(toggleDisponibles());
+  }
+  togglePorTimbrar() {
+    this.dispatch(togglePorTimbrar());
   }
 
   setSearchTerm(searchTerm: string) {

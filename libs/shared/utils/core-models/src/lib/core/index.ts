@@ -11,3 +11,4 @@ export * from './socio';
 export * from './grupo-de-cfdis';
 export * from './vendedor';
 export * from './user';
+export * from './autorizacion';

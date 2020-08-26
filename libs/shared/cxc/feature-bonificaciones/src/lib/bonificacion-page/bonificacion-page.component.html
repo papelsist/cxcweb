@@ -33,24 +33,26 @@
       </ng-container>
 
       <ng-container *ngIf="!bonificacion.cfdi">
-        <nx-papelsa-autorizacion
-          *ngIf="!bonificacion.autorizo"
-          [disabled]="!porAutrizar(bonificacion)"
-          descripcion="Bonificación: {{ bonificacion.concepto }}"
-          (autorizacion)="onAutorizar($event, bonificacion)"
+        <button
+          mat-button
+          (click)="solicitarAutorizacion(bonificacion)"
+          *ngIf="requiereAutorizacion(bonificacion)"
         >
-        </nx-papelsa-autorizacion>
+          <mat-icon>verified_user</mat-icon>
+          <span>Solicitar autorización</span>
+        </button>
         <nx-papelsa-cfdi-timbrar
           *ngIf="bonificacion.total > 0.0"
           color="accent"
           (timbrar)="onTimbrar(bonificacion)"
-          [disabled]="form.isDirty() || !bonificacion.autorizo"
+          [disabled]="form.isDirty() || !bonificacion.autorizacion"
         ></nx-papelsa-cfdi-timbrar>
         <nx-papelsa-delete-entity
           [entity]="bonificacion"
           title="Eliminar bonificación"
           message="Folio: {{ bonificacion.folio }}"
           (delete)="onDelete(bonificacion)"
+          disabled="bonificacion.autorizacion"
         ></nx-papelsa-delete-entity>
       </ng-container>
 
@@ -62,12 +64,13 @@
       <div
         fxFlex
         fxLayout
-        fxLayoutAlign="end center"
-        fxLayoutGap="5px"
-        *ngIf="bonificacion.autorizo"
+        fxLayoutAlign="center center"
+        fxLayoutGap="10px"
+        *ngIf="bonificacion.solicitud && !bonificacion.autorizacion"
       >
-        <mat-icon>verified</mat-icon>
-        <span> Autorizada</span>
+        <mat-icon color="accent">report_problem</mat-icon>
+        <span> Autorización pendiente desde :</span>
+        <span>{{ bonificacion.solicitud | date: 'dd/MM/yyyy HH:mm' }}</span>
       </div>
     </nx-papelsa-bonificacion-form>
   </div>

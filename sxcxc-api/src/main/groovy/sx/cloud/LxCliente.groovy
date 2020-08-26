@@ -17,13 +17,13 @@ class LxCliente {
     String email
 
     Long folioRFC = 1
-    
+
     Boolean activo = true
     Boolean permiteCheque = false
     Double chequeDevuelto = 0
     Boolean juridico = false
-    
-    
+
+
     Map direccion
 
     List medios = []
@@ -34,7 +34,7 @@ class LxCliente {
     Date lastUpdated
     String createUser
     String updateUser
-    
+
 
     public LxCliente() {}
 
@@ -43,7 +43,7 @@ class LxCliente {
         this.clave = cliente.clave
         this.nombre = cliente.nombre
         this.rfc = cliente.rfc
-        this.email = cliente.getCfdiMail() 
+        this.email = cliente.getCfdiMail()
         this.activo = cliente.activo
         this.medios = parseMedios(cliente)
         this.folioRFC = cliente.folioRFC
@@ -77,15 +77,16 @@ class LxCliente {
         ]}
     }
 
-    Map toMap() {
+    Map<String, Object> toMap() {
         Map data = this.properties
         return filter(data)
     }
-    Map filter(Map data) {
+
+    Map<String, Object> filter(Map<String, Object> data) {
         data = data.findAll{ k, v -> !['class','constraints', 'errors'].contains(k) }
         return data
     }
 
-    
+
 
 }

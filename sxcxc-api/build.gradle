@@ -99,7 +99,8 @@ dependencies {
     compile 'com.github.groovy-wslite:groovy-wslite:1.1.2'
 
     // Cloud services
-    implementation 'com.google.firebase:firebase-admin:6.13.0'
+    implementation 'com.google.firebase:firebase-admin:7.0.0'
+    // implementation 'com.google.firebase:firebase-admin:6.13.0'
     // compile 'com.google.cloud:google-cloud-storage:1.108.0'
     compile 'com.mailjet:mailjet-client:4.2.0'
 
@@ -147,3 +148,12 @@ task buildConf() {
 }
 
 war.finalizedBy(buildConf)
+/**
+ *
+ * JAVA_OPTS=-Xmx1024M
+ * RUN_ARGS="--JDBC_CONNECTION_STRING=10.10.1.229/siipapx --server.port=9095
+ * --MJ_APIKEY_PUBLIC=1d98821252f0e19ba4d9a6f678a8f129
+ * --MJ_APIKEY_PRIVATE=4b7f29ef7df2f51dc497f3490a008cd3
+ * --MJ_DEFAUL_SENDER=facturacion@papelsa.mobi"
+ *
+ **/

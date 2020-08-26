@@ -16,12 +16,19 @@ class Autorizacion {
     String comentario
 
     Date fecha
+    String tipo
+    String origen
 
     Date dateCreated
     Date lastUpdated
 
+    String createUser
+    String updateUser
+
     static constraints = {
         comentario nullable:true
+        createUser nullable:true
+        updateUser nullable:true
     }
 
     static mapping = {

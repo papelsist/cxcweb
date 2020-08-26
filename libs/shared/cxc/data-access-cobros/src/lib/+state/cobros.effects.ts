@@ -11,6 +11,7 @@ import { map, tap } from 'rxjs/operators';
 
 import { TdDialogService } from '@covalent/core/dialogs';
 import { Cartera } from '@nx-papelsa/shared/utils/core-models';
+import { persistCobrosState } from './cobros.utils';
 
 @Injectable()
 export class CobrosEffects {
@@ -26,17 +27,20 @@ export class CobrosEffects {
       ) => {
         const {
           cobranza: { cartera },
-          cobros: { periodo, disponibles },
+          cobros: { periodo, disponibles, porTimbrar },
         } = state;
-        // const disponibles = state[fromCobros.COBROS_FEATURE_KEY].disponibles;
+
         console.log('Current state: ', state);
-        return this.service.list(periodo, cartera.clave, disponibles).pipe(
-          map((cobros) =>
-            CobrosActions.loadCobrosSuccess({
-              cobros,
-            })
-          )
-        );
+        persistCobrosState({ disponibles, porTimbrar });
+        return this.service
+          .list(periodo, cartera.clave, disponibles, porTimbrar)
+          .pipe(
+            map((cobros) =>
+              CobrosActions.loadCobrosSuccess({
+                cobros,
+              })
+            )
+          );
       },
 
       onError: (action: ReturnType<typeof CobrosActions.loadCobros>, error) => {
@@ -126,14 +130,20 @@ export class CobrosEffects {
       map(() => CobrosActions.loadCobros({}))
     )
   );
-  /*
+
   toggleDisponibles$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CobrosActions.togglePendientes),
-      map((a) => FacturasActions.loadFacturas())
+      ofType(CobrosActions.toggleDisponibles),
+      map((a) => CobrosActions.loadCobros({}))
     )
   );
-      */
+  togglePorTimbrar$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CobrosActions.togglePorTimbrar),
+      map((a) => CobrosActions.loadCobros({}))
+    )
+  );
+
   error$ = createEffect(
     () =>
       this.actions$.pipe(

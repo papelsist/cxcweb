@@ -3,6 +3,7 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 import * as CobrosActions from './cobros.actions';
 import { Cobro, Periodo } from '@nx-papelsa/shared/utils/core-models';
+import { readCobrosState } from './cobros.utils';
 
 export const COBROS_FEATURE_KEY = 'cobros';
 
@@ -14,6 +15,7 @@ export interface State extends EntityState<Cobro> {
   periodo: Periodo;
   searchTerm?: string;
   disponibles: boolean;
+  porTimbrar: boolean;
 }
 
 export interface CobrosPartialState {
@@ -22,12 +24,15 @@ export interface CobrosPartialState {
 
 export const cobrosAdapter: EntityAdapter<Cobro> = createEntityAdapter<Cobro>();
 
+const localState = readCobrosState();
+
 export const initialState: State = cobrosAdapter.getInitialState({
   // set initial required properties
   loaded: false,
   loading: false,
   periodo: Periodo.fromNow(10),
-  disponibles: false,
+  disponibles: localState.disponibles || false,
+  porTimbrar: localState.porTimbrar || false,
 });
 
 const cobrosReducer = createReducer(
@@ -39,6 +44,10 @@ const cobrosReducer = createReducer(
   on(CobrosActions.toggleDisponibles, (state) => ({
     ...state,
     disponibles: !state.disponibles,
+  })),
+  on(CobrosActions.togglePorTimbrar, (state) => ({
+    ...state,
+    porTimbrar: !state.porTimbrar,
   })),
   on(CobrosActions.setSearchTerm, (state, { searchTerm }) => ({
     ...state,

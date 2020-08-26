@@ -143,6 +143,28 @@ export class BonificacionesEffects {
     )
   );
 
+  solicitarAutorizacion$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BonificacionesActions.solicitarAutorizacion),
+      pessimisticUpdate({
+        run: ({ bonificacion }) => {
+          return this.service.solicitarAutorizacion(bonificacion).pipe(
+            map((res) =>
+              BonificacionesActions.solicitarAutorizacionSuccess({
+                bonificacion: res,
+              })
+            )
+          );
+        },
+
+        onError: (action, error) => {
+          console.error('Error timbrando bonificacion', error);
+          return BonificacionesActions.solicitarAutorizacionFail({ error });
+        },
+      })
+    )
+  );
+
   cancelar$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BonificacionesActions.cancelarBonificacion),
@@ -217,6 +239,7 @@ export class BonificacionesEffects {
     () =>
       this.actions$.pipe(
         ofType(
+          BonificacionesActions.solicitarAutorizacionFail,
           BonificacionesActions.aplicarFail,
           BonificacionesActions.deleteBonificacionFail,
           BonificacionesActions.loadBonificacionesFailure,

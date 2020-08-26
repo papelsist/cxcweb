@@ -14,6 +14,7 @@ import {
   cancelarBonificacion,
   deleteBonificacion,
   aplicar,
+  solicitarAutorizacion,
 } from './bonificaciones.actions';
 
 import {
@@ -107,5 +108,9 @@ export class BonificacionesFacade {
 
   aplicar(bonificacion: Partial<NotaDeCredito>) {
     this.dispatch(aplicar({ bonificacion }));
+  }
+
+  solicitarAutorizacion(bonificacion: Partial<NotaDeCredito>) {
+    this.dispatch(solicitarAutorizacion({ bonificacion }));
   }
 }

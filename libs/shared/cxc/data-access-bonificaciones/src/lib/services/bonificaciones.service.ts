@@ -73,6 +73,12 @@ export class BonificacionesService {
       .put<BonificacionesEntity>(url, {})
       .pipe(catchError((error: any) => throwError(error)));
   }
+  solicitarAutorizacion(bonificacion: Partial<BonificacionesEntity>) {
+    const url = `${this.apiUrl}/solicitarAutorizacion/${bonificacion.id}`;
+    return this.http
+      .put<BonificacionesEntity>(url, {})
+      .pipe(catchError((error: any) => throwError(error)));
+  }
 
   cancelar(bonificacion: Partial<BonificacionesEntity>, motivo: string) {
     const url = `${this.apiUrl}/cancelar/${bonificacion.id}`;

@@ -21,7 +21,8 @@ export class CobroService {
   list(
     periodo: Periodo,
     cartera: string,
-    disponibles = true,
+    disponibles = false,
+    porTimbrar = false,
     max = 500
   ): Observable<Cobro[]> {
     const data = periodo.toApiJSON();
@@ -29,7 +30,8 @@ export class CobroService {
       .set('cartera', cartera)
       .set('fechaInicial', data.fechaInicial)
       .set('fechaFinal', data.fechaFinal)
-      .set('pendientes', disponibles.toString())
+      .set('disponibles', disponibles.toString())
+      .set('porTimbrar', porTimbrar.toString())
       .set('rows', max.toString());
     return this.http
       .get<Cobro[]>(this.apiUrl, { params: params })

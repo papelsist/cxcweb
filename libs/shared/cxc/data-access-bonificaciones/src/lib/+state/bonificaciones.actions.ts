@@ -114,3 +114,16 @@ export const aplicarSuccess = createAction(
   '[Bonificaciones effects] Aplicar bonificacion success',
   props<{ bonificacion: BonificacionesEntity }>()
 );
+
+export const solicitarAutorizacion = createAction(
+  '[Bonificacion Component] Solicitar autorizacion bonificacion',
+  props<{ bonificacion: Partial<BonificacionesEntity> }>()
+);
+export const solicitarAutorizacionFail = createAction(
+  '[Bonificaciones effects] Solicitar autorizacion bonificacion fail',
+  props<{ error: any }>()
+);
+export const solicitarAutorizacionSuccess = createAction(
+  '[Bonificaciones effects] Solicitar autorizacion bonificacion success',
+  props<{ bonificacion: BonificacionesEntity }>()
+);

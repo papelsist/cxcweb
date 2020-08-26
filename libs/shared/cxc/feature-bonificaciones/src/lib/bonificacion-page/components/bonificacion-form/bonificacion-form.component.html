@@ -145,14 +145,15 @@
   </td-message>
   <td-message
     #messageDemo
-    *ngIf="bonificacion.autorizo"
+    *ngIf="bonificacion.autorizacion as autorizacion"
     color="accent"
     label="Autorizada"
-    sublabel="{{
-      bonificacion.autorizoFecha | date: 'dd/MM/yyyy: hh:mm'
-    }} Por: {{ bonificacion.autorizo }}"
+    sublabel="{{ autorizacion.fecha | date: 'dd/MM/yyyy: hh:mm' }} Por: {{
+      autorizacion.usuario
+    }}"
     icon="verified"
   >
+    <span *ngIf="autorizacion.comentario">{{ autorizacion.comentario }}</span>
     <button td-message-actions mat-icon-button (click)="messageDemo.close()">
       <mat-icon>cancel</mat-icon>
     </button>
@@ -160,7 +161,7 @@
   <mat-card-actions>
     <nx-papelsa-back-button></nx-papelsa-back-button>
     <button
-      *ngIf="!bonificacion.cfdi"
+      *ngIf="!bonificacion.autorizacion && !bonificacion.cfdi"
       mat-button
       color="primary"
       (click)="onSubmit()"

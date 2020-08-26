@@ -94,8 +94,10 @@ class OriginalUrlMappings {
         "/api/cxc/notas/buscarRmd"(controller: "notaDeCredito", action: 'buscarRmd', method: 'GET')
         "/api/cxc/notas/buscarFacturasPendientes"(controller: "notaDeCredito", action: 'buscarFacturasPendientes', method: 'GET')
         "/api/cxc/notas/generarConRmd/$id"(controller: 'notaDeCredito', action: 'generarConRmd', method: 'POST')
+        "/api/cxc/notas/solicitarAutorizacion/$id"(controller: 'notaDeCredito', action: 'solicitarAutorizacion', method: 'PUT')
         "/api/cxc/notas/timbrar/$id"(controller: 'notaDeCredito', action: 'timbrar', method: 'PUT')
         "/api/cxc/notas/cancelar/$id"(controller: 'notaDeCredito', action: 'cancelar', method: 'PUT')
+
         "/api/cxc/notas/aplicar/$id"(controller: 'notaDeCredito', action: 'aplicar', method: 'PUT')
         "/api/cxc/notas/print/$id"(controller: 'notaDeCredito', action: 'print', method: 'GET')
         "/api/cxc/notas/reporteDeNotasDeCredito"(controller: 'notaDeCredito', action: 'reporteDeNotasDeCredito', method: 'GET')

@@ -23,6 +23,21 @@ export const getCobrosSearchTerm = createSelector(
   (state: State) => state.searchTerm
 );
 
+export const getCobrosDisponibles = createSelector(
+  getCobrosState,
+  (state: State) => state.disponibles
+);
+export const getCobrosPorTimbrar = createSelector(
+  getCobrosState,
+  (state: State) => state.porTimbrar
+);
+
+export const isPeriodoDisabled = createSelector(
+  getCobrosDisponibles,
+  getCobrosPorTimbrar,
+  (disponibles, porTibrar) => disponibles || porTibrar
+);
+
 export const getCobrosLoaded = createSelector(
   getCobrosState,
   (state: State) => state.loaded

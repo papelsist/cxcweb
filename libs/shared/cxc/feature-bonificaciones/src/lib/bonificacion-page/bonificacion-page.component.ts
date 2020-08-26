@@ -55,6 +55,29 @@ export class BonificacionPageComponent extends BaseComponent implements OnInit {
     this.facade.delete(bonificacion);
   }
 
+  solicitarAutorizacion(bonificacion: NotaDeCredito) {
+    if (this.requiereAutorizacion(bonificacion)) {
+      const solicitado = bonificacion.solicitud;
+
+      this.confirm(
+        'Autorizaciones',
+        'Solicitar autorización para esta bonificación?'
+      ).subscribe((res) => {
+        if (res) {
+          this.facade.solicitarAutorizacion(bonificacion);
+        }
+      });
+    }
+  }
+
+  requiereAutorizacion(bonificacion: NotaDeCredito) {
+    if (bonificacion.tipo !== 'BONIFICACION') return false; // SI NO ES BONIFICACION
+    if (bonificacion.autorizacion) return false; // SI YA ESTA AUTORIZADA
+    if (bonificacion.solicitud) return false; // YA SE HABIA SOLICITADO AUTORIZACION
+    if (bonificacion.total <= 0) return false; // YA TIENE FACTURAS REGISTRADAS
+    return true;
+  }
+
   porAutrizar(bonificacion: Partial<NotaDeCredito>) {
     return !bonificacion.autorizo && bonificacion.total > 0;
   }

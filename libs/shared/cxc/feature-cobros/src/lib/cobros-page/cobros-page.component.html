@@ -16,7 +16,17 @@
     <nx-papelsa-periodo-picker
       (periodoChanged)="cambiarPeriodo($event)"
       [periodo]="periodo$ | async"
+      [disabled]="periodoDisabled$ | async"
     ></nx-papelsa-periodo-picker>
+    <mat-checkbox
+      (change)="toggleDisponibles()"
+      [checked]="disponibles$ | async"
+    >
+      Por aplicar
+    </mat-checkbox>
+    <mat-checkbox (change)="togglePorTimbrar()" [checked]="porTimbrar$ | async">
+      Por timbrar
+    </mat-checkbox>
 
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>more_vert</mat-icon>

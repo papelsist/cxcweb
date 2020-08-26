@@ -59,7 +59,7 @@ export class BonificacionFormComponent implements OnInit, OnDestroy {
     if (
       this.bonificacion.cfdi ||
       this.bonificacion.cancelacion ||
-      this.bonificacion.autorizo
+      this.bonificacion.autorizacion
     ) {
       this.form.disable();
     }

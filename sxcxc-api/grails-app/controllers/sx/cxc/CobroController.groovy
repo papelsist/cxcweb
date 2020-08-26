@@ -38,15 +38,27 @@ class CobroController extends RestfulController<Cobro>{
     protected List<Cobro> listAllResources(Map params) {
       log.debug('Params: {}', params)
       params.max = params.rows?: 500
-      params.sort = params.sort ?:'lastUpdated'
+      params.sort = params.sort ?:'fecha'
       params.order = params.order ?:'desc'
 
       String cartera = params.cartera
       def periodo = params.periodo
 
       log.debug('Cobros GET Cartera: {} Periodo: {} Rows: {}', cartera, periodo, params.max)
-
+      Date cierre = Date.parse('dd/MM/yyyy','31/12/2019')
       def query = Cobro.where {tipo == cartera}
+
+      if(params.getBoolean('disponibles')) {
+        log.debug('Solo cobros con disponible disponibles')
+        query = query.where{fecha > cierre && saldo > 10.0}
+        return query.list(params)
+      }
+
+      if(params.getBoolean('porTimbrar')) {
+        log.debug('Solo cobros por timbrar')
+        query = query.where{fecha > cierre && requiereRecibo  && cfdi == null}
+        return query.list(params)
+      }
       query = query.where{fecha >= periodo.fechaInicial && fecha <= periodo.fechaFinal}
       return query.list(params)
     }
