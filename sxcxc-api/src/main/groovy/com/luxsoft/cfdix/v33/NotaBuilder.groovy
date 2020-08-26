@@ -226,7 +226,7 @@ class NotaBuilder {
 
             Comprobante.Conceptos.Concepto concepto = factory.createComprobanteConceptosConcepto()
 
-            def importe = MonedaUtils.calcularImporteDelTotal(item.importe)
+            def importe = item.importe // MonedaUtils.calcularImporteDelTotal(item.importe)
 
             def impuesto = importe * MonedaUtils.IVA
             impuesto = MonedaUtils.round(impuesto)
