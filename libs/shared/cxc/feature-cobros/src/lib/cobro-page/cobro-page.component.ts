@@ -23,7 +23,7 @@ export class CobroPageComponent implements OnInit {
   disabled$ = this.cobro$.pipe(map((cobro) => cobro.cfdi));
   agregarAplicacion$ = this.cobro$.pipe(map((c) => c.saldo >= 0.01));
   timbrable$ = this.cobro$.pipe(
-    map((c) => c.timbrable && c.saldo < 0.01 && !c.cfdi)
+    map((c) => c.requiereRecibo && c.saldo < 0.01 && !c.cfdi)
   );
 
   constructor(

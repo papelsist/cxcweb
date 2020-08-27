@@ -43,7 +43,7 @@
     <mat-card-actions>
       <nx-papelsa-back-button title="Cobros"></nx-papelsa-back-button>
       <nx-papelsa-cfdi-timbrar
-        *ngIf="cobro.timbrable"
+        *ngIf="cobro.requiereRecibo"
         [disabled]="!(timbrable$ | async)"
         (timbrar)="onGenerarRecibo(cobro)"
       ></nx-papelsa-cfdi-timbrar>
