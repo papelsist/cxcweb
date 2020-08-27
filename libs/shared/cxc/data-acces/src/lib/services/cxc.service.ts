@@ -4,6 +4,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
+import forIn from 'lodash/forin';
+
 import {
   Periodo,
   CuentaPorCobrarDTO,
@@ -64,6 +66,17 @@ export class CxcService {
     const url = `${this.apiUrl}/pendientes/${clienteId}`;
     return this.http
       .get<CuentaPorCobrarDTO[]>(url)
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  search(searchParams: {}): Observable<CuentaPorCobrar[]> {
+    const url = `${this.apiUrl}/search`;
+    let params = new HttpParams();
+    forIn(searchParams, (value, key) => {
+      params = params.set(key, value);
+    });
+    return this.http
+      .get<CuentaPorCobrar[]>(url, { params })
       .pipe(catchError((error: any) => throwError(error)));
   }
 

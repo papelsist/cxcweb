@@ -60,14 +60,13 @@ class CuentaPorCobrarController extends RestfulController<CuentaPorCobrar>{
     }
 
     def search() {
+      log.debug('Search [GET] {}', params)
         def query = CuentaPorCobrar.where { }
-        params.sort = params.sort ?: 'lastUpdated'
-        params.order = params.order ?:'desc'
-        params.max = 50
+        params.sort = params.sort ?: 'documento'
+        params.order = params.order ?:'asc'
+        params.max = params.max?: 100
 
         log.info("Search: {}", params)
-
-
 
         if(params.cartera){
             def cart = params.cartera
@@ -85,30 +84,23 @@ class CuentaPorCobrarController extends RestfulController<CuentaPorCobrar>{
                     query = query.where{ tipo == cart && juridico == null}
             }
         }
-
-
-
-        String nombre = params.nombre
-        if(nombre){
-            def search = '%' + nombre + '%'
-            query = query.where { cliente.nombre =~ search}
-        }
-
-        String sucursal = params.sucursal
-        if(sucursal){
-            def search = '%' + sucursal + '%'
-            query = query.where { sucursal.nombre =~ search}
-        }
-
-        Integer documento = params.getInt('documento')
-        if(documento)
-            query = query.where { documento == documento }
-
+        /*
         if(params.fechaInicial) {
             Date fechaInicial = params.getDate('fechaInicial', 'yyyy-MM-dd')
             Date fechaFinal = params.getDate('fechaFinal', 'yyyy-MM-dd') ?: fechaInicial
             query = query.where { fecha >= fechaInicial && fecha <= fechaFinal}
 
+        }
+        */
+
+        if(params.clienteId){
+            def clienteId = params.clienteId
+            query = query.where { cliente.id =~ clienteId}
+        }
+
+        Long documento = params.getLong('documento')
+        if(documento) {
+          query = query.where { documento == documento }
         }
 
         respond query.list(params)

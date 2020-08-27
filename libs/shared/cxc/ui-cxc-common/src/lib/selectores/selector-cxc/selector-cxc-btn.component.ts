@@ -78,7 +78,7 @@ export class SelectorCxcBtnComponent implements OnInit {
   doSeleccionar(facturas: CuentaPorCobrarDTO[]) {
     this.dialog
       .open(SelectorCxcComponent, {
-        data: { facturas, excludes: this.excludes },
+        data: { clienteId: this.clienteId, facturas, excludes: this.excludes },
         width: '75%',
       })
       .afterClosed()

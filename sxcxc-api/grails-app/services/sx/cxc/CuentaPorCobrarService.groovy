@@ -85,5 +85,22 @@ class CuentaPorCobrarService {
         log.info(' {} Facturas pendientes para : {} ',res.size(), cliente.nombre)
         return res
     }
+
+    @ReadOnly
+    List<CuentaPorCobrarDTO> findFacturas(Cliente cliente, Periodo periodo) {
+      List<CuentaPorCobrar> rows = CuentaPorCobrar
+              .findAll(
+              """from CuentaPorCobrar c
+                  where c.cliente.id = :clienteId
+                    and c.fecha between :f1 and :f2
+                    and c.saldoReal > 0
+                    and c.cfdi is not null
+                  order by c.fecha
+              """
+              , [clienteId: cliente.id, fechaInicial: periodo.fechaInicial, f2: periodo.fechaFinal])
+      List<CuentaPorCobrarDTO> res = rows.collect { cxc -> new CuentaPorCobrarDTO(cxc)}
+      log.info(' {} Facturas pendientes para : {} ',res.size(), cliente.nombre)
+      return res
+    }
 }
 
