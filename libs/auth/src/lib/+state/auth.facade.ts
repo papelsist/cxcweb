@@ -14,6 +14,7 @@ export class AuthFacade {
   isLoggedIn$ = this.store.pipe(select(AuthSelectors.isLoggedIn));
   error$ = this.store.pipe(select(AuthSelectors.getAuthError));
   displayName$ = this.store.pipe(select(AuthSelectors.getDisplayName));
+  roles$ = this.store.pipe(select(AuthSelectors.getRoles));
 
   constructor(
     private store: Store<fromAuth.AuthPartialState>,

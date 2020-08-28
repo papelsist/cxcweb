@@ -21,7 +21,7 @@ import static org.springframework.http.HttpStatus.OK
  *
  */
 @Slf4j
-@Secured("hasAnyRole('ROLE_ADMIN', 'ROLE_CXC', 'ROLE_CXC_ADMIN')")
+@Secured("hasAnyRole('ROLE_ADMIN', 'ROLE_CXC', 'ROLE_AUTORIZACION_CXC', 'ROLE_CXC_ADMIN')")
 class NotaDeCreditoController extends RestfulController<NotaDeCredito> {
 
   static responseFormats = ['json']

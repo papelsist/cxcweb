@@ -7,17 +7,20 @@ import {
   CuentaPorCobrarDTO,
 } from '@nx-papelsa/shared/utils/core-models';
 import { CobrosFacade } from '@nx-papelsa/shared/cxc/data-access-cobros';
-import { FormatService } from '@nx-papelsa/shared/utils/ui-common';
+import {
+  FormatService,
+  BaseComponent,
+} from '@nx-papelsa/shared/utils/ui-common';
 
 import { TdDialogService } from '@covalent/core/dialogs';
-import { map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'nx-papelsa-cobro-page',
   templateUrl: './cobro-page.component.html',
   styleUrls: ['./cobro-page.component.scss'],
 })
-export class CobroPageComponent implements OnInit {
+export class CobroPageComponent extends BaseComponent implements OnInit {
   loading$ = this.facade.loading$;
   cobro$ = this.facade.selectedCobros$;
   disabled$ = this.cobro$.pipe(map((cobro) => cobro.cfdi));
@@ -30,11 +33,15 @@ export class CobroPageComponent implements OnInit {
     private facade: CobrosFacade,
     public service: FormatService,
     private dialogService: TdDialogService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     // this.disabled$.subscribe((val) => console.log('disabled: ', val));
-    // this.cobro$.subscribe((c) => console.log('Atendiendo cobro: ', c));
+    this.cobro$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((c) => console.log('Atendiendo cobro: ', c));
     // this.timbrable$.subscribe((val) => console.log('Timbrable: ', val));
   }
 

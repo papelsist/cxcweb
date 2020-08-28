@@ -41,8 +41,20 @@
           <mat-icon>verified_user</mat-icon>
           <span>Solicitar autorización</span>
         </button>
+        <nx-papelsa-autorizacion
+          *ngIf="
+            bonificacion.total > 0 &&
+            bonificacion.solicitud &&
+            roleDeAutorizacion
+          "
+          toolTip="Autorizar la bonificacion"
+          descripcion="Autorizar Nota de crédito por bonificación"
+          (autorizacion)="onAutorizar($event, bonificacion)"
+          [disabled]="bonificacion.autorizacion"
+        >
+        </nx-papelsa-autorizacion>
         <nx-papelsa-cfdi-timbrar
-          *ngIf="bonificacion.total > 0.0"
+          *ngIf="bonificacion.total > 0.0 && roleDeTimbrar"
           color="accent"
           (timbrar)="onTimbrar(bonificacion)"
           [disabled]="form.isDirty() || !bonificacion.autorizacion"

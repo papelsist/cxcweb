@@ -14,7 +14,9 @@ export const getSession = createSelector(getAuhState, (state) => state.session);
 export const getToken = createSelector(getSession, (session) =>
   session ? session.access_token : null
 );
-export const getRoles = createSelector(getSession, (session) => session.roles);
+export const getRoles = createSelector(getSession, (session) =>
+  session ? session.roles : []
+);
 export const getDisplayName = createSelector(getToken, (token) => {
   return token ? helper.decodeToken(token)['displayName'] : null;
 });
