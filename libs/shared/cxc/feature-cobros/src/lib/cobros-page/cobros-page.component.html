@@ -41,16 +41,10 @@
         <mat-icon>refresh</mat-icon>
         <span>Refrescar</span>
       </button>
-      <!-- <nx-papelsa-cfdi-email-bulk>
-      </nx-papelsa-cfdi-email-bulk> -->
-      <!-- <button
-        mat-menu-item
-        [disabled]="getDisponiblesParaEnvio().length === 0"
-        (click)="enviarPorCorreo(getDisponiblesParaEnvio())"
-      >
-        <mat-icon>email</mat-icon>
-        <span>Envia por correo</span>
-      </button> -->
+      <nx-papelsa-cfdi-email-bulk
+        [facturas]="disponiblesParaEnvio$ | async"
+        (done)="grid.clearSelection()"
+      ></nx-papelsa-cfdi-email-bulk>
     </mat-menu>
   </div>
   <ng-template
@@ -60,9 +54,11 @@
   >
   </ng-template>
   <nx-papelsa-cobros-grid
+    #grid
     class="cobros-grid"
     [rows]="cobros$ | async"
     [searchTerm]="search$ | async"
     (drillDown)="onDrillDown($event, cartera)"
+    (selectionChange)="onSelection($event)"
   ></nx-papelsa-cobros-grid>
 </mat-card>

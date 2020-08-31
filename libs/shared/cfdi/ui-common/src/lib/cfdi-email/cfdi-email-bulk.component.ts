@@ -16,6 +16,8 @@ import { CfdiService } from '@nx-papelsa/shared/cfdi/data-access';
 import {
   CuentaPorCobrarDTO,
   GrupoDeCfdis,
+  CfdiDto,
+  NotaDeCredito,
 } from '@nx-papelsa/shared/utils/core-models';
 import { groupByProperty } from '@nx-papelsa/shared/utils/collections';
 
@@ -39,7 +41,8 @@ import { TdDialogService } from '@covalent/core/dialogs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CfdiEmailBulkComponent implements OnInit {
-  @Input() facturas: CuentaPorCobrarDTO[];
+  @Input() facturas: CuentaPorCobrarDTO[] | Partial<NotaDeCredito>[];
+
   @Input() target: string;
   @Input() color = 'primary';
   @Input() title = 'Envia';
@@ -71,10 +74,12 @@ export class CfdiEmailBulkComponent implements OnInit {
       });
   }
 
-  buildGrupos(rows: CuentaPorCobrarDTO[]): GrupoDeCfdis[] {
+  buildGrupos(
+    rows: CuentaPorCobrarDTO[] | Partial<NotaDeCredito>[]
+  ): GrupoDeCfdis[] {
     const grupos = groupByProperty(rows, 'nombre');
     const res = Object.keys(grupos).map((key) => {
-      const value: CuentaPorCobrarDTO[] = grupos[key];
+      const value: any[] = grupos[key];
       const cfdis = value.map((item) => item.cfdi);
       const { nombre, cfdiMail } = value[0].cliente;
       return { nombre, target: cfdiMail, cfdis };

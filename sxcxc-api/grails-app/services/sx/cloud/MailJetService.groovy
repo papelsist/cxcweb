@@ -105,7 +105,13 @@ class MailJetService {
         // emaiLog.save failOnError: true, flush: true
       }
     }
-    mLog.save failOnError: true, flush: true
+    boolean valid = mLog.validate()
+    if(valid) {
+      mLog.save failOnError: true, flush: true
+    } else {
+      log.info('Imposible persistir MaiLog Errors: {}', mLog.errors)
+      log.info('MailJob: {}', command)
+    }
     return mLog
   }
 
@@ -137,7 +143,7 @@ class MailJetService {
 
     def mailjetLog = new MailjetLog()
     mailjetLog.target = command.target
-    mailjetLog.nombre = command.nombre
+    mailjetLog.nombre = command.nombre ?: command.target
     mailjetLog.cfdis = command.cfdis
 
     JsonSlurper slurper = new JsonSlurper()

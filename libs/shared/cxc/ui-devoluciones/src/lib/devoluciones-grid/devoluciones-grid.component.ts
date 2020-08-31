@@ -127,6 +127,9 @@ export class DevolucionesGridComponent implements OnInit {
       }
     }
   }
+  clearSelection() {
+    this.gridApi.deselectAll();
+  }
 
   formatCurrency(data: any) {
     return formatCurrency(data, this.locale, '$');
@@ -143,10 +146,13 @@ export class DevolucionesGridComponent implements OnInit {
   private buildColumnDef(): ColDef[] {
     return [
       {
-        headerName: 'Sucursal',
-        field: 'sucursalNombre',
+        headerName: 'Folio',
+        field: 'folio',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
         sortable: true,
-        width: 110,
+        filter: true,
+        width: 100,
       },
       {
         headerName: 'Serie',
@@ -155,11 +161,10 @@ export class DevolucionesGridComponent implements OnInit {
         width: 100,
       },
       {
-        headerName: 'Folio',
-        field: 'folio',
+        headerName: 'Sucursal',
+        field: 'sucursalNombre',
         sortable: true,
-        filter: true,
-        width: 100,
+        width: 110,
       },
       {
         headerName: 'Fecha',

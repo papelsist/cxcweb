@@ -35,14 +35,25 @@
         <mat-icon>refresh</mat-icon>
         <span>Refrescar</span>
       </button>
+      <nx-papelsa-cfdi-email-bulk
+        [facturas]="disponibles$ | async"
+        (done)="grid.clearSelection()"
+      ></nx-papelsa-cfdi-email-bulk>
     </mat-menu>
   </div>
-
+  <ng-template
+    tdLoading
+    [tdLoadingUntil]="!(loading$ | async)"
+    tdLoadingStrategy="overlay"
+  >
+  </ng-template>
   <nx-papelsa-cxc-bonificaciones-grid
+    #grid
     class="creditos-grid"
     [rows]="bonificaciones$ | async"
     [searchTerm]="facade.search$ | async"
     (drillDown)="onDrillDown($event, cartera)"
+    (selectionChange)="onSelection($event)"
   >
   </nx-papelsa-cxc-bonificaciones-grid>
 </mat-card>

@@ -30,12 +30,9 @@
         <mat-icon>refresh</mat-icon>
         <span>Refrescar</span>
       </button>
-      <!-- <nx-papelsa-cfdi-email-bulk
-        [facturas]="disponiblesEnvio$ | async"
-        (done)="grid.clearSelection()"
-      ></nx-papelsa-cfdi-email-bulk> -->
       <nx-papelsa-cfdi-email-bulk
         [facturas]="disponiblesEnvio$ | async"
+        (done)="grid.clearSelection()"
       ></nx-papelsa-cfdi-email-bulk>
     </mat-menu>
   </div>
@@ -48,10 +45,12 @@
   </ng-template>
 
   <nx-papelsa-cxc-devoluciones-grid
+    #grid
     class="devoluciones-panel"
     [rows]="devoluciones$ | async"
     [searchTerm]="search$ | async"
     (drillDown)="onDrillDown($event, cartera)"
+    (selectionChange)="onSelection($event)"
   >
   </nx-papelsa-cxc-devoluciones-grid>
 </mat-card>

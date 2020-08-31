@@ -4,6 +4,8 @@ import { Periodo, Cobro, Cartera } from '@nx-papelsa/shared/utils/core-models';
 
 import { CobrosFacade } from '@nx-papelsa/shared/cxc/data-access-cobros';
 import { BaseComponent } from '@nx-papelsa/shared/utils/ui-common';
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'nx-papelsa-cobros-page',
@@ -19,6 +21,14 @@ export class CobrosPageComponent extends BaseComponent implements OnInit {
   search$ = this.facade.search$;
   disponibles$ = this.facade.disponibles$;
   porTimbrar$ = this.facade.porTimbrar$;
+
+  _selected$ = new BehaviorSubject<Cobro[]>([]);
+
+  selected$ = this._selected$.asObservable();
+
+  disponiblesParaEnvio$ = this.selected$.pipe(
+    map((selected) => selected.filter((item) => item.cfdi))
+  );
 
   constructor(private facade: CobrosFacade) {
     super();
@@ -53,5 +63,8 @@ export class CobrosPageComponent extends BaseComponent implements OnInit {
   }
   togglePorTimbrar() {
     this.facade.togglePorTimbrar();
+  }
+  onSelection(event: Cobro[]) {
+    this._selected$.next(event);
   }
 }

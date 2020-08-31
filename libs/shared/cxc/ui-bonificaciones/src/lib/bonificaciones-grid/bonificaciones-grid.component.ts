@@ -128,6 +128,10 @@ export class BonificacionesGridComponent implements OnInit {
     }
   }
 
+  clearSelection() {
+    this.gridApi.deselectAll();
+  }
+
   formatCurrency(data: any) {
     return formatCurrency(data, this.locale, '$');
   }
@@ -143,10 +147,13 @@ export class BonificacionesGridComponent implements OnInit {
   private buildColumnDef(): ColDef[] {
     return [
       {
-        headerName: 'Tipo',
-        field: 'tipoDeCalculo',
+        headerName: 'Folio',
+        field: 'folio',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
         sortable: true,
-        width: 110,
+        filter: true,
+        width: 100,
       },
       {
         headerName: 'Serie',
@@ -155,11 +162,10 @@ export class BonificacionesGridComponent implements OnInit {
         width: 100,
       },
       {
-        headerName: 'Folio',
-        field: 'folio',
+        headerName: 'Tipo',
+        field: 'tipoDeCalculo',
         sortable: true,
-        filter: true,
-        width: 100,
+        width: 110,
       },
       {
         headerName: 'Fecha',

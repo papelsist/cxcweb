@@ -135,12 +135,18 @@ export class CobrosGridComponent implements OnInit {
     }
   }
 
+  clearSelection() {
+    this.gridApi.deselectAll();
+  }
+
   private buildColumnDef(): ColDef[] {
     return [
       {
         headerName: 'Fecha',
         field: 'fecha',
         sortable: true,
+        headerCheckboxSelection: true,
+        checkboxSelection: true,
         width: 120,
         valueFormatter: (params) => this.formatDate(params.value),
       },

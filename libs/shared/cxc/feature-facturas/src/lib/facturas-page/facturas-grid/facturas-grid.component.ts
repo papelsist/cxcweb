@@ -162,6 +162,7 @@ export class FacturasGridComponent implements OnInit {
         field: 'documento',
         maxWidth: 110,
         checkboxSelection: true,
+        headerCheckboxSelection: true,
       },
       {
         headerName: 'Tipo',
