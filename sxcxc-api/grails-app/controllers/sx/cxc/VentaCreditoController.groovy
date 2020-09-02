@@ -1,14 +1,18 @@
 package sx.cxc
 
+import groovy.util.logging.Slf4j
+import groovy.transform.ToString
+
 import grails.rest.RestfulController
 import grails.plugin.springsecurity.annotation.Secured
-import groovy.transform.ToString
+
 import sx.core.Cliente
 import sx.core.Cobrador
 import sx.core.Sucursal
 import sx.reports.ReportService
 
-@Secured("hasRole('ROLE_POS_USER')")
+@Slf4j
+@Secured("hasAnyRole('ROLE_ADMIN', 'ROLE_CXC', 'ROLE_AUTORIZACION_CXC', 'ROLE_CXC_ADMIN')")
 class VentaCreditoController extends RestfulController<VentaCredito>{
 
     static responseFormats = ['json']
