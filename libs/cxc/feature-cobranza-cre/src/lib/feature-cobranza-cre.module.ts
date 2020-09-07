@@ -61,6 +61,13 @@ import { UiFormsModule } from '@nx-papelsa/shared/utils/ui-forms';
               ),
             data: { cartera: { clave: 'CRE', descripcion: 'Crédito' } },
           },
+          {
+            path: 'revisiones',
+            loadChildren: () =>
+              import('@nx-papelsa/shared/cxc/feature-revision').then(
+                (m) => m.FeatureRevisionModule
+              ),
+          },
         ],
       },
     ]),

@@ -8,6 +8,34 @@
       odd-row-background-color: #f4f8f8,
     )
   );
+
+  .primary-row {
+    color: mat-color($primary);
+  }
+
+  .warning-row {
+    color: mat-color($accent);
+  }
+
+  .danger-row {
+    color: mat-color($warn);
+  }
+
+  .success-row {
+    color: rgb(42, 172, 64);
+  }
+  .small-row {
+    font-size: 10px;
+  }
+  .medium-row {
+    font-size: 12px;
+  }
+  .small-cell {
+    font-size: 10px;
+  }
+  .medium-cell {
+    font-size: 12px;
+  }
 }
 /* You can add global styles to this file, and also import other style files */
 html,

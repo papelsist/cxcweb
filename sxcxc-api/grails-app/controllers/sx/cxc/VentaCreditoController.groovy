@@ -34,60 +34,57 @@ class VentaCreditoController extends RestfulController<VentaCredito>{
 
 
     protected VentaCredito updateResource(VentaCredito resource) {
-        this.revisionService.actualizarRevision(resource)
-    }
-
-    def generar() {
-        log.debug('Generando facturas a revision')
-        List res = revisionService.generar();
-        respond res
+        this.revisionService.update(resource)
     }
 
     def recalcular() {
-        log.debug('Recalculando fechas de revision y pago  para cuentas por cobrar')
-        List res = revisionService.actualizar()
+        List<VentaCredito> res = revisionService.actualizar()
         respond res
     }
-
 
     def registrarRecepcionCxC(BatchUpdateCommand command){
         log.info('Registrando recepcion  de {} facturas ', command.facturas.size())
         List<VentaCredito> facturas = command.facturas;
-        facturas.each {
-            it.fechaRecepcionCxc = new Date()
-            it = this.revisionService.actualizarRevision(it)
+        facturas.each { credito ->
+            credito.fechaRecepcionCxc = new Date()
+            credito = this.revisionService.update(credito)
         }
         respond facturas
     }
 
     def cancelarRecepcionCxC(BatchUpdateCommand command){
-        log.info('Cancelar recepcion en cxc   de {} facturas ', command.facturas.size())
+        log.debug('Cancelar recepcion en cxc   de {} facturas ', command.facturas.size())
         List<VentaCredito> facturas = command.facturas.findAll{ !it.revisada }
-        facturas.each {
-            it.fechaRecepcionCxc = null
-            it = this.revisionService.actualizarRevision(it)
+        facturas.each { credito ->
+          credito.fechaRecepcionCxc = null
+          credito = this.revisionService.update(credito)
         }
         respond facturas
     }
 
-    def registrarRvisada(BatchUpdateCommand command){
-        log.info('Registrando recepcion  de {} facturas ', command.facturas.size())
-        List<VentaCredito> facturas = command.facturas.findAll{ it.fechaRecepcionCxc &&  !it.revisada }
-        facturas.each {
-            it.revisada = true
-            it.save flush: true
-        }
-        respond facturas
+  def registrarRvisada(BatchUpdateCommand command){
+
+    boolean value = params.getBoolean('value', true)
+    log.info('Registrando revisadas  de {} facturas Value: {} Params: {}', command.facturas.size(), value, params)
+    List<VentaCredito> facturas = command.facturas.findAll{ it.fechaRecepcionCxc  }
+    log.debug('Califican facturas: {}', facturas.size())
+    facturas.each { credito ->
+      credito.revisada = value
+      credito = this.revisionService.update(credito)
     }
+    respond facturas
+  }
+
+
 
     def batchUpdate(BatchUpdateCommand command){
-        log.info('Batch update de {} facturas con {}', command.facturas.size(), command.template)
-        List<VentaCredito> facturas = command.facturas;
-        facturas.each {
-            bindData(it, command.template)
-            it = this.revisionService.actualizarRevision(it)
-        }
-        respond facturas
+      log.info('Batch update de {} facturas con {}', command.facturas.size(), command.template)
+      List<VentaCredito> facturas = command.facturas;
+      facturas.each { credito ->
+        bindData(credito, command.template)
+        credito = this.revisionService.update(credito)
+      }
+      respond facturas
     }
 
     def print(RevisionCobroCommand command) {

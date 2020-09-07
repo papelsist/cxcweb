@@ -4,7 +4,7 @@ import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
 import sx.core.Cobrador
 
-@Secured("hasRole('CXC_USER')")
+@Secured("hasAnyRole('ROLE_ADMIN', 'ROLE_CXC', 'ROLE_CXC_ADMIN')")
 class CobradorController extends RestfulController<Cobrador>{
     static responseFormats = ['json']
 

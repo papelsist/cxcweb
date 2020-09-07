@@ -6,82 +6,92 @@ import sx.core.Cobrador
 import sx.core.Socio
 
 
-// @ToString(excludes = ["id,version,dateCreated, lastUpdated, cuentaPorCobrar"],includeNames=true,includePackage=false)
+@ToString(excludes = ["cuentaPorCobrar","cobrador","socio", "id", "comentario", "comentarioReprogramarPago", "dateCreated","createUser"], includeNames=true, includePackage=false)
 @EqualsAndHashCode(includeFields = true,includes = 'id')
 class VentaCredito {
 
-    String id
+  String id
 
-    Integer plazo = 0
+  Integer plazo = 0
 
-    Boolean vencimientoFactura = true
+  Boolean vencimientoFactura = true
 
-    Date vencimiento
+  Date vencimiento
 
 	Date fechaRecepcionCxc
 
-    Integer diaRevision = 0
+  Integer diaRevision = 0
 
-    Date fechaRevision
+  Date fechaRevision
 
-    Date fechaRevisionCxc
+  Date fechaRevisionCxc
 
-    BigDecimal	descuento	 = 0
+  BigDecimal descuento	 = 0
 
-    Boolean revision = true
+  Boolean revision = true
 
-    Boolean revisada = false
+  Boolean revisada = false
 
-    Integer diaPago = 0
+  Integer diaPago = 0
 
-    Date	fechaPago
+  Date	fechaPago
 
-    Date reprogramarPago
+  Date reprogramarPago
 
-    String comentarioReprogramarPago
+  String comentarioReprogramarPago
 
-    Cobrador cobrador
+  Cobrador cobrador
 
-    Socio socio
+  Socio socio
 
-    Integer operador = 1
+  Integer operador = 1
 
-    String	sw2
+  String	sw2
 
-    String	comentario
+  String	comentario
 
-    Date dateCreated
+  Date dateCreated
 
-    Date lastUpdated
+  Date lastUpdated
 
-    String createUser
+  String createUser
 
-    String updateUser
+  String updateUser
 
-    CuentaPorCobrar cuentaPorCobrar;
+  Date actualizacion
+  String nombre
+  Double saldo
+  Integer atraso
 
-    static constraints = {
-        comentarioReprogramarPago nullable:true
-        fechaRecepcionCxc nullable:true
-        reprogramarPago nullable:true
-        socio nullable:true
-        comentarioReprogramarPago nullable:  true
-        comentario nullable: true
-        sw2 nullable: true
-        updateUser nullable: true
-        createUser nullable: true
-    }
 
-    static mapping = {
-        id generator:'uuid'
-        fechaRevision type:'date', index: 'VENTACRE_IDX1'
-        fechaRevisionCxc type:'date', index: 'VENTACRE_IDX1'
-        fechaRecepcionCxc type:'date' ,index: 'VENTACRE_IDX1'
-        vencimiento type: 'date', index: 'VENTACRE_IDX2'
-        fechaPago type:'date', index: 'VENTACRE_IDX2'
-        reprogramarPago type:'date'
+  static constraints = {
+    comentarioReprogramarPago nullable:true
+    fechaRecepcionCxc nullable:true
+    reprogramarPago nullable:true
+    socio nullable:true
+    comentarioReprogramarPago nullable:  true
+    comentario nullable: true
+    sw2 nullable: true
+    updateUser nullable: true
+    createUser nullable: true
+    //
+    nombre nullable: true
+    sucursalNombre: nullable:true
+    saldo nullable: true
+    actualizacion nullable: true
+    atraso nullable: true
+  }
 
-    }
+  static mapping = {
+    id generator:'uuid'
+    fechaRevision type:'date', index: 'VENTACRE_IDX1'
+    fechaRevisionCxc type:'date', index: 'VENTACRE_IDX1'
+    fechaRecepcionCxc type:'date' ,index: 'VENTACRE_IDX1'
+    vencimiento type: 'date', index: 'VENTACRE_IDX2'
+    fechaPago type:'date', index: 'VENTACRE_IDX2'
+    reprogramarPago type:'date'
+  }
 
-    static belongsTo = [cuentaPorCobrar: CuentaPorCobrar];
+  static belongsTo = [cuentaPorCobrar: CuentaPorCobrar];
+
 }

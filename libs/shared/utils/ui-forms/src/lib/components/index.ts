@@ -11,6 +11,7 @@ import { NumericFieldComponent } from './numeric-field/numeric-field.component';
 import { UsuarioNipFieldComponent } from './usuario-nip-field/usuario-nip-field.component';
 import { AutorizacionComponent } from './autorizacion/autorizacion.component';
 import { AutorizacionDialogComponent } from './autorizacion/autorizacion-dialog.component';
+import { CobradorFieldComponent } from './cobrador-field/cobrador-field.component';
 
 export const COMPONENTS = [
   FechaFieldComponent,
@@ -26,6 +27,7 @@ export const COMPONENTS = [
   UsuarioNipFieldComponent,
   AutorizacionComponent,
   AutorizacionDialogComponent,
+  CobradorFieldComponent,
 ];
 
 export * from './fecha-field/fecha-field.component';
@@ -41,3 +43,4 @@ export * from './numeric-field/numeric-field.component';
 export * from './usuario-nip-field/usuario-nip-field.component';
 export * from './autorizacion/autorizacion.component';
 export * from './autorizacion/autorizacion-dialog.component';
+export * from './cobrador-field/cobrador-field.component';

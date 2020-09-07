@@ -92,4 +92,7 @@ export interface VentaCredito {
   operador: number;
   comentario?: string;
   comentarioReprogramarPago: string;
+  total: number;
+  saldo: number;
+  actualizacion?: string;
 }

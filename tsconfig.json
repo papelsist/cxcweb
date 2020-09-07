@@ -104,6 +104,9 @@
       "@nx-papelsa/auth": ["libs/auth/src/index.ts"],
       "@nx-papelsa/shared/cxc/data-access-devoluciones": [
         "libs/shared/cxc/data-access-devoluciones/src/index.ts"
+      ],
+      "@nx-papelsa/shared/cxc/data-access-revisiones": [
+        "libs/shared/cxc/data-access-revisiones/src/index.ts"
       ]
     },
     "allowSyntheticDefaultImports": true

@@ -28,7 +28,12 @@ export class CreditoPageComponent implements OnInit {
       description: 'Aplicaciones de cobros',
       icon: 'payments',
     },
-
+    {
+      path: 'revisiones',
+      label: 'Revisión',
+      description: 'Revision y cobro',
+      icon: 'event',
+    },
     {
       path: 'bonificaciones',
       label: 'Bonificaciones',

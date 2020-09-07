@@ -121,6 +121,9 @@
     },
     "shared-cxc-data-access-devoluciones": {
       "tags": ["scope:scs", "type:data-access"]
+    },
+    "shared-cxc-data-access-revisiones": {
+      "tags": []
     }
   }
 }

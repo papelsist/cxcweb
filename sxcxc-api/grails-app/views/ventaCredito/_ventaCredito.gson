@@ -3,9 +3,9 @@ import sx.cxc.VentaCredito
 
 @Field VentaCredito ventaCredito
 
-json g.render(ventaCredito, [excludes:['dateCreated','lastUpdated','cobrador','cuentaPorCobrar']]){
+json g.render(ventaCredito, [excludes:['cobrador','cuentaPorCobrar']]){
     cliente ventaCredito.cuentaPorCobrar.cliente.id
-    nombre ventaCredito.cuentaPorCobrar.cliente.nombre
+    // nombre ventaCredito.cuentaPorCobrar.cliente.nombre
     sucursal ventaCredito.cuentaPorCobrar.sucursal.nombre
     cobrador {
         id ventaCredito.cobrador.id
@@ -14,7 +14,9 @@ json g.render(ventaCredito, [excludes:['dateCreated','lastUpdated','cobrador','c
     }
     documento ventaCredito.cuentaPorCobrar.documento
     fecha ventaCredito.cuentaPorCobrar.fecha
-    saldo ventaCredito.cuentaPorCobrar.saldo
-    atraso ventaCredito.cuentaPorCobrar.atraso
+    // saldo ventaCredito.cuentaPorCobrar.saldoReal
+    // atraso ventaCredito.cuentaPorCobrar.atraso
+    total ventaCredito.cuentaPorCobrar.total
+    fechaRecepcionCxc ventaCredito.fechaRecepcionCxc?: '' // Hack to fix small bug in revisiones-grid.component to help ui reflex null changes in this property
 }
 

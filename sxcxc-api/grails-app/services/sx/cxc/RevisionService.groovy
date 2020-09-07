@@ -6,61 +6,97 @@ import grails.gorm.transactions.Transactional
 
 import org.apache.commons.lang3.exception.ExceptionUtils
 
+import sx.core.LogUser
+
 @Slf4j
-class RevisionService {
+class RevisionService implements LogUser {
+
+  @Transactional
+  VentaCredito update(VentaCredito credito, boolean recalcular = true) {
+    if(recalcular)
+      this.actualizarRevision(credito)
+    credito = credito.save flush: true
+    return credito
+  }
+
 
   List<VentaCredito> buscarPendientes(){
     def rows = VentaCredito.findAll("""
       from VentaCredito v
-        where  v.cuentaPorCobrar.tipo = :cartera
-        and v.saldoReal > 0.0
+      where v.saldo > 0.0
+      order by v.nombre, v.fechaRevision
+      """)
+    return rows
+
+  }
+  List<VentaCredito> buscarPendientesOld(){
+    def rows = VentaCredito.findAll("""
+      from VentaCredito v
+      where v.cuentaPorCobrar.tipo = :cartera
+        and v.cuentaPorCobrar.saldoReal > 0.0
         and v.cuentaPorCobrar.cfdi.uuid is not null
         and v.cuentaPorCobrar.cancelada is null
-        order by v.cuentaPorCobrar.fecha desc
-        """,
-      [cartera:'CRE'])
+      order by v.cuentaPorCobrar.cliente.nombre, v.fechaRevision
+      """, [cartera:'CRE'])
     return rows
+
   }
 
   /**
-    * Genera las entidades de VentaCredito para todas las cuentas por cobrar que lo requieran
+    * Actualiza los correspondientes a reviision y cobro para las cuentas por cobrar
     *
-    * @return Lista de entidades VentaCredito generadas
+    * @return Lista de ventaCredito de las cuentas actualizadas
     */
-  List<VentaCredito> generar() {
-    List<CuentaPorCobrar> rows = CuentaPorCobrar.findAll("""
+  @Transactional
+  public List<VentaCredito> actualizar(){
+    log.debug('Actualizando facturas de credito para revisión y pago')
+    List<CuentaPorCobrar> facturas = CuentaPorCobrar.findAll("""
       from CuentaPorCobrar c
         where  c.tipo = :cartera
-        and saldoReal > 0
+        and c.saldoReal > 0
         and c.cfdi.uuid is not null
-        and c.credito is null
         and c.cancelada is null
-        order by c.fecha desc
+        order by c.cliente.nombre, c.fecha desc
         """,
         [cartera:'CRE'])
-    List<VentaCredito> generated = []
-    rows.each {
-      try{
-        generated << generarVentaCredito(it)
-      }catch (Exception ex) {
-        String msg = ExceptionUtils.getRootCauseMessage(ex)
-        log.debug('Error al generar registrar revision y cobro para : {}', it.id)
-        log.debug('Error: {}', msg)
-      }
+    log.debug('Facturas: {}', facturas.size())
+    List<VentaCredito> rows =  []
+    Date actualizacion = new Date()
+    facturas.each { cxc ->
+
+      if(cxc.credito == null)
+        cxc.credito = generarVentaCredito(cxc)
+
+      cxc.credito.nombre = cxc.cliente.nombre
+      cxc.credito.actualizacion = actualizacion
+      cxc.credito.saldo = cxc.saldoReal
+      cxc.credito.atraso = cxc.atrasoCalculado
+
+      actualizarRevision(cxc.credito)
+
+      cxc = cxc.save failOnError: true, flush: true
+      rows << cxc.credito
     }
-    return generated
+    log.debug('Ventas de credito actualizadas: {}', rows.size())
+    return rows
   }
+
+
 
   /**
     *
     * @param cxc La cuenta por cobrar
     * @return La VentaCredito correspondiente
     */
-  @Transactional
+  // @Transactional
   VentaCredito generarVentaCredito(CuentaPorCobrar cxc) {
+
     if(cxc.credito)
       return cxc.credito
+    log.debug('Generando registro de VentaCredito para CxC: {}', cxc.folio)
+
     VentaCredito credito = new VentaCredito()
+    credito.nombre = cxc.cliente.nombre
     // Propiedades
     credito.diaPago = cxc.cliente.credito.diaCobro
     credito.diaRevision = cxc.cliente.credito.diaRevision
@@ -80,33 +116,14 @@ class RevisionService {
     // Se congela la fecha orignal de pago
     credito.fechaPago = getProximoPago(vto, cxc.cliente.credito.diaCobro.intValue())
     credito.reprogramarPago = credito.fechaPago
-
-    cxc.credito = credito
-    cxc.save failOnError: true, flush: true
+    // cxc.credito = credito
+    // cxc.save failOnError: true, flush: true
+    logEntity(credito)
     return credito
   }
 
-  /**
-    * Actualiza los correspondientes a reviision y cobro para las cuentas por cobrar
-    *
-    * @return Lista de ventaCredito de las cuentas actualizadas
-    */
-  public List<VentaCredito> actualizar(){
 
-    def rows = VentaCredito.findAll("""
-      from VentaCredito c
-        where c.cuentaPorCobrar.tipo = :cartera
-        and c.revision = true
-        and c.saldoReal > 0.0
-        and c.cuentaPorCobrar.uuid is not null
-        order by c.cuentaPorCobrar.cliente.nombre asc
-      """, [cartera: 'CRE'])
-    List<VentaCredito> res = []
-    rows.each { VentaCredito credito ->
-        res << actualizarRevision(credito)
-    }
-    return res
-  }
+
 
   /**
     * Actualia los datos de revision y cobro de la cuenta por cobrar
@@ -125,7 +142,8 @@ class RevisionService {
     if(credito.fechaRevision >= credito.reprogramarPago) {
         credito.reprogramarPago = getProximoPago(credito.vencimiento, diaPago)
     }
-    credito.save failOnError: true, flush: true
+    // credito.save failOnError: true, flush: true
+    logEntity(credito)
     return credito
   }
 

@@ -1189,6 +1189,41 @@
           "style": "scss"
         }
       }
+    },
+    "shared-cxc-data-access-revisiones": {
+      "projectType": "library",
+      "root": "libs/shared/cxc/data-access-revisiones",
+      "sourceRoot": "libs/shared/cxc/data-access-revisiones/src",
+      "prefix": "nx-papelsa",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/cxc/data-access-revisiones/tsconfig.lib.json",
+              "libs/shared/cxc/data-access-revisiones/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/cxc/data-access-revisiones/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/cxc/data-access-revisiones/jest.config.js",
+            "tsConfig": "libs/shared/cxc/data-access-revisiones/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/cxc/data-access-revisiones/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {
