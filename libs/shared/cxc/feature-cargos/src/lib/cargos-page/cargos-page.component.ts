@@ -36,8 +36,7 @@ export class CargosPageComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog
   ) {
-    this.periodo = Periodo.fromStorage(this.STORAGE_KEY);
-    console.log('Periodo: ', this.periodo);
+    this.periodo = Periodo.fromNow(30); //.fromStorage(this.STORAGE_KEY);
   }
 
   ngOnInit() {
@@ -59,7 +58,9 @@ export class CargosPageComponent implements OnInit {
 
   doPersist(dto: NotaDeCargoCreateDto) {
     this.service.save(dto).subscribe(
-      (res) => console.log('Res: ', res),
+      (res) => {
+        this.onDrilldown(res);
+      },
       (err) => console.log('ERROR SALVANDO DTO: ', err)
     );
   }
@@ -82,7 +83,7 @@ export class CargosPageComponent implements OnInit {
 
   onPeriodoChanged(periodo: Periodo) {
     this.periodo = periodo;
-    Periodo.saveOnStorage(this.STORAGE_KEY, periodo);
+    // Periodo.saveOnStorage(this.STORAGE_KEY, periodo);
     this.reload();
   }
   filter(event: string) {

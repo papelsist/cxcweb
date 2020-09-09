@@ -107,6 +107,12 @@
       ],
       "@nx-papelsa/shared/cxc/data-access-revisiones": [
         "libs/shared/cxc/data-access-revisiones/src/index.ts"
+      ],
+      "@nx-papelsa/shared/clientes/data-access-clientes": [
+        "libs/shared/clientes/data-access-clientes/src/index.ts"
+      ],
+      "@nx-papelsa/clientes/clientes-feature": [
+        "libs/clientes/clientes-feature/src/index.ts"
       ]
     },
     "allowSyntheticDefaultImports": true

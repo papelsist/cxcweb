@@ -47,6 +47,9 @@ class NotaDeCargoService implements LogUser {
         if(nota.cfdi && nota.cfdi.uuid) {
             throw new CargoTimbradoException(nota)
         }
+        if(nota.tipoDeCalculo == 'PRORRATEO') {
+          nota = calcularProrrateo(nota)
+        }
         actualizarCuentaPorCobrar(nota)
         logEntity(nota)
         nota.save failOnError: true, flush:true
@@ -245,29 +248,31 @@ class NotaDeCargoService implements LogUser {
     *
     */
     def calcularProrrateo(NotaDeCargo nota) {
-        assert nota.total >0 , 'Nota de cargo requiere total para proceder Total registrado: ' + nota.total
-        nota.cargo = 0.0;
-        BigDecimal importe = nota.total
+      if(nota.total <= 0.0) {
+        throw new RuntimeException("Nota de cargo requiere total para proceder Total registrado: ${nota.total}" )
+      }
+      nota.cargo = 0.0;
+      BigDecimal importe = nota.total
 
-        List<CuentaPorCobrar> facturas = nota.partidas.collect{ it.cuentaPorCobrar}
-        NotaDeCargoDet sinSaldo = nota.partidas.find{it.cuentaPorCobrar.getSaldo() == 0.0}
-        log.debug('Se encontro una factura con saldo {}', sinSaldo)
-        boolean sobreSaldo = sinSaldo == null
+      List<CuentaPorCobrar> facturas = nota.partidas.collect{ it.cuentaPorCobrar}
+      NotaDeCargoDet sinSaldo = nota.partidas.find{it.cuentaPorCobrar.saldoReal == 0.0}
+      log.debug('Se encontro una factura con saldo {}', sinSaldo)
+      boolean sobreSaldo = sinSaldo == null
 
-        BigDecimal base = facturas.sum 0.0,{ item -> sobreSaldo ? item.getSaldo() : item.getTotal()}
+      BigDecimal base = facturas.sum 0.0,{ item -> sobreSaldo ? item.saldoReal : item.getTotal()}
 
-        log.debug("Importe a prorratear: ${importe} Base del prorrateo ${base} Tipo ${sobreSaldo ? 'SOBR SALDO': 'SOBRE TOTAL'}")
+      log.debug("Importe a prorratear: ${importe} Base del prorrateo ${base} Tipo ${sobreSaldo ? 'SOBR SALDO': 'SOBRE TOTAL'}")
 
-        nota.partidas.each {  NotaDeCargoDet det ->
-            CuentaPorCobrar cxc = det.cuentaPorCobrar
-            def monto = sobreSaldo ? cxc.getSaldo(): cxc.total
-            def por = monto / base
-            def asignado = MonedaUtils.round(importe * por)
-            det.importe = MonedaUtils.calcularImporteDelTotal(asignado)
-            det.impuesto = MonedaUtils.calcularImpuesto(det.importe)
-            det.total = det.importe + det.impuesto
-        }
-        return nota
+      nota.partidas.each {  NotaDeCargoDet det ->
+        CuentaPorCobrar cxc = det.cuentaPorCobrar
+        def monto = sobreSaldo ? cxc.saldoReal: cxc.total
+        def por = monto / base
+        def asignado = MonedaUtils.round(importe * por)
+        det.importe = MonedaUtils.calcularImporteDelTotal(asignado)
+        det.impuesto = MonedaUtils.calcularImpuesto(det.importe)
+        det.total = det.importe + det.impuesto
+      }
+      return nota
     }
 
     /**

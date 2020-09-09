@@ -1,5 +1,5 @@
 <div [formGroup]="form" class="edit-form" fxLayout="column">
-  <div fxFlex fxLeyout fxLayoutGap="5px">
+  <div fxFlex fxLayout fxLayoutGap="5px" fxLayoutAlign="start baseline">
     <mat-form-field class="pad-right" [style.width.px]="140">
       <mat-select placeholder="Cálculo" formControlName="tipoDeCalculo">
         <mat-option *ngFor="let c of ['PORCENTAJE', 'PRORRATEO']" [value]="c">
@@ -32,6 +32,7 @@
     <nx-papelsa-forma-de-pago [parent]="form"></nx-papelsa-forma-de-pago>
     <nx-papelsa-moneda-field [parent]="form"></nx-papelsa-moneda-field>
     <nx-papelsa-tipo-de-cambio-field
+      [style.width.px]="100"
       [parent]="form"
     ></nx-papelsa-tipo-de-cambio-field>
   </div>

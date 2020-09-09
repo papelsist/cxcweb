@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
+
+import { Observable } from 'rxjs';
 
 import {
   NavigationRoute,
@@ -7,7 +9,7 @@ import {
 } from '@nx-papelsa/shared/utils/core-models';
 import { ReportService } from '@nx-papelsa/shared/utils/ui-forms';
 import { CXCFacade } from '@nx-papelsa/shared/cxc/data-acces';
-import { Observable } from 'rxjs';
+import { ClientesUiService } from '@nx-papelsa/clientes/clientes-feature';
 
 @Component({
   selector: 'nx-papelsa-credito-page',
@@ -68,7 +70,11 @@ export class CreditoPageComponent implements OnInit {
 
   cartera$: Observable<Cartera>;
 
-  constructor(private facade: CXCFacade, private reportService: ReportService) {
+  constructor(
+    private facade: CXCFacade,
+    private reportService: ReportService,
+    private clientesUi: ClientesUiService
+  ) {
     console.log('Credito main page loaded...');
     this.cartera$ = facade.cartera$;
   }
@@ -109,4 +115,24 @@ export class CreditoPageComponent implements OnInit {
       }
     );
   }
+
+  lookupCliente() {
+    this.clientesUi.lookupCliente();
+  }
+
+  /******* START HotKeys Definitions  *************/
+
+  @HostListener('document:keydown.alt.shift.c', ['$event'])
+  onHotKeyClientes(event: KeyboardEvent) {
+    event.preventDefault();
+    this.lookupCliente();
+  }
+
+  @HostListener('document:keydown.meta.shift.c', [])
+  onHotKeyClienteMata(event: KeyboardEvent) {
+    this.lookupCliente();
+    return false;
+  }
+
+  /******* END  HotKeys Definitions  *************/
 }

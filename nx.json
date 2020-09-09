@@ -124,6 +124,12 @@
     },
     "shared-cxc-data-access-revisiones": {
       "tags": []
+    },
+    "shared-clientes-data-access-clientes": {
+      "tags": ["scope:shared", "type:data-access"]
+    },
+    "clientes-clientes-feature": {
+      "tags": ["scope:clientes"]
     }
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, LOCALE_ID } from '@angular/core';
-import { formatCurrency, formatDate } from '@angular/common';
+import { formatCurrency, formatDate, formatPercent } from '@angular/common';
 
 @Component({
   selector: 'nx-papelsa-base-grid',
@@ -19,6 +19,12 @@ export class BaseGridComponent implements OnInit {
       return formatDate(data, format, this.locale);
     } else {
       return '';
+    }
+  }
+
+  formatPercent(value: any, digitsInfo = '1.2-2') {
+    if (value) {
+      return formatPercent(value, this.locale, digitsInfo);
     }
   }
 }

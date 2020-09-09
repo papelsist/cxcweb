@@ -25,41 +25,40 @@ class ClienteController extends RestfulController<Cliente>{
 
     @Override
     protected Cliente updateResource(Cliente resource) {
-        
+
         log.info('Actualizando cliente: {}', resource)
         return clienteService.updateCliente(resource)
     }
 
     @Override
     protected List<Cliente> listAllResources(Map params) {
-        params.max = 100
         params.sort = params.sort ?:'lastUpdated'
         params.order = params.order ?:'desc'
-        def query = Cliente.where {}
+
         log.info('List: {}', params)
-        if (params.cartera) {
-            if(params.cartera.startsWith('CRE') ){
-                query = query.where {credito != null && credito.lineaDeCredito != null}
-            } else if (params.cartera.startsWith('CON') || params.cartera.startsWith('COD')) {
-                // log.debug('BUSCANDO : {}', params)
-                // query = query.where {credito == null }
-            }
+        def query = Cliente.where {}
+
+        if(params.term){
+            def search = '%' + params.term + '%'
+            query = query.where { nombre =~ search}
+            return query.list(params)
         }
+
         if(params.tipo) {
             def tipo = params.tipo
             if(tipo == 'CREDITO') {
-                log.info('CREDITO+++: {}', tipo)
-                query = query.where {credito != null && credito.lineaDeCredito != null}
+              log.info('CREDITO+++: {}', tipo)
+              return ClienteCredito.findAll("select cr.cliente from ClienteCredito cr")
             } else if(tipo == 'CONTADO'){
-                query = query.where {credito == null}
-            } 
+              query = query.where {credito == null}
+            } else {
+            }
         }
-        if(params.term){
-            def search = '%' + params.term + '%'
-            // log.debug('Search: {}', search)
-            query = query.where { nombre =~ search}
-        }
-        return query.list(params)
+
+
+        List<Cliente> clientes = query.list(params)
+        log.debug('Clientes: {}', clientes.size())
+        return clientes
     }
 
 

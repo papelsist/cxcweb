@@ -40,6 +40,7 @@ class CfdiLocationService {
         return dir
     }
 
+    @Transactional
     def downloadXmlFromUUID(Cfdi cfdi) {
         def res = cfdiEdicomService.getCfdiFromUUID(cfdi)
         Map map = ZipUtils.descomprimir(res)

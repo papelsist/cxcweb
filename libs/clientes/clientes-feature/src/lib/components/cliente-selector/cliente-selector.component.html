@@ -1,0 +1,32 @@
+<div
+  fxLayout="column"
+  fxLayoutAlign="strech strech"
+  fxLayoutGap="5px"
+  class="container"
+>
+  <span mat-dialog-title>Catálogo de clientes</span>
+  <div fxFlex>
+    <nx-papelsa-cliente-field
+      [formControl]="control"
+    ></nx-papelsa-cliente-field>
+  </div>
+
+  <div fxFlex="1 1 calc(17rem)" class="cliente-info">
+    <ng-container *ngIf="control.value as cliente">
+      <nx-papelsa-cliente-info [cliente]="cliente"></nx-papelsa-cliente-info>
+    </ng-container>
+  </div>
+
+  <mat-dialog-actions>
+    <button mat-stroked-button [mat-dialog-close]>Cerrar</button>
+    <button
+      mat-stroked-button
+      color="primery"
+      [disabled]="!control.valid"
+      (click)="doSubmit()"
+    >
+      <mat-icon>contact_page</mat-icon>
+      <span>Más información</span>
+    </button>
+  </mat-dialog-actions>
+</div>

@@ -11,7 +11,7 @@ import {
 @Component({
   selector: 'nx-papelsa-cargo-create-dialog',
   template: `
-    <div mat-dialog-title>Alta de Nota de Cargo ({{ cartera }})</div>
+    <div mat-dialog-title>Alta de Nota de Cargo ({{ cartera.clave }})</div>
 
     <mat-dialog-content
       class="form-container"

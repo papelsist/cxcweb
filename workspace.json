@@ -1224,6 +1224,76 @@
           "style": "scss"
         }
       }
+    },
+    "shared-clientes-data-access-clientes": {
+      "projectType": "library",
+      "root": "libs/shared/clientes/data-access-clientes",
+      "sourceRoot": "libs/shared/clientes/data-access-clientes/src",
+      "prefix": "nx-papelsa",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/clientes/data-access-clientes/tsconfig.lib.json",
+              "libs/shared/clientes/data-access-clientes/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/clientes/data-access-clientes/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/clientes/data-access-clientes/jest.config.js",
+            "tsConfig": "libs/shared/clientes/data-access-clientes/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/clientes/data-access-clientes/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "clientes-clientes-feature": {
+      "projectType": "library",
+      "root": "libs/clientes/clientes-feature",
+      "sourceRoot": "libs/clientes/clientes-feature/src",
+      "prefix": "nx-papelsa",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/clientes/clientes-feature/tsconfig.lib.json",
+              "libs/clientes/clientes-feature/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/clientes/clientes-feature/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/clientes/clientes-feature/jest.config.js",
+            "tsConfig": "libs/clientes/clientes-feature/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/clientes/clientes-feature/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {

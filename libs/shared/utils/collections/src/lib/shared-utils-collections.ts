@@ -27,9 +27,10 @@ export function groupByFn(source: any[], fn: any) {
 
 export const MonedaUtils = {
   round: round,
-  calcularImporteDelTotal: (total: number) => {
-    const val = 1.0 + IVA; //BigDecimal.valueOf(1).add(IVA);
-    const importe = round(total / val, 2);
+  calcularImporteDelTotal: (total: number, faction = 2) => {
+    const val = 1.16; //BigDecimal.valueOf(1).add(IVA);
+    const res = total / val;
+    const importe = round(res, faction);
     return importe;
   },
   calcularImpuesto: (importe: number) => round(importe * IVA, 2),

@@ -13,8 +13,8 @@ import com.luxsoft.cfdix.v33.NotaDeCargoPdfGenerator
 import sx.reports.ReportService
 import sx.utils.Periodo
 
-
-@Secured("hasRole('ROLE_CXC_USER')")
+@Secured("hasAnyRole('ROLE_ADMIN', 'ROLE_CXC', 'ROLE_CXC_ADMIN')")
+// @GrailsCompileStatic
 @Slf4j
 class NotaDeCargoController extends RestfulController<NotaDeCargo> {
 

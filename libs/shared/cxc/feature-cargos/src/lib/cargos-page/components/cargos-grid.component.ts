@@ -154,12 +154,7 @@ export class CargosGridComponent implements OnInit {
         filter: true,
         width: 100,
       },
-      {
-        headerName: 'Concepto',
-        field: 'concepto',
-        sortable: true,
-        width: 110,
-      },
+
       {
         headerName: 'Fecha',
         field: 'fecha',
