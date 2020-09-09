@@ -49,7 +49,7 @@ class CobroController extends RestfulController<Cobro>{
 
       if(params.getBoolean('disponibles')) {
         log.debug('Solo cobros con disponible disponibles')
-        query = query.where{fecha > cierre && saldo > 10.0}
+        query = query.where{fecha > cierre && saldo > 0.0}
         return query.list(params)
       }
 
