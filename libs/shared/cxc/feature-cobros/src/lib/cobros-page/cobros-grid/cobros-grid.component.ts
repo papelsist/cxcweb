@@ -32,6 +32,7 @@ import { AgBooleanRendererComponent } from '@nx-papelsa/shared/utils/ui-common';
         (gridReady)="onGridReady($event)"
         (modelUpdated)="onModelUpdated($event)"
         [quickFilterText]="searchTerm"
+        [defaultColDef]="defaultColDef"
       >
       </ag-grid-angular>
     </div>
@@ -147,7 +148,7 @@ export class CobrosGridComponent implements OnInit {
         sortable: true,
         headerCheckboxSelection: true,
         checkboxSelection: true,
-        width: 120,
+        width: 130,
         valueFormatter: (params) => this.formatDate(params.value),
       },
       {

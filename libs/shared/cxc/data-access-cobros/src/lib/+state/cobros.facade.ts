@@ -110,4 +110,8 @@ export class CobrosFacade {
       })
     );
   }
+
+  saldar(cobro: Partial<Cobro>) {
+    this.dispatch(CobrosActions.saldarCobro({ id: cobro.id }));
+  }
 }

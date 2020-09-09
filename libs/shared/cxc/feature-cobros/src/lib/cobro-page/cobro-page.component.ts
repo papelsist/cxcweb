@@ -32,7 +32,8 @@ export class CobroPageComponent extends BaseComponent implements OnInit {
   constructor(
     private facade: CobrosFacade,
     public service: FormatService,
-    private dialogService: TdDialogService
+    private dialogService: TdDialogService,
+    private format: FormatService
   ) {
     super();
   }
@@ -62,12 +63,18 @@ export class CobroPageComponent extends BaseComponent implements OnInit {
       });
     }
   }
+
   onGenerarRecibo(cobro: Cobro) {
     this.confirm(
       'Generar recibo electrónico de pago',
       `Importe: $${cobro.importe}`
-    ).subscribe((res) => this.facade.generarRecibo(cobro));
+    ).subscribe((res) => {
+      if (res) {
+        this.facade.generarRecibo(cobro);
+      }
+    });
   }
+
   onCancelar(cobro: Cobro) {
     if (cobro.cierre) {
       this.dialogService.openAlert({
@@ -76,6 +83,19 @@ export class CobroPageComponent extends BaseComponent implements OnInit {
           'El cobro ya ha sido cerrado por Contabilidad, no se puede cancelar',
       });
     }
+  }
+
+  onSaldar(cobro: Cobro) {
+    this.confirm(
+      'Saldar disponible',
+      `Seguro de saldar:  ${this.format.formatCurrency(cobro.saldo)} (${
+        cobro.moneda
+      })`
+    ).subscribe((res) => {
+      if (res) {
+        this.facade.saldar(cobro);
+      }
+    });
   }
 
   confirm(title: string, message: string): Observable<any> {

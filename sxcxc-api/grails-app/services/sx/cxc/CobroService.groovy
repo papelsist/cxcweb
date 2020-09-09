@@ -26,7 +26,7 @@ class CobroService implements LogUser{
     Cobro update(Cobro cobro) {
         log.info('Actualizando cobro: {}', cobro.id)
         if(cobro.cfdi && cobro.cfdi.uuid) {
-            throw new ReciboDePagoException(cobro)
+            throw new ReciboDePagoExistenteException(cobro)
         }
         logEntity(cobro)
         cobro.save failOnError: true, flush:true
@@ -91,7 +91,7 @@ class CobroService implements LogUser{
                 cobro)
         }
         aplicaciones.each { aplicacion ->
-            cobro.removeFromAplicaciones(aplicacion)    
+            cobro.removeFromAplicaciones(aplicacion)
         }
         if(!cobro.aplicaciones) {
             cobro.primeraAplicacion = null
@@ -102,29 +102,37 @@ class CobroService implements LogUser{
     }
 
     def saldar(Cobro cobro){
-        if(cobro.disponible <= 100.00 && cobro.disponible > 0.00) {
-            cobro.diferencia = cobro.disponible;
-            cobro.diferenciaFecha = new Date()
-            cobro.save flush: true
-        }
-        return cobro
+      if(cobro.disponible <= 100.00 && cobro.disponible > 0.00) {
+        cobro.diferencia = cobro.disponible;
+        cobro.diferenciaFecha = new Date()
+        cobro = cobro.save flush: true
+      }
+      return cobro
     }
 
 
+    /*
     def generarCfdi(Cobro cobro) {
         validarParaTimbrado(cobro)
         log.debug(' Generando recibo electronico de pago para cobro: {}', cobro.id)
         Comprobante comprobante = this.reciboDePagoBuilder.build(cobro)
-        
+
         Cfdi cfdi = cfdiService.generarCfdi(comprobante, 'P', 'COBROS')
         log.debug('CFDI generado {}', cfdi.id)
         cobro.cfdi = cfdi
         cobro.save flush: true
-        
         return cobro
     }
+    */
 
-    def timbrar(Cobro cobro){
+    def generarCfdi(Cobro cobro) {
+      validarParaTimbrado(cobro)
+      Comprobante comprobante = this.reciboDePagoBuilder.build(cobro)
+      Cfdi cfdi = cfdiService.generarCfdi(comprobante, 'P', 'COBROS')
+      return cfdi
+    }
+
+    def timbrarOld(Cobro cobro){
         if(!cobro.cfdi) {
             cobro = generarCfdi(cobro)
         }
@@ -133,24 +141,39 @@ class CobroService implements LogUser{
         return cobro
     }
 
+    def timbrar(Cobro cobro){
+      try {
+        def cfdi = generarCfdi(cobro)
+        cfdi = cfdiTimbradoService.timbrar(cfdi)
+        cobro.cfdi = cfdi
+        cobro = cobro.save failOnError: true, flush: true
+        return cobro
+      } catch (Throwable ex){
+        String causa = ExceptionUtils.getRootCauseMessage(ex)
+        String message = "Error generando y timbrando recibo de pago cobroId:${cobro.id} Causa: ${causa}"
+        log.error(message)
+        throw  new ReciboDePagoException(cobro, message)
+      }
+    }
+
     def validarParaTimbrado(Cobro cobro) {
 
         if(!cobro.aplicaciones) {
             throw new CobroException("El cobro debe tener al menos una a plicacion", cobro)
         }
         def sinCfdi = cobro.aplicaciones.find {AplicacionDeCobro det -> det.cuentaPorCobrar.cfdi == null}
-        
+
         if(sinCfdi) {
             throw new CobroException("La factura ${sinCfdi.getFolio()} esta sin timbrar")
         }
-        
+
         AplicacionDeCobro contado = cobro.aplicaciones.find{AplicacionDeCobro det -> det.cuentaPorCobrar.tipo == 'CON' }
         if(contado) {
-            throw new CobroException("El cobro ${cobro.id} tiene aplicaciones de a facturas de CONTADO")   
+            throw new CobroException("El cobro ${cobro.id} tiene aplicaciones de a facturas de CONTADO")
         }
-        
+
     }
-    
+
 }
 
 class CobroException  extends RuntimeException {
@@ -166,8 +189,18 @@ class CobroException  extends RuntimeException {
     }
 }
 
+class ReciboDePagoExistenteException extends CobroException {
+
+  ReciboDePagoException(Cobro c) {
+    super("Recibo de pago para cobro: ${c.id} ya ha sido Generado y Timbrado con el UUID: ${c.cfdi.uuid}", c)
+  }
+
+}
+
 class ReciboDePagoException extends CobroException {
-    ReciboDePagoException(Cobro c) {
-        super("Recibo de pago para cobro: ${c.id} ya ha sido Generado y Timbrado con el UUID: ${c.cfdi.uuid}", c)
-    }
+
+  ReciboDePagoException(Cobro c, String message) {
+    super(message, c)
+  }
+
 }

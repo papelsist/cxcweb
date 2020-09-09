@@ -82,4 +82,9 @@ export class CobroService {
       .put<Cobro>(url, {})
       .pipe(catchError((error: any) => throwError(error)));
   }
+
+  saldar(cobroId: string): Observable<Cobro> {
+    const url = `${this.apiUrl}/saldar/${cobroId}`;
+    return this.http.put<Cobro>(url, {});
+  }
 }

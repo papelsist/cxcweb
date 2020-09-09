@@ -30,7 +30,7 @@ export const initialState: State = cobrosAdapter.getInitialState({
   // set initial required properties
   loaded: false,
   loading: false,
-  periodo: Periodo.fromNow(10),
+  periodo: Periodo.fromNow(20),
   disponibles: localState.disponibles || false,
   porTimbrar: localState.porTimbrar || false,
 });
@@ -53,15 +53,18 @@ const cobrosReducer = createReducer(
     ...state,
     searchTerm,
   })),
-
+  on(CobrosActions.loadCobros, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
   on(
-    CobrosActions.loadCobros,
+    CobrosActions.saldarCobro,
     CobrosActions.aplicarCobros,
     CobrosActions.eliminarAplicacion,
     CobrosActions.generarRecibo,
     (state) => ({
       ...state,
-      loaded: false,
       loading: true,
       error: null,
     })
@@ -70,6 +73,7 @@ const cobrosReducer = createReducer(
     cobrosAdapter.setAll(cobros, { ...state, loaded: true, loading: false })
   ),
   on(
+    CobrosActions.saldarCobroFail,
     CobrosActions.loadCobrosFailure,
     CobrosActions.aplicarCobrosFail,
     CobrosActions.eliminarAplicacionFail,
@@ -83,6 +87,7 @@ const cobrosReducer = createReducer(
   on(
     CobrosActions.upsertCobro,
     CobrosActions.generarReciboSuccess,
+    CobrosActions.saldarCobroSuccess,
     (state, { cobro }) =>
       cobrosAdapter.upsertOne(cobro, {
         ...state,

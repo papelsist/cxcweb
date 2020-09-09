@@ -72,3 +72,16 @@ export const generarReciboSuccess = createAction(
   '[Cobros Effects] Generar recibo de pago success',
   props<{ cobro: Cobro }>()
 );
+
+export const saldarCobro = createAction(
+  '[Cobros Facade Cobro Page] Saldar disponible de cobro',
+  props<{ id: string }>()
+);
+export const saldarCobroFail = createAction(
+  '[Cobros Effects] Saldar disponible de cobro fail',
+  props<{ error: any }>()
+);
+export const saldarCobroSuccess = createAction(
+  '[Cobros Effects] Saldar disponible de cobro success',
+  props<{ cobro: Cobro }>()
+);

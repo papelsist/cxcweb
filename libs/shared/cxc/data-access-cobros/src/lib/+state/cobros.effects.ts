@@ -124,6 +124,30 @@ export class CobrosEffects {
     })
   );
 
+  saldar$ = createEffect(() =>
+    this.dataPersistence.pessimisticUpdate(CobrosActions.saldarCobro, {
+      run: (
+        action: ReturnType<typeof CobrosActions.saldarCobro>,
+        state: fromCobros.CobrosPartialState
+      ) => {
+        return this.service.saldar(action.id).pipe(
+          map((cobro) =>
+            CobrosActions.saldarCobroSuccess({
+              cobro,
+            })
+          )
+        );
+      },
+      onError: (
+        action: ReturnType<typeof CobrosActions.saldarCobro>,
+        error
+      ) => {
+        console.error('Error', error);
+        return CobrosActions.saldarCobroFail({ error });
+      },
+    })
+  );
+
   cambiarPeriodo$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CobrosActions.setPeriodo),
@@ -147,7 +171,7 @@ export class CobrosEffects {
   error$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(CobrosActions.generarReciboFail),
+        ofType(CobrosActions.generarReciboFail, CobrosActions.saldarCobroFail),
         map(({ error }) => error),
         tap((response) => {
           const message = response.error ? response.error.message : 'Error';

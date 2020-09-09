@@ -36,7 +36,6 @@ class CobroController extends RestfulController<Cobro>{
 
     @Override
     protected List<Cobro> listAllResources(Map params) {
-      log.debug('Params: {}', params)
       params.max = params.rows?: 500
       params.sort = params.sort ?:'fecha'
       params.order = params.order ?:'desc'
@@ -56,7 +55,7 @@ class CobroController extends RestfulController<Cobro>{
 
       if(params.getBoolean('porTimbrar')) {
         log.debug('Solo cobros por timbrar')
-        query = query.where{fecha > cierre && requiereRecibo  && cfdi == null}
+        query = query.where{fecha > cierre && requiereRecibo == true  && cfdi == null}
         return query.list(params)
       }
       query = query.where{fecha >= periodo.fechaInicial && fecha <= periodo.fechaFinal}
@@ -180,9 +179,10 @@ class CobroController extends RestfulController<Cobro>{
     }
 
     def saldar(Cobro cobro){
-        log.debug('Saldando cobro: {}', cobro)
-        cobro = cobroService.saldar(cobro)
-        forward action: 'show', id: cobro.id
+      log.debug('Saldando cobro: {}', cobro)
+      cobro = cobroService.saldar(cobro)
+      cobro.refresh()
+      respond(cobro, view: 'show')
     }
 
     def registrarChequeDevuelto(Cobro cobro){
@@ -191,7 +191,7 @@ class CobroController extends RestfulController<Cobro>{
         this.chequeDevueltoService.registrarChequeDevuelto(cobro.cheque, fecha)
         cobro.comentario = "CHEQUE DEVUELTO EL: ${fecha.format('dd/MM/yyyy')}"
         cobro.save flush: true
-        respond cobro
+        respond(cobro, view: 'show')
     }
 
     def reporteDeCobranza(CobranzaPorFechaCommand command){
@@ -222,25 +222,26 @@ class CobroController extends RestfulController<Cobro>{
     }
 
     def timbrar(Cobro cobro) {
-        cobro = cobroService.timbrar(cobro)
-        respond cobro, view: 'show'
+      cobro = cobroService.timbrar(cobro)
+      cobro.refresh()
+      respond(cobro, view: 'show')
     }
 
     def timbradoBatch(TimbradoBatchCommand command) {
-        List<Cobro> timbrados = []
-        command.cobros.each {
-            timbrados << cobroService.timbrar(it)
-        }
-        respond timbrados
+      List<Cobro> timbrados = []
+      command.cobros.each {
+          timbrados << cobroService.timbrar(it)
+      }
+      respond timbrados
     }
 
     def imprimirRecibo(Cobro cobro) {
-        def realPath = servletContext.getRealPath("/reports") ?: 'reports'
-        def data = ReciboDePagoPdfGenerator.getReportData(cobro)
-        Map parametros = data['PARAMETROS']
-        parametros.LOGO = realPath + '/PAPEL_CFDI_LOGO.jpg'
-        def pdf  = reportService.run('ReciboDePagoCFDI33.jrxml', data['PARAMETROS'], data['CONCEPTOS'])
-        render (file: pdf.toByteArray(), contentType: 'application/pdf', filename: 'ReciboDePagoCFDI33.pdf')
+      def realPath = servletContext.getRealPath("/reports") ?: 'reports'
+      def data = ReciboDePagoPdfGenerator.getReportData(cobro)
+      Map parametros = data['PARAMETROS']
+      parametros.LOGO = realPath + '/PAPEL_CFDI_LOGO.jpg'
+      def pdf  = reportService.run('ReciboDePagoCFDI33.jrxml', data['PARAMETROS'], data['CONCEPTOS'])
+      render (file: pdf.toByteArray(), contentType: 'application/pdf', filename: 'ReciboDePagoCFDI33.pdf')
     }
 
     /**

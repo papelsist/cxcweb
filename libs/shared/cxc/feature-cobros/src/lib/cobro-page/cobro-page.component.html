@@ -42,6 +42,14 @@
 
     <mat-card-actions>
       <nx-papelsa-back-button title="Cobros"></nx-papelsa-back-button>
+      <button
+        mat-button
+        matTooltip="Saldar disponible"
+        (click)="onSaldar(cobro)"
+        *ngIf="cobro.saldo > 0.0 && cobro.saldo <= 100.0"
+      >
+        Saldar
+      </button>
       <nx-papelsa-cfdi-timbrar
         *ngIf="cobro.requiereRecibo"
         [disabled]="!(timbrable$ | async)"
