@@ -191,7 +191,7 @@ class CobroException  extends RuntimeException {
 
 class ReciboDePagoExistenteException extends CobroException {
 
-  ReciboDePagoException(Cobro c) {
+  ReciboDePagoExistenteException(Cobro c) {
     super("Recibo de pago para cobro: ${c.id} ya ha sido Generado y Timbrado con el UUID: ${c.cfdi.uuid}", c)
   }
 
