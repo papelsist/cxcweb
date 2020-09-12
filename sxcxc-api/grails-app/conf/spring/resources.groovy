@@ -11,11 +11,13 @@ import com.luxsoft.cfdix.v33.NotaDeCargoPdfGenerator
 import org.springframework.web.servlet.i18n.FixedLocaleResolver
 import sx.security.UserInfoClaimpProvider
 import sx.core.ClienteLogListener
+import sx.core.ClienteCreditoLogListener
 
 beans = {
     userPasswordEncoderListener(UserPasswordEncoderListener)
     userInfoClaimpProvider(UserInfoClaimpProvider)
     clienteLogListener(ClienteLogListener)
+    clienteCreditoLogListener(ClienteCreditoLogListener)
 
     /*customAuditLogListener(CustomAuditLogListener) {
         dataSource = ref('dataSource')
