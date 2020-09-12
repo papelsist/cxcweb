@@ -1,0 +1,56 @@
+<ng-container *ngIf="cliente$ | async as cliente">
+  <mat-toolbar>
+    <button
+      mat-icon-button
+      (click)="drawer.toggle()"
+      *ngIf="isSmallScreen$ | async"
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <span>{{ cliente.nombre }}</span>
+  </mat-toolbar>
+  <mat-drawer-container class="container">
+    <mat-drawer
+      [mode]="mode$ | async"
+      [opened]="!(isSmallScreen$ | async)"
+      class="drawer"
+      #drawer
+    >
+      <mat-nav-list>
+        <h3 matSubheader>Operaciones</h3>
+        <a
+          mat-list-item
+          [routerLink]="link.path"
+          routerLinkActive="router-link-active"
+          *ngFor="let link of routes"
+        >
+          <span matLine>
+            {{ link.label }}
+          </span>
+          <mat-icon matListIcon *ngIf="link.icon">{{ link.icon }}</mat-icon>
+          <p matLine>
+            {{ link.description }}
+          </p>
+          <mat-divider></mat-divider>
+        </a>
+
+        <h3 matSubheader>Reportes</h3>
+        <ng-container>
+          <a mat-list-item (click)="estadoDeCuenta()">
+            <span matLine>
+              Estado de cuenta
+            </span>
+            <mat-icon matListIcon>analytics</mat-icon>
+            <p matLine>
+              Reporte de estado de cuenta
+            </p>
+            <mat-divider></mat-divider>
+          </a>
+        </ng-container>
+      </mat-nav-list>
+    </mat-drawer>
+    <mat-drawer-content class="content">
+      <router-outlet></router-outlet>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</ng-container>

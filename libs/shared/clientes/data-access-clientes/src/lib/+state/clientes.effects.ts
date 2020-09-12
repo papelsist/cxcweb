@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Action } from '@ngrx/store';
+
 import { createEffect, Actions, ofType } from '@ngrx/effects';
+// import { ROUTER_NAVIGATION, ROUTER_REQUEST } from '@ngrx/router-store';
 import { fetch } from '@nrwl/angular';
 
 import * as fromClientes from './clientes.reducer';
 import * as ClientesActions from './clientes.actions';
 import { ClientesService } from '../services/clientes.service';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+import { TdDialogService } from '@covalent/core/dialogs';
 
 @Injectable()
 export class ClientesEffects {
@@ -34,10 +36,95 @@ export class ClientesEffects {
     )
   );
 
-  constructor(private actions$: Actions, private service: ClientesService) {}
+  update$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientesActions.updateCliente),
+      fetch({
+        run: ({ update }) => {
+          return this.service.update(update).pipe(
+            map((cliente) =>
+              ClientesActions.updateClienteSuccess({
+                cliente,
+              })
+            )
+          );
+        },
 
+        onError: (action, error) => {
+          return ClientesActions.updateClienteFail({ error });
+        },
+      })
+    )
+  );
+
+  updateCredito$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientesActions.updateClienteCredito),
+      fetch({
+        run: ({ clienteId, credito }) => {
+          return this.service.updateCredito(clienteId, credito).pipe(
+            map((res) =>
+              ClientesActions.updateClienteCreditoSuccess({
+                credito: res,
+              })
+            )
+          );
+        },
+
+        onError: (action, error) => {
+          return ClientesActions.updateClienteCreditoFail({ error });
+        },
+      })
+    )
+  );
+
+  errors$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(
+          ClientesActions.loadClientesFailure,
+          ClientesActions.updateClienteFail
+        ),
+        map(({ error }) => error),
+        tap((response) => {
+          const message = response.error ? response.error.message : 'Error';
+          const message2 = response.message ? response.message : '';
+          console.error('API Call error: ', response);
+          this.dialogService.openAlert({
+            message: `Status code: ${response.status} ${message} ${message2}`,
+            title: `Error ${response.status}`,
+            closeButton: 'Cerrar',
+          });
+        })
+      ),
+    { dispatch: false }
+  );
+
+  /*
+  clientesSearch$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ROUTER_NAVIGATION),
+        map(({ payload: { routerState } }) => routerState),
+        filter((state: any) => state.url === '/clientes'),
+        tap((state: any) => {
+          console.log('Nav to :', state.url);
+        })
+      ),
+    { dispatch: false }
+  );
+  */
+
+  constructor(
+    private actions$: Actions,
+    private service: ClientesService,
+    private dialogService: TdDialogService
+  ) {}
+
+  /*
   ngrxOnInitEffects(): Action {
     console.log('Inicializando clientes effects');
     return ClientesActions.loadClientes();
   }
+  */
 }

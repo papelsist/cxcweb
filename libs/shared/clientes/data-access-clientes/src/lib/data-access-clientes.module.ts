@@ -5,6 +5,9 @@ import { EffectsModule } from '@ngrx/effects';
 import * as fromClientes from './+state/clientes.reducer';
 import { ClientesEffects } from './+state/clientes.effects';
 import { ClientesFacade } from './+state/clientes.facade';
+import { ClienteExistsGuard } from './services/cliente-exists.guard';
+
+import { CovalentDialogsModule } from '@covalent/core/dialogs';
 
 @NgModule({
   imports: [
@@ -14,7 +17,8 @@ import { ClientesFacade } from './+state/clientes.facade';
       fromClientes.reducer
     ),
     EffectsModule.forFeature([ClientesEffects]),
+    CovalentDialogsModule,
   ],
-  providers: [ClientesFacade],
+  providers: [ClientesFacade, ClienteExistsGuard],
 })
 export class DataAccessClientesModule {}

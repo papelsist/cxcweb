@@ -8,16 +8,18 @@ import grails.gorm.transactions.Transactional
 import grails.util.Environment
 
 import sx.cloud.LxClienteService
+import sx.core.LogUser
 
 @Transactional
 @Slf4j
-class ClienteService {
+class ClienteService implements LogUser {
 
     LxClienteService lxClienteService
-    
+
     Cliente updateCliente(Cliente cliente) {
         Cliente target = cliente.save failOnError: true, flush: true
         // updateFirebase(target)
+        logEntity(cliente)
         return target
 
     }
@@ -31,7 +33,7 @@ class ClienteService {
 				log.error(ex)
 			}
         }
-    	
+
     }
 
 }

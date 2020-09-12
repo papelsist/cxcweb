@@ -8,6 +8,13 @@ import { AuthGuard } from '@nx-papelsa/auth';
 
 const routes: Route[] = [
   {
+    path: 'clientes',
+    loadChildren: () =>
+      import('@nx-papelsa/clientes/clientes-feature').then(
+        (m) => m.ClientesFeatureModule
+      ),
+  },
+  {
     path: 'credito',
     loadChildren: () =>
       import('@nx-papelsa/cxc/feature-cobranza-cre').then(

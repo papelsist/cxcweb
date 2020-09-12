@@ -10,10 +10,12 @@ import com.luxsoft.cfdix.v33.ReciboDePagoBuilder
 import com.luxsoft.cfdix.v33.NotaDeCargoPdfGenerator
 import org.springframework.web.servlet.i18n.FixedLocaleResolver
 import sx.security.UserInfoClaimpProvider
+import sx.core.ClienteLogListener
 
 beans = {
     userPasswordEncoderListener(UserPasswordEncoderListener)
     userInfoClaimpProvider(UserInfoClaimpProvider)
+    clienteLogListener(ClienteLogListener)
 
     /*customAuditLogListener(CustomAuditLogListener) {
         dataSource = ref('dataSource')
@@ -38,7 +40,7 @@ beans = {
 
     notaDeCargoPdfGenerator(NotaDeCargoPdfGenerator){
         cfdiLocationService = ref('cfdiLocationService')
-    } 
+    }
 
     localeResolver(FixedLocaleResolver, Locale.US){
         defaultLocale = new Locale('es', 'MX')

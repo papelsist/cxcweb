@@ -21,11 +21,26 @@ import { CLIENTES_COMPONENTS } from './components';
 
 import { AgGridModule } from 'ag-grid-angular';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { ClientesGuard } from './services/clientes.guard';
+import { ClientesPageComponent } from './pages/clientes-page.component';
 
-export const clientesFeatureRoutes: Route[] = [];
+const routes: Route[] = [
+  {
+    path: '',
+    canActivate: [ClientesGuard],
+    component: ClientesPageComponent,
+  },
+  {
+    path: ':clienteId',
+    loadChildren: () =>
+      import('./pages/cliente-dashboard/cliente-dashboard.module').then(
+        (m) => m.ClienteDashboardModule
+      ),
+  },
+];
 
 @NgModule({
-  declarations: [...CLIENTES_COMPONENTS],
+  declarations: [...CLIENTES_COMPONENTS, ClientesPageComponent],
   imports: [
     UiCommonModule,
     UiMaterialModule,
@@ -33,8 +48,9 @@ export const clientesFeatureRoutes: Route[] = [];
     UiFormsModule,
     AgGridModule.withComponents([AgBooleanRendererComponent]),
     MatExpansionModule,
-    RouterModule,
+    RouterModule.forChild(routes),
   ],
+  providers: [ClientesUiService, ClientesGuard],
 })
 export class ClientesFeatureModule {
   constructor(

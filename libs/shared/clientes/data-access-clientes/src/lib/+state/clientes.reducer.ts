@@ -29,18 +29,52 @@ export const initialState: State = clientesAdapter.getInitialState({
 
 const clientesReducer = createReducer(
   initialState,
-  on(ClientesActions.loadClientes, (state) => ({
-    ...state,
-    loaded: false,
-    error: null,
-  })),
+  on(
+    ClientesActions.loadClientes,
+    ClientesActions.updateCliente,
+    ClientesActions.updateClienteCredito,
+    (state) => ({
+      ...state,
+      loaded: false,
+      loading: true,
+      error: null,
+    })
+  ),
   on(ClientesActions.loadClientesSuccess, (state, { clientes }) =>
     clientesAdapter.setAll(clientes, { ...state, loaded: true })
   ),
-  on(ClientesActions.loadClientesFailure, (state, { error }) => ({
-    ...state,
-    error,
-  }))
+  on(
+    ClientesActions.loadClientesFailure,
+    ClientesActions.updateClienteFail,
+    ClientesActions.updateClienteCreditoFail,
+    (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })
+  ),
+  on(ClientesActions.updateClienteSuccess, (state, { cliente }) =>
+    clientesAdapter.upsertOne(cliente, {
+      ...state,
+      loading: false,
+      error: null,
+    })
+  ),
+  on(ClientesActions.updateClienteCreditoSuccess, (state, { credito }) => {
+    const clienteExistente = state.entities[credito.cliente.id];
+    const clienteUpdated = {
+      ...clienteExistente,
+      credito,
+    };
+    return clientesAdapter.upsertOne(clienteUpdated, {
+      ...state,
+      loading: false,
+      error: null,
+    });
+  }),
+  on(ClientesActions.setCurrentCliente, (state, { cliente }) =>
+    clientesAdapter.upsertOne(cliente, { ...state, selectedId: cliente.id })
+  )
 );
 
 export function reducer(state: State | undefined, action: Action) {

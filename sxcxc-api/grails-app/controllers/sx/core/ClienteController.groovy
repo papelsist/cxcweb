@@ -24,6 +24,7 @@ class ClienteController extends RestfulController<Cliente>{
     }
 
     @Override
+    @Secured("hasAnyRole('ROLE_CXC_ADMIN')")
     protected Cliente updateResource(Cliente resource) {
 
         log.info('Actualizando cliente: {}', resource)

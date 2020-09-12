@@ -19,7 +19,7 @@ import { SxcoreModule } from '@nx-papelsa/shared/sxcore';
 import { DataAccesModule } from '@nx-papelsa/shared/cxc/data-acces';
 import { AuthModule } from '@nx-papelsa/auth';
 import { DataAccessClientesModule } from '@nx-papelsa/shared/clientes/data-access-clientes';
-import { ClientesFeatureModule } from '@nx-papelsa/clientes/clientes-feature';
+// import { ClientesFeatureModule } from '@nx-papelsa/clientes/clientes-feature';
 
 @NgModule({
   declarations: [MainPageComponent, ToolbarComponent],
@@ -36,7 +36,7 @@ import { ClientesFeatureModule } from '@nx-papelsa/clientes/clientes-feature';
     SxcoreModule,
     DataAccesModule,
     DataAccessClientesModule,
-    ClientesFeatureModule.forRoot(),
+    // ClientesFeatureModule.forRoot(),
     AuthModule,
   ],
   exports: [

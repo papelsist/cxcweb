@@ -9,7 +9,8 @@ import {
 } from '@nx-papelsa/shared/utils/core-models';
 import { ReportService } from '@nx-papelsa/shared/utils/ui-forms';
 import { CXCFacade } from '@nx-papelsa/shared/cxc/data-acces';
-import { ClientesUiService } from '@nx-papelsa/clientes/clientes-feature';
+// import { ClientesUiService } from '@nx-papelsa/clientes/clientes-feature';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'nx-papelsa-credito-page',
@@ -73,7 +74,8 @@ export class CreditoPageComponent implements OnInit {
   constructor(
     private facade: CXCFacade,
     private reportService: ReportService,
-    private clientesUi: ClientesUiService
+    // private clientesUi: ClientesUiService,
+    private router: Router
   ) {
     console.log('Credito main page loaded...');
     this.cartera$ = facade.cartera$;
@@ -117,22 +119,25 @@ export class CreditoPageComponent implements OnInit {
   }
 
   lookupCliente() {
-    this.clientesUi.lookupCliente();
+    // this.clientesUi.lookupCliente();
+    this.router.navigate(['/clientes']);
   }
 
   /******* START HotKeys Definitions  *************/
 
-  @HostListener('document:keydown.alt.shift.c', ['$event'])
+  // @HostListener('document:keydown.alt.shift.c', ['$event'])
+  @HostListener('document:keydown.alt.shift.c', [])
   onHotKeyClientes(event: KeyboardEvent) {
-    event.preventDefault();
+    console.log('Event: ', event);
     this.lookupCliente();
+    event.preventDefault();
   }
 
-  @HostListener('document:keydown.meta.shift.c', [])
-  onHotKeyClienteMata(event: KeyboardEvent) {
-    this.lookupCliente();
-    return false;
-  }
+  // @HostListener('document:keydown.meta.shift.c', [])
+  // onHotKeyClienteMata(event: KeyboardEvent) {
+  //   this.lookupCliente();
+  //   return false;
+  // }
 
   /******* END  HotKeys Definitions  *************/
 }

@@ -1,0 +1,36 @@
+<div mat-dialog-title>
+  Modificación de crédito
+</div>
+
+<mat-dialog-content>
+  <div [formGroup]="form" fxLayout="column" fxLayoutGap="5px">
+    <nx-papelsa-numeric-field
+      formControlName="lineaDeCredito"
+    ></nx-papelsa-numeric-field>
+    <nx-papelsa-numeric-field
+      formControlName="plazo"
+    ></nx-papelsa-numeric-field>
+    <mat-checkbox formControlName="creditoActivo">
+      Activo
+    </mat-checkbox>
+    <mat-checkbox formControlName="postfechado">
+      Cheque postfechado
+    </mat-checkbox>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>
+    <mat-icon>cancel</mat-icon>
+    <span>Cancelar</span>
+  </button>
+  <button
+    mat-button
+    color="primary"
+    (click)="onSubmit()"
+    [disabled]="form.invalid || form.pristine"
+  >
+    <mat-icon>save</mat-icon>
+    <span>Salvar</span>
+  </button>
+</mat-dialog-actions>

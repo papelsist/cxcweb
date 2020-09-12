@@ -1,0 +1,52 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Datos generales</mat-card-title>
+    <mat-card-subtitle>
+      <span>
+        Última modificación:
+      </span>
+      <strong>{{ cliente.lastUpdated | date: 'dd/MM/yyyy:HH:mm' }}</strong>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <td-message
+    label="CLIENTE SUSPENDIDO"
+    color="warn"
+    *ngIf="!cliente.activo"
+  ></td-message>
+  <mat-list class="property-list">
+    <mat-list-item>
+      <div matLine>
+        <span>Razón Social:</span>
+        <span fxFlex class="text-right text-strong">
+          {{ cliente.nombre }}
+        </span>
+      </div>
+      <mat-icon matListIcon>person</mat-icon>
+      <mat-divider matInset></mat-divider>
+    </mat-list-item>
+
+    <mat-list-item>
+      <div matLine>
+        <span>Status:</span>
+        <span fxFlex class="text-right text-strong">
+          {{ cliente.activo ? 'ACTIVO' : 'SUSPENDIDO' }}
+        </span>
+      </div>
+      <mat-icon matListIcon>toggle_on</mat-icon>
+      <mat-divider matInset></mat-divider>
+    </mat-list-item>
+  </mat-list>
+
+  <mat-divider></mat-divider>
+  <mat-card-actions>
+    <button
+      mat-button
+      color="accent"
+      class="text-upper"
+      (click)="editar(cliente)"
+    >
+      Editar
+    </button>
+  </mat-card-actions>
+</mat-card>

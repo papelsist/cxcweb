@@ -44,10 +44,13 @@ export class ClientesService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  updateCredito(clienteId: string, update: Update<ClienteCredito>) {
-    const url = `${this.apiUrl}/${clienteId}/credito`;
+  updateCredito(
+    clienteId: string,
+    update: Update<ClienteCredito>
+  ): Observable<ClienteCredito> {
+    const url = `${this.apiUrl}/${clienteId}/credito/${update.id}`;
     return this.http
-      .put<Cliente>(url, update.changes)
+      .put<ClienteCredito>(url, update.changes)
       .pipe(catchError((error: any) => throwError(error)));
   }
 }

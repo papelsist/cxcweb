@@ -40,11 +40,20 @@ class ClienteCredito {
 
   Long sw2
 
+  Date dateCreated
+  Date lastUpdated
+  String createUser
+  String updateUser
+
 
   static constraints = {
     cobrador nullable: true
     socio nullable: true
     sw2 nullable: true
+    createUser nullable: true
+    updateUser nullable: true
+    dateCreated nullable: true
+    lastUpdated nullable: true
   }
 
   static belongsTo = [cliente: Cliente]

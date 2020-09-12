@@ -29,21 +29,9 @@ export class ClienteSelectorComponent implements OnInit {
     private dialogRef: MatDialogRef<ClienteSelectorComponent, Cliente[]>
   ) {}
 
-  ngOnInit() {
-    this.control.valueChanges.subscribe((val) =>
-      console.log('Selected value: ', val)
-    );
-  }
+  ngOnInit() {}
 
   doSubmit() {
-    // this.dialogRef.close(this.selectedRows);
-    console.log('Submit: ', this.control.value);
+    this.dialogRef.close(this.control.value);
   }
-
-  onSelection(selection: Cliente[]) {
-    console.log('Selection: ', selection);
-    this.dialogRef.close(selection);
-  }
-
-  search(event: string) {}
 }
