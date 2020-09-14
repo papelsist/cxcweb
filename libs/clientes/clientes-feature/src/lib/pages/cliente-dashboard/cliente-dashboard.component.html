@@ -7,7 +7,11 @@
     >
       <mat-icon>more_vert</mat-icon>
     </button>
-    <span>{{ cliente.nombre }}</span>
+    <span fxFlex>{{ cliente.nombre }}</span>
+    <button mat-button *ngIf="!cliente.activo" color="warn">
+      <mat-icon>report</mat-icon>
+      <span>SUSPENDIDO</span>
+    </button>
   </mat-toolbar>
   <mat-drawer-container class="container">
     <mat-drawer

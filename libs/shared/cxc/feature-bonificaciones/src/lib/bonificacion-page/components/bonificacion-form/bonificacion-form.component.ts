@@ -113,7 +113,7 @@ export class BonificacionFormComponent implements OnInit, OnDestroy {
       this.form.get('monto').valueChanges
     )
       .pipe(
-        tap((val) => console.log('ValueChange: ', val)),
+        // tap((val) => console.log('ValueChange: ', val)),
         takeUntil(this.destroy$)
       )
       .subscribe(() => this.actualizar());

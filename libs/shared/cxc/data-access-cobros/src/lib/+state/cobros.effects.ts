@@ -29,8 +29,6 @@ export class CobrosEffects {
           cobranza: { cartera },
           cobros: { periodo, disponibles, porTimbrar },
         } = state;
-
-        console.log('Current state: ', state);
         persistCobrosState({ disponibles, porTimbrar });
         return this.service
           .list(periodo, cartera.clave, disponibles, porTimbrar)

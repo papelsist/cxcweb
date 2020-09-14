@@ -15,34 +15,35 @@ export class BonificacionFormService {
 
   calcularPorProrrateo(form: FormGroup) {
     const montoGeneral = form.get('monto').value;
-    console.log('Recalculando por PRORRATEO Monto: ', montoGeneral);
-
-    // if (montoGeneral <= 0.0) return;
     const controls = form.get('partidas') as FormArray;
     const facturas = controls.value;
-    const sobreSaldo = true;
-    const base = sumByProperty(
-      facturas,
-      sobreSaldo ? 'saldoDocumento' : 'totalDocumento'
-    );
-    console.log(
-      `Importe a prorratear: ${montoGeneral} Base: ${base} Tipo: ${sobreSaldo} : 'SOBRE SALDO' : 'SOBRE TOTAL'`
-    );
+    const baseDelCalculo = form.get('baseDelCalculo').value;
+    const property =
+      baseDelCalculo.toLowerCase() === 'saldo'
+        ? 'saldoDocumento'
+        : 'totalDocumento';
+    // console.log('Recalculando por PRORRATEO Monto: ', montoGeneral);
+    // console.log('Partidas: ', facturas);
+
+    const base = sumByProperty(facturas, property);
+    // console.log(
+    //   `Importe a prorratear: ${montoGeneral} Base: ${base} Base del calculo: ${baseDelCalculo}`
+    // );
 
     for (let index = 0; index < controls.length; index++) {
       const control = controls.at(index);
       const det: NotaDeCreditoDet = control.value;
-      const monto = sobreSaldo ? det.saldoDocumento : det.totalDocumento;
+      const monto = det[property];
 
       const participacion = MonedaUtils.round(monto / base, 4);
       const asignado = MonedaUtils.round(montoGeneral * participacion, 2);
-      console.log(
-        'Partida: %i Saldo: %f Participacion: %f Asignación: %f',
-        index,
-        monto,
-        participacion,
-        asignado
-      );
+      // console.log(
+      //   'Partida: %i Monto: %f Participacion: %f Asignación: %f',
+      //   index,
+      //   monto,
+      //   participacion,
+      //   asignado
+      // );
       const importe = MonedaUtils.calcularImporteDelTotal(asignado);
       const impuesto = MonedaUtils.calcularImpuesto(importe);
       const total = importe + impuesto;

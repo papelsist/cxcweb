@@ -26,8 +26,23 @@ class ClienteCreditoLogListener {
   private void logClienteCredito(AbstractPersistenceEvent event) {
     if (event.entityObject instanceof ClienteCredito) {
       ClienteCredito credito = event.entityObject as ClienteCredito
-      def dirties = credito.dirtyPropertyNames
+      List<String> dirties = credito.dirtyPropertyNames.collect {it != 'lastUpdated'}
       log.info("ClienteCredito dirty properties: {}", dirties)
+      Map changes = [:]
+      dirties.each { property ->
+        logProperty(property, credito, changes)
+      }
+      log.info('Changes: {}', changes)
+    }
+  }
+
+  void logProperty(String property, ClienteCredito b, Map<String, Map<String,Object>> changes) {
+    if(b.isDirty(property)) {
+      def current = b[property]
+      def original = b.getPersistentValue(property)
+      if (current != original) {
+        changes.put(property, ['original': original, 'curent': current])
+      }
     }
   }
 
