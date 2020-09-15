@@ -19,16 +19,20 @@ class LxClienteCreditoService {
 
   FirebaseService firebaseService
 
+  def update(ClienteCredito credito) {
+    // Temporalmente
+    this.push(credito)
+  }
 
   def push(ClienteCredito credito) {
 
     LxCliente xp = new LxCliente(credito.cliente)
     ApiFuture<WriteResult> result = getCollection()
       .document(xp.id)
-      .set(xp.toMap())
+      .set(xp.toFirebaseMap())
     def updateTime = result.get().getUpdateTime().toDate()
     log.debug("{} Published succesful at time : {} ", xp.nombre, updateTime)
-    logAudit(xp.id, "UPDATE", "${xp.clave} UPDATED IN FIREBASE", 1, updateTime)
+    // logAudit(xp.id, "UPDATE", "${xp.clave} UPDATED IN FIREBASE", 1, updateTime)
     return updateTime
   }
 

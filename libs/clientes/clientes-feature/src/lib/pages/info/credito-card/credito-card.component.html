@@ -108,7 +108,7 @@
       <div matLine>
         <span>Dia revisión:</span>
         <span fxFlex class="text-right text-strong">
-          {{ credito.diaRevision }}
+          {{ dias[credito.diaRevision] }} ({{ credito.diaRevision }})
         </span>
       </div>
 
@@ -120,7 +120,7 @@
       <div matLine>
         <span>Dia cobro:</span>
         <span fxFlex class="text-right text-strong">
-          {{ credito.diaCobro }}
+          {{ dias[credito.diaCobro] }} ({{ credito.diaCobro }})
         </span>
       </div>
 

@@ -5,6 +5,7 @@ import { AgBooleanRendererComponent } from './ag-boolean-renderer/ag-boolean-ren
 import { AgPrinterRendererComponent } from './ag-printer-renderer/ag-printer-renderer.component';
 import { BaseComponent } from './base-component/base.component';
 import { FechaDialogComponent } from './fecha-dialog/fecha-dialog.component';
+import { TelefonoDialogComponent } from './telefono-dialog/telefono-dialog.component';
 export const UI_COMMONS_COMPONENTS = [
   // BaseComponent,
   BaseGridComponent,
@@ -13,6 +14,7 @@ export const UI_COMMONS_COMPONENTS = [
   FechaDialogComponent,
   AgBooleanRendererComponent,
   AgPrinterRendererComponent,
+  TelefonoDialogComponent,
 ];
 export const UI_COMMONS_ENTRY_COMPONENTS = [
   PeriodoDialogComponent,
@@ -26,3 +28,4 @@ export * from './periodo-picker/periodo-picker.component';
 export * from './fecha-dialog/fecha-dialog.component';
 export * from './ag-boolean-renderer/ag-boolean-renderer.component';
 export * from './ag-printer-renderer/ag-printer-renderer.component';
+export * from './telefono-dialog/telefono-dialog.component';

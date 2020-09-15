@@ -8,6 +8,7 @@
       <mat-icon>more_vert</mat-icon>
     </button>
     <span fxFlex>{{ cliente.nombre }}</span>
+    <small class="pad-left clave">({{ cliente.clave }})</small>
     <button mat-button *ngIf="!cliente.activo" color="warn">
       <mat-icon>report</mat-icon>
       <span>SUSPENDIDO</span>

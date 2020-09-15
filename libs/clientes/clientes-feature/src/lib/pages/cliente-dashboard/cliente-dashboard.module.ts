@@ -53,7 +53,7 @@ const routes: Route[] = [
       },
       {
         path: '',
-        redirectTo: 'analytics',
+        redirectTo: 'info',
         pathMatch: 'full',
       },
     ],

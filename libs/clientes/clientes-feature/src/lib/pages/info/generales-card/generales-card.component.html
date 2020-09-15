@@ -62,51 +62,25 @@
       </button>
     </mat-card-actions>
   </mat-card>
-  <mat-card *ngIf="cliente.direccion as direccion">
-    <mat-card-header>
-      <mat-card-title>
-        Domicilio fiscal
-      </mat-card-title>
-    </mat-card-header>
-    <mat-divider></mat-divider>
-    <address>
-      <div class="address" fxLayout="column" fxLayoutGap="10px">
-        <div fxFlex fxLayout fxLayoutAlign="start center" fxLayoutGap="5px">
-          <span>Calle: {{ direccion.calle }}</span>
-          <span>No Ext:{{ direccion.numeroExterior }}</span>
-          <span *ngIf="direccion.numeroInterior">
-            Interior: {{ direccion.numeroInterior }}</span
-          >
-        </div>
-
-        <div>
-          <span>Colonia: </span>
-          <span>{{ direccion.colonia }}</span>
-        </div>
-
-        <div>
-          <span>Municipio: </span>
-          <span>{{ direccion.municipio }}</span>
-        </div>
-
-        <div>
-          <span>CP: </span>
-          <span>{{ direccion.codigoPostal }}</span>
-        </div>
-        <div fxLayout>
-          <span>Estado: </span>
-          <span>{{ direccion.estado }}</span>
+  <mat-accordion>
+    <nx-papelsa-domicilio-panel
+      [direccion]="cliente.direccion"
+      (modificar)="modificarDireccion($event)"
+    ></nx-papelsa-domicilio-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Teléfonos
+        </mat-panel-title>
+        <mat-panel-description>
           <span fxFlex></span>
-          <span>Pais: </span>
-          <span>{{ direccion.pais }}</span>
-        </div>
-      </div>
-    </address>
-    <mat-card-actions>
-      <button color="primary" mat-button (click)="modificarDireccion(cliente)">
-        <mat-icon>place</mat-icon>
-        <span>Modificar</span>
-      </button>
-    </mat-card-actions>
-  </mat-card>
+          <mat-icon>phone</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <nx-papelsa-telefonos-panel
+        [cliente]="cliente"
+        (edit)="onEditarTelefono($event)"
+      ></nx-papelsa-telefonos-panel>
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>

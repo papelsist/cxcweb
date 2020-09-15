@@ -1,6 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 
-import { Cliente, ClienteCredito } from '@nx-papelsa/shared/utils/core-models';
+import {
+  Cliente,
+  ClienteCredito,
+  MedioDeContacto,
+} from '@nx-papelsa/shared/utils/core-models';
 import { Update } from '@ngrx/entity';
 
 export const loadClientes = createAction('[Clientes Facade] Load Clientes');
@@ -42,4 +46,17 @@ export const updateClienteCreditoFail = createAction(
 export const updateClienteCreditoSuccess = createAction(
   '[ClienteCredito API] ClienteCredito update success',
   props<{ credito: ClienteCredito }>()
+);
+
+export const updateMedioDeContacto = createAction(
+  '[Cliente Info Page] MedioDeContacto update',
+  props<{ clienteId: string; medio: Update<MedioDeContacto> }>()
+);
+export const updateMedioDeContactoFail = createAction(
+  '[MedioDeContacto API] MedioDeContacto update fail',
+  props<{ error: any }>()
+);
+export const updateMedioDeContactoSuccess = createAction(
+  '[MedioDeContacto API] MedioDeContacto update success',
+  props<{ medio: MedioDeContacto }>()
 );

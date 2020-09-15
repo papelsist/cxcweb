@@ -78,12 +78,34 @@ export class ClientesEffects {
     )
   );
 
+  updateMedio$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientesActions.updateMedioDeContacto),
+      fetch({
+        run: ({ clienteId, medio }) => {
+          return this.service.updateMedio(clienteId, medio).pipe(
+            map((res) =>
+              ClientesActions.updateMedioDeContactoSuccess({
+                medio: res,
+              })
+            )
+          );
+        },
+
+        onError: (action, error) => {
+          return ClientesActions.updateMedioDeContactoFail({ error });
+        },
+      })
+    )
+  );
+
   errors$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(
           ClientesActions.loadClientesFailure,
-          ClientesActions.updateClienteFail
+          ClientesActions.updateClienteFail,
+          ClientesActions.updateMedioDeContactoFail
         ),
         map(({ error }) => error),
         tap((response) => {

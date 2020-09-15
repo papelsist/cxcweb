@@ -11,6 +11,7 @@ import {
   BeanPropertyListItem,
   Cliente,
   Direccion,
+  MedioDeContacto,
 } from '@nx-papelsa/shared/utils/core-models';
 import { MatDialog } from '@angular/material/dialog';
 import { GeneralesFormComponent } from '../generales-form/generales-form.component';
@@ -26,6 +27,8 @@ import { DireccionDialogComponent } from '@nx-papelsa/shared/utils/ui-forms';
 export class GeneralesCardComponent implements OnInit {
   @Input() cliente: Cliente;
   @Output() edit = new EventEmitter<Update<Cliente>>();
+  @Output() editTelefono = new EventEmitter<Update<MedioDeContacto>>();
+  telefonos: MedioDeContacto[] = [];
   properties: BeanPropertyListItem<Cliente>[] = [
     {
       name: 'nombre',
@@ -70,7 +73,9 @@ export class GeneralesCardComponent implements OnInit {
   ];
   constructor(private dialog: MatDialog) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('Cliente: ', this.cliente);
+  }
 
   editar(cliente: Cliente) {
     this.dialog
@@ -108,5 +113,9 @@ export class GeneralesCardComponent implements OnInit {
       }
     }
     return '';
+  }
+
+  onEditarTelefono(medio: Update<MedioDeContacto>) {
+    this.editTelefono.emit(medio);
   }
 }

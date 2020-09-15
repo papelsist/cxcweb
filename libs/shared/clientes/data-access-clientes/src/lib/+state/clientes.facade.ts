@@ -5,7 +5,11 @@ import { select, Store, Action } from '@ngrx/store';
 import * as fromClientes from './clientes.reducer';
 import * as ClientesSelectors from './clientes.selectors';
 import * as ClientesActions from './clientes.actions';
-import { Cliente, ClienteCredito } from '@nx-papelsa/shared/utils/core-models';
+import {
+  Cliente,
+  ClienteCredito,
+  MedioDeContacto,
+} from '@nx-papelsa/shared/utils/core-models';
 import { Update } from '@ngrx/entity';
 
 @Injectable()
@@ -26,5 +30,9 @@ export class ClientesFacade {
 
   updateClienteCredito(clienteId: string, credito: Update<ClienteCredito>) {
     this.dispatch(ClientesActions.updateClienteCredito({ clienteId, credito }));
+  }
+
+  updateMedioDeContacto(clienteId: string, medio: Update<MedioDeContacto>) {
+    this.dispatch(ClientesActions.updateMedioDeContacto({ clienteId, medio }));
   }
 }

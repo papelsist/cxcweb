@@ -12,4 +12,11 @@ trait LxEntity {
     return data
   }
 
+  /*
+  void copyProperties(source, target) {
+    def (sProps, tProps) = [source, target]*.properties*.keySet()
+    def commonProps = sProps.intersect(tProps) - ['class', 'metaClass', 'additionalMetaMethods']
+    commonProps.each { target[it] = source[it] }
+  }
+  */
 }

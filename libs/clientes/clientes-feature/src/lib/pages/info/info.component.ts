@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Cliente, ClienteCredito } from '@nx-papelsa/shared/utils/core-models';
+import {
+  Cliente,
+  ClienteCredito,
+  MedioDeContacto,
+} from '@nx-papelsa/shared/utils/core-models';
 import { ClientesFacade } from '@nx-papelsa/shared/clientes/data-access-clientes';
 import { Update } from '@ngrx/entity';
 
@@ -16,12 +20,14 @@ export class InfoComponent implements OnInit {
   ngOnInit(): void {}
 
   onEditCliente(cliente: Update<Cliente>) {
-    console.log('Actualizando cliente: ', cliente);
     this.facade.updateCliente(cliente);
   }
 
   onEditCredito(cliente: Cliente, credito: Update<ClienteCredito>) {
-    console.log('Actualizando credito: ', credito);
     this.facade.updateClienteCredito(cliente.id, credito);
+  }
+
+  onEditMedio(cliente: Cliente, medio: Update<MedioDeContacto>) {
+    this.facade.updateMedioDeContacto(cliente.id, medio);
   }
 }

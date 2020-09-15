@@ -5,10 +5,19 @@
 <mat-dialog-content>
   <div [formGroup]="form" fxLayout="column" fxLayoutGap="5px">
     <nx-papelsa-numeric-field
+      label="Línea de crédito"
+      placeholder="Línea"
       formControlName="lineaDeCredito"
     ></nx-papelsa-numeric-field>
     <nx-papelsa-numeric-field
+      label="Plazo"
+      placeholder="Plazo"
       formControlName="plazo"
+    ></nx-papelsa-numeric-field>
+    <nx-papelsa-numeric-field
+      label="Descuento fijo"
+      formControlName="descuentoFijo"
+      placeholder="Descuento"
     ></nx-papelsa-numeric-field>
     <mat-checkbox formControlName="creditoActivo">
       Activo
@@ -16,6 +25,28 @@
     <mat-checkbox formControlName="postfechado">
       Cheque postfechado
     </mat-checkbox>
+    <mat-checkbox formControlName="revision">
+      Mandar a revisión
+    </mat-checkbox>
+    <mat-checkbox formControlName="venceFactura">
+      Vto Factura
+    </mat-checkbox>
+    <div fxLayout fxLayoutGap="5px">
+      <mat-form-field fxFlex>
+        <mat-select placeholder="Día revisión" formControlName="diaRevision">
+          <mat-option *ngFor="let dia of dias" [value]="dia.clave">
+            {{ dia.descripcion }}({{ dia.clave }})
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-select placeholder="Día cobro" formControlName="diaCobro">
+          <mat-option *ngFor="let dia of dias" [value]="dia.clave">
+            {{ dia.descripcion }}({{ dia.clave }})
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </div>
 </mat-dialog-content>
 

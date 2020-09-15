@@ -29,18 +29,22 @@ class LxClienteService {
 
     FirebaseService firebaseService
 
+    def update(Cliente cliente) {
+      this.push(cliente)
+    }
+
     def push(Cliente cliente) {
         LxCliente xp = new LxCliente(cliente)
         ApiFuture<WriteResult> result = getCollection()
             .document(xp.id)
-            .set(xp.toMap())
+            .set(xp.toFirebaseMap())
         def updateTime = result.get().getUpdateTime().toDate()
         log.debug("{} Published succesful at time : {} " , xp.nombre, updateTime)
-        logAudit(xp.id, "UPDATE", "${xp.clave} UPDATED IN FIREBASE", 1, updateTime)
+        // logAudit(xp.id, "UPDATE", "${xp.clave} UPDATED IN FIREBASE", 1, updateTime)
         return updateTime
     }
 
-    
+
 
     CollectionReference getCollection() {
         return firebaseService.getFirestore().collection(collectionName)
@@ -49,12 +53,12 @@ class LxClienteService {
     /*
     @Transactional(readOnly = true)
     List<LxProducto> findAllProductos() {
-        return  Producto.list(fetch: [linea: 'join', marca: 'join', clase: 'join', productoSat: 'join', unidadSat:'join'], 
+        return  Producto.list(fetch: [linea: 'join', marca: 'join', clase: 'join', productoSat: 'join', unidadSat:'join'],
             sort: 'clave', order: 'asc', max: 5000)
             .collect { Producto prod -> new LxProducto(prod)}
     }
     */
-    
+
 
     Audit logAudit(String id, String event, String message, int registros, Date updateTime = null) {
         Audit.withNewSession {
@@ -72,6 +76,6 @@ class LxClienteService {
         }
     }
 
-    
+
 
 }

@@ -8,7 +8,7 @@ import sx.core.Cliente
 
 @ToString(includeNames=true, includePackage=false)
 @EqualsAndHashCode(includes='nombre')
-class LxCliente {
+class LxCliente implements LxEntity {
 
     String id
     String clave
@@ -77,15 +77,15 @@ class LxCliente {
         ]}
     }
 
-    Map<String, Object> toMap() {
-        Map data = this.properties
-        return filter(data)
-    }
+    // Map<String, Object> toMap() {
+    //     Map data = this.properties
+    //     return filter(data)
+    // }
 
-    Map<String, Object> filter(Map<String, Object> data) {
-        data = data.findAll{ k, v -> !['class','constraints', 'errors'].contains(k) }
-        return data
-    }
+    // Map<String, Object> filter(Map<String, Object> data) {
+    //     data = data.findAll{ k, v -> !['class','constraints', 'errors'].contains(k) }
+    //     return data
+    // }
 
 
 

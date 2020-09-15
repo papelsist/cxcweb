@@ -20,8 +20,8 @@ export class ClienteDashboardComponent extends BaseComponent implements OnInit {
   routes: NavigationRoute[] = [
     {
       path: 'analytics',
-      label: 'Dashboard',
-      description: 'Tabelero',
+      label: 'Analytics',
+      description: 'Análisis de cliente',
       icon: 'analytics',
     },
     {

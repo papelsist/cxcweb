@@ -4,7 +4,11 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, delay } from 'rxjs/operators';
 
-import { Cliente, ClienteCredito } from '@nx-papelsa/shared/utils/core-models';
+import {
+  Cliente,
+  ClienteCredito,
+  MedioDeContacto,
+} from '@nx-papelsa/shared/utils/core-models';
 
 import { Update } from '@ngrx/entity';
 
@@ -51,6 +55,16 @@ export class ClientesService {
     const url = `${this.apiUrl}/${clienteId}/credito/${update.id}`;
     return this.http
       .put<ClienteCredito>(url, update.changes)
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  updateMedio(
+    clienteId: string,
+    update: Update<MedioDeContacto>
+  ): Observable<MedioDeContacto> {
+    const url = `${this.apiUrl}/${clienteId}/medios/${update.id}`;
+    return this.http
+      .put<MedioDeContacto>(url, update.changes)
       .pipe(catchError((error: any) => throwError(error)));
   }
 }

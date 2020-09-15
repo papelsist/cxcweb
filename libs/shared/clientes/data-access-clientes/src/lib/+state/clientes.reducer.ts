@@ -3,6 +3,7 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
 import * as ClientesActions from './clientes.actions';
 import { Cliente } from '@nx-papelsa/shared/utils/core-models';
+import keyBy from 'lodash/keyBy';
 
 export const CLIENTES_FEATURE_KEY = 'clientes';
 
@@ -33,6 +34,7 @@ const clientesReducer = createReducer(
     ClientesActions.loadClientes,
     ClientesActions.updateCliente,
     ClientesActions.updateClienteCredito,
+    ClientesActions.updateMedioDeContacto,
     (state) => ({
       ...state,
       loaded: false,
@@ -42,16 +44,6 @@ const clientesReducer = createReducer(
   ),
   on(ClientesActions.loadClientesSuccess, (state, { clientes }) =>
     clientesAdapter.setAll(clientes, { ...state, loaded: true })
-  ),
-  on(
-    ClientesActions.loadClientesFailure,
-    ClientesActions.updateClienteFail,
-    ClientesActions.updateClienteCreditoFail,
-    (state, { error }) => ({
-      ...state,
-      loading: false,
-      error,
-    })
   ),
   on(ClientesActions.updateClienteSuccess, (state, { cliente }) =>
     clientesAdapter.upsertOne(cliente, {
@@ -72,8 +64,35 @@ const clientesReducer = createReducer(
       error: null,
     });
   }),
+  on(ClientesActions.updateMedioDeContactoSuccess, (state, { medio }) => {
+    const clienteExistente = state.entities[medio.cliente.id];
+    const mediosDictionary = {
+      ...keyBy(clienteExistente.medios, 'id'),
+      [medio.id]: medio,
+    };
+    const clienteUpdated = {
+      ...clienteExistente,
+      medios: Object.values(mediosDictionary),
+    };
+    return clientesAdapter.upsertOne(clienteUpdated, {
+      ...state,
+      loading: false,
+      error: null,
+    });
+  }),
   on(ClientesActions.setCurrentCliente, (state, { cliente }) =>
     clientesAdapter.upsertOne(cliente, { ...state, selectedId: cliente.id })
+  ),
+  on(
+    ClientesActions.loadClientesFailure,
+    ClientesActions.updateClienteFail,
+    ClientesActions.updateClienteCreditoFail,
+    ClientesActions.updateMedioDeContactoFail,
+    (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })
   )
 );
 

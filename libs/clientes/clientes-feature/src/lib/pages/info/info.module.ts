@@ -9,6 +9,9 @@ import { GeneralesFormComponent } from './generales-form/generales-form.componen
 import { CreditoFormComponent } from './credito-form/credito-form.component';
 import { CreditoCardComponent } from './credito-card/credito-card.component';
 import { GeneralesCardComponent } from './generales-card/generales-card.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { DomicilioPanelComponent } from './generales-card/domicilio-panel.component';
+import { TelefonosPanelComponent } from './generales-card/telefonos-panel.component';
 
 const routes: Routes = [{ path: '', component: InfoComponent }];
 
@@ -18,8 +21,10 @@ const routes: Routes = [{ path: '', component: InfoComponent }];
     CreditoCardComponent,
     GeneralesFormComponent,
     GeneralesCardComponent,
+    DomicilioPanelComponent,
     CreditoFormComponent,
+    TelefonosPanelComponent,
   ],
-  imports: [...CDS_MODULES, RouterModule.forChild(routes)],
+  imports: [...CDS_MODULES, RouterModule.forChild(routes), MatExpansionModule],
 })
 export class InfoModule {}

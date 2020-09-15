@@ -1,3 +1,5 @@
+
+import org.springframework.web.servlet.i18n.FixedLocaleResolver
 import sx.security.UserPasswordEncoderListener
 import sx.security.UserInfoClaimpProvider
 // Place your Spring DSL code here
@@ -8,7 +10,7 @@ import com.luxsoft.cfdix.v33.NotaBuilder
 import com.luxsoft.cfdix.v33.NotaDeCargoBuilder
 import com.luxsoft.cfdix.v33.ReciboDePagoBuilder
 import com.luxsoft.cfdix.v33.NotaDeCargoPdfGenerator
-import org.springframework.web.servlet.i18n.FixedLocaleResolver
+
 import sx.security.UserInfoClaimpProvider
 import sx.core.ClienteLogListener
 import sx.core.ClienteCreditoLogListener
@@ -16,8 +18,13 @@ import sx.core.ClienteCreditoLogListener
 beans = {
     userPasswordEncoderListener(UserPasswordEncoderListener)
     userInfoClaimpProvider(UserInfoClaimpProvider)
-    clienteLogListener(ClienteLogListener)
-    clienteCreditoLogListener(ClienteCreditoLogListener)
+
+    clienteLogListener(ClienteLogListener){
+      lxClienteService = ref('lxClienteService')
+    }
+    clienteCreditoLogListener(ClienteCreditoLogListener){
+      lxClienteCreditoService = ref('lxClienteCreditoService')
+    }
 
     /*customAuditLogListener(CustomAuditLogListener) {
         dataSource = ref('dataSource')

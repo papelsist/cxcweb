@@ -8,6 +8,7 @@ export interface Cliente {
   clave: string;
   rfc: string;
   cfdiMail?: string;
+  email?: string;
   credito?: ClienteCredito;
   permiteCheque: boolean;
   folioRFC: number;
@@ -15,7 +16,7 @@ export interface Cliente {
   activo: true;
   juridico: false;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  medios?: any[];
+  medios?: Partial<MedioDeContacto[]>;
   direccion: Direccion;
   direcciones?: ClienteDireccion[];
   direccionesEntrega?: ClienteDireccion[];
@@ -56,4 +57,12 @@ export interface ClienteDireccion {
   nombre: string;
   direccion: Direccion;
   cliente?: Partial<Cliente>;
+}
+
+export interface MedioDeContacto {
+  id?: string;
+  tipo: 'TEL' | 'CEL' | 'FAX' | 'MAIL' | 'WEB';
+  descripcion: string;
+  cfdi?: boolean;
+  cliente: Partial<Cliente>;
 }
