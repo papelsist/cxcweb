@@ -1,0 +1,15 @@
+.mat-card {
+  padding: 10px;
+}
+.mat-toolbar {
+  height: 45px;
+}
+
+.header {
+  display: grid;
+  align-self: center;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  row-gap: 5px;
+  font-size: 1.1rem;
+  padding: 5px;
+}

@@ -5,7 +5,18 @@
       let-index="index"
       let-value="value"
     >
-      {{ index + 1 }}
+      <small>{{ index + 1 }}</small>
+    </ng-template>
+    <ng-template
+      tdDataTableTemplate="documento"
+      let-index="index"
+      let-value="value"
+      let-row="row"
+    >
+      <span>{{ row.documento }}</span>
+    </ng-template>
+    <ng-template tdDataTableTemplate="sucursal" let-row="row">
+      <small>{{ row.sucursal }}</small>
     </ng-template>
     <ng-template
       tdDataTableTemplate="delete"

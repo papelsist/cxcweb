@@ -9,9 +9,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 
+import { UiFormsModule } from '@nx-papelsa/shared/utils/ui-forms';
+
 @NgModule({
   imports: [
     CommonModule,
+    UiFormsModule,
     MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
@@ -23,19 +26,33 @@ import { MatListModule } from '@angular/material/list';
         component: CreditoPageComponent,
         children: [
           {
+            path: 'facturas',
+            loadChildren: () =>
+              import('@nx-papelsa/shared/cxc/feature-facturas').then(
+                (m) => m.FeatureFacturasModule
+              ),
+          },
+          {
+            path: 'cobros',
+            loadChildren: () =>
+              import('@nx-papelsa/shared/cxc/feature-cobros').then(
+                (m) => m.FeatureCobrosModule
+              ),
+          },
+          {
             path: 'bonificaciones',
             loadChildren: () =>
               import('@nx-papelsa/shared/cxc/feature-bonificaciones').then(
                 (m) => m.FeatureBonificacionesModule
               ),
           },
-          // {
-          //   path: 'devoluciones',
-          //   loadChildren: () =>
-          //     import('@nx-papelsa/shared/cxc/feature-devoluciones').then(
-          //       (m) => m.FeatureDevolucionesModule
-          //     ),
-          // },
+          {
+            path: 'devoluciones',
+            loadChildren: () =>
+              import('@nx-papelsa/shared/cxc/feature-devoluciones').then(
+                (m) => m.FeatureDevolucionesModule
+              ),
+          },
           {
             path: 'cargos',
             loadChildren: () =>
@@ -43,6 +60,13 @@ import { MatListModule } from '@angular/material/list';
                 (m) => m.FeatureCargosModule
               ),
             data: { cartera: { clave: 'CRE', descripcion: 'Crédito' } },
+          },
+          {
+            path: 'revisiones',
+            loadChildren: () =>
+              import('@nx-papelsa/shared/cxc/feature-revision').then(
+                (m) => m.FeatureRevisionModule
+              ),
           },
         ],
       },

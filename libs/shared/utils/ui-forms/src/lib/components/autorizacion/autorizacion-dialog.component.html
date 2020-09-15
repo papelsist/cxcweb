@@ -1,0 +1,21 @@
+<div mat-dialog-title>
+  Autorización de operación
+</div>
+<div>
+  <p>
+    {{ descripcion }}
+  </p>
+</div>
+<mat-dialog-content>
+  <nx-papelsa-usuario-nip-field
+    (usuarioFound)="onSelection($event)"
+  ></nx-papelsa-usuario-nip-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]>Cancelar</button>
+  <button mat-button (click)="onSubmit()" [disabled]="!user">
+    <mat-icon>verified</mat-icon>
+    <span>Autorizar</span>
+  </button>
+</mat-dialog-actions>

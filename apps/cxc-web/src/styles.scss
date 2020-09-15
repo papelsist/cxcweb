@@ -1,3 +1,4 @@
+@import 'theme.scss';
 @import '../../../node_modules/ag-grid-community/src/styles/ag-grid.scss';
 @import '../../../node_modules/ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin.scss';
 
@@ -7,6 +8,34 @@
       odd-row-background-color: #f4f8f8,
     )
   );
+
+  .primary-row {
+    color: mat-color($primary);
+  }
+
+  .warning-row {
+    color: mat-color($accent);
+  }
+
+  .danger-row {
+    color: mat-color($warn);
+  }
+
+  .success-row {
+    color: rgb(42, 172, 64);
+  }
+  .small-row {
+    font-size: 10px;
+  }
+  .medium-row {
+    font-size: 12px;
+  }
+  .small-cell {
+    font-size: 10px;
+  }
+  .medium-cell {
+    font-size: 12px;
+  }
 }
 /* You can add global styles to this file, and also import other style files */
 html,
@@ -23,19 +52,50 @@ body {
 *::after {
   box-sizing: border-box;
 }
-
-// .mat-nav-list .mat-list-item {
-//   color: blue;
-// }
+/*
 .mat-nav-list {
   .router-link-active {
     color: rgba(16, 37, 107, 0.87);
     background-color: rgb(248, 246, 246);
   }
 }
+*/
 
 .mat-subtitle {
   margin-top: -15px;
   margin-bottom: 10px;
   font-size: 1rem;
+}
+
+.pad-right {
+  padding-right: 5px;
+}
+.pad-left {
+  padding-left: 5px;
+}
+.pull-right {
+  margin-left: auto;
+}
+.pull-left {
+  margin-left: auto;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: end;
+}
+.text-left {
+  text-align: start;
+}
+.text-strong {
+  font-weight: bold;
+}
+.text-warn {
+  color: mat-color($warn);
+}
+
+.router-link-active {
+  // background-color: mat-color($accent, default-contrast);
+  color: mat-color($accent);
 }

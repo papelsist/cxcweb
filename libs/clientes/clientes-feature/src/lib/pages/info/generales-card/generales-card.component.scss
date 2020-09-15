@@ -1,0 +1,17 @@
+.property-list .mat-list-item {
+  height: 3rem;
+}
+
+// .address {
+//   padding: 10px;
+// }
+
+.accordion {
+  .mat-expansion-panel-header-title {
+    flex-basis: 0;
+  }
+  .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+  }
+}

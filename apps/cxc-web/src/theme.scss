@@ -13,14 +13,42 @@ $typography: mat-typography-config(
 // $typography is an **optional** argument for the mat-core
 @include mat-core($typography);
 
-$primary: mat-palette($mat-orange, 800, 100, 900);
-$accent: mat-palette($mat-light-blue, 600, 100, 900);
+// $primary: mat-palette($mat-orange, 800, 100, 900);
+$primary: mat-palette($mat-blue, 900);
+$accent: mat-palette($mat-amber, 900);
 $warn: mat-palette($mat-red, 600, 100, 900);
 
 $theme: mat-light-theme($primary, $accent, $warn);
+// $theme: mat-dark-theme($primary, $accent, $warn);
 
 @include angular-material-theme($theme);
 @include covalent-theme(
   $theme,
   $typography
 ); // $typography is an **optional** argument for the covalent-theme
+
+.warn-cell {
+  // font-size: 1rem;
+  color: mat-color($warn);
+  // background-color: mat-color($accent, default-contrast);
+  // background-color: silver;
+}
+.accent-cell {
+  color: mat-color($accent);
+}
+
+.warn-grid-row {
+  color: mat-color($warn);
+}
+.accent {
+  color: mat-color($accent);
+}
+
+.mat-nav-list {
+  .router-link-active {
+    // color: rgba(16, 37, 107, 0.87);
+    color: mat-color($accent);
+    // background-color: mat-color($accent, default-contrast);
+    // background-color: rgb(248, 246, 246);
+  }
+}

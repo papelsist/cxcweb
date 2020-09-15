@@ -107,16 +107,29 @@ export class BonificacionesGridComponent implements OnInit {
     if (params.node.rowPinned) {
       return { 'font-weight': 'bold' };
     }
-    if (params.data.status === 'CERRADO') {
-      return { 'font-weight': 'bold', 'font-style': 'italic', color: 'green' };
+
+    if (params.data.cancelacion) {
+      return { 'font-weight': 'bold', 'font-style': 'italic', color: 'red' };
+    } else {
+      if (params.data.status === 'CERRADO') {
+        return {
+          'font-weight': 'bold',
+          'font-style': 'italic',
+          color: 'green',
+        };
+      }
+      if (!params.data.cfdi) {
+        return {
+          'font-weight': 'bold',
+          'font-style': 'italic',
+          color: 'rgb(190, 119, 26)',
+        };
+      }
     }
-    if (!params.data.cfdi) {
-      return {
-        'font-weight': 'bold',
-        'font-style': 'italic',
-        color: 'rgb(190, 119, 26)',
-      };
-    }
+  }
+
+  clearSelection() {
+    this.gridApi.deselectAll();
   }
 
   formatCurrency(data: any) {
@@ -134,23 +147,31 @@ export class BonificacionesGridComponent implements OnInit {
   private buildColumnDef(): ColDef[] {
     return [
       {
-        headerName: 'Serie',
-        field: 'serie',
-        sortable: true,
-        width: 110,
-      },
-      {
         headerName: 'Folio',
         field: 'folio',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
         sortable: true,
         filter: true,
         width: 100,
       },
       {
+        headerName: 'Serie',
+        field: 'serie',
+        sortable: true,
+        width: 100,
+      },
+      {
+        headerName: 'Tipo',
+        field: 'tipoDeCalculo',
+        sortable: true,
+        width: 110,
+      },
+      {
         headerName: 'Fecha',
         field: 'fecha',
         sortable: true,
-        width: 110,
+        width: 120,
         valueFormatter: (params) => this.formatDate(params.value),
       },
       {
@@ -158,7 +179,6 @@ export class BonificacionesGridComponent implements OnInit {
         field: 'nombre',
         sortable: true,
         filter: true,
-        width: 250,
         resizable: true,
       },
       {
@@ -187,6 +207,22 @@ export class BonificacionesGridComponent implements OnInit {
         field: 'cfdi',
         cellRendererFramework: AgBooleanRendererComponent,
         width: 90,
+      },
+      {
+        headerName: 'Modificado',
+        field: 'lastUpdated',
+        valueFormatter: (params) =>
+          this.formatDate(params.value, 'dd/MM/yyyy HH:mm'),
+      },
+      {
+        headerName: 'Actualizó',
+        field: 'updateUser',
+      },
+      {
+        headerName: 'Cancelada',
+        field: 'cancelacion',
+        valueFormatter: (params) =>
+          this.formatDate(params.value, 'dd/MM/yyyy HH:mm'),
       },
     ];
   }

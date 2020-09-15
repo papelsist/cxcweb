@@ -1,9 +1,13 @@
 import { CfdiDto } from './cfdi-dto';
+import { Cliente } from '../core/cliente';
+import { Venta, VentaCredito } from '../core';
 
 export interface CuentaPorCobrarDTO {
   id: string;
+  cliente: Partial<Cliente>;
   clienteId: string;
   nombre: string;
+  cfdiMail: string;
   sucursal: string;
   tipo: string;
   tipoDocumento: string;
@@ -26,4 +30,6 @@ export interface CuentaPorCobrarDTO {
   cancelacionMotivo: string;
   juridico: string;
   cfdi?: CfdiDto;
+  venta?: Partial<Venta>;
+  credito?: Partial<VentaCredito>;
 }

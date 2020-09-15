@@ -1,0 +1,154 @@
+<mat-card fxLayout="column" [formGroup]="form">
+  <nx-papelsa-cxc-devolucion-header
+    [parent]="form"
+    [devolucion]="devolucion"
+  ></nx-papelsa-cxc-devolucion-header>
+  <div><mat-divider></mat-divider></div>
+  <td-message
+    *ngIf="devolucion.cancelacionMotivo"
+    color="warn"
+    icon="warning"
+    label="CANCELADA: {{ devolucion.cancelacion | date: 'dd/MM/yyyy' }}"
+    sublabel="Motivo: {{ devolucion.cancelacionMotivo }} Usuario : {{
+      devolucion.cancelacionUsuario
+    }}"
+  >
+  </td-message>
+  <div fxLayout fxLayoutGap="10px" fxLayoutAlign="start baseline">
+    <nx-papelsa-moneda-field
+      [parent]="form"
+      [style.width.px]="120"
+    ></nx-papelsa-moneda-field>
+    <nx-papelsa-tipo-de-cambio-field
+      [parent]="form"
+      property="tc"
+      [style.width.px]="90"
+    ></nx-papelsa-tipo-de-cambio-field>
+
+    <nx-papelsa-forma-de-pago-sat
+      [parent]="form"
+    ></nx-papelsa-forma-de-pago-sat>
+
+    <nx-papelsa-cxc-selector-rmd-btn
+      *ngIf="!devolucion.devolucion"
+      tooltip="Buscar RMD "
+      [clienteId]="devolucion.cliente.id"
+      (selection)="onSelectRmd($event)"
+    ></nx-papelsa-cxc-selector-rmd-btn>
+
+    <div
+      fxFlex
+      fxLayout
+      fxLayoutAlign="start center"
+      *ngIf="getRmdControl().value as rmd"
+    >
+      <mat-form-field>
+        <mat-label>RMD</mat-label>
+        <input matInput [value]="rmd.documento" readonly />
+        <mat-hint>{{ rmd.sucursalNombre }}</mat-hint>
+      </mat-form-field>
+      <mat-checkbox [checked]="rmd.parcial" [disabled]="true">
+        RMD Parcial
+      </mat-checkbox>
+    </div>
+
+    <span fxFlex></span>
+    <ng-container>
+      <div
+        fxFlex
+        fxLayout
+        fxLayoutAlign="end center"
+        fxLayoutGap="10px"
+        class="disponible"
+      >
+        <span>Total:</span>
+        <span fxFlex>{{ total | currency }}</span>
+        <span>Aplicado:</span>
+        <span fxFlex>{{ devolucion.aplicado | currency }}</span>
+        <span fxFlex>Disponible:</span>
+        <span>{{ devolucion.disponible | currency }}</span>
+      </div>
+    </ng-container>
+  </div>
+
+  <div fxLayout fxLayoutGap="5px" fxLayoutAlign="start baseline">
+    <mat-form-field fxFlex>
+      <mat-label>Comentario</mat-label>
+      <input matInput formControlName="comentario" #comentario />
+      <mat-error>Longitud excedida</mat-error>
+      <mat-hint align="end">( {{ comentario.value.length }}/ 255 )</mat-hint>
+    </mat-form-field>
+    <ng-container *ngIf="devolucion.cfdi as cfdi">
+      <mat-form-field class="cfdi-folio">
+        <mat-label>CFDI</mat-label>
+        <input
+          type="text"
+          matInput
+          value="{{ cfdi.serie }}-{{ cfdi.folio }}"
+          readonly
+        />
+      </mat-form-field>
+      <mat-form-field class="cfdi-uuid">
+        <mat-label>UUID</mat-label>
+        <input type="text" matInput [value]="cfdi.uuid.substr(-8)" readonly />
+      </mat-form-field>
+    </ng-container>
+    <mat-form-field>
+      <mat-label>Creada por:</mat-label>
+      <input matInput [value]="devolucion.createUser" disabled="true" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Actualizada por:</mat-label>
+      <input matInput [value]="devolucion.updateUser" disabled="true" />
+    </mat-form-field>
+  </div>
+
+  <div class="partidas">
+    <mat-toolbar>
+      <span>Conceptos</span>
+      <span fxFlex></span>
+    </mat-toolbar>
+
+    <nx-papelsa-devolucion-partidas-table
+      [partidas]="devolucion.partidas"
+      [disabled]="true"
+    >
+    </nx-papelsa-devolucion-partidas-table>
+  </div>
+  <td-message
+    *ngIf="form.errors?.importeInvalido"
+    label="Error"
+    sublabel="Los conceptos no tienen importe"
+    color="warn"
+    icon="error"
+  >
+  </td-message>
+  <td-message
+    #messageDemo
+    *ngIf="devolucion.autorizo"
+    color="accent"
+    label="Autorizada"
+    sublabel="{{ devolucion.autorizoFecha | date: 'dd/MM/yyyy: hh:mm' }} Por: {{
+      devolucion.autorizo
+    }}"
+    icon="verified"
+  >
+    <button td-message-actions mat-icon-button (click)="messageDemo.close()">
+      <mat-icon>cancel</mat-icon>
+    </button>
+  </td-message>
+  <mat-card-actions>
+    <nx-papelsa-back-button></nx-papelsa-back-button>
+    <button
+      *ngIf="!devolucion.cfdi"
+      mat-button
+      color="primary"
+      (click)="onSubmit()"
+      [disabled]="form.pristine || form.invalid"
+    >
+      <mat-icon>save</mat-icon>
+      <span>Actualizar</span>
+    </button>
+    <ng-content></ng-content>
+  </mat-card-actions>
+</mat-card>

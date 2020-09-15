@@ -19,7 +19,7 @@ import {
           import('./bonificaciones-page/bonificaciones-page.module').then(
             (m) => m.BonificacionesPageModule
           ),
-        canActivate: [BonificacionesGuard],
+        //canActivate: [BonificacionesGuard],
       },
 
       {

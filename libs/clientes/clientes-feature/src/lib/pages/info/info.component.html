@@ -1,0 +1,12 @@
+<div class="info-container" *ngIf="cliente$ | async as cliente">
+  <nx-papelsa-generales-card
+    [cliente]="cliente"
+    (edit)="onEditCliente($event)"
+    (editTelefono)="onEditMedio(cliente, $event)"
+  ></nx-papelsa-generales-card>
+  <nx-papelsa-credito-card
+    *ngIf="cliente.credito as credito"
+    [credito]="credito"
+    (edit)="onEditCredito(cliente, $event)"
+  ></nx-papelsa-credito-card>
+</div>

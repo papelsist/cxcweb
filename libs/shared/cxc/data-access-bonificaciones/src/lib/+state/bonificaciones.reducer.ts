@@ -25,16 +25,16 @@ export interface BonificacionesPartialState {
 
 export const bonificacionesAdapter: EntityAdapter<BonificacionesEntity> = createEntityAdapter<
   BonificacionesEntity
->();
+>({
+  sortComparer: (d1, d2) =>
+    d1.folio > d2.folio ? -1 : d1.folio < d2.folio ? 1 : 0,
+});
 
 export const initialState: State = bonificacionesAdapter.getInitialState({
   // set initial required properties
   loaded: false,
   loading: false,
-  periodo: Periodo.fromStorage(
-    BONIFICACIONES_STORAGE_PERIODO_KEY,
-    Periodo.fromNow(10)
-  ),
+  periodo: Periodo.fromNow(30),
 });
 
 const bonificacionesReducer = createReducer(
@@ -51,6 +51,11 @@ const bonificacionesReducer = createReducer(
   })),
 
   on(
+    BonificacionesActions.solicitarAutorizacion,
+    BonificacionesActions.aplicar,
+    BonificacionesActions.deleteBonificacion,
+    BonificacionesActions.cancelarBonificacion,
+    BonificacionesActions.timbrarBonificacion,
     BonificacionesActions.loadBonificaciones,
     BonificacionesActions.saveBonificacion,
     BonificacionesActions.updateBonificacion,
@@ -70,6 +75,11 @@ const bonificacionesReducer = createReducer(
       })
   ),
   on(
+    BonificacionesActions.solicitarAutorizacionFail,
+    BonificacionesActions.aplicarFail,
+    BonificacionesActions.deleteBonificacionFail,
+    BonificacionesActions.cancelarBonificacionFail,
+    BonificacionesActions.timbrarBonificacionFail,
     BonificacionesActions.loadBonificacionesFailure,
     BonificacionesActions.saveBonificacionFail,
     BonificacionesActions.updateBonificacionFail,
@@ -96,12 +106,22 @@ const bonificacionesReducer = createReducer(
   ),
   /// Update Bonificacion
   on(
+    BonificacionesActions.solicitarAutorizacionSuccess,
+    BonificacionesActions.aplicarSuccess,
+    BonificacionesActions.cancelarBonificacionSuccess,
+    BonificacionesActions.timbrarBonificacionSuccess,
     BonificacionesActions.updateBonificacionSuccess,
     (state, { bonificacion }) =>
       bonificacionesAdapter.upsertOne(bonificacion, {
         ...state,
         loading: false,
+        error: null,
       })
+  ),
+  on(
+    BonificacionesActions.deleteBonificacionSuccess,
+    (state, { bonificacion }) =>
+      bonificacionesAdapter.removeOne(bonificacion.id, { ...state })
   )
 );
 

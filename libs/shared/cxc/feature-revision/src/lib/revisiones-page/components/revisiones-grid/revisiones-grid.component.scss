@@ -1,0 +1,14 @@
+.cargos-grid-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+
+  .grid {
+    height: calc(100% - 1px);
+    width: calc(100% - 1px);
+  }
+}
+
+ag-grid-angular {
+  font-size: 11px;
+}

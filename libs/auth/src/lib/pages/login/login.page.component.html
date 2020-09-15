@@ -1,0 +1,68 @@
+<div fxLayout fxLayoutAlign="center center">
+  <ng-template
+    tdLoading
+    [tdLoadingUntil]="!(loading$ | async)"
+    tdLoadingStrategy="overlay"
+  >
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Acceso al sistema</mat-card-title>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+
+      <div
+        fxLayout="column"
+        fxLayoutGap="10px"
+        [formGroup]="form"
+        class="form-panel"
+      >
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Usuario"
+            autocomplete="off"
+            formControlName="username"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Passwor"
+            autocomplete="off"
+            type="password"
+            formControlName="password"
+          />
+        </mat-form-field>
+      </div>
+      <td-message
+        label="{{ error.statusText }} Status: ({{ error.status }}) "
+        sublabel="{{ error.message }}"
+        color="warn"
+        icon="error"
+        *ngIf="error$ | async as error"
+      >
+      </td-message>
+
+      <mat-card-actions>
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="form.invalid"
+          (click)="login()"
+        >
+          <mat-icon>power_settings_new</mat-icon> Accesar
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </ng-template>
+</div>
+<!-- <div>
+  <pre *ngIf="error$ | async as error">
+          <span>{{error.status}} </span>
+          <span>{{error.statusText}} </span>
+          <span>{{error.name}} </span>
+          <span>{{error.message}} </span>
+          <span>{{error.error | json }} </span>
+
+        </pre>
+</div> -->

@@ -1,7 +1,9 @@
 import { Cliente } from '../core/cliente';
-import { Cfdi } from '../core';
+import { Cfdi, Autorizacion } from '../core';
 import { CuentaPorCobrar } from './cuenta-por-cobrar';
 import { CuentaPorCobrarDTO } from '../dtos';
+import { Cobro } from './cobro';
+import { Devolucion } from '../inventario';
 
 export interface NotaDeCredito {
   id: string;
@@ -30,9 +32,9 @@ export interface NotaDeCredito {
   descuento: number;
   descuento2: number;
   financiero: boolean;
-  cobro?: { id: string };
-  rmd?: number;
-  rmdSucursal?: string;
+  cobro?: Partial<Cobro>;
+  aplicado?: number;
+  disponible?: number;
   sinReferencia?: boolean;
 
   cfdi?: Partial<Cfdi>;
@@ -45,6 +47,15 @@ export interface NotaDeCredito {
   cancelacion?: string;
   cancelacionMotivo?: string;
   cancelacionUsuario?: string;
+
+  autorizo?: string;
+  autorizoFecha?: string;
+  devolucion?: Partial<Devolucion>;
+
+  autorizacion?: Autorizacion;
+  solicitud?: string;
+  solicitudUser?: string;
+  solicitudToken?: string;
 }
 
 export interface NotaDeCreditoDet {

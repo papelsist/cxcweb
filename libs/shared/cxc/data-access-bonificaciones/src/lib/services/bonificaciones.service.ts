@@ -59,4 +59,40 @@ export class BonificacionesService {
       .put<BonificacionesEntity>(url, update.changes)
       .pipe(catchError((error: any) => throwError(error)));
   }
+
+  timbrar(bonificacion: Partial<BonificacionesEntity>) {
+    const url = `${this.apiUrl}/timbrar/${bonificacion.id}`;
+    return this.http
+      .put<BonificacionesEntity>(url, {})
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  aplicar(bonificacion: Partial<BonificacionesEntity>) {
+    const url = `${this.apiUrl}/aplicar/${bonificacion.id}`;
+    return this.http
+      .put<BonificacionesEntity>(url, {})
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+  solicitarAutorizacion(bonificacion: Partial<BonificacionesEntity>) {
+    const url = `${this.apiUrl}/solicitarAutorizacion/${bonificacion.id}`;
+    return this.http
+      .put<BonificacionesEntity>(url, {})
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  cancelar(bonificacion: Partial<BonificacionesEntity>, motivo: string) {
+    const url = `${this.apiUrl}/cancelar/${bonificacion.id}`;
+    const params = new HttpParams().set('motivo', motivo);
+    return this.http.put<BonificacionesEntity>(url, {}, { params }).pipe(
+      delay(2000),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  delete(bonificacion: Partial<BonificacionesEntity>) {
+    const url = `${this.apiUrl}/${bonificacion.id}`;
+    return this.http
+      .delete<BonificacionesEntity>(url, {})
+      .pipe(catchError((error: any) => throwError(error)));
+  }
 }

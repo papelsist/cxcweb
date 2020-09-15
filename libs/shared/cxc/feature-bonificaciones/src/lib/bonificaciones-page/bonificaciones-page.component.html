@@ -1,7 +1,7 @@
 <mat-card *ngIf="cartera$ | async as cartera">
   <div class="push-left push-right" fxLayout="row" fxLayoutAlign="start center">
     <span fxLayout fxLayoutAlign="start center">
-      <span class="mat-title">Notas de crédito por bonificación </span>
+      <span class="mat-title">Bonificaciones </span>
       <span class="sub-title">(Cartera: {{ cartera.descripcion }})</span>
     </span>
     <span fxFlex></span>
@@ -35,30 +35,25 @@
         <mat-icon>refresh</mat-icon>
         <span>Refrescar</span>
       </button>
-      <!-- <button
-        mat-menu-item
-        [disabled]="getDisponiblesParaEnvio().length === 0"
-        (click)="enviarPorCorreo(getDisponiblesParaEnvio())"
-      >
-        <mat-icon>email</mat-icon>
-        <span>Envia por correo</span>
-      </button> -->
+      <nx-papelsa-cfdi-email-bulk
+        [facturas]="disponibles$ | async"
+        (done)="grid.clearSelection()"
+      ></nx-papelsa-cfdi-email-bulk>
     </mat-menu>
   </div>
-
+  <ng-template
+    tdLoading
+    [tdLoadingUntil]="!(loading$ | async)"
+    tdLoadingStrategy="overlay"
+  >
+  </ng-template>
   <nx-papelsa-cxc-bonificaciones-grid
+    #grid
     class="creditos-grid"
     [rows]="bonificaciones$ | async"
     [searchTerm]="facade.search$ | async"
     (drillDown)="onDrillDown($event, cartera)"
+    (selectionChange)="onSelection($event)"
   >
   </nx-papelsa-cxc-bonificaciones-grid>
-
-  <!-- <nx-papelsa-cxc-cargos-grid
-    class="cargos-grid"
-    [rows]="cargos$ | async"
-    (drillDown)="onDrilldown($event)"
-    (selectionChange)="onSelection($event)"
-    [searchTerm]="filter$ | async"
-  ></nx-papelsa-cxc-cargos-grid> -->
 </mat-card>

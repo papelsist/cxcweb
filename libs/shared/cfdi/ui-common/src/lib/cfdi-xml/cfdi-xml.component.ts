@@ -12,25 +12,25 @@ import { Cfdi } from '@nx-papelsa/shared/utils/core-models';
   template: `
     <ng-container *ngIf="type === 'raised'">
       <button mat-raised-button type="button" (click)="mostrarXml()">
-        <mat-icon>dvr</mat-icon> Ver XML
+        <mat-icon>dvr</mat-icon> {{ title }}
       </button>
     </ng-container>
 
     <ng-container *ngIf="type === 'flat'">
       <button mat-flat-button type="button" (click)="mostrarXml()">
-        <mat-icon>dvr</mat-icon> Ver XML
+        <mat-icon>dvr</mat-icon> {{ title }}
       </button>
     </ng-container>
 
     <ng-container *ngIf="type === 'stroked'">
       <button mat-stroked-button type="button" (click)="mostrarXml()">
-        <mat-icon>dvr</mat-icon> Ver XML
+        <mat-icon>dvr</mat-icon> {{ title }}
       </button>
     </ng-container>
 
     <ng-container *ngIf="type === 'default'">
       <button mat-button type="button" (click)="mostrarXml()">
-        <mat-icon>dvr</mat-icon> Ver XML
+        <mat-icon>dvr</mat-icon> {{ title }}
       </button>
     </ng-container>
   `,
@@ -41,6 +41,7 @@ export class CfdiXmlComponent implements OnInit {
   @Input() cfdi: Partial<Cfdi>;
   @Input() color = 'default';
   @Input() type: 'raised' | 'flat' | 'stroked' | 'default' = 'default';
+  @Input() title = 'XML (CFDI)';
 
   constructor(private service: CfdiService) {}
 

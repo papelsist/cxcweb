@@ -1,33 +1,89 @@
-<div class="bonificacion-container">
-  <nx-papelsa-bonificacion-form
-    #form
-    *ngIf="bonificacion$ | async as bonificacion"
-    [bonificacion]="bonificacion"
-    (update)="onUpdate($event)"
-  >
-    <ng-container *ngIf="bonificacion.cfdi && !bonificacion.cancelacion">
-      <nx-papelsa-cfdi-pdf [cfdi]="bonificacion.cfdi"></nx-papelsa-cfdi-pdf>
-      <nx-papelsa-cfdi-xml [cfdi]="bonificacion.cfdi"></nx-papelsa-cfdi-xml>
-      <nx-papelsa-cfdi-email
-        [cfdi]="bonificacion.cfdi"
-        [target]="bonificacion.cliente.cfdiMail"
-      ></nx-papelsa-cfdi-email>
-      <nx-papelsa-cfdi-cancelar
-        [cfdi]="bonificacion.cfdi"
-        (cancelar)="onCancelar(bonificacion, $event)"
-      ></nx-papelsa-cfdi-cancelar>
-    </ng-container>
+<ng-template
+  tdLoading
+  [tdLoadingUntil]="!(loading$ | async)"
+  tdLoadingStrategy="overlay"
+>
+  <div class="bonificacion-container">
+    <nx-papelsa-bonificacion-form
+      #form
+      *ngIf="bonificacion$ | async as bonificacion"
+      [bonificacion]="bonificacion"
+      (update)="onUpdate($event)"
+    >
+      <ng-container *ngIf="bonificacion.cfdi && !bonificacion.cancelacion">
+        <nx-papelsa-cfdi-pdf [cfdi]="bonificacion.cfdi"></nx-papelsa-cfdi-pdf>
+        <nx-papelsa-cfdi-xml [cfdi]="bonificacion.cfdi"></nx-papelsa-cfdi-xml>
+        <nx-papelsa-cfdi-email
+          [cfdi]="bonificacion.cfdi"
+          [target]="bonificacion.cliente.cfdiMail"
+        ></nx-papelsa-cfdi-email>
+        <nx-papelsa-cfdi-cancelar
+          [cfdi]="bonificacion.cfdi"
+          (cancelar)="onCancelar(bonificacion, $event)"
+        ></nx-papelsa-cfdi-cancelar>
+        <button
+          mat-button
+          *ngIf="bonificacion.disponible > 0"
+          matTooltip="Aplicación automática a las facturas de los conceptos"
+          (click)="onAplicar(bonificacion)"
+        >
+          <mat-icon>grading</mat-icon>
+          <span>Aplicar</span>
+        </button>
+      </ng-container>
 
-    <ng-container *ngIf="!bonificacion.cfdi">
-      <nx-papelsa-cfdi-timbrar
-        color="accent"
-        (timbrar)="onTimbrar(bonificacion)"
-        [disabled]="form.isDirty()"
-      ></nx-papelsa-cfdi-timbrar>
-      <nx-papelsa-delete-entity
-        [entity]="bonificacion"
-        (delete)="onDelete($event)"
-      ></nx-papelsa-delete-entity>
-    </ng-container>
-  </nx-papelsa-bonificacion-form>
-</div>
+      <ng-container *ngIf="!bonificacion.cfdi">
+        <button
+          mat-button
+          (click)="solicitarAutorizacion(bonificacion)"
+          *ngIf="requiereAutorizacion(bonificacion)"
+        >
+          <mat-icon>verified_user</mat-icon>
+          <span>Solicitar autorización</span>
+        </button>
+        <nx-papelsa-autorizacion
+          *ngIf="
+            bonificacion.total > 0 &&
+            bonificacion.solicitud &&
+            roleDeAutorizacion
+          "
+          toolTip="Autorizar la bonificacion"
+          descripcion="Autorizar Nota de crédito por bonificación"
+          (autorizacion)="onAutorizar($event, bonificacion)"
+          [disabled]="bonificacion.autorizacion"
+        >
+        </nx-papelsa-autorizacion>
+        <nx-papelsa-cfdi-timbrar
+          *ngIf="bonificacion.total > 0.0 && roleDeTimbrar"
+          color="accent"
+          (timbrar)="onTimbrar(bonificacion)"
+          [disabled]="form.isDirty() || !bonificacion.autorizacion"
+        ></nx-papelsa-cfdi-timbrar>
+        <nx-papelsa-delete-entity
+          [entity]="bonificacion"
+          title="Eliminar bonificación"
+          message="Folio: {{ bonificacion.folio }}"
+          (delete)="onDelete(bonificacion)"
+          disabled="bonificacion.autorizacion"
+        ></nx-papelsa-delete-entity>
+      </ng-container>
+
+      <nx-papelsa-cfdi-cancel-xml
+        [cfdi]="bonificacion.cfdi"
+        *ngIf="bonificacion.cancelacion"
+      ></nx-papelsa-cfdi-cancel-xml>
+
+      <div
+        fxFlex
+        fxLayout
+        fxLayoutAlign="center center"
+        fxLayoutGap="10px"
+        *ngIf="bonificacion.solicitud && !bonificacion.autorizacion"
+      >
+        <mat-icon color="accent">report_problem</mat-icon>
+        <span> Autorización pendiente desde :</span>
+        <span>{{ bonificacion.solicitud | date: 'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+    </nx-papelsa-bonificacion-form>
+  </div>
+</ng-template>

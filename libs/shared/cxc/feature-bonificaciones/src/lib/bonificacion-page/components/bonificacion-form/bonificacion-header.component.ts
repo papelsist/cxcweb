@@ -35,7 +35,6 @@ import { NotaDeCredito } from '@nx-papelsa/shared/utils/core-models';
       <div class="mat-title">
         <span>Fecha: {{ bonificacion.fecha | date: 'dd/MM/yyyy' }}</span>
       </div>
-      mat-dvider
     </div>
   `,
   styles: [

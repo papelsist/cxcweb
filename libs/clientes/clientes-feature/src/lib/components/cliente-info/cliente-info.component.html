@@ -1,0 +1,67 @@
+<mat-accordion class="example-headers-align">
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Datos Generales
+      </mat-panel-title>
+      <mat-panel-description>
+        <span></span>
+        <mat-icon>account_circle</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-form-field>
+      <mat-label>Clave</mat-label>
+      <input matInput [value]="cliente.clave" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>RFC</mat-label>
+      <input matInput [value]="cliente.rfc" />
+    </mat-form-field>
+    <mat-checkbox [checked]="cliente.activo">
+      Activo
+    </mat-checkbox>
+  </mat-expansion-panel>
+  <mat-expansion-panel [disabled]="!cliente.credito">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Crédito
+      </mat-panel-title>
+      <mat-panel-description>
+        <span></span>
+        <mat-icon>map</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div fxFlex fxLayout fxLayoutAlign="start center" fxLayoutGap="5px">
+      <mat-form-field>
+        <mat-label>RFC</mat-label>
+        <input matInput [value]="cliente.rfc" />
+      </mat-form-field>
+    </div>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Medios de contacto
+      </mat-panel-title>
+      <mat-panel-description>
+        Telefonos y contactos
+        <mat-icon>date_range</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-form-field>
+      <mat-label>Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        (focus)="picker.open()"
+        readonly
+      />
+    </mat-form-field>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-expansion-panel>
+</mat-accordion>

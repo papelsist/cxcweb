@@ -13,11 +13,11 @@ import { AppStoreModule } from './+store/app-store.module';
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    BrowserModule,
     BrowserAnimationsModule,
+    BrowserModule,
     AppStoreModule,
-    CoreModule,
     AppRoutingModule,
+    CoreModule,
   ],
   providers: [{ provide: 'apiUrl', useValue: environment.apiUrl }],
   bootstrap: [AppComponent],

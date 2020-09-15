@@ -9,12 +9,17 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 // Refactor - Valid from here
 import { SxcoreModule } from '@nx-papelsa/shared/sxcore';
 import { DataAccesModule } from '@nx-papelsa/shared/cxc/data-acces';
+import { AuthModule } from '@nx-papelsa/auth';
+import { DataAccessClientesModule } from '@nx-papelsa/shared/clientes/data-access-clientes';
+// import { ClientesFeatureModule } from '@nx-papelsa/clientes/clientes-feature';
 
 @NgModule({
   declarations: [MainPageComponent, ToolbarComponent],
@@ -26,9 +31,13 @@ import { DataAccesModule } from '@nx-papelsa/shared/cxc/data-acces';
     MatButtonModule,
     MatIconModule,
     MatListModule,
+    MatMenuModule,
     FlexLayoutModule,
     SxcoreModule,
     DataAccesModule,
+    DataAccessClientesModule,
+    // ClientesFeatureModule.forRoot(),
+    AuthModule,
   ],
   exports: [
     MainPageComponent,

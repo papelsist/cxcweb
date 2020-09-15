@@ -1,0 +1,93 @@
+<mat-card>
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <span fxLayout fxLayoutAlign="start center">
+      <span class="mat-title">Facturas a revisión y cobro </span>
+    </span>
+    <span
+      >(Actualizado al:{{
+        ultimaActualizacion$ | async | date: 'dd/MM/yyyy: HH:mm'
+      }})</span
+    >
+    <span fxFlex></span>
+
+    <td-search-box
+      placeholder="Filtrar"
+      (searchDebounce)="filter($event)"
+      [value]="facade.search$ | async"
+      fxFlex
+    ></td-search-box>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="reload()">
+        <mat-icon>refresh</mat-icon>
+        <span>Refrescar</span>
+      </button>
+
+      <button mat-menu-item (click)="actualizar()">
+        <mat-icon>swap_vert</mat-icon> Actualizar
+      </button>
+      <button mat-menu-item (click)="reporte()">
+        <mat-icon>picture_as_pdf</mat-icon> Reporte
+      </button>
+
+      <button
+        mat-menu-item
+        *ngIf="porRecibir$ | async as selected"
+        (click)="recepcion(selected)"
+        [disabled]="selected.length === 0"
+      >
+        <mat-icon>event_available</mat-icon> Recepción SUC
+      </button>
+      <button
+        mat-menu-item
+        *ngIf="recibidasCancelables$ | async as recibidas"
+        (click)="cancelarRecepcion(recibidas)"
+        [disabled]="recibidas.length === 0"
+      >
+        <mat-icon>event_busy</mat-icon> Cancelar Recepción
+      </button>
+      <button
+        mat-menu-item
+        (click)="revisada(selected, true)"
+        *ngIf="porRevisar$ | async as selected"
+        [disabled]="selected.length === 0"
+      >
+        <mat-icon>check_circle</mat-icon> Revisada
+      </button>
+      <button
+        mat-menu-item
+        (click)="revisada(selected, false)"
+        *ngIf="revisadas$ | async as selected"
+        [disabled]="selected.length === 0"
+      >
+        <mat-icon>cancel</mat-icon> Cancelar revisada
+      </button>
+      <button
+        mat-menu-item
+        (click)="edit(selected)"
+        *ngIf="selectedRevisiones$ | async as selected"
+      >
+        <mat-icon>edit</mat-icon> Modificar
+      </button>
+    </mat-menu>
+  </div>
+  <ng-template
+    tdLoading
+    [tdLoadingUntil]="!(loading$ | async)"
+    tdLoadingStrategy="overlay"
+  >
+  </ng-template>
+  <nx-papelsa-cxc-revision-grid
+    #grid
+    class="grid-panel"
+    [rows]="ventas$ | async"
+    [searchTerm]="facade.search$ | async"
+    (drillDown)="onDrillDown($event)"
+    (selectionChange)="onSelection($event)"
+    [selectedRows]="selected$ | async"
+  ></nx-papelsa-cxc-revision-grid>
+</mat-card>

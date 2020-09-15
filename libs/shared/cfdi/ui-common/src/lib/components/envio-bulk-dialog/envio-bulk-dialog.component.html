@@ -1,0 +1,70 @@
+<div mat-dialog-title>
+  Envío de Comprobantes fiscales (CFDIs)
+</div>
+<mat-accordion class="example-headers-align">
+  <mat-expansion-panel *ngFor="let grupo of grupos" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ grupo.nombre }}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ grupo.target }}
+
+        <span>
+          Facturas: <strong>{{ grupo.cfdis.length }}</strong>
+        </span>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div
+      fxLayout="column"
+      fxFlexAlign="center center"
+      fxFlex
+      fxLayoutGap="10px"
+    >
+      <div
+        fxFlex
+        fxLayout
+        fxLayoutAlign="center center"
+        *ngFor="let cfdi of grupo.cfdis"
+      >
+        <span fxFlex>Serie: {{ cfdi.serie }}</span>
+        <span fxFlex>Folio: {{ cfdi.folio }}</span>
+        <span fxFlex>Total: {{ cfdi.total | currency }}</span>
+      </div>
+      <div fxFlex fxLayout fxLayoutGap="5px">
+        <mat-form-field fxFlex>
+          <mat-label>Email destino</mat-label>
+          <input
+            matInput
+            name="target"
+            email
+            [ngModel]="grupo.target"
+            [ngModelOptions]="{ standalone: true }"
+            #target="ngModel"
+            required
+          />
+          <mat-error *ngIf="target.invalid">
+            La dirección de envio no es válida
+          </mat-error>
+        </mat-form-field>
+        <mat-checkbox [(ngModel)]="grupo.zip">
+          Comprimir archivos
+        </mat-checkbox>
+        <button
+          mat-button
+          color="primary"
+          (click)="grupo.target = target.value"
+          [disabled]="target.disabled || target.invalid"
+        >
+          Cambira
+        </button>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]>Cancelar</button>
+  <button mat-button color="primary" (click)="onSubmit()">Enviar</button>
+</mat-dialog-actions>

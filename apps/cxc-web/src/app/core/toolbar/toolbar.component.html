@@ -3,20 +3,63 @@
     <mat-icon>menu</mat-icon>
   </button>
   <div>
-    <h1 class="title">CxC App</h1>
+    <h1 class="title">SIIPAPX CxC</h1>
   </div>
   <span fxFlex></span>
-  <div class="actions" fxHide.lt-md fxLayoutGap="10px" fxLayoutGap.lt-md="2px">
-    <a href="/credito" mat-button>
-      <mat-icon>dynamic_feed</mat-icon>
-      <span>Crédito</span>
-    </a>
-    <a href="#" mat-button>Contado</a>
-    <a href="#" mat-button>Mostrador</a>
-    <a href="#" mat-button>Cheques</a>
-    <a href="#" mat-button>Jurídico</a>
-  </div>
-  <button mat-icon-button>
-    <mat-icon>settings</mat-icon>
-  </button>
+  <ng-container *ngIf="isLoggedIn$ | async">
+    <div
+      class="actions"
+      fxHide.lt-md
+      fxLayoutGap="10px"
+      fxLayoutGap.lt-md="2px"
+    >
+      <a
+        mat-button
+        [routerLink]="'/clientes'"
+        routerLinkActive="router-link-active"
+      >
+        <mat-icon>people</mat-icon>
+        <span>Clientes</span>
+      </a>
+      <a
+        mat-button
+        [routerLink]="'/credito'"
+        routerLinkActive="router-link-active"
+      >
+        <mat-icon>dynamic_feed</mat-icon>
+        <span>Crédito</span>
+      </a>
+      <a href="#" mat-button>Contado</a>
+      <a href="#" mat-button>Mostrador</a>
+      <a href="#" mat-button>Cheques</a>
+      <a href="#" mat-button>Jurídico</a>
+    </div>
+    <button
+      mat-button
+      [matMenuTriggerFor]="menu"
+      *ngIf="displayName$ | async as name"
+    >
+      <mat-icon>person</mat-icon>
+      <span>{{ name }}</span>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item disabled>
+        <mat-icon>settings</mat-icon>
+        <span>Cuenta</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>notifications</mat-icon>
+        <span>Notificaciones</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>mail</mat-icon>
+        <span>Mensajes</span>
+      </button>
+
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Salir</span>
+      </button>
+    </mat-menu>
+  </ng-container>
 </mat-toolbar>

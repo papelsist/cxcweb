@@ -84,6 +84,7 @@
           <span>Actualizar</span>
         </button>
         <nx-papelsa-cfdi-timbrar
+          *ngIf="cargo.total > 0.0"
           color="accent"
           (timbrar)="onTimbrar(cargo)"
           [disabled]="form.form.dirty"

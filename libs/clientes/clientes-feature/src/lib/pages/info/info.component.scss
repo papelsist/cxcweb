@@ -1,0 +1,15 @@
+.info-container {
+  // flex: 1 1 auto;
+  display: grid;
+  //align-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 10px;
+
+  width: 100%;
+  padding: 10px;
+  // For debug
+}
+
+.mat-list-item {
+  height: 1rem;
+}

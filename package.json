@@ -26,7 +26,9 @@
     "help": "nx help",
     "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
     "build:stats": "nx build --statsJson",
-    "analyze": "webpack-bundle-analyzer dist/apps/cxc-web/stats-es2015.json"
+    "analyze": "webpack-bundle-analyzer dist/apps/cxc-web/stats-es2015.json",
+    "cxc-server": "http-server dist/apps/cxc-web -c-1 -p 8080",
+    "api-dev": "./sxcxc-api/gradlew bootRun"
   },
   "private": true,
   "dependencies": {
@@ -42,20 +44,21 @@
     "@angular/platform-browser": "^9.1.0",
     "@angular/platform-browser-dynamic": "^9.1.0",
     "@angular/router": "^9.1.0",
+    "@auth0/angular-jwt": "^5.0.1",
     "@covalent/core": "^3.0.1",
+    "@ngrx/effects": "9.1.0",
+    "@ngrx/entity": "9.1.0",
+    "@ngrx/router-store": "9.1.0",
+    "@ngrx/store": "9.1.0",
     "ag-grid-angular": "^23.2.1",
     "ag-grid-community": "^23.2.1",
     "lodash": "^4.17.15",
     "moment": "^2.27.0",
     "rxjs": "~6.5.4",
-    "zone.js": "^0.10.2",
-    "@ngrx/store": "9.1.0",
-    "@ngrx/effects": "9.1.0",
-    "@ngrx/entity": "9.1.0",
-    "@ngrx/router-store": "9.1.0"
+    "zone.js": "^0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "0.901.0",
+    "@angular-devkit/build-angular": "0.900.7",
     "@angular/compiler-cli": "^9.1.0",
     "@angular/language-service": "^9.1.0",
     "@nrwl/angular": "^9.5.0",

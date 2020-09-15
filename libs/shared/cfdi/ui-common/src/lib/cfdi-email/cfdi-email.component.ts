@@ -14,6 +14,7 @@ import { Cfdi } from '@nx-papelsa/shared/utils/core-models';
 import { CfdiUiService } from '../services/cfdi-ui.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CfdiEnvioDialogComponent } from '../components';
+import { TdDialogService } from '@covalent/core/dialogs';
 
 @Component({
   selector: 'nx-papelsa-cfdi-email',
@@ -28,6 +29,7 @@ import { CfdiEnvioDialogComponent } from '../components';
 })
 export class CfdiEmailComponent implements OnInit {
   @Input() cfdi: Partial<Cfdi>;
+  @Input() nombre: string;
   @Input() target: string;
   @Input() color = 'primary';
   loading = false;
@@ -36,15 +38,19 @@ export class CfdiEmailComponent implements OnInit {
     private service: CfdiService,
     private loadingService: TdLoadingService,
     private cfdiUiService: CfdiUiService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private dialogSerice: TdDialogService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (!this.nombre) this.nombre = this.cfdi.receptor;
+  }
 
   send() {
+    console.log('Enviando: ', this.cfdi);
     this.dialog
       .open(CfdiEnvioDialogComponent, {
-        data: { email: this.target },
+        data: { email: this.target, nombre: this.nombre || this.cfdi.receptor },
         width: '450px',
       })
       .afterClosed()
@@ -59,10 +65,16 @@ export class CfdiEmailComponent implements OnInit {
   private doSend(cfdi: Partial<Cfdi>, target: string) {
     this.loadingService.register();
     this.service
-      .enviar(cfdi, target)
+      .enviar(cfdi, target, this.nombre)
       .pipe(finalize(() => this.loadingService.resolve()))
       .subscribe(
-        (res) => {},
+        (res) => {
+          this.dialogSerice.openAlert({
+            title: 'Envio de Comprobantes',
+            message: 'Comprobantes enviados correctamente',
+            closeButton: 'Cerrar',
+          });
+        },
         (error) => console.error(error)
       );
   }

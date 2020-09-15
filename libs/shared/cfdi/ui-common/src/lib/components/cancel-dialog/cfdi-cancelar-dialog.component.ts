@@ -8,12 +8,21 @@ import { FormControl, Validators } from '@angular/forms';
     <div mat-dialog-title>
       Cancelación de CFDI
     </div>
+    <!-- <div>
+      <p>¿Seguro que desea cancelar el comprobante fiscal?</p>
+    </div> -->
+    <td-message
+      color="warn"
+      icon="error"
+      label="¿Seguro que desea cancelar el comprobante"
+      sublabel="La operación es Irreversible"
+    ></td-message>
     <mat-dialog-content>
       <mat-form-field [style.width.%]="100">
         <mat-label>Motivo:</mat-label>
         <input
           matInput
-          placeholder="Digite el motivo de la cancelación"
+          placeholder="Motivo de la cancelación"
           [formControl]="control"
         />
         <mat-error>Digite un motivo mínimo 10 caracteres</mat-error>

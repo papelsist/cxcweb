@@ -10,6 +10,11 @@ import {
   loadBonificaciones,
   saveBonificacion,
   updateBonificacion,
+  timbrarBonificacion,
+  cancelarBonificacion,
+  deleteBonificacion,
+  aplicar,
+  solicitarAutorizacion,
 } from './bonificaciones.actions';
 
 import {
@@ -85,5 +90,27 @@ export class BonificacionesFacade {
       'edit',
       nota.id,
     ]);
+  }
+
+  timbrar(nota: Partial<NotaDeCredito>) {
+    console.log('Timbrando Nota de bonificación');
+    this.dispatch(timbrarBonificacion({ bonificacion: nota }));
+  }
+
+  cancelar(bonificacion: Partial<NotaDeCredito>, motivo: string) {
+    console.log('Cancelando Bonificacion: ', bonificacion.id);
+    this.dispatch(cancelarBonificacion({ bonificacion, motivo }));
+  }
+
+  delete(bonificacion: Partial<NotaDeCredito>) {
+    this.dispatch(deleteBonificacion({ bonificacion }));
+  }
+
+  aplicar(bonificacion: Partial<NotaDeCredito>) {
+    this.dispatch(aplicar({ bonificacion }));
+  }
+
+  solicitarAutorizacion(bonificacion: Partial<NotaDeCredito>) {
+    this.dispatch(solicitarAutorizacion({ bonificacion }));
   }
 }

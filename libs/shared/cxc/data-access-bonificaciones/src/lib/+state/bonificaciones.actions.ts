@@ -1,10 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { BonificacionesEntity } from './bonificaciones.models';
-import {
-  Periodo,
-  Cartera,
-  NotaDeCredito,
-} from '@nx-papelsa/shared/utils/core-models';
+import { Periodo, NotaDeCredito } from '@nx-papelsa/shared/utils/core-models';
 import { Update } from '@ngrx/entity';
 
 export const loadBonificaciones = createAction(
@@ -64,5 +60,70 @@ export const updateBonificacionFail = createAction(
 );
 export const updateBonificacionSuccess = createAction(
   '[Bonificaciones Effecs] Update bonificacion success',
+  props<{ bonificacion: BonificacionesEntity }>()
+);
+
+export const timbrarBonificacion = createAction(
+  '[Bonificacion Component] Timbrar bonificacion',
+  props<{ bonificacion: Partial<BonificacionesEntity> }>()
+);
+export const timbrarBonificacionFail = createAction(
+  '[Bonificaciones effects] Timbrar bonificacion fail',
+  props<{ error: any }>()
+);
+export const timbrarBonificacionSuccess = createAction(
+  '[Bonificaciones effects] Timbrar bonificacion success',
+  props<{ bonificacion: BonificacionesEntity }>()
+);
+
+export const cancelarBonificacion = createAction(
+  '[Bonificacion Component] Cancelar bonificacion',
+  props<{ bonificacion: Partial<BonificacionesEntity>; motivo: string }>()
+);
+export const cancelarBonificacionFail = createAction(
+  '[Bonificaciones effects] Cancelar bonificacion fail',
+  props<{ error: any }>()
+);
+export const cancelarBonificacionSuccess = createAction(
+  '[Bonificaciones effects] Cancelar bonificacion success',
+  props<{ bonificacion: BonificacionesEntity }>()
+);
+
+export const deleteBonificacion = createAction(
+  '[Bonificacion Component] Delete bonificacion',
+  props<{ bonificacion: Partial<BonificacionesEntity> }>()
+);
+export const deleteBonificacionFail = createAction(
+  '[Bonificaciones effects] Delete bonificacion fail',
+  props<{ error: any }>()
+);
+export const deleteBonificacionSuccess = createAction(
+  '[Bonificaciones effects] Delete bonificacion success',
+  props<{ bonificacion: Partial<BonificacionesEntity> }>()
+);
+
+export const aplicar = createAction(
+  '[Bonificacion Component] Aplicar bonificacion',
+  props<{ bonificacion: Partial<BonificacionesEntity> }>()
+);
+export const aplicarFail = createAction(
+  '[Bonificaciones effects] Aplicar bonificacion fail',
+  props<{ error: any }>()
+);
+export const aplicarSuccess = createAction(
+  '[Bonificaciones effects] Aplicar bonificacion success',
+  props<{ bonificacion: BonificacionesEntity }>()
+);
+
+export const solicitarAutorizacion = createAction(
+  '[Bonificacion Component] Solicitar autorizacion bonificacion',
+  props<{ bonificacion: Partial<BonificacionesEntity> }>()
+);
+export const solicitarAutorizacionFail = createAction(
+  '[Bonificaciones effects] Solicitar autorizacion bonificacion fail',
+  props<{ error: any }>()
+);
+export const solicitarAutorizacionSuccess = createAction(
+  '[Bonificaciones effects] Solicitar autorizacion bonificacion success',
   props<{ bonificacion: BonificacionesEntity }>()
 );

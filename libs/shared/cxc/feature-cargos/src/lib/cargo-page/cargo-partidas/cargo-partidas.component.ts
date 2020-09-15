@@ -30,9 +30,8 @@ export class CargoPartidasComponent extends BaseGridComponent
   @Output() doubleClick = new EventEmitter();
   @Input() columns: ITdDataTableColumn[] = [
     { name: 'renglon', label: 'Rgl', width: 50 },
-    { name: 'sucursal', label: 'Sucursal', width: 80 },
-    { name: 'documento', label: 'Sucursal', width: 80 },
-    { name: 'documentoTipo', label: 'Tipo', width: 80 },
+    { name: 'sucursal', label: 'Sucursal', width: 100 },
+    { name: 'documento', label: 'Docto', width: 110 },
     {
       name: 'uuid',
       label: 'UUID',
@@ -57,7 +56,12 @@ export class CargoPartidasComponent extends BaseGridComponent
       width: 100,
       format: (value) => this.formatCurrency(value),
     },
-    { name: 'cargo', label: 'Cargo', width: 100 },
+    {
+      name: 'cargo',
+      label: 'Cargo',
+      width: 100,
+      format: (value) => this.formatPercent(value),
+    },
     {
       name: 'importe',
       label: 'Importe',

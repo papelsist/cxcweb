@@ -196,6 +196,7 @@ export class CargoEditFormComponent implements OnInit, OnDestroy {
   onDeletePartida(rowData: { index: number; data: any }) {
     const control = this.getPartidas().removeAt(rowData.index);
     this.recalcular();
+    this.form.markAsDirty();
   }
 
   getCargoControl() {

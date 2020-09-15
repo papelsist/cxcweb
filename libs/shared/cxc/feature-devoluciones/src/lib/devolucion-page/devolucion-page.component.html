@@ -1,73 +1,73 @@
-<mat-card *ngIf="devolucion$ | async as rmd">
-  <div class="header">
-    <section class="rmd" fxLayout fxLayoutGap="10px">
-      <span
-        >RMD: <strong>{{ rmd.documento }}</strong></span
-      >
-      <span>{{ rmd.nombre }}</span>
-      <span>Sucursal {{ rmd.sucursal.nombre }}</span>
-      <span>Fecha: {{ rmd.fecha | date: 'dd/MM/yyyy' }}</span>
-    </section>
-
-    <section class="venta">
-      <span>Venta: {{ rmd.venta.folio }}</span>
-      <span class="factura">
-        Factura: {{ rmd.venta.cuentaPorCobrar.cfdi.serie }}-{{
-          rmd.venta.cuentaPorCobrar.cfdi.folio
-        }}
-      </span>
-      <span>Moneda: {{ rmd.venta.moneda }}</span>
-      <span> Total Facturado: {{ rmd.venta.total | currency }}</span>
-
-      <span>UUID: {{ rmd.venta.cuentaPorCobrar.cfdi.uuid }}</span>
-    </section>
-    <section>
-      <span> Tipo de devolución: {{ rmd.parcial ? 'PARCIAL' : 'TOTAL' }} </span>
-      <span>Moneda: {{ rmd.venta.moneda }}</span>
-      <span>Total: {{ rmd.total }}</span>
-    </section>
-
-    <section class="nota-de-credito" *ngIf="rmd.nota as nota">
-      <span>Nota de crédito: </span>
-      <ng-container *ngIf="nota.cfdi as cfdi; else notaPendiente">
-        <span>Serie: {{ cfdi.serie }}</span>
-        <span>Folio: {{ cfdi.folio }}</span>
-        <span>UUID: {{ cfdi.uuid }}</span>
+<ng-template
+  tdLoading
+  [tdLoadingUntil]="!(loading$ | async)"
+  tdLoadingStrategy="overlay"
+>
+  <div class="devolucion-container">
+    <nx-papelsa-devolucion-form
+      #form
+      *ngIf="devolucion$ | async as devolucion"
+      [devolucion]="devolucion"
+      (update)="onUpdate($event)"
+    >
+      <ng-container *ngIf="devolucion.cfdi && !devolucion.cancelacion">
+        <nx-papelsa-cfdi-pdf [cfdi]="devolucion.cfdi"></nx-papelsa-cfdi-pdf>
+        <nx-papelsa-cfdi-xml [cfdi]="devolucion.cfdi"></nx-papelsa-cfdi-xml>
+        <nx-papelsa-cfdi-email
+          [cfdi]="devolucion.cfdi"
+          [target]="devolucion.cliente.cfdiMail"
+        ></nx-papelsa-cfdi-email>
+        <nx-papelsa-cfdi-cancelar
+          [cfdi]="devolucion.cfdi"
+          (cancelar)="onCancelar(devolucion, $event)"
+        ></nx-papelsa-cfdi-cancelar>
+        <button
+          mat-button
+          *ngIf="devolucion.disponible > 0"
+          matTooltip="Aplicación automática a las facturas de los conceptos"
+          (click)="onAplicar(devolucion)"
+        >
+          <mat-icon>grading</mat-icon>
+          <span>Aplicar</span>
+        </button>
       </ng-container>
-      <ng-template #notaPendiente>
-        <strong>PENDIENTE</strong>
-      </ng-template>
-    </section>
-  </div>
 
-  <div class="partidas">
-    <nx-papelsa-rmd-partidas-grid
-      [partidas]="rmd.partidas"
-    ></nx-papelsa-rmd-partidas-grid>
-    <!-- <pre>
-      {{ rmd.partidas | json }}
-    </pre> -->
-  </div>
+      <ng-container *ngIf="!devolucion.cfdi">
+        <!-- <nx-papelsa-autorizacion
+          *ngIf="!devolucion.autorizo"
+          [disabled]="!porAutrizar(devolucion)"
+          descripcion="Bonificación: {{ devolucion.concepto }}"
+          (autorizacion)="onAutorizar($event, devolucion)"
+        >
+        </nx-papelsa-autorizacion> -->
+        <nx-papelsa-cfdi-timbrar
+          *ngIf="devolucion.devolucion && devolucion.total > 0"
+          color="accent"
+          (timbrar)="onTimbrar(devolucion)"
+          [disabled]="form.isDirty()"
+        ></nx-papelsa-cfdi-timbrar>
+        <nx-papelsa-delete-entity
+          [entity]="devolucion"
+          title="Eliminar bonificación"
+          message="Folio: {{ devolucion.folio }}"
+          (delete)="onDelete(devolucion)"
+        ></nx-papelsa-delete-entity>
+      </ng-container>
+      <nx-papelsa-cfdi-cancel-xml
+        [cfdi]="devolucion.cfdi"
+        *ngIf="devolucion.cancelacion"
+      ></nx-papelsa-cfdi-cancel-xml>
 
-  <mat-card-actions>
-    <button mat-button>
-      <mat-icon>arrow_back</mat-icon>
-      <span>Regresar</span>
-    </button>
-    <button mat-button (click)="generarNota(rmd)">
-      Generar Nota
-    </button>
-    <button mat-button>
-      Imprimir
-    </button>
-    <button mat-button>
-      XML
-    </button>
-    <button mat-button>
-      Descargar CFDI
-    </button>
-    <button mat-button>
-      Enviar CFDI
-    </button>
-  </mat-card-actions>
-</mat-card>
+      <div
+        fxFlex
+        fxLayout
+        fxLayoutAlign="end center"
+        fxLayoutGap="5px"
+        *ngIf="devolucion.autorizo"
+      >
+        <mat-icon>verified</mat-icon>
+        <span> Autorizada</span>
+      </div>
+    </nx-papelsa-devolucion-form>
+  </div>
+</ng-template>

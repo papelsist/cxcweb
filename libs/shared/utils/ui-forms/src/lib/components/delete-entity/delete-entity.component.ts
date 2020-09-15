@@ -5,7 +5,12 @@ import { TdDialogService } from '@covalent/core/dialogs';
   selector: 'nx-papelsa-delete-entity',
   template: `
     <ng-container *ngIf="!inline; else inlineButton">
-      <button mat-button (click)="onDelete()" [color]="color">
+      <button
+        mat-button
+        (click)="onDelete()"
+        [color]="color"
+        [disabled]="disabled"
+      >
         <span>{{ label }}</span>
         <mat-icon>delete</mat-icon>
       </button>
@@ -25,6 +30,7 @@ export class DeleteEntityComponent implements OnInit {
   @Input() message = 'Seguro que desea eliminar el registro';
   @Input() inline = false;
   @Input() color = 'warn';
+  @Input() disabled = false;
   @Output() delete = new EventEmitter();
 
   constructor(private dialogService: TdDialogService) {}
@@ -34,8 +40,8 @@ export class DeleteEntityComponent implements OnInit {
   onDelete() {
     this.dialogService
       .openConfirm({
-        title: 'Eliminar registro',
-        message: `Seguro que desea eliminar el registro  ${this.suffix}?`,
+        title: this.title,
+        message: this.message,
         cancelButton: 'Cancelar',
         acceptButton: 'Aceptar',
       })

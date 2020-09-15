@@ -4,7 +4,11 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { CfdiDto, Cfdi } from '@nx-papelsa/shared/utils/core-models';
+import {
+  CfdiDto,
+  Cfdi,
+  GrupoDeCfdis,
+} from '@nx-papelsa/shared/utils/core-models';
 
 @Injectable({
   providedIn: 'root',
@@ -49,11 +53,41 @@ export class CfdiService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  enviar(cfdi: Partial<Cfdi>, target: string): Observable<Cfdi> {
-    const url = `${this.apiUrl}/enviarEmail/${cfdi.id}`;
-    const params = new HttpParams().set('target', target);
+  enviar(cfdi: Partial<CfdiDto>, target: string, nombre: string) {
+    const cfdis = [cfdi];
+    const grupos: GrupoDeCfdis[] = [{ nombre, target, cfdis }];
+    return this.enviarComprobantes(grupos);
+  }
+
+  enviarComprobantes(registros: GrupoDeCfdis[]) {
+    const payload = {
+      grupos: registros.map((r) => {
+        const { target, nombre, zip } = r;
+        const cfdis = r.cfdis.map((item) => item.id);
+        return { target, nombre, zip, cfdis };
+      }),
+    };
+
+    const url = `${this.apiUrl}/enviarComprobantes`;
     return this.http
-      .get<Cfdi>(url, { params })
+      .put(url, payload)
       .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  mostrarCancelacionXml(cfdi: Partial<Cfdi>) {
+    const url = `${this.apiUrl}/mostrarAcuseDeCancelacionXml/${cfdi.id}`;
+    const headers = new HttpHeaders().set('Content-type', 'text/xml');
+    return this.http
+      .get(url, {
+        headers: headers,
+        responseType: 'blob',
+      })
+      .subscribe((res) => {
+        const blob = new Blob([res], {
+          type: 'text/xml',
+        });
+        const fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL, '_blank');
+      });
   }
 }

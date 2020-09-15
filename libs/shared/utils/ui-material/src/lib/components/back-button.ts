@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Location } from '@angular/common';
 
 @Component({
@@ -6,11 +6,12 @@ import { Location } from '@angular/common';
   template: `
     <button mat-button (click)="back()">
       <mat-icon>arrow_back</mat-icon>
-      <span>Regresar</span>
+      <span>{{ title }}</span>
     </button>
   `,
 })
 export class BackButtonComponent implements OnInit {
+  @Input() title = 'Regresar';
   constructor(private location: Location) {}
 
   ngOnInit(): void {}
