@@ -113,8 +113,9 @@ class OriginalUrlMappings {
         "/api/cuentasPorCobrar"(resources: 'cuentaPorCobrar')
         "/api/cuentasPorCobrar/search"(controller:'cuentaPorCobrar', action: 'search', method: 'GET')
         "/api/cuentasPorCobrar/facturas"(controller:'cuentaPorCobrar', action: 'facturas', method: 'GET')
-        "/api/cuentasPorCobrar/antiguedad"(controller: 'cuentaPorCobrar', action: 'antiguedad', method: 'GET')
-        /**  Reportes Antigueadd y CXC **/
+
+        /**  Reportes y consultas Antigueadd y CXC **/
+        "/api/cxc/antiguedad"(controller: 'cuentaPorCobrar', action: 'antiguedad', method: 'GET')
         "/api/cuentasPorCobrar/antiguedad/print"(controller: 'cuentaPorCobrar', action: 'printAntiguedad', method: 'GET')
         "/api/cuentasPorCobrar/antiguedad/reporteDeCobranzaCOD"(controller: 'cuentaPorCobrar', action: 'reporteDeCobranzaCOD', method: 'GET')
         "/api/cuentasPorCobrar/antiguedad/antiguedadPorCliente"(controller: 'cuentaPorCobrar', action: 'antiguedadPorCliente', method: 'GET')
