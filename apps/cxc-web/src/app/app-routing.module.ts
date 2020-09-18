@@ -38,7 +38,7 @@ const routes: Route[] = [
   // },
   {
     path: '',
-    redirectTo: 'analytics',
+    redirectTo: 'credito',
     pathMatch: 'full',
   },
 ];
