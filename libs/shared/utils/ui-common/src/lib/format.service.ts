@@ -1,5 +1,5 @@
 import { Injectable, Inject, LOCALE_ID } from '@angular/core';
-import { formatCurrency, formatDate } from '@angular/common';
+import { formatCurrency, formatDate, formatPercent } from '@angular/common';
 import * as moment from 'moment';
 
 export const AgGridText = {
@@ -67,6 +67,14 @@ export class FormatService {
   formatDate(data: any, format: string = 'dd/MM/yyyy') {
     if (data) {
       return formatDate(data, format, this.locale);
+    } else {
+      return '';
+    }
+  }
+
+  formatPercent(value: any, format: string = '1.2-2') {
+    if (value) {
+      return formatPercent(value, this.locale, format);
     } else {
       return '';
     }
