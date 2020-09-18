@@ -36,7 +36,7 @@ class CobroController extends RestfulController<Cobro>{
 
     @Override
     protected List<Cobro> listAllResources(Map params) {
-      params.max = params.rows?: 500
+      params.max = params.rows?: 1500
       params.sort = params.sort ?:'fecha'
       params.order = params.order ?:'desc'
 

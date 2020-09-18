@@ -48,7 +48,7 @@
   </ng-container>
 
   <ng-container matColumnDef="moneda">
-    <th mat-header-cell *matHeaderCellDef>Mon</th>
+    <th mat-header-cell *matHeaderCellDef>M</th>
     <td mat-cell *matCellDef="let row">{{ row?.cuentaPorCobrar?.moneda }}</td>
     <td mat-footer-cell *matFooterCellDef></td>
   </ng-container>
@@ -87,9 +87,11 @@
 
   <ng-container matColumnDef="importe">
     <th mat-header-cell *matHeaderCellDef>Aplicado</th>
-    <td mat-cell *matCellDef="let req">{{ req.importe | currency }}</td>
+    <td mat-cell *matCellDef="let req">
+      {{ req.importe * req.tipoDeCambio | currency }}
+    </td>
     <td mat-footer-cell *matFooterCellDef="let req">
-      {{ getTotal('importe') | currency }}
+      {{ getTotalAplicado('importe') | currency }}
     </td>
   </ng-container>
 

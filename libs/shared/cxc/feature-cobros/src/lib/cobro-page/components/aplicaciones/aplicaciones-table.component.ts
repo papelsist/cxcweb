@@ -73,6 +73,13 @@ export class AplicacionesTableComponent implements OnInit, OnChanges {
       (item) => item.tipoDeCambio * item.importe
     );
   }
+
+  getTotalAplicado() {
+    return sumByFn(
+      this.dataSource.filteredData,
+      (item) => item.tipoDeCambio * item.importe
+    );
+  }
 }
 
 /**
