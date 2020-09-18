@@ -1,0 +1,22 @@
+.container {
+  flex: 1;
+  height: calc(100% - 20px);
+  // margin: 10px;
+  // border: 1px solid #555;
+  // border-radius: 5px;
+}
+.drawer {
+  width: 255px;
+  // padding: 20px;
+}
+.mat-toolbar {
+  height: 3rem;
+}
+
+.mat-list-item {
+  font-size: 0.9rem;
+  height: 3rem;
+  p {
+    font-size: 0.7rem;
+  }
+}

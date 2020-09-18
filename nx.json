@@ -17,7 +17,12 @@
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e"
+        ]
       }
     }
   },
@@ -27,109 +32,197 @@
     },
     "cxc-web-e2e": {
       "tags": [],
-      "implicitDependencies": ["cxc-web"]
-    },
-    "cxc-feature-cartera": {
-      "tags": ["scope:cxc", "type:feature"]
+      "implicitDependencies": [
+        "cxc-web"
+      ]
     },
     "shared-utils-collections": {
       "tags": []
     },
     "shared-utils-core-models": {
-      "tags": ["scope:shared", "type:utils"]
+      "tags": [
+        "scope:shared",
+        "type:utils"
+      ]
     },
     "cxc-feature-cobranza-cre": {
-      "tags": ["scope:cxc", "type:feature"]
+      "tags": [
+        "scope:cxc",
+        "type:feature"
+      ]
     },
     "shared-cxc-ui-devoluciones": {
-      "tags": ["scope:cxc", "type:ui"]
+      "tags": [
+        "scope:cxc",
+        "type:ui"
+      ]
     },
     "shared-cxc-ui-bonificaciones": {
-      "tags": ["scope:cxc", "type:ui"]
+      "tags": [
+        "scope:cxc",
+        "type:ui"
+      ]
     },
     "shared-cxc-data-acces": {
-      "tags": ["scope:cxc", "type:data-access"]
+      "tags": [
+        "scope:cxc",
+        "type:data-access"
+      ]
     },
     "shared-utils-ui-material": {
-      "tags": ["scope:shared", "type:ui"]
+      "tags": [
+        "scope:shared",
+        "type:ui"
+      ]
     },
     "shared-cxc-feature-devoluciones": {
-      "tags": ["scope:cxc", "type:feature"]
+      "tags": [
+        "scope:cxc",
+        "type:feature"
+      ]
     },
     "shared-utils-ui-covalent": {
-      "tags": ["scope: shared", "type: ui"]
+      "tags": [
+        "scope: shared",
+        "type: ui"
+      ]
     },
     "shared-cxc-feature-cargos": {
       "tags": []
     },
     "shared-cxc-ui-cargos": {
-      "tags": ["scope: cxc", "type: ui"]
+      "tags": [
+        "scope: cxc",
+        "type: ui"
+      ]
     },
     "shared-utils-ui-common": {
-      "tags": ["scope:shared", "type:ui"]
+      "tags": [
+        "scope:shared",
+        "type:ui"
+      ]
     },
     "cxc-feature-cobranza-con": {
-      "tags": ["scope:cxc", "type: feature"]
+      "tags": [
+        "scope:cxc",
+        "type: feature"
+      ]
     },
     "cxc-feature-cobranza-che": {
-      "tags": ["scope:cxc", "type: feature"]
+      "tags": [
+        "scope:cxc",
+        "type: feature"
+      ]
     },
     "cxc-feature-cobranza-jur": {
-      "tags": ["scope:cxc", "type: feature"]
+      "tags": [
+        "scope:cxc",
+        "type: feature"
+      ]
     },
     "shared-cxc-feature-revision": {
-      "tags": ["scope: shared", "scope: cxc", "type: feature"]
+      "tags": [
+        "scope: shared",
+        "scope: cxc",
+        "type: feature"
+      ]
     },
     "shared-cxc-feature-cobros": {
-      "tags": ["scope: shared", "scope: cxc", "type: feature"]
+      "tags": [
+        "scope: shared",
+        "scope: cxc",
+        "type: feature"
+      ]
     },
     "shared-cxc-feature-comisiones": {
-      "tags": ["scope: shared", "scope: cxc", "type: feature"]
+      "tags": [
+        "scope: shared",
+        "scope: cxc",
+        "type: feature"
+      ]
     },
     "shared-cxc-ui-cxc-common": {
-      "tags": ["scope: shared", "type: ui"]
+      "tags": [
+        "scope: shared",
+        "type: ui"
+      ]
     },
     "shared-utils-ui-forms": {
-      "tags": ["scope: shared", "type:ui"]
+      "tags": [
+        "scope: shared",
+        "type:ui"
+      ]
     },
     "shared-cfdi-ui-common": {
       "tags": []
     },
     "shared-cfdi-data-access": {
-      "tags": ["scope: shared", "type: data-access"]
+      "tags": [
+        "scope: shared",
+        "type: data-access"
+      ]
     },
     "shared-sxcore": {
-      "tags": ["scope: shared", "type:ui"]
+      "tags": [
+        "scope: shared",
+        "type:ui"
+      ]
     },
     "shared-cxc-feature-bonificaciones": {
-      "tags": ["scope: shared", "type: feature"]
+      "tags": [
+        "scope: shared",
+        "type: feature"
+      ]
     },
     "shared-cxc-data-access-bonificaciones": {
-      "tags": ["scope: shared", "type:data-access"]
+      "tags": [
+        "scope: shared",
+        "type:data-access"
+      ]
     },
     "shared-cxc-data-access-cobros": {
-      "tags": ["scope:shared", "type:data-access"]
+      "tags": [
+        "scope:shared",
+        "type:data-access"
+      ]
     },
     "shared-cxc-feature-facturas": {
       "tags": []
     },
     "shared-cxc-data-access-facturas": {
-      "tags": ["scope:shared", "type:data-access"]
+      "tags": [
+        "scope:shared",
+        "type:data-access"
+      ]
     },
     "auth": {
       "tags": []
     },
     "shared-cxc-data-access-devoluciones": {
-      "tags": ["scope:scs", "type:data-access"]
+      "tags": [
+        "scope:scs",
+        "type:data-access"
+      ]
     },
     "shared-cxc-data-access-revisiones": {
       "tags": []
     },
     "shared-clientes-data-access-clientes": {
-      "tags": ["scope:shared", "type:data-access"]
+      "tags": [
+        "scope:shared",
+        "type:data-access"
+      ]
     },
     "clientes-clientes-feature": {
-      "tags": ["scope:clientes"]
+      "tags": [
+        "scope:clientes"
+      ]
+    },
+    "cxc-feature-analytics": {
+      "tags": [
+        "scope:cxc",
+        "type:feature"
+      ]
     }
   }
 }

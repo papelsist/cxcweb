@@ -97,7 +97,7 @@ class NotaDeCreditoController extends RestfulController<NotaDeCredito> {
   @Override
   protected List<NotaDeCredito> listAllResources(Map params) {
 
-    params.max = Math.max(params.max ?: 10, 100)
+    params.max = 1000
     params.sort = params.sort ?: 'lastUpdated'
     params.order = params.order ?: 'desc'
 

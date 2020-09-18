@@ -86,7 +86,10 @@
               "apps/cxc-web/tsconfig.app.json",
               "apps/cxc-web/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/cxc-web/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/cxc-web/**/*"
+            ]
           }
         },
         "test": {
@@ -121,41 +124,14 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/cxc-web-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/cxc-web-e2e/**/*"]
-          }
-        }
-      }
-    },
-    "cxc-feature-cartera": {
-      "projectType": "library",
-      "root": "libs/cxc/feature-cartera",
-      "sourceRoot": "libs/cxc/feature-cartera/src",
-      "prefix": "papx-cxc",
-      "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
             "tsConfig": [
-              "libs/cxc/feature-cartera/tsconfig.lib.json",
-              "libs/cxc/feature-cartera/tsconfig.spec.json"
+              "apps/cxc-web-e2e/tsconfig.e2e.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/cxc/feature-cartera/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/cxc-web-e2e/**/*"
+            ]
           }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/cxc/feature-cartera/jest.config.js",
-            "tsConfig": "libs/cxc/feature-cartera/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "libs/cxc/feature-cartera/src/test-setup.ts"
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
         }
       }
     },
@@ -512,7 +488,10 @@
               "libs/shared/cxc/ui-cargos/tsconfig.lib.json",
               "libs/shared/cxc/ui-cargos/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/shared/cxc/ui-cargos/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/cxc/ui-cargos/**/*"
+            ]
           }
         },
         "test": {
@@ -929,7 +908,10 @@
               "libs/shared/sxcore/tsconfig.lib.json",
               "libs/shared/sxcore/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/shared/sxcore/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/sxcore/**/*"
+            ]
           }
         },
         "test": {
@@ -1136,7 +1118,10 @@
               "libs/auth/tsconfig.lib.json",
               "libs/auth/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/auth/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/auth/**/*"
+            ]
           }
         },
         "test": {
@@ -1286,6 +1271,41 @@
             "tsConfig": "libs/clientes/clientes-feature/tsconfig.spec.json",
             "passWithNoTests": true,
             "setupFile": "libs/clientes/clientes-feature/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "cxc-feature-analytics": {
+      "projectType": "library",
+      "root": "libs/cxc/feature-analytics",
+      "sourceRoot": "libs/cxc/feature-analytics/src",
+      "prefix": "papx-cxc",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/cxc/feature-analytics/tsconfig.lib.json",
+              "libs/cxc/feature-analytics/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/cxc/feature-analytics/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/cxc/feature-analytics/jest.config.js",
+            "tsConfig": "libs/cxc/feature-analytics/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/cxc/feature-analytics/src/test-setup.ts"
           }
         }
       },

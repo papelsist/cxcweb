@@ -1,0 +1,33 @@
+// .mat-toolbar {
+//   height: 45px;
+// }
+.clientes-track {
+  width: 100%;
+  height: 400px;
+}
+
+.analisis-track {
+  width: 100%;
+  height: 450px;
+  display: grid;
+  // grid-template-columns: 3rf 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-rows: 450px;
+  // grid-template-columns: 5fr 2fr;
+  //  align-items: strech;
+  gap: 5px;
+
+  .facturas-card {
+    height: 450px;
+    // min-width: 500px;
+    // grid-column: 1 / 2;
+    grid-column: span 3;
+  }
+  .resumen-card {
+    min-width: 300px;
+    max-width: 375px;
+    // grid-column: 2 / 3;
+    grid-column: span 1;
+    // justify-self: center;
+  }
+}
