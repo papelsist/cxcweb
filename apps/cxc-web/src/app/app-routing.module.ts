@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Route } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
-import { MainPageComponent } from './core/main-page/main-page.component';
 import { CXCCarteraGuard } from '@nx-papelsa/shared/cxc/data-acces';
 import { AuthGuard } from '@nx-papelsa/auth';
 
@@ -23,18 +22,25 @@ const routes: Route[] = [
     data: { cartera: { clave: 'CRE', descripcion: 'CREDITO' } },
     canActivate: [AuthGuard, CXCCarteraGuard],
   },
+  {
+    path: 'analytics',
+    loadChildren: () =>
+      import('@nx-papelsa/cxc/feature-analytics').then(
+        (m) => m.CxcFeatureAnalyticsModule
+      ),
+  },
   // {
-  //   path: 'cartera',
+  //   path: 'analytics',
   //   loadChildren: () =>
-  //     import('@nx-papelsa/cxc/feature-cartera').then(
-  //       (m) => m.CxcFeatureCarteraModule
+  //     import('').then(
+  //       (m) => m.CxcFeatureAnalyticsModule
   //     ),
   // },
-  // {
-  //   path: '',
-  //   redirectTo: 'home',
-  //   pathMatch: 'full',
-  // },
+  {
+    path: '',
+    redirectTo: 'analytics',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({

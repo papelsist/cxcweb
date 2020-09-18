@@ -96,4 +96,11 @@ export class CxcService {
       .get<CuentaPorCobrar | CuentaPorCobrarDTO>(url)
       .pipe(catchError((error: any) => throwError(error)));
   }
+
+  antiguedadDeSaldos(): Observable<any[]> {
+    const url = `${this.api}/cxc/antiguedad`;
+    return this.http
+      .get<any[]>(url)
+      .pipe(catchError((error: any) => throwError(error)));
+  }
 }

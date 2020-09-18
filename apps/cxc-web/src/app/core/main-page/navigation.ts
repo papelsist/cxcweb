@@ -26,4 +26,9 @@ export const MainNavigation: NavigationRoute[] = [
     label: 'Jurídico',
     description: 'Cartera de Jurídico',
   },
+  {
+    path: '/analytics',
+    label: 'Analytics',
+    description: 'Tableros de análisis',
+  },
 ];

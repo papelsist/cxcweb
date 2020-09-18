@@ -1,0 +1,61 @@
+<mat-toolbar>
+  <button mat-icon-button (click)="toobleSidebar()">
+    <mat-icon *ngIf="isSidebarVisible$ | async">arrow_back</mat-icon>
+    <mat-icon *ngIf="!(isSidebarVisible$ | async)">arrow_forward</mat-icon>
+  </button>
+  <span>Antigüedad de saldos</span>
+  <span fxFlex></span>
+  <td-search-box
+    placeholder="Filtrar"
+    (searchDebounce)="filtrar($event)"
+    fxFlex
+  ></td-search-box>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="load()">
+      <mat-icon>refresh</mat-icon>
+      <span>Refrescar</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+
+<div
+  class="container"
+  fxLayout="column"
+  fxLayoutGap="5px"
+  fxLayoutAlign="center center"
+  *tdLoading="
+    'antiguedad';
+    type: 'circular';
+    mode: 'indeterminate';
+    strategy: 'overlay';
+    color: 'primary'
+  "
+>
+  <section class="clientes-track">
+    <papx-cxc-antiguedad-grid
+      #agrid
+      [rows]="registros"
+      (selectionChange)="onSelection($event)"
+      [searchTerm]="searchTerm"
+    ></papx-cxc-antiguedad-grid>
+  </section>
+
+  <section class="analisis-track">
+    <papx-cxc-resumen-card
+      class="resumen-card"
+      [antiguedad]="current || totales"
+    ></papx-cxc-resumen-card>
+    <mat-card class="facturas-card" *ngIf="current">
+      <mat-card-header>
+        <mat-card-title>
+          {{ current.cliente }}
+        </mat-card-title>
+      </mat-card-header>
+
+      <papx-cxc-cxcs-grid [rows]="facturasPorCliente"> </papx-cxc-cxcs-grid>
+    </mat-card>
+  </section>
+</div>
