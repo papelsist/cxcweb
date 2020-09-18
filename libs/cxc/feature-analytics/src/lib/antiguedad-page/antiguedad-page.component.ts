@@ -19,6 +19,7 @@ export class AntiguedadPageComponent extends BaseComponent
   implements OnInit, OnDestroy {
   registros: any[] = [];
   isSidebarVisible$ = this.analyticsService.isDrawerVisible$;
+  visible = true;
   current$ = this.antiguedadService.current$;
   current: Antiguedad;
   totales: Partial<Antiguedad>;
@@ -36,6 +37,7 @@ export class AntiguedadPageComponent extends BaseComponent
 
   ngOnInit(): void {
     this.totales = this.buildTotalTemplate();
+    this.isSidebarVisible$.subscribe((val) => (this.visible = val));
     this.load();
   }
 

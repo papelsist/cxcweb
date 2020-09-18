@@ -1,5 +1,5 @@
 <mat-toolbar>
-  <button mat-icon-button (click)="toobleSidebar()">
+  <button mat-icon-button (click)="toobleSidebar(!visible)">
     <mat-icon *ngIf="isSidebarVisible$ | async">arrow_back</mat-icon>
     <mat-icon *ngIf="!(isSidebarVisible$ | async)">arrow_forward</mat-icon>
   </button>
