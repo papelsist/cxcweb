@@ -19,25 +19,6 @@ export class ResumenCardComponent implements OnInit {
 
   properties: BeanPropertyListItem<Antiguedad>[] = [
     {
-      name: 'saldo',
-      type: 'currency',
-      label: 'Saldo',
-      icon: 'monetization_on',
-    },
-    {
-      name: 'porVencer',
-      label: 'Por Vencer',
-      type: 'currency',
-      icon: 'alarm',
-    },
-    {
-      name: 'vencido',
-      label: 'Vencido',
-      type: 'currency',
-      icon: 'warning',
-    },
-
-    {
       name: 'de1_30',
       label: '1 a 30 Días',
       type: 'currency',

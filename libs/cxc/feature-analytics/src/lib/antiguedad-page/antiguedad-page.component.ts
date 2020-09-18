@@ -57,17 +57,21 @@ export class AntiguedadPageComponent extends BaseComponent
   }
 
   cargarFacturas(a: Antiguedad) {
-    this.loadingService.register('antiguedad');
-    this.service
-      .facturasPendientes(a.clienteId)
-      .pipe(
-        // map((rows) => orderBy(rows, 'part', 'desc')),
-        finalize(() => this.loadingService.resolve('antiguedad')),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((res) => {
-        this.facturasPorCliente = res;
-      });
+    if (a) {
+      this.loadingService.register('antiguedad');
+      this.service
+        .facturasPendientes(a.clienteId)
+        .pipe(
+          // map((rows) => orderBy(rows, 'part', 'desc')),
+          finalize(() => this.loadingService.resolve('antiguedad')),
+          takeUntil(this.destroy$)
+        )
+        .subscribe((res) => {
+          this.facturasPorCliente = res;
+        });
+    } else {
+      this.facturasPorCliente = [];
+    }
   }
 
   filtrar(term: string) {

@@ -133,7 +133,7 @@ class CuentaPorCobrarController extends RestfulController<CuentaPorCobrar>{
 
     def antiguedad(){
         // Antiguedad de saldos
-        log.info('Generando antiguedad de saldos {}', params);
+
         def rows = antiguedadService.antiguedad()
         respond rows
     }

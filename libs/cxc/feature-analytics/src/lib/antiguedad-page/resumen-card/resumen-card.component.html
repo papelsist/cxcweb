@@ -8,29 +8,109 @@
   <mat-divider></mat-divider>
 
   <mat-list class="property-list">
-    <mat-list-item *ngFor="let item of properties">
+    <!-- Saldo -->
+    <mat-list-item>
       <div matLine>
-        <span>{{ item.label }}:</span>
-        <span
-          fxFlex
-          class="text-right text-strong"
-          [ngClass]="getClassForItem(item, antiguedad)"
-        >
-          <ng-container *ngIf="item.type === 'currency'; else simple">
-            {{ antiguedad[item.name] | currency }}
-          </ng-container>
-          <ng-template #simple>
-            {{
-              item.valueFormatter
-                ? item.valueFormatter(antiguedad[item.name])
-                : antiguedad[item.name]
-            }}
-          </ng-template>
+        <span>Saldo</span>
+        <span fxFlex class="text-right text-strong">
+          {{ antiguedad.saldo | currency }}
         </span>
+        <span> </span>
       </div>
-      <mat-icon matListIcon>{{ item.icon }}</mat-icon>
+      <mat-icon matListIcon>monetization_on</mat-icon>
       <mat-divider matInset></mat-divider>
     </mat-list-item>
+
+    <!-- Por Vencer -->
+    <mat-list-item>
+      <div matLine>
+        <span>Por Vencer</span>
+        <div fxFlex class="text-right text-strong" fxLayout="column">
+          <span>{{ antiguedad.porVencer | currency }}</span>
+          <small *ngIf="antiguedad.saldo > 0">
+            ({{ antiguedad.porVencer / antiguedad.saldo | percent: '1.2-2' }})
+          </small>
+        </div>
+      </div>
+      <mat-icon matListIcon>alarm</mat-icon>
+      <mat-divider matInset></mat-divider>
+    </mat-list-item>
+
+    <!-- Vencido -->
+    <mat-list-item>
+      <div matLine>
+        <span>Vencido</span>
+        <div fxFlex class="text-right text-strong" fxLayout="column">
+          <span>{{ antiguedad.vencido | currency }}</span>
+          <small *ngIf="antiguedad.saldo > 0">
+            ({{ antiguedad.vencido / antiguedad.saldo | percent: '1.2-2' }})
+          </small>
+        </div>
+      </div>
+      <mat-icon matListIcon>warning</mat-icon>
+      <mat-divider matInset></mat-divider>
+    </mat-list-item>
+
+    <!-- 1 a 30 Dias -->
+    <mat-list-item>
+      <div matLine>
+        <span>1 a 30 Días</span>
+        <div fxFlex class="text-right text-strong" fxLayout="column">
+          <span>{{ antiguedad.de1_30 | currency }}</span>
+          <small *ngIf="antiguedad.saldo > 0">
+            ({{ antiguedad.de1_30 / antiguedad.saldo | percent: '1.2-2' }})
+          </small>
+        </div>
+      </div>
+      <mat-icon matListIcon>warning</mat-icon>
+      <mat-divider matInset></mat-divider>
+    </mat-list-item>
+
+    <!-- 31 a 60 Dias -->
+    <mat-list-item>
+      <div matLine>
+        <span>31 a 60 Días</span>
+        <div fxFlex class="text-right text-strong" fxLayout="column">
+          <span>{{ antiguedad.de31_60 | currency }}</span>
+          <small *ngIf="antiguedad.saldo > 0">
+            ({{ antiguedad.de31_60 / antiguedad.saldo | percent: '1.2-2' }})
+          </small>
+        </div>
+      </div>
+      <mat-icon matListIcon>error</mat-icon>
+      <mat-divider matInset></mat-divider>
+    </mat-list-item>
+
+    <!-- 61 a 90 Dias -->
+    <mat-list-item>
+      <div matLine>
+        <span>61 a 90 Días</span>
+        <div fxFlex class="text-right text-strong" fxLayout="column">
+          <span>{{ antiguedad.de61_90 | currency }}</span>
+          <small *ngIf="antiguedad.saldo > 0">
+            ({{ antiguedad.de61_90 / antiguedad.saldo | percent: '1.2-2' }})
+          </small>
+        </div>
+      </div>
+      <mat-icon matListIcon>report_problem</mat-icon>
+      <mat-divider matInset></mat-divider>
+    </mat-list-item>
+
+    <!-- 90+ Dias -->
+    <mat-list-item>
+      <div matLine>
+        <span>90 + Días</span>
+        <div fxFlex class="text-right text-strong" fxLayout="column">
+          <span>{{ antiguedad.mas90 | currency }}</span>
+          <small *ngIf="antiguedad.saldo > 0">
+            ({{ antiguedad.mas90 / antiguedad.saldo | percent: '1.2-2' }})
+          </small>
+        </div>
+      </div>
+      <mat-icon matListIcon>report</mat-icon>
+      <mat-divider matInset></mat-divider>
+    </mat-list-item>
+
     <mat-list-item>
       <div matLine>
         <span>Participación:</span>
