@@ -24,6 +24,15 @@
         <mat-divider></mat-divider>
       </a>
     </mat-nav-list>
+    <mat-nav-list dense>
+      <h3 matSubheader>Reportes</h3>
+      <a mat-list-item *ngFor="let rep of reportes" (click)="rep.handler()">
+        {{ rep.label }}
+        <mat-icon matListIcon>picture_as_pdf</mat-icon>
+
+        <mat-divider></mat-divider>
+      </a>
+    </mat-nav-list>
   </mat-drawer>
   <mat-drawer-content class="content">
     <router-outlet></router-outlet>

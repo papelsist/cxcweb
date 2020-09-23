@@ -8,6 +8,13 @@ import { NavigationRoute } from '@nx-papelsa/shared/utils/core-models';
 import { BaseComponent } from '@nx-papelsa/shared/utils/ui-common';
 import { MatDrawer } from '@angular/material/sidenav';
 import { AnalyticsStateService } from '../services/analytics-state.service';
+import { MatDialog } from '@angular/material/dialog';
+import {
+  BajaEnVentaDialogComponent,
+  MejoresClientesComponent,
+} from '../reportes';
+import { ReportService } from '@nx-papelsa/shared/utils/ui-forms';
+import { VentasPorClienteComponent } from '../reportes/ventas-por-cliente.component';
 
 @Component({
   selector: 'papx-cxc-analytics-page',
@@ -40,11 +47,25 @@ export class AnalyticsPageComponent extends BaseComponent
     },
   ];
 
+  reportes = [
+    { label: 'Baja en Ventas', handler: () => this.bajasEnVentas() },
+    { label: 'Mejores clientes', handler: () => this.mejoresClientes() },
+    { label: 'Ventas por Cliente', handler: () => this.ventasPorCliente() },
+    { label: 'Clientes sin venta', handler: () => this.clientesSinVentas() },
+    { label: 'Comparativo mejores clientes', name: 'bajaEnVentas' },
+    { label: 'Mejores clientes x Línea', name: 'bajaEnVentas' },
+    { label: 'Comparativo Ventas por Línea', name: 'bajaEnVentas' },
+    { label: 'Ventas por Línea x día', name: 'bajaEnVentas' },
+    { label: 'Comparativo Vtas por Línea x Cte', name: 'bajaEnVentas' },
+  ];
+
   @ViewChild(MatDrawer, { static: true }) drawer: MatDrawer;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private analyticsService: AnalyticsStateService
+    private analyticsService: AnalyticsStateService,
+    private dialog: MatDialog,
+    private reportService: ReportService
   ) {
     super();
   }
@@ -68,4 +89,55 @@ export class AnalyticsPageComponent extends BaseComponent
       this.analyticsService.isDrawerVisible$.next(change);
     });
   }
+
+  bajasEnVentas() {
+    this.dialog
+      .open(BajaEnVentaDialogComponent, {
+        data: { title: 'Reporte de baja en ventas' },
+        width: '450px',
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          this.reportService.runReport('analytics/bajaEnVentas', res);
+        }
+      });
+  }
+
+  mejoresClientes() {
+    this.dialog
+      .open(MejoresClientesComponent, { width: '450px' })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          this.reportService.runReport('analytics/mejoresClientes', res);
+        }
+      });
+  }
+  ventasPorCliente() {
+    this.dialog
+      .open(VentasPorClienteComponent, { width: '750px' })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          this.reportService.runReport('analytics/ventasPorCliente', res);
+        }
+      });
+  }
+
+  clientesSinVentas() {
+    this.dialog
+      .open(BajaEnVentaDialogComponent, {
+        data: { title: 'Reporte de clientes sin venta' },
+        width: '450px',
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          this.reportService.runReport('analytics/clientesSinVenta', res);
+        }
+      });
+  }
+
+  bajaEnVentas() {}
 }

@@ -9,15 +9,20 @@ import { UiFormsModule } from '@nx-papelsa/shared/utils/ui-forms';
 import { AgGridModule } from 'ag-grid-angular';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { AgBooleanRendererComponent } from '@nx-papelsa/shared/utils/ui-common';
+import {
+  AgBooleanRendererComponent,
+  UiCommonModule,
+} from '@nx-papelsa/shared/utils/ui-common';
 import { AnalyticsPageComponent } from './analytics-page/analytics-page.component';
 import { AnalyticsStateService } from './services/analytics-state.service';
 import { AntiguedadStateService } from './services/antiguedad-state.service';
 
+import { REPORTES } from './reportes';
 @NgModule({
-  declarations: [AnalyticsPageComponent],
+  declarations: [AnalyticsPageComponent, ...REPORTES],
   imports: [
     CommonModule,
+    UiCommonModule,
     UiMaterialModule,
     UiCovalentModule,
     UiFormsModule,

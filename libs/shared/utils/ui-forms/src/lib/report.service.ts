@@ -19,6 +19,7 @@ import {
   PeriodoDialogComponent,
   FechaDialogComponent,
 } from '@nx-papelsa/shared/utils/ui-common';
+import { TdDialogService } from '@covalent/core/dialogs';
 
 export interface ReportOptions {
   path: string;
@@ -36,7 +37,8 @@ export class ReportService {
     @Inject('apiUrl') api,
     private snackBar: MatSnackBar,
     private _loadingService: TdLoadingService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private dialogService: TdDialogService
   ) {
     this.apiUrl = api;
   }
@@ -68,10 +70,11 @@ export class ReportService {
           window.open(fileUrl, '_blank');
         },
         (error: HttpErrorResponse) => {
-          console.log(error);
-          const desc = `${error.message}`;
-          const message = `Error:${error.status}, Rep:${url}`;
-          this.snackBar.open(message, 'Cerrar', { duration: 10000 });
+          // console.log(error);
+          // const desc = `${error.message}`;
+          // const message = `Error:${error.status}, Rep:${url}`;
+          // this.snackBar.open(message, 'Cerrar', { duration: 10000 });
+          this.onError(error, url);
         }
       );
   }
@@ -123,5 +126,17 @@ export class ReportService {
           this.runReport(url, repParams);
         }
       });
+  }
+
+  private onError(response: any, reporte: string) {
+    const message = response.error ? response.error.message : 'Error';
+    const message2 = response.message ? response.message : '';
+    console.error('API Call error: ', response);
+    this.dialogService.openAlert({
+      title: `Error ejecutando ${reporte} Code:${response.status}`,
+      message: `${response.status} ${message} ${message2}`,
+      closeButton: 'Cerrar',
+      width: '550px',
+    });
   }
 }
