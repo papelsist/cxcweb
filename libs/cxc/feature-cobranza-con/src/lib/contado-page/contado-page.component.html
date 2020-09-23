@@ -1,0 +1,50 @@
+<mat-drawer-container class="credito-page-container">
+  <mat-drawer mode="side" opened>
+    <mat-nav-list>
+      <h3 matSubheader>Operaciones</h3>
+      <a
+        mat-list-item
+        [routerLink]="link.path"
+        routerLinkActive="router-link-active"
+        *ngFor="let link of features"
+      >
+        <span matLine>
+          {{ link.label }}
+        </span>
+        <mat-icon matListIcon *ngIf="link.icon">{{ link.icon }}</mat-icon>
+        <p matLine>
+          {{ link.description }}
+        </p>
+        <mat-divider></mat-divider>
+      </a>
+
+      <h3 matSubheader>Reportes</h3>
+      <ng-container *ngIf="cartera$ | async as cartera">
+        <a mat-list-item (click)="reporteDeNotas(cartera)">
+          <span matLine>
+            Notas de crédito
+          </span>
+          <mat-icon matListIcon>analytics</mat-icon>
+          <p matLine>
+            Notas del periodo
+          </p>
+          <mat-divider></mat-divider>
+        </a>
+
+        <a mat-list-item (click)="reporteDeCobranza(cartera)">
+          <span matLine>
+            Cobranza
+          </span>
+          <mat-icon matListIcon>analytics</mat-icon>
+          <p matLine>
+            Reporte de cobranza CRE
+          </p>
+          <mat-divider></mat-divider>
+        </a>
+      </ng-container>
+    </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

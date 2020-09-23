@@ -11,6 +11,7 @@ class UrlMappings {
     patch "/$controller/$id(.$format)?"(action:"patch")
 
     "/api/zip"(controller: 'codigoPostal', action: 'find', method: 'GET')
+    "/api/analytics/ventaMensual"(controller: 'analytics', action: 'ventaMensual')
 
     "/"(controller: 'application', action:'index')
     "/api/session"(controller: 'application', action: 'session')

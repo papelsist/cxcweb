@@ -23,6 +23,15 @@ const routes: Route[] = [
     canActivate: [AuthGuard, CXCCarteraGuard],
   },
   {
+    path: 'contado',
+    loadChildren: () =>
+      import('@nx-papelsa/cxc/feature-cobranza-con').then(
+        (m) => m.FeatureCobranzaConModule
+      ),
+    data: { cartera: { clave: 'CON', descripcion: 'CONTADO' } },
+    canActivate: [AuthGuard, CXCCarteraGuard],
+  },
+  {
     path: 'analytics',
     loadChildren: () =>
       import('@nx-papelsa/cxc/feature-analytics').then(

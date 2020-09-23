@@ -37,7 +37,12 @@
         <mat-icon>dynamic_feed</mat-icon>
         <span>Crédito</span>
       </a>
-      <a href="#" mat-button>Contado</a>
+      <a
+        [routerLink]="'/contado'"
+        routerLinkActive="router-link-active"
+        mat-button
+        >Contado</a
+      >
       <a href="#" mat-button>Mostrador</a>
       <a href="#" mat-button>Cheques</a>
       <a href="#" mat-button>Jurídico</a>

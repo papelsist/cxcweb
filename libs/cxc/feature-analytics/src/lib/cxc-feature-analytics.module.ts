@@ -30,6 +30,13 @@ import { AntiguedadStateService } from './services/antiguedad-state.service';
         component: AnalyticsPageComponent,
         children: [
           {
+            path: 'ventas',
+            loadChildren: () =>
+              import('./ventas-page/venta-page.module').then(
+                (m) => m.VentaPageModule
+              ),
+          },
+          {
             path: 'antiguedad',
             loadChildren: () =>
               import('./antiguedad-page/antiguedad-page.module').then(
@@ -45,14 +52,14 @@ import { AntiguedadStateService } from './services/antiguedad-state.service';
           },
           {
             path: '',
-            redirectTo: 'antiguedad',
+            redirectTo: 'ventas',
             pathMatch: 'full',
           },
         ],
       },
       {
         path: '',
-        redirectTo: 'antiguedad',
+        redirectTo: 'ventas',
         pathMatch: 'full',
       },
     ]),

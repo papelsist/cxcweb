@@ -21,6 +21,12 @@ export class AnalyticsPageComponent extends BaseComponent
 
   routes: NavigationRoute[] = [
     {
+      path: 'ventas',
+      label: 'Ventas',
+      description: 'Análisis de ventas',
+      icon: 'bar_chart',
+    },
+    {
       path: 'antiguedad',
       label: 'Antigüedad',
       description: 'Antigüedad de Saldos',

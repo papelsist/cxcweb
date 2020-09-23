@@ -10,6 +10,9 @@ import { AgGridModule } from 'ag-grid-angular';
 import { AgBooleanRendererComponent } from '@nx-papelsa/shared/utils/ui-common';
 import { MatTabsModule } from '@angular/material/tabs';
 
+import { CovalentBaseEchartsModule } from '@covalent/echarts/base';
+import { CovalentPieEchartsModule } from '@covalent/echarts/pie';
+
 import { AntiguedadPageComponent } from './antiguedad-page.component';
 import { AntiguedadGridComponent } from './antiguedad-grid/antiguedad-grid.component';
 import { ResumenCardComponent } from './resumen-card/resumen-card.component';
@@ -30,6 +33,8 @@ const routes: Routes = [{ path: '', component: AntiguedadPageComponent }];
     UiCovalentModule,
     UiFormsModule,
     MatTabsModule,
+    CovalentBaseEchartsModule,
+    CovalentPieEchartsModule,
     AgGridModule.withComponents([AgBooleanRendererComponent]),
     RouterModule.forChild(routes),
   ],

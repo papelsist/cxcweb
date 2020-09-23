@@ -38,7 +38,7 @@ class AntiguedadService {
     ,SUM(CASE WHEN (TO_DAYS(CURRENT_DATE)-TO_DAYS(F.VENCIMIENTO)) BETWEEN 61 AND 90 THEN ((F.TOTAL-IFNULL((SELECT SUM(B.IMPORTE) FROM aplicacion_de_cobro B WHERE B.cuenta_por_cobrar_id=F.ID ),0) ) * F.tipo_de_cambio ) ELSE 0 END)  AS de61_90
     ,SUM(CASE WHEN (TO_DAYS(CURRENT_DATE)-TO_DAYS(F.VENCIMIENTO))>90 THEN ((F.TOTAL-IFNULL((SELECT SUM(B.IMPORTE) FROM aplicacion_de_cobro B WHERE B.cuenta_por_cobrar_id=F.ID ),0) ) * F.tipo_de_cambio ) ELSE 0 END)  AS mas90
     ,SUM(((F.TOTAL-IFNULL((SELECT SUM(B.IMPORTE) FROM aplicacion_de_cobro B WHERE B.cuenta_por_cobrar_id=F.ID ),0) ) * F.tipo_de_cambio ))*100 /  ((SELECT SUM(((F.TOTAL-IFNULL((SELECT SUM(B.IMPORTE) FROM aplicacion_de_cobro B WHERE B.cuenta_por_cobrar_id=F.ID ),0) ) * F.tipo_de_cambio ))
-        FROM cuenta_por_cobrar F JOIN cliente_credito C ON(F.cliente_id=C.cliente_id) WHERE F.FECHA>'2016/12/31'  AND  F.TIPO='CRE' AND  (F.TOTAL-IFNULL((SELECT SUM(B.IMPORTE) FROM aplicacion_de_cobro B WHERE B.cuenta_por_cobrar_id=F.ID ),0))>0 )) AS part
+        FROM cuenta_por_cobrar F JOIN cliente_credito C ON(F.cliente_id=C.cliente_id) WHERE F.FECHA>'2016/12/31'  AND  F.TIPO='CRE'  AND f.id not in(select j.cxc_id from juridico j where j.cxc_id=f.id) AND  (F.TOTAL-IFNULL((SELECT SUM(B.IMPORTE) FROM aplicacion_de_cobro B WHERE B.cuenta_por_cobrar_id=F.ID ),0))>0 )) AS part
     FROM  cuenta_por_cobrar F JOIN cliente_credito C ON(F.cliente_id=C.cliente_id) JOIN cliente X ON(F.CLIENTE_ID=X.ID)
     WHERE F.FECHA>'2017/01/01'  AND F.TIPO='CRE' AND f.id not in(select j.cxc_id from juridico j where j.cxc_id=f.id) and
     ((F.TOTAL-IFNULL((SELECT SUM(B.IMPORTE) FROM aplicacion_de_cobro B WHERE B.cuenta_por_cobrar_id=F.ID ),0) ) * F.tipo_de_cambio )<>0

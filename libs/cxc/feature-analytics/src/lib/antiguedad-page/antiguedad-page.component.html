@@ -48,14 +48,16 @@
       class="resumen-card"
       [antiguedad]="current || totales"
     ></papx-cxc-resumen-card>
+
     <mat-card class="facturas-card" *ngIf="current">
       <mat-card-header>
         <mat-card-title>
           {{ current.cliente }}
         </mat-card-title>
       </mat-card-header>
-
       <papx-cxc-cxcs-grid [rows]="facturasPorCliente"> </papx-cxc-cxcs-grid>
     </mat-card>
+
+    <td-chart [style.height.px]="400"> </td-chart>
   </section>
 </div>

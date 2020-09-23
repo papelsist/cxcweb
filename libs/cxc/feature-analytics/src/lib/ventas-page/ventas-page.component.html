@@ -1,0 +1,39 @@
+<!-- <mat-toolbar>
+  <button mat-icon-button (click)="toobleSidebar(!visible)">
+    <mat-icon *ngIf="isSidebarVisible$ | async">arrow_back</mat-icon>
+    <mat-icon *ngIf="!(isSidebarVisible$ | async)">arrow_forward</mat-icon>
+  </button>
+  <span>Análisis de Ventas</span>
+  <span fxFlex></span>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="load()">
+      <mat-icon>refresh</mat-icon>
+      <span>Refrescar</span>
+    </button>
+  </mat-menu>
+</mat-toolbar> -->
+
+<!-- <mat-tab-group color="accent" animationDuration="1000ms">
+  <mat-tab label="Mensual">
+    Venta Neta Mensual
+  </mat-tab>
+  <mat-tab label="Acumulada"> Venta Neta Acumulada</mat-tab>
+  <mat-tab label="Análisis por cliente"> Análisis por cliente </mat-tab>
+</mat-tab-group> -->
+
+<nav mat-tab-nav-bar color="accent">
+  <a
+    mat-tab-link
+    *ngFor="let link of links"
+    [routerLink]="link.path"
+    routerLinkActive
+    #rla="routerLinkActive"
+    [active]="rla.isActive"
+  >
+    {{ link.label }}
+  </a>
+</nav>
+<router-outlet></router-outlet>

@@ -56,7 +56,7 @@ if (Environment.isDevelopmentMode() && targetDir != null) {
     logger("org.pac4j", OFF, ['STDOUT'], false)
 
     logger("ch.qos", OFF, ['STDOUT'], false)
-    
+
 
     logger("sx.core", DEBUG, ['STDOUT'], false)
     logger("sx.tesoreria", DEBUG, ['STDOUT'], false)
@@ -68,13 +68,14 @@ if (Environment.isDevelopmentMode() && targetDir != null) {
     logger("sx.crm", DEBUG, ['STDOUT'], false)
     logger("sx.security", OFF, ['STDOUT'], false)
     logger("sx.cloud", DEBUG, ['STDOUT', 'FIREBASE'], false)
+    logger("sx.bi", DEBUG, ['STDOUT'], false)
 
 }
 
 if (Environment.isDevelopmentMode()) {
 
     logger("ch.qos", OFF, ['STDOUT'], false)
-    
+
     logger("sx.core", DEBUG, ['STDOUT'], false)
     logger("sx.tesoreria", DEBUG, ['STDOUT'], false)
     logger("sx.cxc", DEBUG, ['STDOUT'], false)
@@ -86,8 +87,9 @@ if (Environment.isDevelopmentMode()) {
     logger("sx.integracion", DEBUG, ['STDOUT'], false)
     logger("sx.security", OFF, ['STDOUT'], false)
     logger("sx.cloud", DEBUG, ['STDOUT', 'FIREBASE'], false)
+    logger("sx.bi", DEBUG, ['STDOUT'], false)
 
-    
+
 } else {
     root(ERROR, ['STDOUT'])
     logger("sx.cloud", INFO, ['STDOUT', 'FIREBASE'], false)

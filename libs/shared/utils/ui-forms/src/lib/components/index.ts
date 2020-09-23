@@ -15,6 +15,8 @@ import { CobradorFieldComponent } from './cobrador-field/cobrador-field.componen
 import { DireccionFormComponent } from './direccion/direccion-form/direccion-form.component';
 import { DireccionDialogComponent } from './direccion/direccion-dialog.compontnt';
 import { UpperCaseFieldComponent } from './upper-case-field/upper-case-field.component';
+import { MesFieldComponent } from './mes-field/mes-field.component';
+import { EjercicioFieldComponent } from './ejercicio-field/ejercicio-field.component';
 
 export const COMPONENTS = [
   FechaFieldComponent,
@@ -34,6 +36,8 @@ export const COMPONENTS = [
   DireccionFormComponent,
   DireccionDialogComponent,
   UpperCaseFieldComponent,
+  MesFieldComponent,
+  EjercicioFieldComponent,
 ];
 
 export * from './fecha-field/fecha-field.component';
@@ -53,3 +57,5 @@ export * from './cobrador-field/cobrador-field.component';
 export * from './direccion/direccion-form/direccion-form.component';
 export * from './direccion/direccion-dialog.compontnt';
 export * from './upper-case-field/upper-case-field.component';
+export * from './mes-field/mes-field.component';
+export * from './ejercicio-field/ejercicio-field.component';
