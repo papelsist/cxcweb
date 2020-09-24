@@ -39,15 +39,15 @@
 FROM  cobro A JOIN cliente X ON(X.ID=A.cliente_id) JOIN sucursal S ON(S.ID=A.sucursal_id)
 WHERE A.ANTICIPO IS TRUE  AND DATE(A.FECHA) = $P{FECHA} AND  A.TIPO=$P{ORIGEN}
 UNION
-SELECT X.CLAVE,X.NOMBRE,C.DOCUMENTO AS NUMERO,A.TIPO_DE_CAMBIO as TC,A.MONEDA,C.TOTAL,CASE WHEN X.NOMBRE="CALLE 4" THEN 'CA4' ELSE SUBSTR(S.NOMBRE,1,3) END AS SUCURSAL
+SELECT X.CLAVE,X.NOMBRE,C.DOCUMENTO AS NUMERO,(case when b.moneda='USD' then b.tipo_de_cambio else A.tipo_de_cambio end) as TC,(case when b.moneda='USD' then b.moneda else A.moneda end) MONEDA,C.TOTAL,CASE WHEN X.NOMBRE="CALLE 4" THEN 'CA4' ELSE SUBSTR(S.NOMBRE,1,3) END AS SUCURSAL
 ,CASE WHEN a.anticipo is true then 'APL ANT' WHEN date(a.primera_aplicacion) <> B.FECHA THEN 'APL SAF' ELSE ''  END AS DESCFORMADEPAGO,a.forma_de_pago AS DESCFORMADEPAGO1,ifnull(A.REFERENCIA,'') as REFERENCIA
-,B.IMPORTE*A.tipo_de_cambio AS APLICADO,0 AS ANTICIPO
-,IFNULL((SELECT SUM(X.IMPORTE*A.tipo_de_cambio) FROM aplicacion_de_cobro X WHERE B.COBRO_ID=X.COBRO_ID and x.fecha=$P{FECHA}),0) AS TOT_APLIC
-,IFNULL((SELECT SUM(XX.IMPORTE*Z.tipo_de_cambio) FROM aplicacion_de_cobro XX JOIN COBRO Z ON(Z.ID=XX.COBRO_ID) WHERE Z.CLIENTE_ID=X.ID and Z.TIPO=$P{ORIGEN} AND DATE(Z.PRIMERA_APLICACION)=$P{FECHA} AND  Z.forma_de_pago NOT IN('PAGO_DIF','ESPECIE','BONIFICACION','DEVOLUCION')),0) AS CTE_APLIC
+,B.IMPORTE* (case when b.moneda='USD' then b.tipo_de_cambio else A.tipo_de_cambio end) AS APLICADO,0 AS ANTICIPO
+,IFNULL((SELECT SUM(X.IMPORTE* (case when x.moneda='USD' then x.tipo_de_cambio else A.tipo_de_cambio end) ) FROM aplicacion_de_cobro X WHERE B.COBRO_ID=X.COBRO_ID and x.fecha=$P{FECHA}),0) AS TOT_APLIC
+,IFNULL((SELECT SUM(XX.IMPORTE* (case when xx.moneda='USD' then xx.tipo_de_cambio else z.tipo_de_cambio end) ) FROM aplicacion_de_cobro XX JOIN COBRO Z ON(Z.ID=XX.COBRO_ID) WHERE Z.CLIENTE_ID=X.ID and Z.TIPO=$P{ORIGEN} AND DATE(Z.PRIMERA_APLICACION)=$P{FECHA} AND  Z.forma_de_pago NOT IN('PAGO_DIF','ESPECIE','BONIFICACION','DEVOLUCION')),0) AS CTE_APLIC
 ,IFNULL((SELECT SUM(XX.IMPORTE*XX.TIPO_DE_CAMBIO) FROM COBRO XX WHERE XX.CLIENTE_ID=X.ID and XX.ID=B.COBRO_ID AND DATE(XX.PRIMERA_APLICACION)=$P{FECHA} AND XX.TIPO=$P{ORIGEN} AND  XX.forma_de_pago NOT IN('PAGO_DIF','ESPECIE')),0) AS DEPOSITO
 ,IFNULL((SELECT SUM(XX.IMPORTE*XX.TIPO_DE_CAMBIO) FROM COBRO XX WHERE XX.CLIENTE_ID=X.ID and DATE(XX.PRIMERA_APLICACION)=$P{FECHA} AND XX.TIPO=$P{ORIGEN} AND XX.forma_de_pago NOT IN('PAGO_DIF','ESPECIE','BONIFICACION','DEVOLUCION') ),0) AS CTE_DEP
 ,IFNULL((SELECT SUM(XX.IMPORTE*XX.TIPO_DE_CAMBIO) FROM COBRO XX WHERE DATE(XX.PRIMERA_APLICACION)=$P{FECHA} AND XX.TIPO=$P{ORIGEN}  AND XX.forma_de_pago NOT IN('PAGO_DIF','ESPECIE','BONIFICACION','DEVOLUCION') and XX.anticipo is false),0) AS TOTAL_DEPOSITO
-,B.IMPORTE AS DIS,C.TIPO AS CAR_ORIGEN,A.ID AS ABONO,IFNULL((SELECT '*' FROM cliente_credito P WHERE P.CLIENTE_ID=X.ID AND P.POSTFECHADO IS TRUE),'') AS POSTFECHADO
+,B.IMPORTE * (case when b.moneda='USD' then b.tipo_de_cambio else A.tipo_de_cambio end) AS DIS,C.TIPO AS CAR_ORIGEN,A.ID AS ABONO,IFNULL((SELECT '*' FROM cliente_credito P WHERE P.CLIENTE_ID=X.ID AND P.POSTFECHADO IS TRUE),'') AS POSTFECHADO
 ,IFNULL(ROUND((SELECT SUM(X.DIFERENCIA*X.TIPO_DE_CAMBIO) FROM COBRO X WHERE X.forma_de_pago NOT IN('PAGO_DIF','ESPECIE','BONIFICACION','DEVOLUCION') AND  DATE(X.DIFERENCIA_FECHA)=$P{FECHA} AND X.TIPO=$P{ORIGEN}),2),0) AS DIF_ABN
 ,IFNULL(ROUND((SELECT SUM(X.IMPORTE*X.TIPO_DE_CAMBIO) FROM COBRO X WHERE X.forma_de_pago  IN('PAGO_DIF') AND  DATE(X.PRIMERA_APLICACION)=$P{FECHA} AND X.TIPO=$P{ORIGEN}),2),0) AS PAGO_DIF
 FROM  aplicacion_de_cobro  B JOIN cobro A ON(A.ID=B.COBRO_ID) JOIN cuenta_por_cobrar C ON(C.ID=B.cuenta_por_cobrar_id) JOIN cliente X ON(X.ID=C.cliente_id) JOIN sucursal S ON(S.ID=C.sucursal_id)
@@ -743,6 +743,36 @@ $P{ORIGEN}.equals("CHE") ?"CHEQUES DEVUELTOS" :
 						<font pdfFontName="Helvetica-Bold" size="8" isBold="true" isUnderline="true"/>
 					</textElement>
 				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{TOTAL}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="280"
+						y="0"
+						width="30"
+						height="12"
+						key="textField-60">
+							<printWhenExpression><![CDATA[new Boolean($F{MONEDA}.equals( "USD" ))]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true" isUnderline="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{MONEDA}.concat( " TC " )]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0000" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="310"
+						y="0"
+						width="34"
+						height="12"
+						key="textField-61">
+							<printWhenExpression><![CDATA[new Boolean($F{MONEDA}.equals( "USD" ))]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true" isUnderline="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{TC}]]></textFieldExpression>
 				</textField>
 			</band>
 		</detail>
