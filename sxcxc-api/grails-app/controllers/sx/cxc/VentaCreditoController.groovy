@@ -125,12 +125,12 @@ class VentaCreditoController extends RestfulController<VentaCredito>{
     }
 
 
-    def ventaPorCliente(VentaPorCliente command) {
+    def ventaPorCliente(VentaPorCliente2 command) {
         log.info('Venta por facturista {}', command)
         def realPath = servletContext.getRealPath("/reports") ?: 'reports'
-        params.FECHA_INI = command.fechaIni
-        params.FECHA_FIN = command.fechaFin
-        params.CLIENTE = command.cliente.id
+        params.FECHA_INI = command.fechaInicial
+        params.FECHA_FIN = command.fechaFinal
+        params.CLIENTE = command.cliente
         params.SUCURSAL = command.sucursal
         params.ORIGEN = command.origen
         def pdf = reportService.run('ventas_por_cliente.jrxml', params)
@@ -213,6 +213,17 @@ public class VentaPorCliente {
     String sucursal
 
     static constraints = {}
+
+}
+
+@ToString(includeNames=true,includePackage=false)
+public class VentaPorCliente2 {
+
+    Date fechaInicial
+    Date fechaFinal
+    String origen
+    String cliente
+    String sucursal
 
 }
 

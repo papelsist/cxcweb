@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Periodo } from '@nx-papelsa/shared/utils/core-models';
 
 @Component({
   selector: 'papx-cxc-ventas-por-clientes',
@@ -20,7 +21,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
           fxFlex
         ></nx-papelsa-cliente-field>
       </div>
-      <div fxLayout fxLayoutGap="5px" fxLayoutAlign="space-between center">
+      <div fxLayout fxLayoutGap="5px" fxLayoutAlign="start center">
         <nx-papelsa-fecha-field
           label="Fecha Inicial"
           formControlName="fechaInicial"
@@ -29,16 +30,21 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
           label="Fecha Final"
           formControlName="fechaFinal"
         ></nx-papelsa-fecha-field>
-        <mat-form-field>
+      </div>
+
+      <div fxLayout fxLayoutGap="5px">
+        <mat-form-field fxFlex>
           <mat-label>Origen</mat-label>
           <mat-select placeholder="Origen" formControlName="origen">
-            <mat-option
-              *ngFor="let item of ['CREDITO', 'CONTADO', 'TODOS']"
-              [value]="item"
-              >{{ item }}
+            <mat-option *ngFor="let item of origenes" [value]="item.clave"
+              >{{ item.descripcion }}
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <nx-papelsa-sucursal-field
+          [parent]="form"
+          fxFlex
+        ></nx-papelsa-sucursal-field>
       </div>
     </div>
 
@@ -66,12 +72,27 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class VentasPorClienteComponent implements OnInit {
   title = 'Ventas por cliente';
   form: FormGroup;
+  origenes = [
+    { clave: 'CREDITO', descripcion: 'CREDITO' },
+    { clave: 'TODOS', descripcion: 'TODOS' },
+    { clave: 'CONONTADO', descripcion: 'CONTADO' },
+  ];
+  periodo = Periodo.fromNow(30);
 
   constructor(
     private dialogRef: MatDialogRef<VentasPorClienteComponent>,
     @Inject(MAT_DIALOG_DATA) data: any,
     private fb: FormBuilder
-  ) {}
+  ) {
+    if (data) {
+      this.origenes = data.origenes || [
+        { clave: 'CREDITO', descripcion: 'CREDITO' },
+        { clave: 'TODOS', descripcion: 'TODOS' },
+        { clave: 'CONONTADO', descripcion: 'CONTADO' },
+      ];
+      this.periodo = data.periodo || Periodo.fromNow(30);
+    }
+  }
 
   ngOnInit(): void {
     this.buildForm();
@@ -80,9 +101,10 @@ export class VentasPorClienteComponent implements OnInit {
   buildForm() {
     this.form = this.fb.group({
       cliente: [null],
-      fechaInicial: [null, [Validators.required]],
-      fechaFinal: [null, [Validators.required]],
-      origen: ['CREDITO', [Validators.required]],
+      fechaInicial: [this.periodo.fechaInicial, [Validators.required]],
+      fechaFinal: [this.periodo.fechaFinal, [Validators.required]],
+      origen: [this.origenes[0].clave, [Validators.required]],
+      sucursal: [null],
     });
   }
 
@@ -96,6 +118,7 @@ export class VentasPorClienteComponent implements OnInit {
         fechaInicial: value.fechaInicial.toISOString(),
         fechaFinal: value.fechaFinal.toISOString(),
         origen: value.origen === 'TODOS' ? '%' : value.origen,
+        sucursal: value.sucursal ? value.sucursal.id : '%',
       };
       this.dialogRef.close(res);
     }

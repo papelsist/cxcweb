@@ -18,6 +18,33 @@
       <mat-icon>refresh</mat-icon>
       <span>Refrescar</span>
     </button>
+    <button mat-menu-item (click)="reporteDeAntiguedad()">
+      <span>Antigüedad</span>
+    </button>
+    <button mat-menu-item (click)="reporteDeAntiguedadPorCliente()">
+      <span>Antigüedad por cliente</span>
+    </button>
+    <button mat-menu-item (click)="reporteDeCarteraCOD()">
+      <span>Cartera COD</span>
+    </button>
+    <button mat-menu-item (click)="clientesSuspendidos()">
+      <span>Clientes suspendidos</span>
+    </button>
+    <button mat-menu-item (click)="facturasConDevolucion()">
+      <span>Facturas con Devolución</span>
+    </button>
+    <button mat-menu-item (click)="excepcionesEnDescuentos()">
+      <span>Exceptiones en Desctos</span>
+    </button>
+    <button mat-menu-item (click)="ventasAcumuladas()">
+      <span>Ventas acumuladas</span>
+    </button>
+    <button mat-menu-item (click)="ventasPorCliente()">
+      <span>Ventas x Cliente</span>
+    </button>
+    <button mat-menu-item (click)="ventasPorFacturista()">
+      <span>Ventas x Facturista</span>
+    </button>
   </mat-menu>
 </mat-toolbar>
 

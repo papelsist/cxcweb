@@ -14,7 +14,7 @@
 		 rightMargin="14"
 		 topMargin="20"
 		 bottomMargin="20"
-		 whenNoDataType="NoPages"
+		 whenNoDataType="AllSectionsNoDetail"
 		 isTitleNewPage="false"
 		 isSummaryNewPage="false">
 	<property name="ireport.scriptlethandling" value="0" />
@@ -38,8 +38,8 @@
 ,a.documento as nfiscal,tipo as ORIGEN
 ,(SELECT v.kilos FROM venta v where v.cuenta_por_cobrar_id=a.id )as KILOS
 ,(CASE 	WHEN CFDI_ID IS NULL AND (SELECT v.documento FROM venta v where v.cuenta_por_cobrar_id=a.id) IS NULL THEN 'S/VyT'
-		WHEN CFDI_ID IS NULL THEN 'S/T*' 
-		WHEN (SELECT v.documento FROM venta v where v.cuenta_por_cobrar_id=a.id) is null THEN 'S/V=' 
+		WHEN CFDI_ID IS NULL THEN 'S/T*'
+		WHEN (SELECT v.documento FROM venta v where v.cuenta_por_cobrar_id=a.id) is null THEN 'S/V='
 		ELSE '' END) AS TIMBRADA
 ,S.clave AS suc,s.nombre as sucursal
 ,(CASE WHEN A.CANCELADA IS NOT NULL THEN 'C' ELSE '' END) AS CANCELADA

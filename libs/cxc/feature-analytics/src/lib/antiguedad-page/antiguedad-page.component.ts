@@ -1,14 +1,25 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+
 import { TdLoadingService } from '@covalent/core/loading';
+import { TdDialogService } from '@covalent/core/dialogs';
+
+import { finalize, takeUntil, map } from 'rxjs/operators';
+import orderBy from 'lodash/orderBy';
+
 import { CxcService } from '@nx-papelsa/shared/cxc/data-acces';
 import { BaseComponent } from '@nx-papelsa/shared/utils/ui-common';
-import { finalize, takeUntil, map } from 'rxjs/operators';
+import { ReportService } from '@nx-papelsa/shared/utils/ui-forms';
 
-import orderBy from 'lodash/orderBy';
-import { AnalyticsStateService } from '../services/analytics-state.service';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { Antiguedad } from './antiguedad-models';
+import { AnalyticsStateService } from '../services/analytics-state.service';
 import { AntiguedadStateService } from '../services/antiguedad-state.service';
+import { AntiguedadDialogComponent } from '../reportes/antiguedad-dialog.component';
+import { AntiguedadCteDialogComponent } from '../reportes/antiguedad-cte-dialog.component';
+import { CarteraCodDialogComponent } from '../reportes/cartera-cod-dialog.component';
+import { FacturasConDevDialogComponent } from '../reportes/facturas-con-dev-dialog.component';
+import { SucursalPeriodoDialogComponent } from '../reportes/sucursal-periodo-dialog.component';
+import { VentasPorClienteComponent } from '../reportes/ventas-por-cliente.component';
 
 @Component({
   selector: 'papx-cxc-antiguedad-page',
@@ -30,7 +41,10 @@ export class AntiguedadPageComponent extends BaseComponent
     private service: CxcService,
     private loadingService: TdLoadingService,
     private analyticsService: AnalyticsStateService,
-    private antiguedadService: AntiguedadStateService
+    private antiguedadService: AntiguedadStateService,
+    private dialog: MatDialog,
+    private reportService: ReportService,
+    private dialogService: TdDialogService
   ) {
     super();
   }
@@ -120,5 +134,146 @@ export class AntiguedadPageComponent extends BaseComponent
   ngOnDestroy() {
     super.ngOnDestroy();
     this.antiguedadService.setCurrent(null);
+  }
+
+  reporteDeAntiguedad() {
+    this.dialog
+      .open(AntiguedadDialogComponent, { data: {} })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          console.log('Ejecutando reporte.....');
+          this.reportService.runReport(
+            'cuentasPorCobrar/antiguedad/print',
+            res
+          );
+        }
+      });
+  }
+
+  reporteDeAntiguedadPorCliente() {
+    this.dialog
+      .open(AntiguedadCteDialogComponent, { data: {}, width: '750px' })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          this.reportService.runReport(
+            'cuentasPorCobrar/antiguedad/antiguedadPorCliente',
+            res
+          );
+        }
+      });
+  }
+
+  reporteDeCarteraCOD() {
+    this.dialog
+      .open(CarteraCodDialogComponent, { data: {} })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          this.reportService.runReport(
+            'cuentasPorCobrar/antiguedad/reporteDeCobranzaCOD',
+            res
+          );
+        }
+      });
+  }
+  clientesSuspendidos() {
+    this.dialogService
+      .openConfirm({
+        title: 'Reporte de clientes suspendidos',
+        message: 'Ejecutar reporte',
+        cancelButton: 'Cancelar',
+        acceptButton: 'Ejecutar',
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          this.reportService.runReport(
+            'cuentasPorCobrar/antiguedad/clientesSuspendidosCre',
+            res
+          );
+        }
+      });
+  }
+
+  facturasConDevolucion() {
+    this.dialog
+      .open(FacturasConDevDialogComponent, { data: {} })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          this.reportService.runReport(
+            'cuentasPorCobrar/antiguedad/facturasConNotaDevolucion',
+            res
+          );
+        }
+      });
+  }
+
+  excepcionesEnDescuentos() {
+    this.dialog
+      .open(SucursalPeriodoDialogComponent, {
+        data: { titla: 'Excepciones en descuentos' },
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          this.reportService.runReport(
+            'cuentasPorCobrar/antiguedad/reporteExceptionesDescuentos',
+            res
+          );
+        }
+      });
+  }
+
+  ventasAcumuladas() {
+    this.dialog
+      .open(SucursalPeriodoDialogComponent, {
+        data: { title: 'Ventas acumuladas' },
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          this.reportService.runReport('ventas/ventasAcumuladas', res);
+        }
+      });
+  }
+
+  ventasPorCliente() {
+    this.dialog
+      .open(VentasPorClienteComponent, {
+        data: {
+          title: 'Ventas por cliente',
+          origenes: [
+            { clave: 'CRE', descripcion: 'CREDITO' },
+            { clave: 'CON', descripcion: 'CONTADO' },
+            { clave: 'COD', descripcion: 'COD' },
+            { clave: '%', descripcion: 'TODOS' },
+          ],
+        },
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          this.reportService.runReport('ventas/ventaPorCliente', res);
+        }
+      });
+  }
+  ventasPorFacturista() {
+    this.dialog
+      .open(SucursalPeriodoDialogComponent, {
+        data: { title: 'Ventas por facturista' },
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          // const command = {
+          //   ...res,
+          //   origen: res.origen === 'TODOS' ? '%' : res.origen,
+          // };
+          this.reportService.runReport('ventas/ventaPorFacturista', res);
+        }
+      });
   }
 }
