@@ -18,6 +18,7 @@ import { AnalyticsStateService } from './services/analytics-state.service';
 import { AntiguedadStateService } from './services/antiguedad-state.service';
 
 import { REPORTES } from './reportes';
+
 @NgModule({
   declarations: [AnalyticsPageComponent, ...REPORTES],
   imports: [
