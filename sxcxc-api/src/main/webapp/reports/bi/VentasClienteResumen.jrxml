@@ -14,7 +14,7 @@
 		 rightMargin="14"
 		 topMargin="20"
 		 bottomMargin="20"
-		 whenNoDataType="NoPages"
+		 whenNoDataType="AllSectionsNoDetail"
 		 isTitleNewPage="false"
 		 isSummaryNewPage="false">
 	<property name="ireport.scriptlethandling" value="0" />
@@ -30,8 +30,8 @@
 	<parameter name="FECHA_FIN" isForPrompting="true" class="java.util.Date"/>
 	<parameter name="ORIGEN" isForPrompting="true" class="java.lang.String"/>
 	<parameter name="CLIENTE" isForPrompting="true" class="java.lang.String"/>
-	<queryString><![CDATA[SELECT YEAR(V.FECHA) AS YEAR,MONTH(V.FECHA) AS MES,(CASE WHEN V.CLIENTE_ID=8 THEN 'MOSTRADOR' ELSE v.cliente END) CLIENTE,SUM(V.IMP_NETO) AS IMP_NETO,SUM(V.IMP_NETO*1.16) AS CON_IVA,SUM(V.KILOS) AS KILOS 
- FROM fact_ventas_det V 
+	<queryString><![CDATA[SELECT YEAR(V.FECHA) AS YEAR,MONTH(V.FECHA) AS MES,(CASE WHEN V.CLIENTE_ID='402880fc5e4ec411015e4ecc5dfc0554' THEN 'MOSTRADOR' ELSE v.cliente END) CLIENTE,SUM(V.IMP_NETO) AS IMP_NETO,SUM(V.IMP_NETO*1.16) AS CON_IVA,SUM(V.KILOS) AS KILOS
+ FROM bi.fact_ventas_det V
  WHERE V.FECHA BETWEEN $P{FECHA_INI} AND $P{FECHA_FIN} AND V.CLIENTE_ID=$P{CLIENTE}
  AND (CASE WHEN V.ORIGEN='CRE' THEN 'CREDITO' ELSE 'CONTADO' END) LIKE $P{ORIGEN}
  GROUP BY YEAR(V.FECHA),MONTH(V.FECHA),V.CLIENTE]]></queryString>

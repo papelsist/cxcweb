@@ -27,7 +27,10 @@ const routes: Routes = [
   {
     path: '',
     component: VentasPageComponent,
-    children: [{ path: 'mensual', component: VentaMensualComponent }],
+    children: [
+      { path: 'mensual', component: VentaMensualComponent },
+      { path: '', redirectTo: 'mensual', pathMatch: 'full' },
+    ],
   },
 ];
 

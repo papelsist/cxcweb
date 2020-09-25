@@ -14,7 +14,7 @@
 		 rightMargin="14"
 		 topMargin="20"
 		 bottomMargin="20"
-		 whenNoDataType="NoPages"
+		 whenNoDataType="AllSectionsNoDetail"
 		 isTitleNewPage="false"
 		 isSummaryNewPage="false">
 	<property name="ireport.scriptlethandling" value="0" />
@@ -34,14 +34,14 @@
 	<parameter name="CLIENTE_ID" isForPrompting="true" class="java.lang.String"/>
 	<queryString><![CDATA[SELECT V.CLIENTE AS NOMBRE,V.LINEA_ID,V.LINEA AS LINEA
 ,sum(IFNULL(v.imp_neto,0)) as venta_neta_A
-,(SELECT IFNULL(SUM(IFNULL(X.IMP_NETO,0)),0) FROM fact_ventas_det X WHERE x.LINEA_ID=v.LINEA_ID and  MONTH(x.FECHA) BETWEEN $P{MES_INI} AND $P{MES_FIN} AND YEAR(x.FECHA)=$P{YEAR2} 
+,(SELECT IFNULL(SUM(IFNULL(X.IMP_NETO,0)),0) FROM bi.fact_ventas_det X WHERE x.LINEA_ID=v.LINEA_ID and  MONTH(x.FECHA) BETWEEN $P{MES_INI} AND $P{MES_FIN} AND YEAR(x.FECHA)=$P{YEAR2}
 AND (CASE WHEN X.ORIGEN='CRE' THEN 'CREDITO' ELSE 'CONTADO' END)LIKE $P{ORIGEN}
  AND X.CLIENTE_ID=$P{CLIENTE_ID}) AS venta_neta_B
 ,sum(v.imp_neto) -
-(SELECT IFNULL(SUM(IFNULL(X.IMP_NETO,0)),0) FROM fact_ventas_det X WHERE x.LINEA_ID=v.LINEA_ID and  MONTH(x.FECHA) BETWEEN $P{MES_INI} AND $P{MES_FIN} AND YEAR(x.FECHA)=$P{YEAR2} 
+(SELECT IFNULL(SUM(IFNULL(X.IMP_NETO,0)),0) FROM bi.fact_ventas_det X WHERE x.LINEA_ID=v.LINEA_ID and  MONTH(x.FECHA) BETWEEN $P{MES_INI} AND $P{MES_FIN} AND YEAR(x.FECHA)=$P{YEAR2}
 AND (CASE WHEN X.ORIGEN='CRE' THEN 'CREDITO' ELSE 'CONTADO' END)LIKE $P{ORIGEN}
  AND X.CLIENTE_ID=$P{CLIENTE_ID} ) AS DIF
-FROM fact_ventas_det V 
+FROM bi.fact_ventas_det V
 WHERE MONTH(V.FECHA) BETWEEN $P{MES_INI} AND $P{MES_FIN} AND YEAR(V.FECHA)=$P{YEAR1}
 AND (CASE WHEN V.ORIGEN='CRE' THEN 'CREDITO' ELSE 'CONTADO' END)LIKE $P{ORIGEN}
 AND V.CLIENTE_ID=$P{CLIENTE_ID}

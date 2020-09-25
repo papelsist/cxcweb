@@ -160,7 +160,7 @@ class AnalisisDeVentaService {
 
   String getSchemaBi() {
     if(Environment.isDevelopmentMode()) {
-      return 'sx_bi'
+      return 'bi'
     } else return 'bi'
   }
 

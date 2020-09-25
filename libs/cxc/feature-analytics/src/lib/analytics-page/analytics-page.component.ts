@@ -15,6 +15,8 @@ import {
 } from '../reportes';
 import { ReportService } from '@nx-papelsa/shared/utils/ui-forms';
 import { VentasPorClienteComponent } from '../reportes/ventas-por-cliente.component';
+import { ComparativoMejoresClientesComponent } from '../reportes/comparativo-mejores-clientes.component';
+import { VentasPorLineaClienteComponent } from '../reportes/ventas-por-linea-cliente.component';
 
 @Component({
   selector: 'papx-cxc-analytics-page',
@@ -52,10 +54,17 @@ export class AnalyticsPageComponent extends BaseComponent
     { label: 'Mejores clientes', handler: () => this.mejoresClientes() },
     { label: 'Ventas por Cliente', handler: () => this.ventasPorCliente() },
     { label: 'Clientes sin venta', handler: () => this.clientesSinVentas() },
-    { label: 'Comparativo mejores clientes', name: 'bajaEnVentas' },
+    {
+      label: 'Comparativo mejores clientes',
+      handler: () => this.comparativoMejoresClientes(),
+    },
     { label: 'Mejores clientes x Línea', name: 'bajaEnVentas' },
+    {
+      label: 'Ventas clientes x Línea',
+      handler: () => this.ventasPorLineaCliente(),
+    },
     { label: 'Comparativo Ventas por Línea', name: 'bajaEnVentas' },
-    { label: 'Ventas por Línea x día', name: 'bajaEnVentas' },
+    { label: 'Ventas por Línea x Día', name: 'bajaEnVentas' },
     { label: 'Comparativo Vtas por Línea x Cte', name: 'bajaEnVentas' },
   ];
 
@@ -120,7 +129,7 @@ export class AnalyticsPageComponent extends BaseComponent
       .afterClosed()
       .subscribe((res) => {
         if (res) {
-          this.reportService.runReport('analytics/ventasPorCliente', res);
+          this.reportService.runReport('analytics/ventasClientesResumen', res);
         }
       });
   }
@@ -134,10 +143,39 @@ export class AnalyticsPageComponent extends BaseComponent
       .afterClosed()
       .subscribe((res) => {
         if (res) {
-          this.reportService.runReport('analytics/clientesSinVenta', res);
+          this.reportService.runReport('analytics/clienteSinVentas', res);
         }
       });
   }
 
-  bajaEnVentas() {}
+  comparativoMejoresClientes() {
+    this.dialog
+      .open(ComparativoMejoresClientesComponent, {
+        data: {},
+        width: '450px',
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          this.reportService.runReport(
+            'analytics/comparativoMejoresClientes',
+            res
+          );
+        }
+      });
+  }
+
+  ventasPorLineaCliente() {
+    this.dialog
+      .open(VentasPorLineaClienteComponent, {
+        data: {},
+        width: '750px',
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          this.reportService.runReport('analytics/ventasPorLineaCliente', res);
+        }
+      });
+  }
 }

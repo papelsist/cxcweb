@@ -9,7 +9,7 @@ import { FormGroup } from '@angular/forms';
       [appearance]="appearance"
       [style.width.%]="100"
     >
-      <mat-label>Mes</mat-label>
+      <mat-label>{{ label }}</mat-label>
       <mat-select placeholder="Mes" [formControlName]="property">
         <mat-option *ngFor="let mes of meses" [value]="mes.clave"
           >{{ mes.descripcion }}
@@ -22,6 +22,7 @@ import { FormGroup } from '@angular/forms';
 export class MesFieldComponent implements OnInit {
   @Input() parent: FormGroup;
   @Input() property = 'mes';
+  @Input() label = 'Mes';
   @Input() appearance: 'legacy' | 'standard' | 'fill' | 'outline' = 'standard';
 
   meses = [

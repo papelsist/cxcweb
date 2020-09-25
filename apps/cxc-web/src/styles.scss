@@ -99,3 +99,7 @@ body {
   // background-color: mat-color($accent, default-contrast);
   color: mat-color($accent);
 }
+
+.slim-panel .mat-expansion-panel-body {
+  padding: 0 !important;
+}

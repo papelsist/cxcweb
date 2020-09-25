@@ -32,13 +32,13 @@
 	<parameter name="NO_CLIENTES" isForPrompting="true" class="java.lang.Integer">
 		<defaultValueExpression ><![CDATA[new Integer(100)]]></defaultValueExpression>
 	</parameter>
-	<queryString><![CDATA[select a.cliente_id 
+	<queryString><![CDATA[select a.cliente_id
 ,(CASE WHEN a.CLIENTE_ID='402880fc5e4ec411015e4ecc5dfc0554' THEN 'MOSTRADOR' ELSE a.cliente END) nombre
 ,sum(imp_neto) as neto
 ,sum(a.kilos) as kilos
 ,MAX(A.FECHA) AS ULT_VTA
-from fact_ventas_det a  
-where a.fecha between $P{FECHA_INI} and $P{FECHA_FIN} 
+from bi.fact_ventas_det a
+where a.fecha between $P{FECHA_INI} and $P{FECHA_FIN}
 AND (CASE WHEN A.ORIGEN='CRE' THEN 'CREDITO' ELSE 'CONTADO' END) LIKE $P{ORIGEN}
 group by 2
 order by (sum(a.imp_neto)) desc

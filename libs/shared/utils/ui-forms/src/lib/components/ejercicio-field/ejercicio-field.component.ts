@@ -9,7 +9,7 @@ import { FormGroup } from '@angular/forms';
       [appearance]="appearance"
       [style.width.%]="100"
     >
-      <mat-label>Año</mat-label>
+      <mat-label>{{ label }}</mat-label>
       <mat-select placeholder="Año" [formControlName]="property">
         <mat-option *ngFor="let ejercicio of ejercicios" [value]="ejercicio"
           >{{ ejercicio }}
@@ -23,6 +23,7 @@ export class EjercicioFieldComponent implements OnInit {
   @Input() parent: FormGroup;
   @Input() property = 'ejercicio';
   @Input() appearance: 'legacy' | 'standard' | 'fill' | 'outline' = 'standard';
+  @Input() label = 'Año';
 
   ejercicios = [2017, 2018, 2019, 2020, 2021];
 

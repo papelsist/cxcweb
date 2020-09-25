@@ -18,7 +18,7 @@ import round from 'lodash/round';
   selector: 'papx-cxc-venta-mensual',
   template: `
     <mat-toolbar>
-      <span>Venta neta mensual</span>
+      <span>Analisis de Ventas (Mensual)</span>
       <span fxFlex></span>
       <button
         mat-icon-button

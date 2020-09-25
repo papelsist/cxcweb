@@ -29,28 +29,15 @@ import { Periodo } from '@nx-papelsa/shared/utils/core-models';
         <mat-form-field>
           <mat-label>Orden</mat-label>
           <mat-select placeholder="Orden" formControlName="orden">
-            <mat-option
-              *ngFor="
-                let item of [
-                  'PROMEDIO',
-                  'PORCENTAJE',
-                  'CLIENTE',
-                  'TIPO',
-                  'PERIODO',
-                  'ULT_VENTA'
-                ]
-              "
-              [value]="item"
-              >{{ item }}
+            <mat-option *ngFor="let item of ordenes" [value]="item.clave"
+              >{{ item.descripcion }}
             </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Forma</mat-label>
           <mat-select placeholder="Forma" formControlName="forma">
-            <mat-option
-              *ngFor="let item of ['ASCENDENTE', 'DESCENDENTE']"
-              [value]="item"
+            <mat-option *ngFor="let item of ['DESC', 'ASC']" [value]="item"
               >{{ item }}
             </mat-option>
           </mat-select>
@@ -67,7 +54,7 @@ import { Periodo } from '@nx-papelsa/shared/utils/core-models';
           <input
             type="number"
             matInput
-            formControlName="mayorA"
+            formControlName="valorVenta"
             placeholder="Mayor A"
           />
         </mat-form-field>
@@ -94,6 +81,7 @@ import { Periodo } from '@nx-papelsa/shared/utils/core-models';
           />
         </mat-form-field>
       </div>
+      <nx-papelsa-sucursal-field [parent]="form"></nx-papelsa-sucursal-field>
     </div>
 
     <mat-dialog-actions>
@@ -122,6 +110,15 @@ export class BajaEnVentaDialogComponent implements OnInit {
   form: FormGroup;
   periodo: Periodo;
 
+  ordenes = [
+    { clave: 5, descripcion: 'PROMEDIO' },
+    { clave: 7, descripcion: 'PORCENTAJE' },
+    { clave: 1, descripcion: 'CLIENTE' },
+    { clave: 3, descripcion: 'TIPO' },
+    { clave: 6, descripcion: 'PERIODO' },
+    { clave: 8, descripcion: 'ULT.VENTA' },
+  ];
+
   constructor(
     private dialogRef: MatDialogRef<BajaEnVentaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: any,
@@ -139,19 +136,25 @@ export class BajaEnVentaDialogComponent implements OnInit {
     this.form = this.fb.group({
       fechaInicial: [this.periodo.fechaInicial, [Validators.required]],
       fechaFinal: [this.periodo.fechaFinal, [Validators.required]],
-      orden: ['PROMEDIO', [Validators.required]],
-      forma: ['ASCENDENTE', [Validators.required]],
+      orden: [5, [Validators.required]],
+      forma: ['DESC', [Validators.required]],
       dias: [{ value: 30, disabled: true }],
-      mayorA: [],
+      valorVenta: [50000, [Validators.required]],
       origen: ['CREDITO', [Validators.required]],
-      porcentaje: [0.0],
+      porcentaje: [10.0, [Validators.min(1.0)]],
+      sucursal: [null],
     });
   }
 
   onSubmit() {
     if (this.form.valid) {
       const value = this.form.getRawValue();
-      const res = { ...value };
+      const res = {
+        ...value,
+        fechaInicial: value.fechaInicial.toISOString(),
+        fechaFinal: value.fechaFinal.toISOString(),
+        sucursal: value.sucursal ? value.sucursal.id : '%',
+      };
       this.dialogRef.close(res);
     }
   }

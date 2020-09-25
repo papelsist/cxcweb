@@ -2,9 +2,10 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { VentasPorClienteComponent } from './ventas-por-cliente.component';
 
 @Component({
-  selector: 'papx-cxc-ventas-por-clientes',
+  selector: 'papx-cxc-ventas-por-linea-cte',
   template: `
     <div mat-dialog-title>{{ title }}</div>
 
@@ -14,21 +15,37 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
       fxLayoutAlign="center"
       [formGroup]="form"
     >
-      <div fxLayout>
-        <nx-papelsa-cliente-field
-          formControlName="cliente"
-          fxFlex
-        ></nx-papelsa-cliente-field>
+      <div>
+        <nx-papelsa-cliente-field formControlName="cliente">
+        </nx-papelsa-cliente-field>
       </div>
-      <div fxLayout fxLayoutGap="5px" fxLayoutAlign="space-between center">
-        <nx-papelsa-fecha-field
-          label="Fecha Inicial"
-          formControlName="fechaInicial"
-        ></nx-papelsa-fecha-field>
-        <nx-papelsa-fecha-field
-          label="Fecha Final"
-          formControlName="fechaFinal"
-        ></nx-papelsa-fecha-field>
+      <div fxLayout fxLayoutGap="5px">
+        <nx-papelsa-mes-field
+          [parent]="form"
+          property="mesInicial"
+          label="Mes Ini"
+        ></nx-papelsa-mes-field>
+        <nx-papelsa-mes-field
+          [parent]="form"
+          property="mesFinal"
+          label="Mes Fin"
+        ></nx-papelsa-mes-field>
+      </div>
+
+      <div fxLayout fxLayoutGap="5px">
+        <nx-papelsa-ejercicio-field
+          [parent]="form"
+          property="ejercicioInicial"
+          label="Ejercicio Ini"
+        ></nx-papelsa-ejercicio-field>
+        <nx-papelsa-ejercicio-field
+          [parent]="form"
+          property="ejercicioFinal"
+          label="Ejercicio Fin"
+        ></nx-papelsa-ejercicio-field>
+      </div>
+
+      <div fxLayout fxLayoutGap="5px">
         <mat-form-field>
           <mat-label>Origen</mat-label>
           <mat-select placeholder="Origen" formControlName="origen">
@@ -39,9 +56,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <mat-checkbox formControlName="kilos">Kilos</mat-checkbox>
       </div>
     </div>
-
     <mat-dialog-actions>
       <button mat-flat-button [mat-dialog-close]>Cancelar</button>
       <button
@@ -63,8 +80,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
     `,
   ],
 })
-export class VentasPorClienteComponent implements OnInit {
-  title = 'Ventas por cliente';
+export class VentasPorLineaClienteComponent implements OnInit {
+  title = 'Reporte: Ventas por Línea - Cliente';
   form: FormGroup;
 
   constructor(
@@ -79,25 +96,23 @@ export class VentasPorClienteComponent implements OnInit {
 
   buildForm() {
     this.form = this.fb.group({
-      cliente: [null],
-      fechaInicial: [null, [Validators.required]],
-      fechaFinal: [null, [Validators.required]],
+      cliente: [null, [Validators.required]],
+      mesInicial: [8, [Validators.required]],
+      mesFinal: [7, [Validators.required]],
+      ejercicioInicial: [2020, [Validators.required]],
+      ejercicioFinal: [2020, [Validators.required]],
       origen: ['CREDITO', [Validators.required]],
+      kilos: [true],
     });
   }
 
   onSubmit() {
     if (this.form.valid) {
       const value = this.form.getRawValue();
-
-      const res = {
+      this.dialogRef.close({
         ...value,
-        cliente: value.cliente.id,
-        fechaInicial: value.fechaInicial.toISOString(),
-        fechaFinal: value.fechaFinal.toISOString(),
-        origen: value.origen === 'TODOS' ? '%' : value.origen,
-      };
-      this.dialogRef.close(res);
+        cliente: value.cliente ? value.cliente.id : '%',
+      });
     }
   }
 }

@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'papx-cxc-mejores-clientes',
+  selector: 'papx-cxc-comparativo-mejores-clientes',
   template: `
     <div mat-dialog-title>{{ title }}</div>
 
@@ -15,14 +15,29 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
       [formGroup]="form"
     >
       <div fxLayout fxLayoutGap="5px">
-        <nx-papelsa-fecha-field
-          label="Fecha Inicial"
-          formControlName="fechaInicial"
-        ></nx-papelsa-fecha-field>
-        <nx-papelsa-fecha-field
-          label="Fecha Final"
-          formControlName="fechaFinal"
-        ></nx-papelsa-fecha-field>
+        <nx-papelsa-mes-field
+          [parent]="form"
+          property="mesInicial"
+          label="Mes Ini"
+        ></nx-papelsa-mes-field>
+        <nx-papelsa-mes-field
+          [parent]="form"
+          property="mesFinal"
+          label="Mes Fin"
+        ></nx-papelsa-mes-field>
+      </div>
+
+      <div fxLayout fxLayoutGap="5px">
+        <nx-papelsa-ejercicio-field
+          [parent]="form"
+          property="ejercicioInicial"
+          label="Ejercicio Ini"
+        ></nx-papelsa-ejercicio-field>
+        <nx-papelsa-ejercicio-field
+          [parent]="form"
+          property="ejercicioFinal"
+          label="Ejercicio Fin"
+        ></nx-papelsa-ejercicio-field>
       </div>
 
       <div fxLayout fxLayoutGap="5px">
@@ -46,8 +61,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
           />
         </mat-form-field>
       </div>
+      <div fxLayout fxLayoutGap="5px">
+        <nx-papelsa-sucursal-field [parent]="form"></nx-papelsa-sucursal-field>
+        <mat-checkbox formControlName="kilos">Kilos</mat-checkbox>
+      </div>
     </div>
-
     <mat-dialog-actions>
       <button mat-flat-button [mat-dialog-close]>Cancelar</button>
       <button
@@ -69,12 +87,12 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
     `,
   ],
 })
-export class MejoresClientesComponent implements OnInit {
-  title = 'Reporte de Mejores clientes';
+export class ComparativoMejoresClientesComponent implements OnInit {
+  title = 'Reporte: Comparativo mejores clientes';
   form: FormGroup;
 
   constructor(
-    private dialogRef: MatDialogRef<MejoresClientesComponent>,
+    private dialogRef: MatDialogRef<ComparativoMejoresClientesComponent>,
     @Inject(MAT_DIALOG_DATA) data: any,
     private fb: FormBuilder
   ) {}
@@ -85,23 +103,24 @@ export class MejoresClientesComponent implements OnInit {
 
   buildForm() {
     this.form = this.fb.group({
-      fechaInicial: [null, [Validators.required]],
-      fechaFinal: [null, [Validators.required]],
+      mesInicial: [8, [Validators.required]],
+      mesFinal: [7, [Validators.required]],
+      ejercicioInicial: [2020, [Validators.required]],
+      ejercicioFinal: [2020, [Validators.required]],
       origen: ['CREDITO', [Validators.required]],
       numeroDeClientes: [50],
+      sucursal: [],
+      kilos: [true],
     });
   }
 
   onSubmit() {
     if (this.form.valid) {
       const value = this.form.getRawValue();
-      const res = {
+      this.dialogRef.close({
         ...value,
-        fechaInicial: value.fechaInicial.toISOString(),
-        fechaFinal: value.fechaFinal.toISOString(),
-        origen: value.origen === 'TODOS' ? '%' : value.origen,
-      };
-      this.dialogRef.close(res);
+        sucursal: value.sucursal ? value.sucursal.id : '%',
+      });
     }
   }
 }

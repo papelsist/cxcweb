@@ -14,7 +14,7 @@
 		 rightMargin="15"
 		 topMargin="20"
 		 bottomMargin="20"
-		 whenNoDataType="NoPages"
+		 whenNoDataType="AllSectionsNoDetail"
 		 isTitleNewPage="false"
 		 isSummaryNewPage="false">
 	<property name="ireport.scriptlethandling" value="0" />
@@ -42,21 +42,21 @@
 	<queryString><![CDATA[SELECT A.NOMBRE,A.MESES,A.TIPO
 ,ROUND(SUM(A.VENTA_NETA),2) AS VENTA_NETA
 ,ROUND(SUM(A.PROM_VTA),2) AS PROM_VTA
-,ROUND(SUM(A.PERIODO),2) AS PERIODO 
+,ROUND(SUM(A.PERIODO),2) AS PERIODO
 ,ROUND(SUM(A.PERIODO)*100/SUM(A.PROM_VTA),1) AS PORC_VTA
 ,MAX(A.ULT_VTA) AS ULT_VTA,A.SUC
 FROM (
 SELECT V.SUC,'HST' AS PRDO,(CASE WHEN V.CLIENTE_ID='402880fc5e4ec411015e4ecc5dfc0554' THEN 'MOSTRADOR' ELSE v.cliente END) nombre
 ,(CASE 	WHEN 	MAX((CASE WHEN v.origen = 'CRE' THEN 'CRE' ELSE 'CON' END)) =  'CON' THEN 'CON' ELSE 'CRE' END) AS TIPO
-,sum(v.IMP_NETO) as venta_neta 
+,sum(v.IMP_NETO) as venta_neta
 ,round((to_days(DATE_ADD($P{FECHA_FIN}, INTERVAL -(30+1) DAY))-(to_days($P{FECHA_INI})))/30.4167,2) as meses
 ,sum(v.IMP_NETO)/round((to_days(DATE_ADD($P{FECHA_FIN}, INTERVAL -(30+1) DAY))-(to_days($P{FECHA_INI})))/30.4167,2) as prom_vta
 ,0 as periodo
 ,max(v.fecha) as ULT_VTA
-FROM fact_ventas_det V  
+FROM bi.fact_ventas_det V
 WHERE V.FECHA BETWEEN $P{FECHA_INI} AND DATE_ADD($P{FECHA_FIN}, INTERVAL -(30+1) DAY)
 AND V.SUCURSAL_ID LIKE $P{SUCURSAL} AND (CASE WHEN V.ORIGEN='CRE' THEN 'CREDITO' ELSE 'CONTADO' END) LIKE $P{ORIGEN}
-group by V.CLIENTE,V.FECHA 
+group by V.CLIENTE,V.FECHA
 union
 SELECT V.SUC,'ACT' as PRDO,(CASE WHEN V.CLIENTE_ID='402880fc5e4ec411015e4ecc5dfc0554' THEN 'MOSTRADOR' ELSE v.cliente END) nombre
 ,(CASE 	WHEN 	MAX((CASE WHEN v.origen = 'CRE' THEN 'CRE' ELSE 'CON' END)) =  'CON' THEN 'CON' ELSE 'CRE' END) AS TIPO
@@ -65,12 +65,12 @@ SELECT V.SUC,'ACT' as PRDO,(CASE WHEN V.CLIENTE_ID='402880fc5e4ec411015e4ecc5dfc
 ,0 as prom_vta
 ,sum(v.IMP_NETO) as periodo
 ,max(v.fecha) as ULT_VTA
-FROM fact_ventas_det V  
+FROM bi.fact_ventas_det V
 WHERE V.FECHA BETWEEN DATE_ADD($P{FECHA_FIN}, INTERVAL -30 DAY) AND $P{FECHA_FIN}
 AND V.SUCURSAL_ID LIKE $P{SUCURSAL} AND (CASE WHEN V.ORIGEN='CRE' THEN 'CREDITO' ELSE 'CONTADO' END) LIKE $P{ORIGEN}
-group by V.CLIENTE 
-) AS A 
-GROUP BY A.NOMBRE,A.TIPO 
+group by V.CLIENTE
+) AS A
+GROUP BY A.NOMBRE,A.TIPO
 HAVING SUM(A.PROM_VTA)>=$P{VALOR_VENTA} AND ROUND(SUM(A.PERIODO),2)>0
 AND (ROUND(SUM(A.PERIODO)*100/SUM(A.PROM_VTA),1))<=$P{PORCENTAJE}
 ORDER BY  $P!{ORDER} $P!{FORMA}]]></queryString>
