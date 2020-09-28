@@ -33,3 +33,18 @@ export interface VentaCommand {
   tipoDeVenta: string;
   tipoDeProducto: string;
 }
+
+export interface VentasPorLinea {
+  id: string;
+  nombre: string;
+  sucursales: { [key: string]: VentaAgregada };
+  tipo: { [key: string]: VentaAgregada };
+}
+
+export interface VentaAgregada {
+  cantidad: number;
+  kilos: number;
+  venta: number;
+  costo: number;
+  utilidad: number;
+}

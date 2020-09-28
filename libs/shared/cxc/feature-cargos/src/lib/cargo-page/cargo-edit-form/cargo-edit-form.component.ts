@@ -131,6 +131,12 @@ export class CargoEditFormComponent implements OnInit, OnDestroy {
         this.service.calcularPorProrrateo(this.form);
         break;
     }
+
+    const data = this.getPartidas().value;
+    const importe = sumByProperty(data, 'importe');
+    const impuesto = sumByProperty(data, 'impuesto');
+    const total = sumByProperty(data, 'total');
+    this.form.patchValue({ importe, impuesto, total });
   }
 
   private observarTipoDeCalculo() {
@@ -185,6 +191,8 @@ export class CargoEditFormComponent implements OnInit, OnDestroy {
       };
     });
     this.addPartidas(items);
+    this.recalcular();
+    this.form.markAsDirty();
   }
 
   private addPartidas(items: NotaDeCargoDet[]) {

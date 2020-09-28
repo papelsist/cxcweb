@@ -13,31 +13,25 @@ export class CargoFormService {
 
   calcularPorProrrateo(form: FormGroup) {
     const montoGeneral = form.get('monto').value;
-    console.log('Recalculando por PRORRATEO Monto: ', montoGeneral);
-
-    // if (montoGeneral <= 0.0) return;
     const controls = form.get('partidas') as FormArray;
     const facturas = controls.value;
-    const sobreSaldo = true;
-    const base = sumByProperty(
-      facturas,
-      sobreSaldo ? 'documentoSaldo' : 'documentoTotal'
-    );
-    console.log(
-      `Importe a prorratear: ${montoGeneral} Base: ${base} Tipo: ${sobreSaldo} : 'SOBRE SALDO' : 'SOBRE TOTAL'`
-    );
-    let acuImporte = 0.0,
-      acuImpuesto = 0.0,
-      acuTotal = 0.0;
+    const baseDelCalculo = 'total';
+    const property =
+      baseDelCalculo.toLowerCase() === 'saldo'
+        ? 'documentoSaldo'
+        : 'documentoTotal';
+
+    const base = sumByProperty(facturas, property);
+
     for (let index = 0; index < controls.length; index++) {
       const control = controls.at(index);
       const det: NotaDeCargoDet = control.value;
-      const monto = sobreSaldo ? det.documentoSaldo : det.documentoTotal;
+      const monto = det[property];
 
-      const participacion = MonedaUtils.round(monto / base, 4);
-      const asignado = MonedaUtils.round(montoGeneral * participacion, 4);
+      const participacion = MonedaUtils.round(monto / base, 2);
+      const asignado = MonedaUtils.round(montoGeneral * participacion, 2);
       console.log(
-        'Partida: %i Saldo: %f Participacion: %f Asignación: %f',
+        'Partida: %i Monto: %f Participacion: %f Asignación: %f',
         index,
         monto,
         participacion,
@@ -47,29 +41,9 @@ export class CargoFormService {
       const impuesto = MonedaUtils.calcularImpuesto(importe);
       const total = importe + impuesto;
 
-      console.log(
-        'Partida: %i Importe: %f Impuesto: %f Total: %f',
-        index,
-        importe,
-        impuesto,
-        total
-      );
-
-      det.cargo = 0.0;
-      det.importe = MonedaUtils.round(importe, 2);
-      det.impuesto = MonedaUtils.round(impuesto, 2);
-      det.total = MonedaUtils.round(total, 2);
-      controls.setControl(index, new FormControl(det));
-
-      acuImporte += MonedaUtils.round(importe);
-      acuImpuesto += MonedaUtils.round(impuesto);
-      acuTotal += MonedaUtils.round(total);
+      const newValue = { ...det, importe, impuesto, total };
+      control.setValue(newValue);
     }
-    form.patchValue({
-      importe: acuImporte,
-      impuesto: acuImpuesto,
-      total: acuTotal,
-    });
   }
 
   calcularPorPorcentaje(form: FormGroup) {

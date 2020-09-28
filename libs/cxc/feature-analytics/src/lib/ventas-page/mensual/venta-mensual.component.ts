@@ -1,5 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { TdDialogService } from '@covalent/core/dialogs';
 import { TdLoadingService } from '@covalent/core/loading';
 
@@ -73,7 +75,11 @@ import round from 'lodash/round';
         "
       ></ng-template>
       <div class="grid-panel">
-        <papx-cxc-venta-grid [rows]="ventas$" #grid></papx-cxc-venta-grid>
+        <papx-cxc-venta-grid
+          [rows]="ventas$"
+          #grid
+          (drillDown)="onDrill($event)"
+        ></papx-cxc-venta-grid>
       </div>
 
       <td-chart class="pie-chart">
@@ -128,7 +134,8 @@ export class VentaMensualComponent extends BaseComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private service: AnalyticsService,
     private loadingService: TdLoadingService,
-    private dialogService: TdDialogService
+    private dialogService: TdDialogService,
+    private router: Router
   ) {
     super();
   }
@@ -216,5 +223,14 @@ export class VentaMensualComponent extends BaseComponent implements OnInit {
         value: item[this.pivotProperty],
       }));
     this.pieChartData$ = [otr, ...data].filter((item) => item.value > 0.0);
+  }
+
+  onDrill(event: any) {
+    const { slice } = this.command;
+
+    console.log('Drill: ', event);
+    this.router.navigate(['analytics', 'ventas', 'mensual', event.origenId], {
+      queryParams: { ...this.command },
+    });
   }
 }

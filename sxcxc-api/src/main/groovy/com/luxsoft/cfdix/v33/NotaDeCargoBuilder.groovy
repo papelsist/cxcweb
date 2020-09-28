@@ -226,8 +226,11 @@ class NotaDeCargoBuilder {
             relacionados.tipoRelacion = '02'
             relacionables.each { NotaDeCargoDet det ->
                 Comprobante.CfdiRelacionados.CfdiRelacionado relacionado = factory.createComprobanteCfdiRelacionadosCfdiRelacionado()
-                def cxc = det.cuentaPorCobrar 
+                def cxc = det.cuentaPorCobrar
                 def uuid = cxc.uuid
+                if(uuid == null && cxc.cfdi) {
+                  uuid = cxc.cfdi.uuid
+                }
                 assert uuid, 'No existe UUID origen para la cxc :' + cxc.id
                 relacionado.UUID = uuid
                 relacionados.cfdiRelacionado.add(relacionado)
@@ -236,7 +239,7 @@ class NotaDeCargoBuilder {
         }
         /*
         if(nota.tipo != 'CHE') {
-            
+
         }
         */
 

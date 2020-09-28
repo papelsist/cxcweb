@@ -22,6 +22,7 @@ import { VentaMensualComponent } from './mensual/venta-mensual.component';
 import { VentaGridComponent } from './venta-grid/venta-grid.component';
 import { CubeSelectorComponent } from './cube-selector/cube-selector.component';
 import { VtaMensualBarChartComponent } from './mensual/vta-mensual-bar-chart.component';
+import { VentaMensualDetComponent } from './mensual/venta-mensual-det.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,7 @@ const routes: Routes = [
     component: VentasPageComponent,
     children: [
       { path: 'mensual', component: VentaMensualComponent },
+      { path: 'mensual/:id', component: VentaMensualDetComponent },
       { path: '', redirectTo: 'mensual', pathMatch: 'full' },
     ],
   },
@@ -41,6 +43,7 @@ const routes: Routes = [
     VentaGridComponent,
     CubeSelectorComponent,
     VtaMensualBarChartComponent,
+    VentaMensualDetComponent,
   ],
   imports: [
     UiCommonModule,

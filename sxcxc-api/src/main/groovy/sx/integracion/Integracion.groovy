@@ -1,83 +1,84 @@
 package sx.integracion
 
+import java.sql.SQLException
+import javax.sql.DataSource
+
 import groovy.sql.Sql
+import groovy.util.logging.Slf4j
+
+import groovy.transform.CompileStatic
+import groovy.transform.TypeCheckingMode
+import grails.compiler.GrailsCompileStatic
+
 import org.apache.commons.lang.exception.ExceptionUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
+
 import sx.core.Sucursal
 
-import java.sql.SQLException
-
+@Slf4j
+@CompileStatic
 trait Integracion {
 
-    @Autowired
-    @Qualifier('dataSource')
-    def dataSource
+  @Autowired
+  @Qualifier('dataSource')
+  DataSource dataSource
 
 
-    @Autowired
-    @Qualifier('grailsApplication')
-    def grailsApplication
-
-    IntegracionLog preparaBitacora(Class entidad, Sucursal sucursal, Date fecha) {
-        IntegracionLog integracionLog = new IntegracionLog()
-        integracionLog.sucursal = sucursal
-        integracionLog.sucursalNombre = sucursal.nombre
-        integracionLog.fecha = fecha
-        integracionLog.entidad = entidad.class.simpleName
-        return integracionLog
+  List fetchRows(String sql, Map params) {
+    Sql db = getSql()
+    try {
+      return db.rows(sql, params)
+    }catch (SQLException e){
+      Throwable c = ExceptionUtils.getRootCause(e)
+      String message = ExceptionUtils.getRootCauseMessage(e)
+      logError(message)
+      throw new RuntimeException(message,c)
+    }finally {
+      db.close()
     }
+  }
 
-    def getRows(Sucursal sucursal, String sql, ...params) {
-        println "Rows con ${sucursal} Params: ${params} SQL: ${sql}"
-        def db = getSql(sucursal)
-        try {
-            return db.rows(sql,params)
-        }catch (SQLException e){
-            e.printStackTrace()
-            def c = ExceptionUtils.getRootCause(e)
-            def message = ExceptionUtils.getRootCauseMessage(e)
-            throw new RuntimeException(message,c)
-        }finally {
-            db.close()
-        }
-    }
+  Map fetchRow(String sql, Map  params){
+    Sql db = getSql()
+    return db.firstRow(sql, params)
+  }
 
-    def getSql(Sucursal sucursal) {
-        String user = 'root'
-        String password = 'sys'
-        String driver = 'com.mysql.jdbc.Driver'
-        Sql db = Sql.newInstance(sucursal.dbUrl, user, password, driver)
-        return db
-    }
+  Sql getSql(){
+    Sql sql = new Sql(this.dataSource)
+    return sql;
+  }
 
-    def getLocalSql(){
-        Sql sql = new Sql(this.dataSource)
-        return sql;
-    }
 
-    def getLocalRows(String sql, List params) {
-        def db = getLocalSql()
-        try {
-            return db.rows(sql, params)
-        }catch (SQLException e){
-            e.printStackTrace()
-            def c = ExceptionUtils.getRootCause(e)
-            def message = ExceptionUtils.getRootCauseMessage(e)
-            throw new RuntimeException(message,c)
-        }finally {
-            db.close()
-        }
+  /**
+  * Obtiene registros de una sucursal abriendo una conexion de SQL directa
+  *
+  */
+  List getRowsFromSucursal(Sucursal sucursal, String sql, ...params) {
+    Sql db = getSucursalSql(sucursal)
+    try {
+        return db.rows(sql,params)
+    }catch (SQLException e){
+        Throwable c = ExceptionUtils.getRootCause(e)
+        String message = ExceptionUtils.getRootCauseMessage(e)
+        logError(message)
+        throw new RuntimeException(message,c)
+    }finally {
+        db.close()
     }
+  }
 
-    def getLocalRow(String sql, List params){
-        Sql db = getLocalSql()
-        return db.firstRow(sql, params)
-    }
+  Sql getSucursalSql(Sucursal sucursal) {
+    String user = 'root'
+    String password = 'sys'
+    String driver = 'com.mysql.jdbc.Driver'
+    Sql db = Sql.newInstance(sucursal.dbUrl, user, password, driver)
+    return db
+  }
 
-    def tempo() {
-        Sql sql = getLocalSql()
-        sql.firstRow("select count(*) from Cfdi where uuid is not null")
-    }
+  @CompileStatic(TypeCheckingMode.SKIP)
+  private void logError(String m) {
+    log.error(m)
+  }
 
 }
