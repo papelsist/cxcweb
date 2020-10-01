@@ -65,7 +65,7 @@ export class DevolucionFormComponent implements OnInit, OnDestroy {
 
   buildForm(devolucion: Partial<NotaDeCredito>) {
     this.form = this.fb.group({
-      concepto: [devolucion.concepto, [Validators.required]],
+      concepto: [devolucion.concepto || 'DEVOLUCION', [Validators.required]],
       moneda: [
         { value: devolucion.moneda, disabled: true },
         [Validators.required],
@@ -96,10 +96,12 @@ export class DevolucionFormComponent implements OnInit, OnDestroy {
   }
 
   setRmd(rmd: Partial<Devolucion>) {
+    console.log('Asignando RMD:', rmd);
     const { importe, impuesto, total, comentario } = rmd;
     const value = { importe, impuesto, total, comentario };
     this.form.patchValue(value, { emitEvent: false, onlySelf: true });
     this.getRmdControl().setValue(rmd);
+    this.form.markAsDirty();
   }
 
   onSelectRmd(rmds: Devolucion[]) {
@@ -119,7 +121,7 @@ export class DevolucionFormComponent implements OnInit, OnDestroy {
   @Input()
   set devolucion(value: Partial<NotaDeCredito>) {
     this._devolucion = value;
-    console.log('Devolucion: ', this._devolucion);
+    console.log('NC Devolucion: ', this._devolucion);
     if (this.form) {
       if (value.devolucion) {
         this.setRmd(value.devolucion);
