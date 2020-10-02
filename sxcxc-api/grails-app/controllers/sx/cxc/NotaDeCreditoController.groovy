@@ -61,9 +61,12 @@ class NotaDeCreditoController extends RestfulController<NotaDeCredito> {
 
   @Override
   protected NotaDeCredito createResource() {
+    log.debug('Prarando Nota de Credito: {}', params)
     NotaDeCredito instance = new NotaDeCredito()
-    instance.sucursal = notaDeCreditoService.getSucursal()
     bindData instance, getObjectToBind()
+    log.debug('Nota after binding :{}', instance)
+    // if(!instance.sucursal)
+    instance.sucursal = notaDeCreditoService.getSucursal()
     return instance
   }
 
@@ -148,21 +151,33 @@ class NotaDeCreditoController extends RestfulController<NotaDeCredito> {
     String cartera = params.cartera
     String clienteId = params.clienteId
 
-    if (cartera == 'CRE') {
-      def rows = DevolucionDeVenta.findAll("""
+    log.info('Buscando RMDs PARAMS: {}', params)
+
+    def rows = []
+    if(clienteId) {
+      log.debug('Buscando RMDs para cliente: {}', clienteId)
+      rows = DevolucionDeVenta.findAll("""
           from DevolucionDeVenta d
           where d.venta.cliente.id = :id
             and d.cobro is null
             and d.cancelado is null
             and d.venta.tipo = :cart
+            and d not in(select x.devolucion from NotaDeCredito x)
             order by d.fecha desc""",
         [id: clienteId, cart: cartera])
-      log.debug('RMDs localizados: {}', rows.size())
-      respond rows
-      return
+    } else {
+      log.debug('Localizando RMDs DISPONIBLES')
+      rows = DevolucionDeVenta.findAll("""
+          from DevolucionDeVenta d
+          where d.cobro is null
+            and d.cancelado is null
+            and d.venta.tipo = :cart
+            and d not in(select x.devolucion from NotaDeCredito x)
+            order by d.fecha desc""",
+        [cart: cartera])
     }
-    def emty = [:]
-    respond(emty)
+    log.debug('RMDs localizados: {}', rows.size())
+    respond rows
   }
 
   def buscarRmdOld() {

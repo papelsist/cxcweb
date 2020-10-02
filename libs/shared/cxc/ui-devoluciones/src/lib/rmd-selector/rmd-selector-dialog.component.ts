@@ -54,6 +54,7 @@ export class RmdSelectorDialogComponent implements OnInit {
   rmds: Devolucion[] = [];
 
   @Input() columns: ITdDataTableColumn[] = [
+    {name: 'nombre', label: 'Cliente', width: 210},
     { name: 'documento', label: 'RMD', width: 110 },
     { name: 'sucursalNombre', label: 'Sucursal', width: 110 },
     {

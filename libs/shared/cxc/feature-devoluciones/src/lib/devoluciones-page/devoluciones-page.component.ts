@@ -12,7 +12,7 @@ import {
 import {
   Periodo,
   Cartera,
-  NotaDeCredito,
+  NotaDeCredito, Devolucion, SAT_FORMAS_DE_PAGO
 } from '@nx-papelsa/shared/utils/core-models';
 
 import { DevolucionCreateDialogComponent } from '@nx-papelsa/shared/cxc/ui-devoluciones';
@@ -79,5 +79,43 @@ export class DevolucionesPageComponent extends BaseComponent implements OnInit {
   }
   onSelection(event: NotaDeCredito[]) {
     this._selected$.next(event);
+  }
+
+  /**
+   * this.form = this.fb.group({
+      tipoCartera: [this.cartera.clave, [Validators.required]],
+      tipo: ['DEVOLUCION'],
+      serie: [`DEV${this.cartera.clave}`],
+      cliente: [null, [Validators.required]],
+      formaDePago: [SAT_FORMAS_DE_PAGO.CONTONACION.clave, Validators.required],
+      usoDeCfdi: ['G01', [Validators.required]],
+      moneda: ['MXN', [Validators.required]],
+      concepto: ['DEVOLUCION', [Validators.required]],
+      comentario: [],
+    });
+   * @param rmd
+   */
+  agregarPorRmd(event: Partial<Devolucion[]>, cartera: Cartera) {
+    const rmd  = event[0];
+    // console.log('RMD: ', rmd);
+    const res =  {
+      tipoCartera: cartera.clave,
+      tipo: 'DEVOLUCION',
+      serie: `DEV${cartera.clave}`,
+      cliente: {id: rmd.venta.cliente.id},
+      formaDePago: SAT_FORMAS_DE_PAGO.CONTONACION.clave,
+      usoDeCfdi: 'G01',
+      moneda: rmd.venta.moneda,
+      tc: rmd.venta.tipoDeCambio,
+      concepto: 'DEVOLUCION',
+      importe: rmd.importe,
+      impuesto: rmd.impuesto,
+      total: rmd.total,
+      devolucion: {id: rmd.id},
+      comentario: rmd.comentario,
+      sucursal: {id: rmd.sucursal.id}
+    } as NotaDeCredito
+    // console.log('Nota por salvar: ', res);
+    this.facade.save(res)
   }
 }

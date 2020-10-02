@@ -80,7 +80,7 @@ export class RmdSelectorBtnComponent implements OnInit {
     this.dialog
       .open(RmdSelectorDialogComponent, {
         data: { rmds: devoluciones, excludes: this.excludes },
-        width: '75%',
+        width: '85%',
       })
       .afterClosed()
       .subscribe((selected) => {

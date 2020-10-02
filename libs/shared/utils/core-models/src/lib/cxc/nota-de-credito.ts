@@ -8,11 +8,11 @@ import { Devolucion } from '../inventario';
 export interface NotaDeCredito {
   id: string;
   cliente: Partial<Cliente>;
-  nombre: string;
+  nombre?: string;
   serie: string;
-  folio: number;
+  folio?: number;
   concepto?: string;
-  tipo: 'BONIFICACION' | 'DEVOLUCION';
+  tipo: 'BONIFICACION' | 'DEVOLUCION' ;
   tipoCartera: 'CRE' | 'CON' | 'CHE' | 'JUR' | 'COD';
   tipoDeCalculo?: 'PORCENTAJE' | 'PRORRATEO';
   baseDelCalculo?: 'Saldo' | 'Total' | 'Manual';
@@ -28,7 +28,7 @@ export interface NotaDeCredito {
   comentario?: string;
   partidas: NotaDeCreditoDet[];
 
-  sucursal?: string;
+  sucursal?: string | {id: string};
   descuento: number;
   descuento2: number;
   financiero: boolean;

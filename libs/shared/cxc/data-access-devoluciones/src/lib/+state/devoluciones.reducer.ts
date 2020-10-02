@@ -79,7 +79,6 @@ const devolucionesReducer = createReducer(
     DevolucionesActions.updateDevolucionSuccess,
     DevolucionesActions.cancelarDevolucionSuccess,
     DevolucionesActions.timbrarDevolucionSuccess,
-    DevolucionesActions.deleteDevolucionSuccess,
     DevolucionesActions.aplicarSuccess,
     (state, { devolucion }) =>
       devolucionesAdapter.upsertOne(devolucion, {
@@ -87,6 +86,13 @@ const devolucionesReducer = createReducer(
         loading: false,
         error: null,
       })
+  ),
+  on(DevolucionesActions.deleteDevolucionSuccess, (state, { devolucion }) =>
+    devolucionesAdapter.removeOne(devolucion.id, {
+      ...state,
+      loading: false,
+      error: null,
+    })
   ),
   on(
     DevolucionesActions.loadDevolucionesFailure,

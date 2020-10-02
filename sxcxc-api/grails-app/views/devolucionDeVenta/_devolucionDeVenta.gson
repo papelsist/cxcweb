@@ -6,6 +6,7 @@ model{
 }
 
 json g.render(devolucionDeVenta){
+    nombre devolucionDeVenta.venta.cliente.nombre
     sucursal {
         id devolucionDeVenta.sucursal.id
         nombre devolucionDeVenta.sucursal.nombre

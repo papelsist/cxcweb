@@ -11,7 +11,7 @@
       (searchDebounce)="filter($event)"
       fxFlex
     ></td-search-box>
-
+    <nx-papelsa-cxc-selector-rmd-btn [cartera]="cartera.clave" title="Por RMD" (selection)="agregarPorRmd($event, cartera)"></nx-papelsa-cxc-selector-rmd-btn>
     <nx-papelsa-periodo-picker
       (periodoChanged)="onPeriodoChanged($event)"
       [periodo]="periodo$ | async"
@@ -26,6 +26,8 @@
         <mat-icon>playlist_add</mat-icon>
         <span>Nuevo</span>
       </a>
+
+
       <button mat-menu-item (click)="reload()">
         <mat-icon>refresh</mat-icon>
         <span>Refrescar</span>

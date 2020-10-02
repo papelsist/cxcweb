@@ -96,7 +96,7 @@ export class DevolucionFormComponent implements OnInit, OnDestroy {
   }
 
   setRmd(rmd: Partial<Devolucion>) {
-    console.log('Asignando RMD:', rmd);
+    // console.log('Asignando RMD:', rmd);
     const { importe, impuesto, total, comentario } = rmd;
     const value = { importe, impuesto, total, comentario };
     this.form.patchValue(value, { emitEvent: false, onlySelf: true });
@@ -121,7 +121,7 @@ export class DevolucionFormComponent implements OnInit, OnDestroy {
   @Input()
   set devolucion(value: Partial<NotaDeCredito>) {
     this._devolucion = value;
-    console.log('NC Devolucion: ', this._devolucion);
+    // console.log('NC Devolucion: ', this._devolucion);
     if (this.form) {
       if (value.devolucion) {
         this.setRmd(value.devolucion);
