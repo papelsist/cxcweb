@@ -30,24 +30,6 @@
         <mat-icon matListIcon>{{ item.icon }}</mat-icon>
         <mat-divider matInset></mat-divider>
       </mat-list-item>
-
-      <!-- <mat-list-item *ngIf="cliente.direccion as direccion">
-        <span>Dirección:</span>
-        <span fxFlex class="text-right text-strong"> </span>
-        <h4 matLine>
-          Calle: {{ direccion.calle }} #Int:{{ direccion.numeroInterior }} #Ext:
-          {{ direccion.numeroExterior }}
-        </h4>
-        <h4 matLine>
-          Col: {{ direccion.colonia }} Mpo: {{ direccion.municipio }}
-        </h4>
-        <h4 matLine>
-          Estado: {{ direccion.estado }} C.P.:{{ direccion.codigoPostal }}
-        </h4>
-
-        <mat-icon matListIcon>place</mat-icon>
-        <mat-divider matInset></mat-divider>
-      </mat-list-item> -->
     </mat-list>
 
     <mat-divider></mat-divider>
@@ -80,7 +62,14 @@
       <nx-papelsa-telefonos-panel
         [cliente]="cliente"
         (edit)="onEditarTelefono($event)"
+        (delete)="onDeleteTelefono($event)"
       ></nx-papelsa-telefonos-panel>
+      <mat-action-row>
+        <button mat-button (click)="onAddTelefono()">
+          <mat-icon>add</mat-icon>
+          <span>Agregar</span>
+        </button>
+      </mat-action-row>
     </mat-expansion-panel>
   </mat-accordion>
 </div>

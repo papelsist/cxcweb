@@ -60,3 +60,29 @@ export const updateMedioDeContactoSuccess = createAction(
   '[MedioDeContacto API] MedioDeContacto update success',
   props<{ medio: MedioDeContacto }>()
 );
+
+export const addMedioDeContacto = createAction(
+  '[Cliente Info Page] MedioDeContacto add',
+  props<{ clienteId: string; medio: Partial<MedioDeContacto> }>()
+);
+export const addMedioDeContactoFail = createAction(
+  '[MedioDeContacto API] MedioDeContacto add fail',
+  props<{ error: any }>()
+);
+export const addMedioDeContactoSuccess = createAction(
+  '[MedioDeContacto API] MedioDeContacto add success',
+  props<{ medio: MedioDeContacto }>()
+);
+
+export const deleteMedioDeContacto = createAction(
+  '[Cliente Info Page] MedioDeContacto delete',
+  props<{ clienteId: string; medio: MedioDeContacto }>()
+);
+export const deleteMedioDeContactoFail = createAction(
+  '[MedioDeContacto API] MedioDeContacto delete fail',
+  props<{ error: any }>()
+);
+export const deleteMedioDeContactoSuccess = createAction(
+  '[MedioDeContacto API] MedioDeContacto delete success',
+  props<{ medio: MedioDeContacto }>()
+);

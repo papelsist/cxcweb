@@ -22,6 +22,12 @@ class MedioDeContactoController extends RestfulController<ComunicacionEmpresa> {
   }
 
   @Override
+  protected ComunicacionEmpresa saveResource(ComunicacionEmpresa resource) {
+    log.debug('Salvando medio de contacto: {}', resource)
+    return medioDeContactoService.save(resource)
+  }
+
+  @Override
   protected ComunicacionEmpresa updateResource(ComunicacionEmpresa resource) {
     log.debug('Actualizando {}', resource)
     return medioDeContactoService.updateMedio(resource)

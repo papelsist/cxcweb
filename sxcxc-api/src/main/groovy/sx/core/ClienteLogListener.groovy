@@ -13,25 +13,27 @@ import groovy.transform.CompileStatic
 
 import sx.cloud.LxClienteService
 
+
 // @CompileStatic
 @Slf4j
-class ClienteLogListener {
+class ClienteLogListener implements ReplicaAudit{
 
   LxClienteService lxClienteService
 
   @Listener(Cliente)
   void onPreInsertEvent(PreInsertEvent event) {
-    logCliente(event)
+    preLogCliente(event)
   }
 
   @Listener(Cliente)
   void onPreUpdateEvent(PreUpdateEvent event) {
-    logCliente(event)
+    preLogCliente(event)
   }
 
   @Listener(Cliente)
   void onPostUpdateEvent(PostUpdateEvent event) {
     logFirebase(event)
+    logCliente(event, 'UPDATE')
   }
 
   private void logFirebase(AbstractPersistenceEvent event) {
@@ -41,11 +43,11 @@ class ClienteLogListener {
     }
   }
 
-  private void logCliente(AbstractPersistenceEvent event) {
+  private void preLogCliente(AbstractPersistenceEvent event) {
     if (event.entityObject instanceof Cliente) {
       Cliente cte = event.entityObject as Cliente
       def dirties = cte.dirtyPropertyNames
-      log.info("Dirty properties: {}", dirties)
+      log.debug("Dirty properties: {}", dirties)
       if(cte.isDirty('email')) {
         def cfdiMail = cte.medios.find{ it.tipo == 'MAIL' && it.cfdi}
         if(cfdiMail) {
@@ -59,5 +61,13 @@ class ClienteLogListener {
       */
     }
   }
+
+  void logCliente(AbstractPersistenceEvent event, String type) {
+    if (event.entityObject instanceof Cliente) {
+      Cliente cliente = event.entityObject as Cliente
+      brodcastChanges(cliente.id, 'Cliente', type, 'cliente')
+    }
+  }
+
 
 }

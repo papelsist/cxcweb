@@ -11,7 +11,7 @@ import { Direccion } from '@nx-papelsa/shared/utils/core-models';
 @Component({
   selector: 'nx-papelsa-domicilio-panel',
   template: `
-    <mat-expansion-panel expanded>
+    <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>Domicilio fiscal</mat-panel-title>
         <mat-panel-description>

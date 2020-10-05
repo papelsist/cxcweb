@@ -35,4 +35,11 @@ export class ClientesFacade {
   updateMedioDeContacto(clienteId: string, medio: Update<MedioDeContacto>) {
     this.dispatch(ClientesActions.updateMedioDeContacto({ clienteId, medio }));
   }
+
+  addMedioDeContacto(clienteId: string, medio: Partial<MedioDeContacto>) {
+    this.dispatch(ClientesActions.addMedioDeContacto({ clienteId, medio }));
+  }
+  deleteMedioDeContacto(clienteId: string, medio: MedioDeContacto) {
+    this.dispatch(ClientesActions.deleteMedioDeContacto({ clienteId, medio }));
+  }
 }

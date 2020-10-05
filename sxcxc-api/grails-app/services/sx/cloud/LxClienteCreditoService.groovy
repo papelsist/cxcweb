@@ -41,22 +41,22 @@ class LxClienteCreditoService {
   }
 
 
-  @GrailsCompileStatic(TypeCheckingMode.SKIP)
-  Audit logAudit(String id, String event, String message, int registros, Date updateTime = null) {
-    Audit.withNewSession {
-      Audit alog = new Audit(
-        name: 'LxClienteCredito',
-        persistedObjectId: id,
-        source: 'OFICINAS',
-        target: 'FIREBASE',
-        tableName: 'ClienteCredito',
-        eventName: event,
-        message: message,
-        dateReplicated: updateTime
-      )
-      alog.save failOnError: true, flush: true
-    }
-  }
+  // @GrailsCompileStatic(TypeCheckingMode.SKIP)
+  // Audit logAudit(String id, String event, String message, int registros, Date updateTime = null) {
+  //   Audit.withNewSession {
+  //     Audit alog = new Audit(
+  //       name: 'LxClienteCredito',
+  //       persistedObjectId: id,
+  //       source: 'OFICINAS',
+  //       target: 'FIREBASE',
+  //       tableName: 'ClienteCredito',
+  //       eventName: event,
+  //       message: message,
+  //       dateReplicated: updateTime
+  //     )
+  //     alog.save failOnError: true, flush: true
+  //   }
+  // }
 
 
 }

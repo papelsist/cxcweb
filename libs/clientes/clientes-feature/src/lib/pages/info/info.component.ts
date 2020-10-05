@@ -30,4 +30,11 @@ export class InfoComponent implements OnInit {
   onEditMedio(cliente: Cliente, medio: Update<MedioDeContacto>) {
     this.facade.updateMedioDeContacto(cliente.id, medio);
   }
+
+  onAddMedio(cliente: Cliente, medio: Partial<MedioDeContacto>) {
+    this.facade.addMedioDeContacto(cliente.id, medio);
+  }
+  onDeleteMedio(cliente: Cliente, medio: MedioDeContacto) {
+    this.facade.deleteMedioDeContacto(cliente.id, medio);
+  }
 }

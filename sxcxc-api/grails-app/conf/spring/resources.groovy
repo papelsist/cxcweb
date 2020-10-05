@@ -14,6 +14,7 @@ import com.luxsoft.cfdix.v33.NotaDeCargoPdfGenerator
 import sx.security.UserInfoClaimpProvider
 import sx.core.ClienteLogListener
 import sx.core.ClienteCreditoLogListener
+import sx.core.ClienteContactosLogListener
 
 beans = {
     userPasswordEncoderListener(UserPasswordEncoderListener)
@@ -23,7 +24,10 @@ beans = {
       lxClienteService = ref('lxClienteService')
     }
     clienteCreditoLogListener(ClienteCreditoLogListener){
-      lxClienteCreditoService = ref('lxClienteCreditoService')
+      lxClienteService = ref('lxClienteService')
+    }
+    clienteContactosLogListener(ClienteContactosLogListener) {
+      lxClienteService = ref('lxClienteService')
     }
 
     /*customAuditLogListener(CustomAuditLogListener) {

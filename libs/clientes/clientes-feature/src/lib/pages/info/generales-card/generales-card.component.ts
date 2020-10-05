@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GeneralesFormComponent } from '../generales-form/generales-form.component';
 import { Update } from '@ngrx/entity';
 import { DireccionDialogComponent } from '@nx-papelsa/shared/utils/ui-forms';
+import { TdDialogService } from '@covalent/core/dialogs';
 
 @Component({
   selector: 'nx-papelsa-generales-card',
@@ -28,6 +29,8 @@ export class GeneralesCardComponent implements OnInit {
   @Input() cliente: Cliente;
   @Output() edit = new EventEmitter<Update<Cliente>>();
   @Output() editTelefono = new EventEmitter<Update<MedioDeContacto>>();
+  @Output() addTelefono = new EventEmitter<Partial<MedioDeContacto>>();
+  @Output() deleteTelefono = new EventEmitter<Partial<MedioDeContacto>>();
   telefonos: MedioDeContacto[] = [];
   properties: BeanPropertyListItem<Cliente>[] = [
     {
@@ -71,7 +74,10 @@ export class GeneralesCardComponent implements OnInit {
       icon: 'payment',
     },
   ];
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private dialogService: TdDialogService
+  ) {}
 
   ngOnInit() {
     console.log('Cliente: ', this.cliente);
@@ -117,5 +123,29 @@ export class GeneralesCardComponent implements OnInit {
 
   onEditarTelefono(medio: Update<MedioDeContacto>) {
     this.editTelefono.emit(medio);
+  }
+
+  onDeleteTelefono(medio: MedioDeContacto) {
+    this.deleteTelefono.emit(medio);
+  }
+
+  onAddTelefono() {
+    this.dialogService
+      .openPrompt({
+        title: 'Agregar teléfono',
+        message: 'Número:',
+        acceptButton: 'Aceptar',
+        cancelButton: 'Cancelar',
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          const medio: Partial<MedioDeContacto> = {
+            descripcion: res,
+            tipo: 'TEL',
+          };
+          this.addTelefono.emit(medio);
+        }
+      });
   }
 }

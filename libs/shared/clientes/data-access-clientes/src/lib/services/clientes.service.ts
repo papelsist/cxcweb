@@ -67,4 +67,21 @@ export class ClientesService {
       .put<MedioDeContacto>(url, update.changes)
       .pipe(catchError((error: any) => throwError(error)));
   }
+
+  addMedio(
+    clienteId: string,
+    medio: Partial<MedioDeContacto>
+  ): Observable<MedioDeContacto> {
+    const url = `${this.apiUrl}/${clienteId}/medios`;
+    return this.http
+      .post<MedioDeContacto>(url, { cliente: clienteId, ...medio })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  deleteMedio(clienteId: string, medio: Partial<MedioDeContacto>) {
+    const url = `${this.apiUrl}/${clienteId}/medios/${medio.id}`;
+    return this.http
+      .delete<MedioDeContacto>(url)
+      .pipe(catchError((error: any) => throwError(error)));
+  }
 }

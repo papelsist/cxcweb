@@ -45,6 +45,6 @@ class Audit {
     }
 
     static mapping = {
-       //  table 'audit2'
+      table 'audit2'
     }
 }

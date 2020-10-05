@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { TdDialogService } from '@covalent/core/dialogs';
 import { Update } from '@ngrx/entity';
 import { Cliente, MedioDeContacto } from '@nx-papelsa/shared/utils/core-models';
 import { TelefonoDialogComponent } from '@nx-papelsa/shared/utils/ui-common';
@@ -13,6 +14,9 @@ import { TelefonoDialogComponent } from '@nx-papelsa/shared/utils/ui-common';
         <input type="tel" matInput [value]="tel.descripcion" disabled />
         <button mat-icon-button matSuffix (click)="onEdit(tel, i)">
           <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button matSuffix (click)="onDelete(tel, i)">
+          <mat-icon>delete</mat-icon>
         </button>
       </mat-form-field>
     </div>
@@ -31,8 +35,12 @@ import { TelefonoDialogComponent } from '@nx-papelsa/shared/utils/ui-common';
 export class TelefonosPanelComponent implements OnInit {
   @Input() cliente: Cliente;
   @Output() edit = new EventEmitter<Update<MedioDeContacto>>();
+  @Output() delete = new EventEmitter<MedioDeContacto>();
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private dialogService: TdDialogService
+  ) {}
 
   ngOnInit() {}
 
@@ -56,6 +64,22 @@ export class TelefonosPanelComponent implements OnInit {
             changes: { descripcion: res },
           };
           this.edit.emit(med);
+        }
+      });
+  }
+
+  onDelete(medio: MedioDeContacto, index: number) {
+    this.dialogService
+      .openConfirm({
+        title: 'Eliminar',
+        message: 'Telefono: ' + medio.descripcion,
+        acceptButton: 'Eliminar',
+        cancelButton: 'Cancelar',
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          this.delete.emit(medio);
         }
       });
   }

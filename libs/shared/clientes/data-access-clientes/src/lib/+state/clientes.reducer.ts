@@ -30,14 +30,20 @@ export const initialState: State = clientesAdapter.getInitialState({
 
 const clientesReducer = createReducer(
   initialState,
+  on(ClientesActions.loadClientes, (state) => ({
+    ...state,
+    loaded: false,
+    loading: true,
+    error: null,
+  })),
   on(
-    ClientesActions.loadClientes,
     ClientesActions.updateCliente,
     ClientesActions.updateClienteCredito,
     ClientesActions.updateMedioDeContacto,
+    ClientesActions.addMedioDeContacto,
+    ClientesActions.deleteMedioDeContacto,
     (state) => ({
       ...state,
-      loaded: false,
       loading: true,
       error: null,
     })
@@ -64,15 +70,34 @@ const clientesReducer = createReducer(
       error: null,
     });
   }),
-  on(ClientesActions.updateMedioDeContactoSuccess, (state, { medio }) => {
+  on(
+    ClientesActions.updateMedioDeContactoSuccess,
+    ClientesActions.addMedioDeContactoSuccess,
+    (state, { medio }) => {
+      const clienteExistente = state.entities[medio.cliente.id];
+      const mediosDictionary = {
+        ...keyBy(clienteExistente.medios, 'id'),
+        [medio.id]: medio,
+      };
+      const clienteUpdated = {
+        ...clienteExistente,
+        medios: Object.values(mediosDictionary),
+      };
+      return clientesAdapter.upsertOne(clienteUpdated, {
+        ...state,
+        loading: false,
+        error: null,
+      });
+    }
+  ),
+  on(ClientesActions.deleteMedioDeContactoSuccess, (state, { medio }) => {
     const clienteExistente = state.entities[medio.cliente.id];
-    const mediosDictionary = {
-      ...keyBy(clienteExistente.medios, 'id'),
-      [medio.id]: medio,
-    };
+    const medios = clienteExistente.medios.filter(
+      (item) => item.id != medio.id
+    );
     const clienteUpdated = {
       ...clienteExistente,
-      medios: Object.values(mediosDictionary),
+      medios,
     };
     return clientesAdapter.upsertOne(clienteUpdated, {
       ...state,
@@ -88,6 +113,8 @@ const clientesReducer = createReducer(
     ClientesActions.updateClienteFail,
     ClientesActions.updateClienteCreditoFail,
     ClientesActions.updateMedioDeContactoFail,
+    ClientesActions.addMedioDeContactoFail,
+    ClientesActions.deleteMedioDeContactoFail,
     (state, { error }) => ({
       ...state,
       loading: false,

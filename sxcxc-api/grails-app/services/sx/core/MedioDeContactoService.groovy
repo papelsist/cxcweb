@@ -7,24 +7,29 @@ import grails.gorm.transactions.Transactional
 
 import grails.util.Environment
 
-import sx.cloud.FirebaseService
+
 import sx.core.LogUser
 
 @Transactional
 @Slf4j
 class MedioDeContactoService implements LogUser {
 
-  FirebaseService firebaseService
 
-  ComunicacionEmpresa updateMedio(ComunicacionEmpresa medio) {
+  ComunicacionEmpresa save(ComunicacionEmpresa medio) {
     ComunicacionEmpresa target = medio.save failOnError: true, flush: true
-    // updateFirebase(target)
+    log.debug('Medio de contacto registrado {}', target);
     logEntity(target)
     return target
   }
 
-  void updateFirebase(ComunicacionEmpresa medio) {
-
+  ComunicacionEmpresa updateMedio(ComunicacionEmpresa medio) {
+    ComunicacionEmpresa target = medio.save failOnError: true, flush: true
+    // updateFirebase(target)
+    log.debug('Medio de contacto actualizado {}', target);
+    logEntity(target)
+    return target
   }
+
+
 
 }

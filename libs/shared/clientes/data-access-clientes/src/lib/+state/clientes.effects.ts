@@ -78,6 +78,26 @@ export class ClientesEffects {
     )
   );
 
+  addMedio$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientesActions.addMedioDeContacto),
+      fetch({
+        run: ({ clienteId, medio }) => {
+          return this.service.addMedio(clienteId, medio).pipe(
+            map((res) =>
+              ClientesActions.addMedioDeContactoSuccess({
+                medio: res,
+              })
+            )
+          );
+        },
+
+        onError: (action, error) => {
+          return ClientesActions.updateMedioDeContactoFail({ error });
+        },
+      })
+    )
+  );
   updateMedio$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClientesActions.updateMedioDeContacto),
@@ -99,13 +119,37 @@ export class ClientesEffects {
     )
   );
 
+  deleteMedio$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientesActions.deleteMedioDeContacto),
+      fetch({
+        run: ({ clienteId, medio }) => {
+          return this.service.deleteMedio(clienteId, medio).pipe(
+            map((res) =>
+              ClientesActions.deleteMedioDeContactoSuccess({
+                medio,
+              })
+            )
+          );
+        },
+
+        onError: (action, error) => {
+          return ClientesActions.deleteMedioDeContactoFail({ error });
+        },
+      })
+    )
+  );
+
   errors$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(
           ClientesActions.loadClientesFailure,
           ClientesActions.updateClienteFail,
-          ClientesActions.updateMedioDeContactoFail
+          ClientesActions.updateMedioDeContactoFail,
+          ClientesActions.updateClienteCreditoFail,
+          ClientesActions.addMedioDeContactoFail,
+          ClientesActions.deleteMedioDeContactoFail
         ),
         map(({ error }) => error),
         tap((response) => {
