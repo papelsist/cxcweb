@@ -1,1 +1,48 @@
-<p>cfdis works!</p>
+<mat-card>
+  <div class="push-left push-right" fxLayout="row" fxLayoutAlign="start center">
+    <span fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
+      <span class="mat-title">Comprobantes fiscales (CFDIs) </span>
+    </span>
+    <span fxFlex></span>
+
+    <td-search-box
+      placeholder="Filtrar"
+      (searchDebounce)="grid.gridApi.setQuickFilter($event)"
+      fxFlex
+    ></td-search-box>
+
+    <nx-papelsa-periodo-picker
+      (periodoChanged)="onPeriodoChanged($event)"
+      [periodo]="periodo"
+    ></nx-papelsa-periodo-picker>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="load()">
+        <mat-icon>refresh</mat-icon>
+        <span>Refrescar</span>
+      </button>
+      <nx-papelsa-cfdi-email-bulk
+        [cfdis]="selected"
+      ></nx-papelsa-cfdi-email-bulk>
+    </mat-menu>
+  </div>
+  <div><mat-divider></mat-divider></div>
+  <ng-template
+    tdLoading
+    [tdLoadingUntil]="!loading"
+    tdLoadingStrategy="overlay"
+  >
+  </ng-template>
+  <nx-papelsa-cliente-cfdis-grid
+    #grid
+    class="cfdis-panel"
+    [rows]="cfdis"
+    (drillDown)="onDrilldown($event)"
+    (selectionChange)="onSelection($event)"
+    (print)="onPrint($event)"
+  ></nx-papelsa-cliente-cfdis-grid>
+</mat-card>

@@ -5,13 +5,14 @@ import { CDS_MODULES } from '../common-modules';
 import { CfdiUiCommonModule } from '@nx-papelsa/shared/cfdi/ui-common';
 import { AgGridModule } from 'ag-grid-angular';
 import { AgBooleanRendererComponent } from '@nx-papelsa/shared/utils/ui-common';
-import { FacturasComponent } from './facturas.component';
-import { ClienteFacturasGridComponent } from './cliente-facturas/cliente-facturas-grid.component';
 
-const routes: Routes = [{ path: '', component: FacturasComponent }];
+import { CobrosComponent } from './cobros.component';
+import { ClienteCobrosGridComponent } from './cliente-cobros/cliente-cobros-grid.component';
+
+const routes: Routes = [{ path: '', component: CobrosComponent }];
 
 @NgModule({
-  declarations: [FacturasComponent, ClienteFacturasGridComponent],
+  declarations: [CobrosComponent, ClienteCobrosGridComponent],
   imports: [
     ...CDS_MODULES,
     CfdiUiCommonModule,
@@ -19,4 +20,4 @@ const routes: Routes = [{ path: '', component: FacturasComponent }];
     RouterModule.forChild(routes),
   ],
 })
-export class FacturasModule {}
+export class CobrosModule {}

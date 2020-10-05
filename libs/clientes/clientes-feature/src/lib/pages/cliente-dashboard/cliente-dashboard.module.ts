@@ -42,6 +42,11 @@ const routes: Route[] = [
           import('../cargos/cargos.module').then((m) => m.CargosModule),
       },
       {
+        path: 'cobros',
+        loadChildren: () =>
+          import('../cobros/cobros.module').then((m) => m.CobrosModule),
+      },
+      {
         path: 'cfdis',
         loadChildren: () =>
           import('../cfdis/cfdis.module').then((m) => m.CfdisModule),

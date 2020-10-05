@@ -4,11 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { TdDialogService } from '@covalent/core/dialogs';
 
-import {
-  Cliente,
-  NotaDeCredito,
-  Periodo,
-} from '@nx-papelsa/shared/utils/core-models';
+import { Cliente, Cobro, Periodo } from '@nx-papelsa/shared/utils/core-models';
 import {
   ClienteSearchOptions,
   ClientesFacade,
@@ -17,18 +13,18 @@ import {
 import { BaseComponent } from '@nx-papelsa/shared/utils/ui-common';
 
 @Component({
-  selector: 'nx-papelsa-creditos',
-  templateUrl: './creditos.component.html',
-  styleUrls: ['./creditos.component.scss'],
+  selector: 'nx-papelsa-cobros',
+  templateUrl: './cobros.component.html',
+  styleUrls: ['./cobros.component.scss'],
 })
-export class CreditosComponent extends BaseComponent implements OnInit {
+export class CobrosComponent extends BaseComponent implements OnInit {
   periodo: Periodo;
   loading = false;
-  notas: NotaDeCredito[];
-  selected: NotaDeCredito[] = [];
+  cobros: Cobro[];
+  selected: Cobro[] = [];
   cliente: Cliente;
   pendientes = false;
-  STORE_KEY = 'notas-por-cliente.data';
+  STORE_KEY = 'cobros-por-cliente.data';
 
   constructor(
     private dialogService: TdDialogService,
@@ -64,10 +60,10 @@ export class CreditosComponent extends BaseComponent implements OnInit {
     }
     this.loading = true;
     this.service
-      .notas(this.cliente, params)
+      .cobros(this.cliente, params)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe(
-        (res) => (this.notas = res),
+        (res) => (this.cobros = res),
         (error) => this.handleError(error)
       );
   }
@@ -87,15 +83,15 @@ export class CreditosComponent extends BaseComponent implements OnInit {
     this.load();
   }
 
-  onDrilldown(nota: NotaDeCredito) {
+  onDrilldown(nota: Cobro) {
     this.router.navigate([nota.id], { relativeTo: this.route });
   }
 
-  onSelection(rows: NotaDeCredito[]) {
+  onSelection(rows: Cobro[]) {
     this.selected = rows;
   }
 
-  onPrint(nota: NotaDeCredito) {}
+  onPrint(nota: Cobro) {}
 
   handleError(response: any) {
     const message = response.error ? response.error.message : 'Error';

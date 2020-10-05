@@ -1,0 +1,20 @@
+.mat-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+
+  .mat-title {
+    margin-bottom: 10px;
+    padding-left: 10px;
+  }
+
+  .facturas-panel {
+    flex: 1 0 auto;
+    padding: 0px;
+  }
+}
+.sub-title {
+  padding: 0 10px;
+  font-weight: bold;
+}

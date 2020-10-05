@@ -1,7 +1,7 @@
 <mat-card>
   <div class="push-left push-right" fxLayout="row" fxLayoutAlign="start center">
     <span fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
-      <span class="mat-title">Facturas </span>
+      <span class="mat-title">Cobros </span>
     </span>
     <span fxFlex></span>
 
@@ -45,12 +45,12 @@
     tdLoadingStrategy="overlay"
   >
   </ng-template>
-  <nx-papelsa-cliente-facturas-grid
+  <nx-papelsa-cliente-cobros-grid
     #grid
-    class="facturas-panel"
-    [rows]="facturas"
+    class="cobros-panel"
+    [rows]="cobros"
     (drillDown)="onDrilldown($event)"
     (selectionChange)="onSelection($event)"
     (print)="onPrint($event)"
-  ></nx-papelsa-cliente-facturas-grid>
+  ></nx-papelsa-cliente-cobros-grid>
 </mat-card>

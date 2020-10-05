@@ -53,6 +53,16 @@ export class Periodo {
     return localStorage.setItem(key, periodo.toJson());
   }
 
+  static fromSessionStorage(
+    key: string,
+    notFound: Periodo = Periodo.monthToDay()
+  ) {
+    return this.fromJson(sessionStorage.getItem(key)) || notFound;
+  }
+  static saveOnSessionStorage(key: string, periodo: Periodo) {
+    return sessionStorage.setItem(key, periodo.toJson());
+  }
+
   constructor(
     public fechaInicial: Date = new Date(),
     public fechaFinal: Date = new Date()

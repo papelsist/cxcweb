@@ -5,9 +5,14 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, delay } from 'rxjs/operators';
 
 import {
+  Cfdi,
   Cliente,
   ClienteCredito,
+  Cobro,
+  CuentaPorCobrarDTO,
   MedioDeContacto,
+  NotaDeCredito,
+  Periodo,
 } from '@nx-papelsa/shared/utils/core-models';
 
 import { Update } from '@ngrx/entity';
@@ -84,4 +89,81 @@ export class ClientesService {
       .delete<MedioDeContacto>(url)
       .pipe(catchError((error: any) => throwError(error)));
   }
+
+  /**
+   * Fetches facturas de venta de un cliente
+   *
+   * @param cliente
+   * @param filtro
+   */
+  facturas(
+    cliente: Cliente,
+    filtro: ClienteSearchOptions
+  ): Observable<CuentaPorCobrarDTO[]> {
+    let params = new HttpParams();
+    if (filtro.periodo) {
+      const { fechaInicial, fechaFinal } = filtro.periodo;
+      params = params
+        .set('fechaInicial', fechaInicial.toISOString())
+        .set('fechaFinal', fechaFinal.toISOString());
+    }
+    params = params.set('pendientes', filtro.pendientes.toString());
+    const url = `${this.apiUrl}/${cliente.id}/facturas`;
+    return this.http
+      .get<CuentaPorCobrarDTO[]>(url, { params: params })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  notas(
+    cliente: Cliente,
+    filtro: ClienteSearchOptions
+  ): Observable<NotaDeCredito[]> {
+    let params = new HttpParams();
+    if (filtro.periodo) {
+      const { fechaInicial, fechaFinal } = filtro.periodo;
+      params = params
+        .set('fechaInicial', fechaInicial.toISOString())
+        .set('fechaFinal', fechaFinal.toISOString());
+    }
+    params = params.set('pendientes', filtro.pendientes.toString());
+    const url = `${this.apiUrl}/${cliente.id}/notas`;
+    return this.http
+      .get<NotaDeCredito[]>(url, { params: params })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  cobros(cliente: Cliente, filtro: ClienteSearchOptions): Observable<Cobro[]> {
+    let params = new HttpParams();
+    if (filtro.periodo) {
+      const { fechaInicial, fechaFinal } = filtro.periodo;
+      params = params
+        .set('fechaInicial', fechaInicial.toISOString())
+        .set('fechaFinal', fechaFinal.toISOString());
+    }
+    params = params.set('pendientes', filtro.pendientes.toString());
+    const url = `${this.apiUrl}/${cliente.id}/cobros`;
+    return this.http
+      .get<Cobro[]>(url, { params: params })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  cfdis(cliente: Cliente, filtro: ClienteSearchOptions): Observable<Cfdi[]> {
+    let params = new HttpParams();
+    if (filtro.periodo) {
+      const { fechaInicial, fechaFinal } = filtro.periodo;
+      params = params
+        .set('fechaInicial', fechaInicial.toISOString())
+        .set('fechaFinal', fechaFinal.toISOString());
+    }
+    params = params.set('pendientes', 'false');
+    const url = `${this.apiUrl}/${cliente.id}/cfdis`;
+    return this.http
+      .get<Cfdi[]>(url, { params: params })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+}
+
+export interface ClienteSearchOptions {
+  pendientes: boolean;
+  periodo?: Periodo;
 }

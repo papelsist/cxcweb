@@ -1,18 +1,23 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
+
+import { CDS_MODULES } from '../common-modules';
+import { CfdiUiCommonModule } from '@nx-papelsa/shared/cfdi/ui-common';
+import { AgGridModule } from 'ag-grid-angular';
+import { AgBooleanRendererComponent } from '@nx-papelsa/shared/utils/ui-common';
+
 import { CfdisComponent } from './cfdis.component';
+import { ClienteCfdisGridComponent } from './cliente-cfdis/cliente-cfdis-grid.component';
 
-
-const routes: Routes = [
-  { path: '', component: CfdisComponent }
-];
+const routes: Routes = [{ path: '', component: CfdisComponent }];
 
 @NgModule({
-  declarations: [CfdisComponent],
+  declarations: [CfdisComponent, ClienteCfdisGridComponent],
   imports: [
-    CommonModule,
-    RouterModule.forChild(routes)
-  ]
+    ...CDS_MODULES,
+    CfdiUiCommonModule,
+    AgGridModule.withComponents([AgBooleanRendererComponent]),
+    RouterModule.forChild(routes),
+  ],
 })
-export class CfdisModule { }
+export class CfdisModule {}

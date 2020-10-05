@@ -16,9 +16,11 @@ json g.render(notaDeCredito, [excludes:['moneda','cobro','cliente'] ]){
     cobro g.render(notaDeCredito.cobro)
     cfdi g.render(notaDeCredito.cfdi)
     if(notaDeCredito.cobro) {
-        disponible notaDeCredito.cobro.disponible
+      disponible notaDeCredito.cobro.disponible
+      aplicado notaDeCredito.cobro.aplicado
     } else {
-        disponible 0.0
+      disponible 0.0
+      aplicado 0.0
     }
 }
 

@@ -7,3 +7,4 @@ export * from './lib/+state/clientes.models';
 export * from './lib/+state/clientes.facade';
 export * from './lib/data-access-clientes.module';
 export * from './lib/services/cliente-exists.guard';
+export * from './lib/services/clientes.service';

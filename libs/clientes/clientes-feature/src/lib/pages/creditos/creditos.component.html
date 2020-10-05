@@ -1,1 +1,56 @@
-<p>creditos works!</p>
+<mat-card>
+  <div class="push-left push-right" fxLayout="row" fxLayoutAlign="start center">
+    <span fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
+      <span class="mat-title">Notas de crédito </span>
+    </span>
+    <span fxFlex></span>
+
+    <td-search-box
+      placeholder="Filtrar"
+      (searchDebounce)="grid.gridApi.setQuickFilter($event)"
+      fxFlex
+    ></td-search-box>
+
+    <nx-papelsa-periodo-picker
+      (periodoChanged)="onPeriodoChanged($event)"
+      [periodo]="periodo"
+      [disabled]="pendientes"
+    ></nx-papelsa-periodo-picker>
+
+    <mat-checkbox
+      (change)="togglePendientes(pendientes)"
+      [checked]="pendientes"
+    >
+      Pendientes
+    </mat-checkbox>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="load()">
+        <mat-icon>refresh</mat-icon>
+        <span>Refrescar</span>
+      </button>
+      <nx-papelsa-cfdi-email-bulk
+        [facturas]="selected"
+      ></nx-papelsa-cfdi-email-bulk>
+    </mat-menu>
+  </div>
+  <div><mat-divider></mat-divider></div>
+  <ng-template
+    tdLoading
+    [tdLoadingUntil]="!loading"
+    tdLoadingStrategy="overlay"
+  >
+  </ng-template>
+  <nx-papelsa-cliente-notas-grid
+    #grid
+    class="notas-panel"
+    [rows]="notas"
+    (drillDown)="onDrilldown($event)"
+    (selectionChange)="onSelection($event)"
+    (print)="onPrint($event)"
+  ></nx-papelsa-cliente-notas-grid>
+</mat-card>

@@ -16,8 +16,8 @@ import { CfdiService } from '@nx-papelsa/shared/cfdi/data-access';
 import {
   CuentaPorCobrarDTO,
   GrupoDeCfdis,
-  CfdiDto,
   NotaDeCredito,
+  Cfdi,
 } from '@nx-papelsa/shared/utils/core-models';
 import { groupByProperty } from '@nx-papelsa/shared/utils/collections';
 
@@ -31,7 +31,7 @@ import { TdDialogService } from '@covalent/core/dialogs';
       mat-menu-item
       type="button"
       (click)="send()"
-      [disabled]="facturas.length <= 0"
+      [disabled]="facturas?.length <= 0 && cfdis?.length <= 0"
     >
       <mat-icon>email</mat-icon>
       <span>{{ title }}</span>
@@ -42,6 +42,7 @@ import { TdDialogService } from '@covalent/core/dialogs';
 })
 export class CfdiEmailBulkComponent implements OnInit {
   @Input() facturas: CuentaPorCobrarDTO[] | Partial<NotaDeCredito>[];
+  @Input() cfdis: Cfdi[];
 
   @Input() target: string;
   @Input() color = 'primary';
@@ -60,7 +61,11 @@ export class CfdiEmailBulkComponent implements OnInit {
   ngOnInit(): void {}
 
   send() {
-    const grupos = this.buildGrupos(this.facturas);
+    const grupos =
+      this.cfdis && this.cfdis.length > 0
+        ? this.buildGruposWithCfdi(this.cfdis)
+        : this.buildGrupos(this.facturas);
+    console.log('Grupos: ', grupos);
     this.dialog
       .open(EnvioBulkDialogComponent, {
         width: '60%',
@@ -83,6 +88,17 @@ export class CfdiEmailBulkComponent implements OnInit {
       const cfdis = value.map((item) => item.cfdi);
       const { nombre, cfdiMail } = value[0].cliente;
       return { nombre, target: cfdiMail, cfdis };
+    });
+    return res;
+  }
+
+  buildGruposWithCfdi(rows: Partial<Cfdi[]>): GrupoDeCfdis[] {
+    console.log('Generando grupos con CFDIS...');
+    const grupos = groupByProperty(rows, 'receptor');
+    const res = Object.keys(grupos).map((key) => {
+      const cfdis: any[] = grupos[key];
+      const { receptor, email } = cfdis[0];
+      return { nombre: receptor, target: email, cfdis };
     });
     return res;
   }

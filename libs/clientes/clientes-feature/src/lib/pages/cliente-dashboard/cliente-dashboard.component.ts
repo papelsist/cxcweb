@@ -19,12 +19,6 @@ export class ClienteDashboardComponent extends BaseComponent implements OnInit {
 
   routes: NavigationRoute[] = [
     {
-      path: 'analytics',
-      label: 'Analytics',
-      description: 'Análisis de cliente',
-      icon: 'analytics',
-    },
-    {
       path: 'info',
       label: 'Generales',
       description: 'Datos generales',
@@ -43,9 +37,9 @@ export class ClienteDashboardComponent extends BaseComponent implements OnInit {
       icon: 'all_inbox',
     },
     {
-      path: 'cargos',
-      label: 'Cargos',
-      description: 'Notas de cargo',
+      path: 'cobros',
+      label: 'Cobros',
+      description: 'Registro de cobros',
       icon: 'playlist_add',
     },
     {
@@ -53,6 +47,12 @@ export class ClienteDashboardComponent extends BaseComponent implements OnInit {
       label: 'Cfdis',
       description: 'Comprobantes fiscales',
       icon: 'code',
+    },
+    {
+      path: 'analytics',
+      label: 'Analytics',
+      description: 'Análisis de cliente',
+      icon: 'analytics',
     },
   ];
 
