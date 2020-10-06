@@ -1,5 +1,6 @@
 import groovy.transform.Field
 import sx.cxc.CuentaPorCobrar
+import sx.cxc.AplicacionDeCobro
 import sx.core.Venta
 
 @Field CuentaPorCobrar cxc
@@ -14,12 +15,9 @@ json g.render(cxc, [excludes:['moneda','cliente','credito']]){
     sucursal cxc.sucursal.nombre
     credito g.render(cxc.credito)
     if(cxc.tipoDocumento == 'VENTA') {
-        /*
-        venta g.render(cxc.findVenta(), [excludes: ['cuentaPorCobrar', 'cliente', 'sucursal', 'moneda','vendedor', 'envio', 'partidas']]) {
-            
-        }
-        */
+
         venta g.render(template:"factura", model:[venta:cxc.findVenta()])
     }
+    aplicaciones g.render(template:"aplicacion", collection: cxc.findAplicaciones(), var:'aplicacion')
 
 }

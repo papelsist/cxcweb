@@ -13,6 +13,14 @@
       fxLayoutGap="10px"
       fxLayoutGap.lt-md="2px"
     >
+      <button
+        mat-icon-button
+        matTooltip="Localizar Factura"
+        (click)="lookupFactura()"
+      >
+        <mat-icon>search</mat-icon>
+      </button>
+
       <a
         mat-button
         routerLink="/analytics"
@@ -29,6 +37,7 @@
         <mat-icon>people</mat-icon>
         <span>Clientes</span>
       </a>
+
       <a
         mat-button
         [routerLink]="'/credito'"
@@ -47,15 +56,13 @@
       <a href="#" mat-button>Cheques</a>
       <a href="#" mat-button>Jurídico</a>
     </div>
-    <button
-      mat-button
-      [matMenuTriggerFor]="menu"
-      *ngIf="displayName$ | async as name"
-    >
+    <button mat-button [matMenuTriggerFor]="menu">
       <mat-icon>person</mat-icon>
-      <span>{{ name }}</span>
     </button>
     <mat-menu #menu="matMenu">
+      <button mat-menu-item disabled *ngIf="displayName$ | async as name">
+        <span>{{ name }}</span>
+      </button>
       <button mat-menu-item disabled>
         <mat-icon>settings</mat-icon>
         <span>Cuenta</span>
@@ -63,10 +70,6 @@
       <button mat-menu-item disabled>
         <mat-icon>notifications</mat-icon>
         <span>Notificaciones</span>
-      </button>
-      <button mat-menu-item disabled>
-        <mat-icon>mail</mat-icon>
-        <span>Mensajes</span>
       </button>
 
       <button mat-menu-item (click)="logout()">

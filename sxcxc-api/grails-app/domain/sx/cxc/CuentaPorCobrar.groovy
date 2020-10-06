@@ -6,6 +6,7 @@ import sx.cfdi.Cfdi
 import sx.core.Cliente
 import sx.core.Sucursal
 import sx.core.Venta
+import sx.cxc.AplicacionDeCobro
 
 // @ToString(excludes = 'id,version,sw2,dateCreated,lastUpdated',includeNames=true,includePackage=false)
 @EqualsAndHashCode(includeFields = true,includes = ['id'])
@@ -146,6 +147,10 @@ class CuentaPorCobrar {
 
   Venta findVenta(){
       return Venta.where{cuentaPorCobrar == this}.find()
+  }
+
+  List<AplicacionDeCobro> findAplicaciones() {
+    return AplicacionDeCobro.where{cuentaPorCobrar == this}.list()
   }
 
   String toString() {

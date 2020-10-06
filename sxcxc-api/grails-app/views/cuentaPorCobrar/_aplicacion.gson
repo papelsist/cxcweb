@@ -1,0 +1,12 @@
+import sx.cxc.AplicacionDeCobro
+
+model {
+    AplicacionDeCobro aplicacion
+}
+
+json g.render(aplicacion, [excludes: ['cobro']]){
+  tipo aplicacion.cobro.tipo
+  cobro g.render(aplicacion.cobro, [excludes: ['aplicaciones', 'moneda']]) {
+    moneda aplicacion.cobro.moneda.currencyCode
+  }
+}

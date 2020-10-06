@@ -1,0 +1,157 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title fxLayout fxLayoutGap="10px">
+      <span
+        >{{ cxc.tipoDocumento === 'VENTA' ? 'Factura' : 'Cargo:' }}:
+        <strong>{{ cxc.tipo }} - {{ cxc.documento }}</strong>
+      </span>
+      <span>{{ cxc.nombre }}</span>
+    </mat-card-title>
+    <mat-card-subtitle fxLayout fxLayoutGap="10px">
+      <span> Sucursal: {{ cxc.sucursal }} </span>
+      <span
+        >Fecha: <strong>{{ cxc.fecha | date: 'dd/MM/yyyy' }}</strong></span
+      >
+      <span fxFlex></span>
+      <span
+        >Vencimiento:
+        <strong>{{ cxc.vencimiento | date: 'dd/MM/yyyy' }}</strong></span
+      >
+      <span>Plazo: {{ cxc?.credito?.plazo }} </span>
+      <span>Atraso: {{ cxc.atrasoCalculado }} días</span>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <div class="card-content">
+    <section
+      fxLayout
+      fxLayoutGap="10px"
+      fxLayoutAlign="flex-start center"
+      class="totales"
+    >
+      <span
+        >Total: <strong>{{ cxc.total | currency }}</strong></span
+      >
+      <span
+        >Pagos: <strong>{{ cxc.pagos | currency }}</strong></span
+      >
+      <span
+        >Saldo: <strong>{{ cxc.saldoReal | currency }}</strong></span
+      >
+    </section>
+    <section
+      fxLayout
+      fxLayoutGap="10px"
+      fxLayoutAlign="flex-start center"
+      class="cfdi"
+    >
+      <strong>CFDI</strong>
+      <span
+        >Serie: <strong>{{ cxc.cfdi.serie }}</strong></span
+      >
+      <span
+        >Folio: <strong>{{ cxc.cfdi.folio }}</strong></span
+      >
+      <span
+        >UUID: <strong>{{ cxc.cfdi.uuid }}</strong></span
+      >
+    </section>
+
+    <section fxLayout fxLayoutGap="20px" fxLayoutAlign="flex-start center">
+      <span
+        >Creada por:
+        <strong
+          >{{ cxc.createUser }} ({{
+            cxc.dateCreated | date: 'dd/MM/yyy: HH:mm'
+          }})</strong
+        ></span
+      >
+      <span
+        >Actualizada por:
+        <strong
+          >{{ cxc.updateUser }} ({{
+            cxc.lastUpdated | date: 'dd/MM/yyyy: HH:mm'
+          }})</strong
+        ></span
+      >
+    </section>
+
+    <section
+      class="credito"
+      fxLayout="column"
+      fxLayoutGap="5px"
+      *ngIf="cxc.credito as credito"
+    >
+      <div class="section-header">Revisión y cobro</div>
+      <div fxLayout fxLayoutGap="10px">
+        <span
+          >Vencimiento tipo:
+          <strong>{{
+            credito.vencimientoFactura ? 'FACTURA' : 'REVISION'
+          }}</strong></span
+        >
+        <span>
+          Recepción CxC:
+          <strong>{{ credito.fechaRecepcionCxc | date: 'dd/MM/yyyy' }}</strong>
+        </span>
+        <span>
+          Revision CxC:
+          <strong>{{ credito.fechaRevisionCxc | date: 'dd/MM/yyyy' }}</strong>
+        </span>
+        <span>
+          Revision:
+          <strong>{{ credito.fechaRevision | date: 'dd/MM/yyyy' }}</strong>
+        </span>
+
+        <span
+          >Pago:
+          <strong>{{ credito.fechaPago | date: 'dd/MM/yyyy' }}</strong></span
+        >
+      </div>
+      <div fxLayout fxLayoutGap="10px" fxLayoutAlign="flex-start center">
+        <span
+          >Revisada {{ credito.revisada }}
+          <strong>{{ credito.revisada ? '' : 'NO' }}</strong></span
+        ><mat-icon *ngIf="credito.revisada">check</mat-icon>
+
+        <span
+          >Ultima actualización:
+          <strong>{{
+            credito.actualizacion | date: 'dd/MM/yyy: HH:mms'
+          }}</strong></span
+        >
+        <span
+          >Por: <strong>{{ credito.updateUser }}</strong></span
+        >
+        <span>Día revisión:</span><strong>{{ credito.diaRevision }}</strong>
+        <span>Día pago:</span><strong>{{ credito.diaPago }}</strong>
+      </div>
+    </section>
+
+    <section class="aplicaciones">
+      <div class="section-header">Aplicaciones</div>
+      <div class="grid">
+        <papx-cxc-aplicaciones-grid
+          [rows]="cxc.aplicaciones || []"
+        ></papx-cxc-aplicaciones-grid>
+      </div>
+    </section>
+
+    <section class="venta-det" *ngIf="cxc.venta as venta">
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Venta
+            </mat-panel-title>
+            <mat-panel-description>
+              Detalle de la venta
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <td-data-table [data]="venta.partidas" [columns]="columns">
+          </td-data-table>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </section>
+  </div>
+</mat-card>

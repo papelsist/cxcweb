@@ -39,6 +39,7 @@ import { CxcService } from '@nx-papelsa/shared/cxc/data-acces';
           placeholder="Buscar por documento"
           searchIcon="find_in_page"
           backIcon="find_in_page"
+          [alwaysVisible]="facturas.length === 0"
           fxFlex
         ></td-search-box>
       </div>
@@ -81,7 +82,12 @@ import { CxcService } from '@nx-papelsa/shared/cxc/data-acces';
   `,
 })
 export class SelectorCxcComponent implements OnInit {
+  @Input() clickable = true;
+  @Input() multiple = true;
+  @Input() clienteId: string;
+
   @Input() columns: ITdDataTableColumn[] = [
+    { name: 'nombre', label: 'Cliente', width: 300 },
     { name: 'sucursal', label: 'Sucursal', width: 120 },
     { name: 'tipo', label: 'Tipo', width: 100 },
     { name: 'tipoDocumento', label: 'Origen', width: 100 },
@@ -112,9 +118,6 @@ export class SelectorCxcComponent implements OnInit {
   selectedRows: any[] = [];
   facturas: any[] = [];
 
-  @Input() clickable = true;
-  @Input() multiple = true;
-  @Input() clienteId: string;
   filterTerm = '';
   filteredTotal: number;
   filteredData: any[];
@@ -128,9 +131,13 @@ export class SelectorCxcComponent implements OnInit {
   ) {
     this.facturas = data.facturas;
     this.clienteId = data.clienteId;
+    this.multiple = data.multiple || true;
   }
 
   ngOnInit() {
+    if (this.clienteId) {
+      this.columns[0].hidden = true;
+    }
     this.refreshTable();
   }
 
@@ -160,10 +167,11 @@ export class SelectorCxcComponent implements OnInit {
 
   findInBackend(documento: string) {
     this.loading = true;
+    let options: any = { documento };
+    if (this.clienteId) options = { ...options, clienteId: this.clienteId };
     this.service
-      .search({ clienteId: this.clienteId, documento })
+      .search(options)
       .pipe(
-        delay(500),
         finalize(() => (this.loading = false)),
         catchError((error: any) => throwError(error))
       )

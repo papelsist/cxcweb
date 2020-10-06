@@ -1,4 +1,5 @@
 import { Venta, Cliente, Cfdi, VentaCredito } from '../core';
+import { AplicacionDeCobro } from './cobro';
 
 export interface CuentaPorCobrar {
   id: string;
@@ -40,6 +41,7 @@ export interface CuentaPorCobrar {
   lastUpdated: string;
   createUser: string;
   updateUser: string;
+  aplicaciones?: AplicacionDeCobro[];
 }
 
 export function formatTipoDocto(tipoDocumento: string) {

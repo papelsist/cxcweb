@@ -95,4 +95,6 @@ export interface VentaCredito {
   total: number;
   saldo: number;
   actualizacion?: string;
+  createUser?: string;
+  updateUser?: string;
 }

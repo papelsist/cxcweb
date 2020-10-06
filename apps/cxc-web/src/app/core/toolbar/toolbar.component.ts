@@ -10,6 +10,7 @@ import {
 
 import { AuthFacade } from '@nx-papelsa/auth';
 import { Router } from '@angular/router';
+import { SelectorCxcService } from '@nx-papelsa/shared/cxc/ui-cxc-common';
 
 @Component({
   selector: 'nx-papelsa-cxc-toolbar',
@@ -22,7 +23,11 @@ export class ToolbarComponent implements OnInit {
   // user$ = this.auth.
   isLoggedIn$ = this.auth.isLoggedIn$;
   displayName$ = this.auth.displayName$;
-  constructor(private auth: AuthFacade, private router: Router) {}
+  constructor(
+    private auth: AuthFacade,
+    private router: Router,
+    private selectorService: SelectorCxcService
+  ) {}
 
   ngOnInit(): void {
     this.auth.displayName$.subscribe((name) => console.log('User: ', name));
@@ -34,6 +39,10 @@ export class ToolbarComponent implements OnInit {
 
   lookupCliente() {
     this.router.navigate(['/clientes']);
+  }
+
+  lookupFactura() {
+    this.selectorService.findCuentaPorCobrar();
   }
 
   /******* START HotKeys Definitions  *************/
@@ -51,5 +60,10 @@ export class ToolbarComponent implements OnInit {
   @HostListener('document:keydown.meta.shift.c', ['$event'])
   onHotKeyClienteMata(event: KeyboardEvent) {
     this.lookupCliente();
+  }
+
+  @HostListener('document:keydown.control.shift.f', ['$event'])
+  onHotKeyFindFactura(event: KeyboardEvent) {
+    this.lookupFactura();
   }
 }

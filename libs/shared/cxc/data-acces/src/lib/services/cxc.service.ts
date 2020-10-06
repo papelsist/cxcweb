@@ -85,8 +85,8 @@ export class CxcService {
     let params = new HttpParams()
       //.set('clienteId', clienteId)
       .set('cartera', cartera);
-    if(clienteId) {
-      params = params.set('clienteId', clienteId)
+    if (clienteId) {
+      params = params.set('clienteId', clienteId);
     }
     return this.http
       .get<Devolucion[]>(url, { params })
@@ -97,6 +97,13 @@ export class CxcService {
     const url = `${this.apiUrl}/${id}`;
     return this.http
       .get<CuentaPorCobrar | CuentaPorCobrarDTO>(url)
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  fetch(id: string): Observable<CuentaPorCobrar> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http
+      .get<CuentaPorCobrar>(url)
       .pipe(catchError((error: any) => throwError(error)));
   }
 
