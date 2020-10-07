@@ -22,10 +22,10 @@ export class SelectorCxcService {
         data: { facturas: [], multiple: false },
       })
       .afterClosed()
-      .subscribe(([selected]) => {
-        console.log('Selected: ', selected);
+      .subscribe((selected) => {
         if (selected) {
-          this.showFactura(selected);
+          console.log('Selected: ', selected[0]);
+          this.showFactura(selected[0]);
         }
       });
   }
