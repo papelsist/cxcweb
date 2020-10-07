@@ -10,7 +10,10 @@ import {
 import { GridApi, ColumnApi, ColDef, GridOptions } from 'ag-grid-community';
 
 import { FormatService, AgGridText } from '@nx-papelsa/shared/utils/ui-common';
-import { AplicacionDeCobro } from '@nx-papelsa/shared/utils/core-models';
+import {
+  AplicacionDeCobro,
+  formatFormaDePago,
+} from '@nx-papelsa/shared/utils/core-models';
 
 @Component({
   selector: 'papx-cxc-aplicaciones-grid',
@@ -96,7 +99,9 @@ export class AplicacionesGridComponent implements OnInit {
   onModelUpdated(event) {
     if (this.gridApi) {
       this.actualizarTotales();
-      this.gridColumnApi.autoSizeAllColumns();
+      // this.gridColumnApi.autoSizeAllColumns();
+      this.gridApi.sizeColumnsToFit();
+      // this.gridColumnApi.autoSizeAllColumns();
     }
   }
 
@@ -139,57 +144,50 @@ export class AplicacionesGridComponent implements OnInit {
   private buildColumnDef(): ColDef[] {
     return [
       {
-        headerName: 'Id',
-        field: 'id',
-        minWidth: 140,
-        pinned: 'left',
-        pinnedRowCellRenderer: (params) => '',
-      },
-      {
         headerName: 'fecha',
         field: 'fecha',
-        width: 110,
+        pinned: 'left',
         valueFormatter: ({ value }) => this.formatDate(value),
       },
       {
-        headerName: 'Moneda',
+        headerName: 'Mon',
         field: 'moneda',
-        width: 100,
+        pinned: 'left',
       },
       {
         headerName: 'T.C',
         field: 'tipoDeCambio',
-        width: 100,
+        pinned: 'left',
       },
       {
         headerName: 'F.Pago',
         colId: 'formaDePago',
-        width: 120,
         valueGetter: ({ data: { cobro } }) => cobro.formaDePago,
       },
       {
         headerName: 'Referencia',
         colId: 'referencia',
-        width: 120,
         valueGetter: ({ data: { cobro } }) => cobro.referencia,
       },
       {
         headerName: 'F.Pago',
         colId: 'fpago',
-        width: 120,
         valueGetter: ({ data: { cobro } }) => cobro.fecha,
         valueFormatter: (params) => this.formatDate(params.value),
       },
       {
         headerName: 'Importe',
         field: 'importe',
-        width: 135,
         valueFormatter: (params) => this.formatCurrency(params.value),
       },
       {
         headerName: 'Comentario',
         field: 'comentario',
         valueGetter: ({ data: { cobro } }) => cobro.comentario,
+      },
+      {
+        headerName: 'Id',
+        field: 'id',
       },
     ];
   }

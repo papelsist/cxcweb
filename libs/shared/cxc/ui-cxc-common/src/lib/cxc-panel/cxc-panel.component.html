@@ -154,4 +154,18 @@
       </mat-accordion>
     </section>
   </div>
+  <mat-card-actions>
+    <button mat-button *ngIf="cxc.saldoReal > 0.0" (click)="generarPagare(cxc)">
+      <mat-icon>gavel</mat-icon>
+      <span>Generar Pagaré</span>
+    </button>
+    <ng-container *ngIf="cxc.cfdi as cfdi">
+      <nx-papelsa-cfdi-email
+        [target]="cfdi.email"
+        [cfdi]="cfdi"
+      ></nx-papelsa-cfdi-email>
+      <nx-papelsa-cfdi-pdf [cfdi]="cfdi"></nx-papelsa-cfdi-pdf>
+      <nx-papelsa-cfdi-xml [cfdi]="cfdi"></nx-papelsa-cfdi-xml>
+    </ng-container>
+  </mat-card-actions>
 </mat-card>

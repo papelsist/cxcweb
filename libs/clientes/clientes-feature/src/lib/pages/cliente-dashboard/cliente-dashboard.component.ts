@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { NavigationRoute, Cliente } from '@nx-papelsa/shared/utils/core-models';
 import { ClientesFacade } from '@nx-papelsa/shared/clientes/data-access-clientes';
 import { BaseComponent } from '@nx-papelsa/shared/utils/ui-common';
+import { ReportService } from '@nx-papelsa/shared/utils/ui-forms';
 
 @Component({
   selector: 'nx-papelsa-clientes-dashboard',
@@ -58,7 +59,8 @@ export class ClienteDashboardComponent extends BaseComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private facade: ClientesFacade
+    private facade: ClientesFacade,
+    private reportService: ReportService
   ) {
     super();
     this.cliente$ = facade.currentCliente$;
@@ -74,5 +76,13 @@ export class ClienteDashboardComponent extends BaseComponent implements OnInit {
     );
   }
 
-  estadoDeCuenta() {}
+  estadoDeCuenta(cliente: Cliente, cartera: string) {
+    const url = `clientes/estadoDeCuenta`;
+    const params = {
+      cliente: cliente.id,
+      fecha: new Date().toISOString(),
+      cartera,
+    };
+    this.reportService.runReport(url, params);
+  }
 }

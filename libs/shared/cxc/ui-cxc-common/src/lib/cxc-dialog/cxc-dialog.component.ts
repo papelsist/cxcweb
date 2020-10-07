@@ -11,14 +11,14 @@ import { CuentaPorCobrar } from '@nx-papelsa/shared/utils/core-models';
       <button mat-button [mat-dialog-close]>
         <span>Cancelar</span>
       </button>
-      <ng-container *ngIf="cxc.cfdi as cfdi">
+      <!-- <ng-container *ngIf="cxc.cfdi as cfdi">
         <nx-papelsa-cfdi-pdf [cfdi]="cfdi"></nx-papelsa-cfdi-pdf>
         <nx-papelsa-cfdi-xml [cfdi]="cfdi"></nx-papelsa-cfdi-xml>
         <nx-papelsa-cfdi-email
           [cfdi]="cfdi"
           [target]="cfdi.email"
         ></nx-papelsa-cfdi-email>
-      </ng-container>
+      </ng-container> -->
     </mat-dialog-actions>
   `,
 })

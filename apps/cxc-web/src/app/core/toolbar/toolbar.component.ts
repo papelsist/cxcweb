@@ -47,6 +47,7 @@ export class ToolbarComponent implements OnInit {
 
   /******* START HotKeys Definitions  *************/
 
+  /*
   @HostListener('document:keydown.control.shift.c', ['$event'])
   onHotKeyClientes(event: KeyboardEvent) {
     this.lookupCliente();
@@ -56,8 +57,9 @@ export class ToolbarComponent implements OnInit {
   altShift_C(event: KeyboardEvent) {
     this.lookupCliente();
   }
+  */
 
-  @HostListener('document:keydown.meta.shift.c', ['$event'])
+  @HostListener('document:keydown.control.F2', ['$event'])
   onHotKeyClienteMata(event: KeyboardEvent) {
     this.lookupCliente();
   }

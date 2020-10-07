@@ -60,4 +60,8 @@ export class CxcPanelComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  generarPagare(cxc: CuentaPorCobrar) {
+    console.log('Generar pagare: ', cxc);
+  }
 }
