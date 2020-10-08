@@ -13,6 +13,11 @@ class UrlMappings {
     "/api/zip"(controller: 'codigoPostal', action: 'find', method: 'GET')
     "/api/analytics/ventaMensual"(controller: 'analytics', action: 'ventaMensual')
 
+    // Antiguedad de saldos
+    "/api/analytics/ventaMensual"(controller: 'analytics', action: 'ventaMensual')
+    "/api/cxc/antiguedades"(controller: 'antiguedad', action: 'index')
+    "/api/cxc/antiguedades/generar"(controller: 'antiguedad', action: 'generar', method: 'GET')
+
     // Reportes BI
     "/api/analytics/bajaEnVentas"(controller: 'analytics', action:'bajaEnVentas', method: 'GET')
     "/api/analytics/mejoresClientes"(controller: 'analytics', action:'mejoresClientes', method: 'GET')

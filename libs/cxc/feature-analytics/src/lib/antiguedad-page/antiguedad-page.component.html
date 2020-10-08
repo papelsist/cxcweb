@@ -3,21 +3,29 @@
     <mat-icon *ngIf="isSidebarVisible$ | async">arrow_back</mat-icon>
     <mat-icon *ngIf="!(isSidebarVisible$ | async)">arrow_forward</mat-icon>
   </button>
-  <span>Antigüedad de saldos</span>
+  <span>Antigüedad de saldos </span>
+  <span class="last-updated" *ngIf="registros.length > 0">
+    Actualizado al: {{ registros[0].lastUpdated | date: 'dd/MM/yyyy HH:mm' }}
+  </span>
   <span fxFlex></span>
   <td-search-box
     placeholder="Filtrar"
     (searchDebounce)="filtrar($event)"
     fxFlex
   ></td-search-box>
-  <button mat-icon-button [matMenuTriggerFor]="menu">
+  <button mat-button (click)="load()">
+    <mat-icon>refresh</mat-icon>
+    <span>Refrescar</span>
+  </button>
+  <button mat-button (click)="generar()">
+    <mat-icon>play_arrow</mat-icon>
+    <span>Generar</span>
+  </button>
+  <button mat-button [matMenuTriggerFor]="menu">
     <mat-icon>more_vert</mat-icon>
+    <span>Reportes</span>
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="load()">
-      <mat-icon>refresh</mat-icon>
-      <span>Refrescar</span>
-    </button>
     <button mat-menu-item (click)="reporteDeAntiguedad()">
       <span>Antigüedad</span>
     </button>
@@ -84,7 +92,10 @@
       </mat-card-header>
       <papx-cxc-cxcs-grid [rows]="facturasPorCliente"> </papx-cxc-cxcs-grid>
     </mat-card>
-
-    <td-chart [style.height.px]="400"> </td-chart>
+    <td-chart class="pie-chart">
+      <td-chart-tooltip [trigger]="'item'"> </td-chart-tooltip>
+      <td-chart-series td-pie [data]="pieChartData$" [radius]="[0, '95%']">
+      </td-chart-series>
+    </td-chart>
   </section>
 </div>

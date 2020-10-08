@@ -265,10 +265,10 @@ export class AntiguedadGridComponent implements OnInit {
       },
       {
         headerName: 'Part',
-        field: 'part',
+        field: 'participacion',
         width: 110,
         valueFormatter: (params) =>
-          this.formatService.formatPercent(params.value / 100),
+          this.formatService.formatPercent(params.value),
       },
     ];
   }

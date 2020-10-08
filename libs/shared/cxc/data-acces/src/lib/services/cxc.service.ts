@@ -107,10 +107,29 @@ export class CxcService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  antiguedadDeSaldos(): Observable<any[]> {
-    const url = `${this.api}/cxc/antiguedad`;
+  generarAntiguedadDeSaldos(
+    fecha: Date = new Date(),
+    cartera: string = 'CRE'
+  ): Observable<any[]> {
+    const params = new HttpParams()
+      .set('fecha', fecha.toISOString())
+      .set('cartera', cartera);
+    const url = `${this.api}/cxc/antiguedades/generar`;
     return this.http
-      .get<any[]>(url)
+      .get<any[]>(url, { params })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  antiguedadDeSaldos(
+    fecha: Date = new Date(),
+    cartera: string = 'CRE'
+  ): Observable<any[]> {
+    const params = new HttpParams()
+      .set('fecha', fecha.toISOString())
+      .set('cartera', cartera);
+    const url = `${this.api}/cxc/antiguedades`;
+    return this.http
+      .get<any[]>(url, { params })
       .pipe(catchError((error: any) => throwError(error)));
   }
 }

@@ -6,6 +6,7 @@ import { TdDialogService } from '@covalent/core/dialogs';
 
 import { finalize, takeUntil, map } from 'rxjs/operators';
 import orderBy from 'lodash/orderBy';
+import round from 'lodash/round';
 
 import { CxcService } from '@nx-papelsa/shared/cxc/data-acces';
 import { BaseComponent } from '@nx-papelsa/shared/utils/ui-common';
@@ -36,6 +37,7 @@ export class AntiguedadPageComponent extends BaseComponent
   totales: Partial<Antiguedad>;
   facturasPorCliente = [];
   searchTerm: string;
+  pieChartData$ = {};
 
   constructor(
     private service: CxcService,
@@ -56,11 +58,28 @@ export class AntiguedadPageComponent extends BaseComponent
   }
 
   load() {
+    this.onSelection(null);
     this.loadingService.register('antiguedad');
     this.service
       .antiguedadDeSaldos()
       .pipe(
-        map((rows) => orderBy(rows, 'part', 'desc')),
+        map((rows) => orderBy(rows, 'participacion', 'desc')),
+        finalize(() => this.loadingService.resolve('antiguedad')),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((res) => {
+        this.registros = res;
+        this.actualizarTotales();
+      });
+  }
+
+  generar() {
+    this.onSelection(null);
+    this.loadingService.register('antiguedad');
+    this.service
+      .generarAntiguedadDeSaldos()
+      .pipe(
+        map((rows) => orderBy(rows, 'participacion', 'desc')),
         finalize(() => this.loadingService.resolve('antiguedad')),
         takeUntil(this.destroy$)
       )
@@ -101,6 +120,8 @@ export class AntiguedadPageComponent extends BaseComponent
     this.current = event;
     this.antiguedadService.setCurrent(event);
     this.cargarFacturas(event);
+    console.log('Current: ', this.current);
+    this.buildPieChart(this.current || this.totales);
   }
 
   private actualizarTotales() {
@@ -115,6 +136,7 @@ export class AntiguedadPageComponent extends BaseComponent
     });
     // totales.part = 100.0;
     this.totales = { ...totales };
+    this.buildPieChart(totales);
   }
 
   private buildTotalTemplate() {
@@ -127,13 +149,25 @@ export class AntiguedadPageComponent extends BaseComponent
       de61_90: 0.0,
       mas90: 0.0,
       facturas: 0,
-      part: 0.0,
+      participacion: 0.0,
     };
   }
 
   ngOnDestroy() {
     super.ngOnDestroy();
     this.antiguedadService.setCurrent(null);
+  }
+
+  buildPieChart(rawData: any) {
+    let referencia = 0.01;
+
+    const data = [
+      { name: '1 a 30', value: round(rawData.de1_30) },
+      { name: '31 a 60', value: round(rawData.de31_60) },
+      { name: '61 a 90', value: round(rawData.de61_90) },
+      { name: 'Mas de 90', value: round(rawData.mas90) },
+    ];
+    this.pieChartData$ = [...data];
   }
 
   reporteDeAntiguedad() {

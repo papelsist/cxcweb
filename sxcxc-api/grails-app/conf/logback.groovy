@@ -10,15 +10,14 @@ conversionRule 'wex', WhitespaceThrowableProxyConverter
 
 // See http://logback.qos.ch/manual/groovy.html for details on configuration
 appender('STDOUT', ConsoleAppender) {
-    encoder(PatternLayoutEncoder) {
-        charset = Charset.forName('UTF-8')
-        pattern =
-                '%clr(%d{dd-MM-yy HH:mm}){faint} ' + // Date
-                        '%clr(%5p) ' + // Log level
-                        //'%clr(---){faint} %clr([%15.15t]){faint} ' + // Thread
-                        '%clr(%-40.40logger{39}){cyan} %clr(:){faint} ' + // Logger
-                        '%m%n%wex' // Message
-    }
+  encoder(PatternLayoutEncoder) {
+    charset = Charset.forName('UTF-8')
+    pattern =
+      '%d{MMM-dd HH:mm} '+ // Date
+      '%clr(%5p) ' + // Log level
+      '%clr(%-40.40logger{39}){cyan} %clr(:){faint} ' + // Logger
+      '%msg%n' // Message
+  }
 }
 
 def targetDir = BuildSettings.TARGET_DIR

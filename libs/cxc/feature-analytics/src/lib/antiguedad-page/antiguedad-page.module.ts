@@ -12,6 +12,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 
 import { CovalentBaseEchartsModule } from '@covalent/echarts/base';
 import { CovalentPieEchartsModule } from '@covalent/echarts/pie';
+import { CovalentTooltipEchartsModule } from '@covalent/echarts/tooltip';
+import { CovalentBarEchartsModule } from '@covalent/echarts/bar';
 
 import { AntiguedadPageComponent } from './antiguedad-page.component';
 import { AntiguedadGridComponent } from './antiguedad-grid/antiguedad-grid.component';
@@ -35,6 +37,8 @@ const routes: Routes = [{ path: '', component: AntiguedadPageComponent }];
     MatTabsModule,
     CovalentBaseEchartsModule,
     CovalentPieEchartsModule,
+    CovalentTooltipEchartsModule,
+    CovalentBaseEchartsModule,
     AgGridModule.withComponents([AgBooleanRendererComponent]),
     RouterModule.forChild(routes),
   ],

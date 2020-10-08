@@ -2,22 +2,75 @@ package sx.cxc
 
 import javax.sql.DataSource
 
-import groovy.util.logging.Slf4j
 import groovy.sql.Sql
+import groovy.util.logging.Slf4j
+import groovy.transform.TypeCheckingMode
 
 import grails.compiler.GrailsCompileStatic
 import grails.gorm.transactions.Transactional
 import grails.gorm.transactions.NotTransactional
 
+import sx.core.LogUser
+import sx.core.Cliente
+import sx.utils.MonedaUtils
+
 @Slf4j
 @GrailsCompileStatic
-class AntiguedadService {
+class AntiguedadService implements LogUser {
 
   DataSource dataSource;
 
+
   @Transactional
-  void generar(Date fecha){
-    log.info('Generando Antiguedad de saldos para: {}', fecha)
+  List<AntiguedadPorCliente> generar(String tipo = 'CRE', Date fecha = new Date()) {
+    log.info('Generando antiguedad: {}, Cartera: {}', fecha.format('dd/MM/yyyy'), tipo)
+    AntiguedadPorCliente
+      .executeUpdate("delete from AntiguedadPorCliente where fecha= :dia and tipo=:cartera",
+      [dia: fecha, cartera: tipo])
+    List<CuentaPorCobrar> rows = CuentaPorCobrar.findAll("""
+      from CuentaPorCobrar c
+        where c.saldoReal > 0.0
+          and tipo = :cartera
+          and c not in(select j.cxc from Juridico j)
+      """ ,[cartera: tipo])
+    Double saldoTotal = rows.sum(0.0, {it.saldo}) as Double
+    return rows.groupBy{it.cliente}.collect { entry ->
+      Cliente cte = entry.key
+      List<CuentaPorCobrar> facturas = entry.value.sort{it.fecha}
+      return generarAntiguedadPorCliente(facturas, cte, 'CRE', new Date(), saldoTotal)
+    }
+  }
+
+
+  @Transactional()
+  @GrailsCompileStatic(TypeCheckingMode.SKIP)
+  AntiguedadPorCliente generarAntiguedadPorCliente(List<CuentaPorCobrar> rows, Cliente cte, String tipo, Date dia, Double saldoTotal = 0.0) {
+    log.info('Generando Antigedad para  {} Facturas: {}', cte.nombre, rows.size())
+
+    CuentaPorCobrar masAtrasada = rows.max{it.atrasoCalculado}
+    Double saldoCte = rows.sum(0.0, {it.saldoReal})
+
+    AntiguedadPorCliente antiguedad = AntiguedadPorCliente.findOrCreateWhere(fecha: dia, clienteId: cte.id, tipo: tipo)
+    antiguedad.with {
+      cliente = cte.nombre
+      plazo = cte.credito.plazo
+      limiteDeCredito = cte.credito.lineaDeCredito
+      tipoVencimiento = cte.credito.venceFactura ? 'FAC' : 'REV'
+      facturas = rows.size()
+      total = rows.sum(0.0, {it.total})
+      saldo = saldoCte
+      vencido = rows.sum(0.0, {it.atrasoCalculado > 0 ? it.saldoReal : 0.0})
+      porVencer = rows.sum(0.0, {it.atrasoCalculado <= 0 ? it.saldoReal : 0.0})
+      de1_30 = rows.sum(0.0, {(it.atrasoCalculado > 0 && it.atrasoCalculado <= 30)? it.saldoReal : 0.0})
+      de31_60 = rows.sum(0.0, {(it.atrasoCalculado > 30 && it.atrasoCalculado <= 60)? it.saldoReal : 0.0})
+      de61_90 = rows.sum(0.0, {(it.atrasoCalculado > 60 && it.atrasoCalculado <= 90)? it.saldoReal : 0.0})
+      mas90 = rows.sum(0.0, {it.atrasoCalculado > 90 ? it.saldoReal : 0.0})
+      atrasoMaximo = masAtrasada ? masAtrasada.atrasoCalculado : 0
+      participacion = MonedaUtils.round(saldoCte / saldoTotal , 4)
+    }
+    logEntity(antiguedad)
+    antiguedad = antiguedad.save failOnError: true,flush: true
+    return antiguedad
   }
 
   @NotTransactional
