@@ -10,6 +10,7 @@ import grails.compiler.GrailsCompileStatic
 import grails.gorm.transactions.Transactional
 import grails.gorm.transactions.NotTransactional
 
+
 import sx.core.LogUser
 import sx.core.Cliente
 import sx.utils.MonedaUtils
@@ -19,7 +20,6 @@ import sx.utils.MonedaUtils
 class AntiguedadService implements LogUser {
 
   DataSource dataSource;
-
 
   @Transactional
   List<AntiguedadPorCliente> generar(String tipo = 'CRE', Date fecha = new Date()) {
