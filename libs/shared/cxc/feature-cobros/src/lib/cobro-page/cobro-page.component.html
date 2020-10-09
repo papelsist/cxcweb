@@ -69,8 +69,12 @@
           [disabled]="cobro.cierre"
           [cfdi]="cfdi"
           title="Cancelar recibo"
-          (cancelar)="onCancelar($event)"
+          (cancelar)="onCancelar(cobro, $event)"
         ></nx-papelsa-cfdi-cancelar>
+        <!-- <button mat-button (click)="cambiarRecibo(cobro)">
+          <mat-icon>swap_horiz</mat-icon>
+          <span>Cambiar recibo</span>
+        </button> -->
       </ng-container>
     </mat-card-actions>
   </mat-card>

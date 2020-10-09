@@ -4,9 +4,9 @@ import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 /**
  * Created by rcancino on 09/09/16.
- * TODO new Fields for 
+ * TODO new Fields for
  * createUser, updateUSer, xmlUrl, pdfUrl
- + 
+ +
  */
 @ToString(includeNames=true,includePackage=false, excludes = ['dateCreated', 'lastUpdated'])
 @EqualsAndHashCode(includeFields = true, includes = ['serie', 'folio', 'uuid', 'id'])
@@ -65,6 +65,9 @@ class Cfdi {
     String createUser
     String updateUser
 
+    String uuidRelacionado
+    String tipoDeRelacion
+
     static constraints = {
         emisorRfc minSize: 12, maxSize:13
         receptorRfc minSize: 12, maxSize:13
@@ -86,11 +89,13 @@ class Cfdi {
         updateUser nullable: true
         xmlUrl nullable: true
         pdfUrl nullable: true
+        uuidRelacionado nullable: true
+        tipoDeRelacion nullable: true
     }
 
     static  mapping={
         id generator:'uuid'
-       
+
 
     }
 

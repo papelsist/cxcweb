@@ -83,6 +83,14 @@ export class CobroService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
+  cancelarRecibo(id: string, motivo: string): Observable<Cobro> {
+    const url = `${this.apiUrl}/cancelarRecibo/${id}`;
+    const params = new HttpParams().set('motivo', motivo);
+    return this.http
+      .put<Cobro>(url, {}, { params })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
   saldar(cobroId: string): Observable<Cobro> {
     const url = `${this.apiUrl}/saldar/${cobroId}`;
     return this.http.put<Cobro>(url, {});

@@ -75,16 +75,6 @@ export class CobroPageComponent extends BaseComponent implements OnInit {
     });
   }
 
-  onCancelar(cobro: Cobro) {
-    if (cobro.cierre) {
-      this.dialogService.openAlert({
-        title: 'Cancelacion de CFDO',
-        message:
-          'El cobro ya ha sido cerrado por Contabilidad, no se puede cancelar',
-      });
-    }
-  }
-
   onSaldar(cobro: Cobro) {
     this.confirm(
       'Saldar disponible',
@@ -109,6 +99,28 @@ export class CobroPageComponent extends BaseComponent implements OnInit {
         cancelButton,
       })
       .afterClosed();
+  }
+
+  onCancelar(cobro: Cobro, motivo: string) {
+    this.facade.cancelarRecibo(cobro, motivo);
+  }
+  cancelarRecibo(cobro: Cobro) {
+    const cfdi = cobro.cfdi;
+    if (cfdi) {
+      this.dialogService
+        .openPrompt({
+          title: 'Cambio de recibo electrónico de pago CFDI',
+          message: 'Motivo del cambio:',
+          acceptButton: 'Aceptar',
+          cancelButton: 'Cancelar',
+        })
+        .afterClosed()
+        .subscribe((motivo) => {
+          if (motivo) {
+            this.facade.cancelarRecibo(cobro, motivo);
+          }
+        });
+    }
   }
 
   isDisabled(cobro: Cobro) {

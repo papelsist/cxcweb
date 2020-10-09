@@ -9,6 +9,7 @@ import com.luxsoft.cfdix.v33.ReciboDePagoBuilder
 import lx.cfdi.v33.Comprobante
 import sx.cfdi.Cfdi
 import sx.cfdi.CfdiService
+import sx.cfdi.CancelacionService
 import sx.cfdi.CfdiTimbradoService
 import sx.core.Cliente
 import sx.core.Folio
@@ -22,6 +23,8 @@ class CobroService implements LogUser{
     CfdiService cfdiService
 
     CfdiTimbradoService cfdiTimbradoService
+
+    CancelacionService cancelacionService
 
     Cobro update(Cobro cobro) {
         log.info('Actualizando cobro: {}', cobro.id)
@@ -132,15 +135,6 @@ class CobroService implements LogUser{
       return cfdi
     }
 
-    def timbrarOld(Cobro cobro){
-        if(!cobro.cfdi) {
-            cobro = generarCfdi(cobro)
-        }
-        cfdiTimbradoService.timbrar(cobro.cfdi)
-        cobro.refresh()
-        return cobro
-    }
-
     def timbrar(Cobro cobro){
       try {
         def cfdi = generarCfdi(cobro)
@@ -173,6 +167,17 @@ class CobroService implements LogUser{
         }
 
     }
+
+  def cancelarRecibo(Cobro cobro, String motivo) {
+    def cfdi = cobro.cfdi
+    def cancelacion = cancelacionService.cancelarCfdi(cfdi, false)
+    cobro.cancelacionDeCfdi = cancelacion
+    cobro.cancelacionMotivo = motivo
+    cobro.cfdi = null
+    cobro = cobro.save flush: true
+    logEntity(cobro)
+    return cobro
+  }
 
 }
 

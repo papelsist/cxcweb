@@ -102,22 +102,21 @@ class ReciboDePagoBuilder {
     }
 
     def buildRelacionados() {
-        /*
-        Comprobante.CfdiRelacionados relacionados = factory.createComprobanteCfdiRelacionados()
-        relacionados.tipoRelacion = '04'
-        this.cobro.aplicaciones.each { AplicacionDeCobro det ->
-            Comprobante.CfdiRelacionados.CfdiRelacionado relacionado = factory.createComprobanteCfdiRelacionadosCfdiRelacionado()
-            def cxc = det.cuentaPorCobrar
-            def uuid = cxc.uuid
-            if(!uuid)
-                throw new RuntimeException("La cuenta por cobrar ${cxc.id} no tiene uuid ")
-            relacionado.UUID = uuid
-            relacionados.cfdiRelacionado.add(relacionado)
+      if(this.cobro.cancelacionDeCfdi) {
+        def cancelacion = this.cobro.cancelacionDeCfdi
+        if(cancelacion.status != 'Cancelado') {
+          throw new RuntimeException("El CFDI ${cancelacion.uuid} aun no tiene estatus de cancelado en el SAT Estatus actual: ${cancelacion.status}")
         }
-        comprobante.cfdiRelacionados = relacionados
-        */
+        Comprobante.CfdiRelacionados relacionados = factory.createComprobanteCfdiRelacionados()
 
-        return this
+        relacionados.tipoRelacion = '04'
+        Comprobante.CfdiRelacionados.CfdiRelacionado relacionado = factory.createComprobanteCfdiRelacionadosCfdiRelacionado()
+        relacionado.UUID = this.cobro.cancelacionDeCfdi.uuid
+        relacionados.cfdiRelacionado.add(relacionado)
+
+        comprobante.cfdiRelacionados = relacionados
+      }
+      return this
     }
 
     def buildCertificado(){

@@ -122,6 +122,31 @@ export class CobrosEffects {
     })
   );
 
+  cancelarRecibo$ = createEffect(() =>
+    this.dataPersistence.pessimisticUpdate(CobrosActions.cancelarRecibo, {
+      run: (
+        action: ReturnType<typeof CobrosActions.cancelarRecibo>,
+        state: fromCobros.CobrosPartialState
+      ) => {
+        const id = action.id;
+        return this.service.cancelarRecibo(id, action.motivo).pipe(
+          map((cobro) =>
+            CobrosActions.cancelarReciboSuccess({
+              cobro,
+            })
+          )
+        );
+      },
+      onError: (
+        action: ReturnType<typeof CobrosActions.cancelarRecibo>,
+        error
+      ) => {
+        console.error('Error', error);
+        return CobrosActions.cancelarReciboFail({ error });
+      },
+    })
+  );
+
   saldar$ = createEffect(() =>
     this.dataPersistence.pessimisticUpdate(CobrosActions.saldarCobro, {
       run: (
@@ -169,7 +194,13 @@ export class CobrosEffects {
   error$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(CobrosActions.generarReciboFail, CobrosActions.saldarCobroFail),
+        ofType(
+          CobrosActions.generarReciboFail,
+          CobrosActions.saldarCobroFail,
+          CobrosActions.aplicarCobrosFail,
+          CobrosActions.eliminarAplicacionFail,
+          CobrosActions.cancelarReciboFail
+        ),
         map(({ error }) => error),
         tap((response) => {
           const message = response.error ? response.error.message : 'Error';

@@ -63,6 +63,7 @@ const cobrosReducer = createReducer(
     CobrosActions.aplicarCobros,
     CobrosActions.eliminarAplicacion,
     CobrosActions.generarRecibo,
+    CobrosActions.cancelarRecibo,
     (state) => ({
       ...state,
       loading: true,
@@ -78,6 +79,7 @@ const cobrosReducer = createReducer(
     CobrosActions.aplicarCobrosFail,
     CobrosActions.eliminarAplicacionFail,
     CobrosActions.generarReciboFail,
+    CobrosActions.cancelarReciboFail,
     (state, { error }) => ({
       ...state,
       loading: false,
@@ -88,6 +90,7 @@ const cobrosReducer = createReducer(
     CobrosActions.upsertCobro,
     CobrosActions.generarReciboSuccess,
     CobrosActions.saldarCobroSuccess,
+    CobrosActions.cancelarReciboSuccess,
     (state, { cobro }) =>
       cobrosAdapter.upsertOne(cobro, {
         ...state,

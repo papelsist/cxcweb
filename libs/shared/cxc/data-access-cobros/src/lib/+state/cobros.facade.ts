@@ -114,4 +114,13 @@ export class CobrosFacade {
   saldar(cobro: Partial<Cobro>) {
     this.dispatch(CobrosActions.saldarCobro({ id: cobro.id }));
   }
+
+  cancelarRecibo(cobro: Partial<Cobro>, motivo: string) {
+    this.dispatch(
+      CobrosActions.cancelarRecibo({
+        id: cobro.id,
+        motivo,
+      })
+    );
+  }
 }

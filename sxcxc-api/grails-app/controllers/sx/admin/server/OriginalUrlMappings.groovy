@@ -84,6 +84,8 @@ class OriginalUrlMappings {
         "/api/cxc/cobro/timbradoBatch"(controller: 'cobro', action: 'timbradoBatch', method: 'PUT')
         "/api/cxc/cobro/reporteDeRecibosPendientes"(controller: "cobro", action: 'reporteDeRecibosPendientes', method: 'GET')
 
+        "/api/cxc/cobro/cancelarRecibo/$id"(controller: "cobro", action: 'cancelarRecibo', method: 'PUT')
+
 
         "/api/cxc/cobro/search"(controller: 'cobro', action: 'search', method: 'GET')
         "/api/cxc/cobro/imprimirRecibo/$id"(controller: 'cobro', action: 'imprimirRecibo', method: 'GET')

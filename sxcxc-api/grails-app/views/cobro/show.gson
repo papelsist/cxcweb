@@ -4,7 +4,7 @@ model {
     Cobro cobro
 }
 
-json g.render(cobro, [deep:false, excludes:['cliente', 'sucursal', 'aplicaciones', 'moneda', 'transferencia', 'cfdi']]){
+json g.render(cobro, [deep:false, excludes:['cliente', 'sucursal', 'aplicaciones', 'moneda', 'transferencia', 'cfdi', 'cancelacionDeCfdi']]){
     sucursal  {
         id cobro.sucursal.id
         nombre cobro.sucursal.nombre
@@ -34,6 +34,7 @@ json g.render(cobro, [deep:false, excludes:['cliente', 'sucursal', 'aplicaciones
     } else {
         timbrable false
     }
+    cancelacionDeCfdi g.render(cobro.cancelacionDeCfdi)
 
 }
 

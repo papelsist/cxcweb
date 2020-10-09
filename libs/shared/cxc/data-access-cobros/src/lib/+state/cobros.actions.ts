@@ -85,3 +85,16 @@ export const saldarCobroSuccess = createAction(
   '[Cobros Effects] Saldar disponible de cobro success',
   props<{ cobro: Cobro }>()
 );
+
+export const cancelarRecibo = createAction(
+  '[Cobros Facade Cobro Page] Cancelar recibo de pago',
+  props<{ id: string; motivo: string }>()
+);
+export const cancelarReciboFail = createAction(
+  '[Cobros Effects] Cancelar recibo de pago fail',
+  props<{ error: any }>()
+);
+export const cancelarReciboSuccess = createAction(
+  '[Cobros Effects] Cancelar recibo de pago success',
+  props<{ cobro: Cobro }>()
+);

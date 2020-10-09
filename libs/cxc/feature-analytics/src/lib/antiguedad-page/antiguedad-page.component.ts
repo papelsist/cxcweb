@@ -54,7 +54,7 @@ export class AntiguedadPageComponent extends BaseComponent
   ngOnInit(): void {
     this.totales = this.buildTotalTemplate();
     this.isSidebarVisible$.subscribe((val) => (this.visible = val));
-    // this.load();
+    this.load();
   }
 
   load() {

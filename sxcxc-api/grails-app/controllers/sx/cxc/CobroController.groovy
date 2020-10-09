@@ -163,6 +163,16 @@ class CobroController extends RestfulController<Cobro>{
         return cobroService.update(resource)
     }
 
+    def cancelarRecibo(Cobro cobro) {
+      if(cobro == null) {
+        notFound()
+        return
+      }
+      String motivo = params.motivo
+      cobro = cobroService.cancelarRecibo(cobro, motivo)
+      respond(cobro, view: 'show')
+    }
+
     /**
     * Elimina multiples cobros aplicados
     * VALIDADO
