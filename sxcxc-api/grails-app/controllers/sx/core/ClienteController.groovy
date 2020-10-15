@@ -14,15 +14,15 @@ import sx.cfdi.Cfdi
 @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
 class ClienteController extends RestfulController<Cliente>{
 
-    static responseFormats = ['json']
+  static responseFormats = ['json']
 
-    ClienteService clienteService
+  ClienteService clienteService
 
-    ReportService reportService
+  ReportService reportService
 
-    ClienteController(){
-        super(Cliente)
-    }
+  ClienteController(){
+    super(Cliente)
+  }
 
     @Override
     @Secured("hasAnyRole('ROLE_CXC_ADMIN')")
