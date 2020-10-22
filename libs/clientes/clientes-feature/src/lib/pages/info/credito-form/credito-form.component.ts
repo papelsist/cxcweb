@@ -59,7 +59,7 @@ export class CreditoFormComponent implements OnInit {
         credito.creditoActivo,
         { vallidators: [Validators.required] },
       ],
-      atrasoMaximo: [{ value: credito.atrasoMaximo, disabled: true }],
+      atrasoMaximo: [{ value: credito.atrasoMaximo, disabled: false }],
       postfechado: [credito.postfechado],
       descuentoFijo: [
         credito.descuentoFijo,

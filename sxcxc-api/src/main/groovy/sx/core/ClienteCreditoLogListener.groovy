@@ -55,7 +55,7 @@ class ClienteCreditoLogListener implements ReplicaAudit{
       ClienteCredito credito = event.entityObject as ClienteCredito
       List<String> dirties = credito.dirtyPropertyNames.findAll {it != 'lastUpdated'}
 
-      List criticalProperties = ['postfechado', 'creditoActivo', 'descuentoFijo', 'lineaDeCredito', 'plazo']
+      List criticalProperties = ['postfechado', 'creditoActivo', 'descuentoFijo', 'lineaDeCredito', 'plazo', 'atrasoMaximo']
 
       log.debug("ClienteCredito dirty properties: {}", dirties)
       Map changes = [:]
