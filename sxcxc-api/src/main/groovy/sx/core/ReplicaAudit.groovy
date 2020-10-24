@@ -13,7 +13,8 @@ trait ReplicaAudit {
     'CALLE 4',
     'CF5FEBRERO',
     'VERTIZ 176',
-    'BOLIVAR'
+    'BOLIVAR',
+    'CALLCENTER'
   ]
 
 
