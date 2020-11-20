@@ -16,7 +16,7 @@ import sx.reports.ReportService
 import sx.tesoreria.SolicitudDeDepositoService
 
 @Slf4j
-@Secured("hasRole('ROLE_POS_USER')")
+@Secured("hasAnyRole('ROLE_ADMIN', 'ROLE_CXC', 'ROLE_CXC_ADMIN')")
 class SolicitudDeDepositoController extends RestfulController<SolicitudDeDeposito>{
 
     static responseFormats = ['json']

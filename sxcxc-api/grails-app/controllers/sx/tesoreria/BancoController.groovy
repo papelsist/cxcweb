@@ -4,7 +4,8 @@ import grails.rest.*
 import grails.converters.*
 import grails.plugin.springsecurity.annotation.Secured
 
-@Secured("ROLE_CXC_USER")
+
+@Secured("IS_AUTHENTICATED_FULLY")
 class BancoController extends RestfulController {
 
     static responseFormats = ['json']

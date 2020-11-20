@@ -1,0 +1,26 @@
+.page-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #eee;
+}
+.mat-drawer {
+  width: 270px;
+
+  .mat-toolbar {
+    height: 2rem;
+  }
+  .mat-nav-list {
+    padding-top: 0;
+  }
+
+  .mat-list-item {
+    font-size: 0.9rem;
+    height: 3rem;
+    p {
+      font-size: 0.7rem;
+    }
+  }
+}

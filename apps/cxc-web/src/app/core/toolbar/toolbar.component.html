@@ -55,6 +55,14 @@
       <a href="#" mat-button>Mostrador</a>
       <a href="#" mat-button>Cheques</a>
       <a href="#" mat-button>Jurídico</a>
+      <a
+        mat-button
+        [routerLink]="'/depositos'"
+        routerLinkActive="router-link-active"
+      >
+        <mat-icon>source</mat-icon>
+        <span>Depósitos</span>
+      </a>
     </div>
     <button mat-button [matMenuTriggerFor]="menu">
       <mat-icon>person</mat-icon>

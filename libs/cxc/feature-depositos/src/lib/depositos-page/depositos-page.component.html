@@ -1,0 +1,27 @@
+<mat-drawer-container class="page-container">
+  <mat-drawer mode="side" opened>
+    <mat-nav-list>
+      <h3 matSubheader>Operaciones</h3>
+      <a
+        mat-list-item
+        [routerLink]="link.path"
+        routerLinkActive="router-link-active"
+        *ngFor="let link of features"
+      >
+        <span matLine>
+          {{ link.label }}
+        </span>
+        <mat-icon matListIcon *ngIf="link.icon">{{ link.icon }}</mat-icon>
+        <p matLine>
+          {{ link.description }}
+        </p>
+        <mat-divider></mat-divider>
+      </a>
+
+      <h3 matSubheader>Reportes</h3>
+    </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

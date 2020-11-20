@@ -32,19 +32,20 @@ const routes: Route[] = [
     canActivate: [AuthGuard, CXCCarteraGuard],
   },
   {
+    path: 'depositos',
+    loadChildren: () =>
+      import('@nx-papelsa/cxc/feature-depositos').then(
+        (m) => m.FeatureDepositosModule
+      ),
+  },
+  {
     path: 'analytics',
     loadChildren: () =>
       import('@nx-papelsa/cxc/feature-analytics').then(
         (m) => m.CxcFeatureAnalyticsModule
       ),
   },
-  // {
-  //   path: 'analytics',
-  //   loadChildren: () =>
-  //     import('').then(
-  //       (m) => m.CxcFeatureAnalyticsModule
-  //     ),
-  // },
+
   {
     path: '',
     redirectTo: 'credito',

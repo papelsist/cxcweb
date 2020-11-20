@@ -10,13 +10,8 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
@@ -87,9 +82,7 @@
       "@nx-papelsa/shared/cfdi/data-access": [
         "libs/shared/cfdi/data-access/src/index.ts"
       ],
-      "@nx-papelsa/shared/sxcore": [
-        "libs/shared/sxcore/src/index.ts"
-      ],
+      "@nx-papelsa/shared/sxcore": ["libs/shared/sxcore/src/index.ts"],
       "@nx-papelsa/shared/cxc/feature-bonificaciones": [
         "libs/shared/cxc/feature-bonificaciones/src/index.ts"
       ],
@@ -105,9 +98,7 @@
       "@nx-papelsa/shared/cxc/data-access-facturas": [
         "libs/shared/cxc/data-access-facturas/src/index.ts"
       ],
-      "@nx-papelsa/auth": [
-        "libs/auth/src/index.ts"
-      ],
+      "@nx-papelsa/auth": ["libs/auth/src/index.ts"],
       "@nx-papelsa/shared/cxc/data-access-devoluciones": [
         "libs/shared/cxc/data-access-devoluciones/src/index.ts"
       ],
@@ -122,12 +113,15 @@
       ],
       "@nx-papelsa/cxc/feature-analytics": [
         "libs/cxc/feature-analytics/src/index.ts"
+      ],
+      "@nx-papelsa/cxc/feature-depositos": [
+        "libs/cxc/feature-depositos/src/index.ts"
+      ],
+      "@nx-papelsa/shared/cxc/data-access-depositos": [
+        "libs/shared/cxc/data-access-depositos/src/index.ts"
       ]
     },
     "allowSyntheticDefaultImports": true
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }

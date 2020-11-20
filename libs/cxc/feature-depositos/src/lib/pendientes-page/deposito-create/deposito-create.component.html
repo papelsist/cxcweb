@@ -1,0 +1,91 @@
+<div class="header">
+  <h2 mat-dialog-title>Alta de {{ tipo }}</h2>
+</div>
+<mat-divider></mat-divider>
+<mat-dialog-content>
+  <div [formGroup]="form" fxLayout="column" fxLayoutGap="5px">
+    <nx-papelsa-cliente-field
+      fxFlex
+      formControlName="cliente"
+    ></nx-papelsa-cliente-field>
+
+    <div fxLayout fxLayoutGap="5px">
+      <mat-form-field>
+        <mat-label>Cartera</mat-label>
+        <mat-select placeholder="Cartera" formControlName="cartera">
+          <mat-option *ngFor="let c of carteras" [value]="c.clave"
+            >{{ c.descripcion }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <nx-papelsa-fecha-field
+        label="Fecha de depósito"
+        formControlName="fechaDeposito"
+      ></nx-papelsa-fecha-field>
+    </div>
+
+    <div fxLayout fxLayoutGap="5px">
+      <nx-papelsa-cuenta-field
+        fxFlex
+        formControlName="cuenta"
+      ></nx-papelsa-cuenta-field>
+      <nx-papelsa-banco-field
+        fxFlex
+        formControlName="banco"
+      ></nx-papelsa-banco-field>
+    </div>
+
+    <div fxLayout fxLayoutGap="5px">
+      <mat-form-field fxFlex>
+        <input matInput formControlName="referencia" placeholder="Referencia" />
+      </mat-form-field>
+
+      <mat-checkbox formControlName="transferencia" fxFlex>
+        Transferencia
+      </mat-checkbox>
+    </div>
+
+    <div fxLayout fxLayoutGap="5px" fxLayoutAlign="strech center">
+      <ng-container formGroupName="importes">
+        <nx-papelsa-numeric-field
+          class="efectivo-field"
+          label="Efectivo"
+          formControlName="efectivo"
+        ></nx-papelsa-numeric-field>
+        <nx-papelsa-numeric-field
+          label="Cheque"
+          formControlName="cheque"
+        ></nx-papelsa-numeric-field>
+      </ng-container>
+      <nx-papelsa-numeric-field
+        class="total"
+        formControlName="total"
+        label="Total"
+        placeholder="Total"
+      >
+      </nx-papelsa-numeric-field>
+    </div>
+  </div>
+  <div *ngIf="posibleDuplicado" class="duplicado">
+    <span>Posible duplicado con:</span>
+    <div class="duplicado-info">
+      <span
+        >Folio: <strong>{{ posibleDuplicado?.folio }}</strong></span
+      >
+      <span
+        >Sucursal: <strong>{{ posibleDuplicado.sucursal }}</strong></span
+      >
+      <span
+        >Solicitó: <strong> {{ posibleDuplicado?.updateUser }}</strong></span
+      >
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>
+    CANCELAR
+  </button>
+  <button mat-button (click)="submit()" [disabled]="form.invalid">
+    SALVAR
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,66 @@
+.create-cliente-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.header {
+  display: flex;
+  flex-flow: row wrap;
+}
+swrx-cliente-field {
+  grid-column: 1 / 5;
+}
+swrx-banco-field {
+  grid-column: 1 /5;
+}
+swrx-cuenta-field {
+  grid-column: 1 / 5;
+}
+
+swrx-deposito-importes-field {
+  grid-column: 1 / 5;
+}
+
+.row {
+  grid-column: 1 / 5;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: baseline;
+  .item {
+    flex: 1 0 auto;
+  }
+}
+
+.row .total {
+  margin-left: auto;
+  flex-basis: 33%;
+}
+
+.importes {
+  grid-column: 1 / 5;
+  display: flex;
+}
+
+.pedido {
+  grid-column: 1 / 5;
+  display: flex;
+  margin: 6px 0;
+}
+
+.duplicado {
+  background-color: rgba(211, 126, 15, 0.938);
+  color: white;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  .duplicado-info {
+    margin-top: 10px;
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    strong {
+      padding-left: 10pxs;
+    }
+  }
+}

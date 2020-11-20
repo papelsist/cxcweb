@@ -1,0 +1,13 @@
+<mat-toolbar color="default">
+  <mat-toolbar-row>
+    <span>Depositos por autorizar</span>
+    <span fxFlex></span>
+    <mat-icon class="toolbar-icon" aria-hidden="false" aria-label="Reload data"
+      >refresh</mat-icon
+    >
+    <nx-papelsa-deposito-create-btn
+      (create)="onCreate($event)"
+    ></nx-papelsa-deposito-create-btn>
+  </mat-toolbar-row>
+</mat-toolbar>
+<div class="pedidos-pendientes-container"></div>

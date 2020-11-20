@@ -17,6 +17,8 @@ import { DireccionDialogComponent } from './direccion/direccion-dialog.compontnt
 import { UpperCaseFieldComponent } from './upper-case-field/upper-case-field.component';
 import { MesFieldComponent } from './mes-field/mes-field.component';
 import { EjercicioFieldComponent } from './ejercicio-field/ejercicio-field.component';
+import { BancoFieldComponent } from './banco-field/banco-field.component';
+import { CuentaFieldComponent } from './cuenta-field/cuenta-field.component';
 
 export const COMPONENTS = [
   FechaFieldComponent,
@@ -38,6 +40,8 @@ export const COMPONENTS = [
   UpperCaseFieldComponent,
   MesFieldComponent,
   EjercicioFieldComponent,
+  BancoFieldComponent,
+  CuentaFieldComponent,
 ];
 
 export * from './fecha-field/fecha-field.component';
@@ -59,3 +63,5 @@ export * from './direccion/direccion-dialog.compontnt';
 export * from './upper-case-field/upper-case-field.component';
 export * from './mes-field/mes-field.component';
 export * from './ejercicio-field/ejercicio-field.component';
+export * from './banco-field/banco-field.component';
+export * from './cuenta-field/cuenta-field.component';
