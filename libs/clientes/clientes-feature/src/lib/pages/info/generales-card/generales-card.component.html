@@ -78,4 +78,11 @@
     (delete)="onDeleteComentario($event)"
     (create)="onAddComentario($event)"
   ></nx-papelsa-comentarios-panel>
+  <nx-papelsa-contactos-panel
+    [cliente]="cliente"
+    (create)="onAddContacto($event)"
+    (delete)="onDeleteContacto($event)"
+    (update)="onUpdateContacto($event)"
+  >
+  </nx-papelsa-contactos-panel>
 </div>

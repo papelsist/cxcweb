@@ -11,6 +11,7 @@ import {
   BeanPropertyListItem,
   Cliente,
   ClienteComentario,
+  ClienteContacto,
   Direccion,
   MedioDeContacto,
 } from '@nx-papelsa/shared/utils/core-models';
@@ -37,6 +38,10 @@ export class GeneralesCardComponent implements OnInit {
   @Output() addComentario = new EventEmitter<Partial<ClienteComentario>>();
   @Output() deleteComentario = new EventEmitter<Partial<ClienteComentario>>();
   @Output() updateComentario = new EventEmitter<Update<ClienteComentario>>();
+
+  @Output() addContacto = new EventEmitter<Partial<ClienteContacto>>();
+  @Output() deleteContacto = new EventEmitter<Partial<ClienteContacto>>();
+  @Output() updateContacto = new EventEmitter<Update<ClienteContacto>>();
 
   telefonos: MedioDeContacto[] = [];
   comentarios: ClienteComentario[] = [];
@@ -168,5 +173,17 @@ export class GeneralesCardComponent implements OnInit {
 
   onUpdateComentario(comentario: Update<ClienteComentario>) {
     this.updateComentario.emit(comentario);
+  }
+
+  onAddContacto(contacto: ClienteContacto) {
+    this.addContacto.emit(contacto);
+  }
+
+  onDeleteContacto(contacto: ClienteContacto) {
+    this.deleteContacto.emit(contacto);
+  }
+
+  onUpdateContacto(contacto: Update<ClienteContacto>) {
+    this.updateContacto.emit(contacto);
   }
 }

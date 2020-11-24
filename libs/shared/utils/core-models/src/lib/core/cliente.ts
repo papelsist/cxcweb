@@ -18,6 +18,7 @@ export interface Cliente {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   medios?: Partial<MedioDeContacto[]>;
   comentarios?: ClienteComentario[];
+  contactos?: ClienteContacto[];
   direccion: Direccion;
   direcciones?: ClienteDireccion[];
   direccionesEntrega?: ClienteDireccion[];
@@ -79,4 +80,13 @@ export interface ClienteComentario {
   updateUser: string;
   dateCreated?: string;
   lastUpdated?: string;
+}
+
+export interface ClienteContacto {
+  id?: string;
+  cliente?: Partial<Cliente>;
+  nombre: string;
+  puesto: string;
+  email?: string;
+  telefono?: string;
 }

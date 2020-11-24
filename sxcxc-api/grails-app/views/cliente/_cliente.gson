@@ -3,7 +3,7 @@ import sx.core.Cliente
 
 @Field Cliente cliente
 
-json g.render(cliente, [excludes:['credito','direccion','medios', 'comentarios']]){
+json g.render(cliente, [excludes:['credito','direccion','medios', 'comentarios', 'contactos']]){
     credito g.render(cliente.credito)
     direccion g.render(cliente.direccion)
     telefonos cliente.telefonos
@@ -11,5 +11,6 @@ json g.render(cliente, [excludes:['credito','direccion','medios', 'comentarios']
     cfdiMail cliente.cfdiMail
     medios g.render(cliente.medios)
     comentarios g.render(cliente.comentarios)
+    contactos g.render(cliente.contactos)
 }
 

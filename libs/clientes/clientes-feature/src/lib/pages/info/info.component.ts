@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import {
   Cliente,
   ClienteComentario,
+  ClienteContacto,
   ClienteCredito,
   MedioDeContacto,
 } from '@nx-papelsa/shared/utils/core-models';
@@ -70,5 +71,36 @@ export class InfoComponent implements OnInit {
   }
   onUpdateComentario(cliente: Cliente, comentario: ClienteComentario) {
     this.facade.updateComentario(cliente, comentario);
+  }
+
+  onAddContacto(cliente: Cliente, contacto: ClienteContacto) {
+    contacto.cliente = { id: cliente.id };
+    const contactos = [...(cliente.contactos || []), contacto];
+    const update: Update<Cliente> = { id: cliente.id, changes: { contactos } };
+    this.facade.updateCliente(update);
+  }
+
+  onDeleteContacto(cliente: Cliente, contacto: ClienteContacto) {
+    const contactos = [...(cliente.contactos || [])].filter(
+      (item) => item.id !== contacto.id
+    );
+    const update: Update<Cliente> = {
+      id: cliente.id,
+      changes: { contactos },
+    };
+    this.facade.updateCliente(update);
+  }
+
+  onUpdateContacto(cliente: Cliente, contacto: ClienteContacto) {
+    contacto.cliente = { id: cliente.id };
+
+    const oldData = [...(cliente.contactos || [])].filter(
+      (item) => item.id !== contacto.id
+    );
+    const update: Update<Cliente> = {
+      id: cliente.id,
+      changes: { contactos: [...oldData, contacto] },
+    };
+    this.facade.updateCliente(update);
   }
 }

@@ -14,6 +14,8 @@ import { DomicilioPanelComponent } from './generales-card/domicilio-panel.compon
 import { TelefonosPanelComponent } from './generales-card/telefonos-panel.component';
 import { ComentariosPanelComponent } from './generales-card/comentarios-panel.component';
 import { ComentarioDialogComponent } from './generales-card/comentario-dialog.component';
+import { ContactosPanelComponent } from './generales-card/contactos-panel.component';
+import { ContactoDialogComponent } from './generales-card/contacto-dialog.component';
 
 const routes: Routes = [{ path: '', component: InfoComponent }];
 
@@ -28,6 +30,8 @@ const routes: Routes = [{ path: '', component: InfoComponent }];
     TelefonosPanelComponent,
     ComentariosPanelComponent,
     ComentarioDialogComponent,
+    ContactosPanelComponent,
+    ContactoDialogComponent,
   ],
   imports: [...CDS_MODULES, RouterModule.forChild(routes), MatExpansionModule],
 })

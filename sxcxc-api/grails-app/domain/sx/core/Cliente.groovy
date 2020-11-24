@@ -49,6 +49,8 @@ class Cliente {
 
   Set<ClienteComentario> comentarios = []
 
+  List<ClienteContacto> contactos = []
+
   // ClienteCredito credito
 
   // Transient properties
@@ -72,7 +74,7 @@ class Cliente {
 
   static hasOne = [credito: ClienteCredito]
 
-  static hasMany =[medios:ComunicacionEmpresa, comentarios: ClienteComentario]
+  static hasMany =[medios:ComunicacionEmpresa, comentarios: ClienteComentario, contactos: ClienteContacto]
 
   static embedded = ['direccion']
 
@@ -81,6 +83,8 @@ class Cliente {
     medios cascade: "all-delete-orphan"
     comentarios: "all-delete-orphan"
     comentarios sort: 'fecha', order: 'desc'
+    contactos: "all-delete-orphan"
+    contactos sort: 'nombre', order: 'desc'
   }
 
   static transients = ['telefonos','fax','cfdiMail']
