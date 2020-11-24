@@ -15,6 +15,7 @@ import sx.security.UserInfoClaimpProvider
 import sx.core.ClienteLogListener
 import sx.core.ClienteCreditoLogListener
 import sx.core.ClienteContactosLogListener
+import sx.core.ClienteComentarioLogListener
 
 beans = {
     userPasswordEncoderListener(UserPasswordEncoderListener)
@@ -27,6 +28,9 @@ beans = {
       lxClienteService = ref('lxClienteService')
     }
     clienteContactosLogListener(ClienteContactosLogListener) {
+      lxClienteService = ref('lxClienteService')
+    }
+    clienteComentarioLogListener(ClienteComentarioLogListener) {
       lxClienteService = ref('lxClienteService')
     }
 

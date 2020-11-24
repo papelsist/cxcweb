@@ -17,7 +17,7 @@ export class ClientesUiService {
       .open(ClienteSelectorComponent, {
         data: { selection: 'single' },
         width: '70%',
-        height: '30rem',
+        // height: '30rem',
       })
       .afterClosed()
       .subscribe((cliente) => {

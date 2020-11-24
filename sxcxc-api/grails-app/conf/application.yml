@@ -93,7 +93,7 @@ environments:
       url: jdbc:mysql://${JDBC_CONNECTION_STRING}?autoReconnect=true
       #url: jdbc:mysql://10.10.1.229/siipapx?autoReconnect=true
       username: root
-      password: sys
+      password: sys2
   test:
     dataSource:
       dbCreate: none

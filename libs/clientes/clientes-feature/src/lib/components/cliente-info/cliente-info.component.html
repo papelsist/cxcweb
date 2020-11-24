@@ -1,4 +1,4 @@
-<mat-accordion class="example-headers-align">
+<mat-accordion class="example-headers-align" fxLayout="column">
   <mat-expansion-panel [expanded]="true">
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -12,33 +12,75 @@
 
     <mat-form-field>
       <mat-label>Clave</mat-label>
-      <input matInput [value]="cliente.clave" />
+      <input matInput [value]="cliente.clave" readonly />
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>RFC</mat-label>
-      <input matInput [value]="cliente.rfc" />
+      <input matInput [value]="cliente.rfc" readonly />
     </mat-form-field>
-    <mat-checkbox [checked]="cliente.activo">
+    <mat-checkbox [checked]="cliente.activo" disabled>
       Activo
     </mat-checkbox>
   </mat-expansion-panel>
-  <mat-expansion-panel [disabled]="!cliente.credito">
+  <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
         Crédito
       </mat-panel-title>
       <mat-panel-description>
         <span></span>
-        <mat-icon>map</mat-icon>
+        <mat-icon>loyalty</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
 
-    <div fxFlex fxLayout fxLayoutAlign="start center" fxLayoutGap="5px">
-      <mat-form-field>
-        <mat-label>RFC</mat-label>
-        <input matInput [value]="cliente.rfc" />
-      </mat-form-field>
+    <div *ngIf="cliente.credito as credito" fxLayout="column" fxLayoutGap="5px">
+      <div fxFlex fxLayout fxLayoutAlign="start center" fxLayoutGap="5px">
+        <mat-form-field>
+          <mat-label>Línea de crédito</mat-label>
+          <input
+            matInput
+            value="{{ credito.lineaDeCredito | currency }}"
+            readonly
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Saldo</mat-label>
+          <input matInput value="{{ credito.saldo | currency }}" readonly />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Disponible</mat-label>
+          <input
+            matInput
+            value="{{ credito.lineaDeCredito - credito.saldo | currency }}"
+            readonly
+          />
+        </mat-form-field>
+      </div>
+      <div fxFlex fxLayout fxLayoutAlign="start center" fxLayoutGap="5px">
+        <mat-form-field>
+          <mat-label>Estado</mat-label>
+          <input
+            matInput
+            value="{{ credito.creditoActivo ? 'ACTIVO' : 'SUSPENDIDO' }}"
+            readonly
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Atraso máximo</mat-label>
+          <input matInput [value]="credito.atrasoMaximo" readonly />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Descuento</mat-label>
+          <input
+            matInput
+            value="{{ credito.descuentoFijo / 100 | percent }}"
+            readonly
+          />
+        </mat-form-field>
+      </div>
     </div>
   </mat-expansion-panel>
 
@@ -53,15 +95,11 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
 
-    <mat-form-field>
-      <mat-label>Date</mat-label>
-      <input
-        matInput
-        [matDatepicker]="picker"
-        (focus)="picker.open()"
-        readonly
-      />
-    </mat-form-field>
-    <mat-datepicker #picker></mat-datepicker>
+    <mat-list>
+      <mat-icon matListIcon>local_phone</mat-icon>
+      <mat-list-item *ngFor="let t of cliente.telefonos">
+        {{ t }}
+      </mat-list-item>
+    </mat-list>
   </mat-expansion-panel>
 </mat-accordion>

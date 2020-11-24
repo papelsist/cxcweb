@@ -78,6 +78,27 @@ export class ClientesEffects {
     )
   );
 
+  createCredito$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientesActions.createClienteCredito),
+      fetch({
+        run: ({ clienteId }) => {
+          return this.service.createCredito(clienteId).pipe(
+            map((res) =>
+              ClientesActions.createClienteCreditoSuccess({
+                cliente: res,
+              })
+            )
+          );
+        },
+
+        onError: (action, error) => {
+          return ClientesActions.updateClienteCreditoFail({ error });
+        },
+      })
+    )
+  );
+
   addMedio$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClientesActions.addMedioDeContacto),
@@ -140,6 +161,67 @@ export class ClientesEffects {
     )
   );
 
+  addComentario$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientesActions.addClienteComentario),
+      fetch({
+        run: ({ clienteId, comentario }) => {
+          return this.service.addComentario(clienteId, comentario).pipe(
+            map((res) =>
+              ClientesActions.addClienteComentarioSuccess({
+                comentario: res,
+              })
+            )
+          );
+        },
+        onError: (action, error) => {
+          return ClientesActions.addClienteComentarioFail({ error });
+        },
+      })
+    )
+  );
+
+  updateComentario$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientesActions.updateClienteComentario),
+      fetch({
+        run: ({ clienteId, comentario }) => {
+          return this.service.updateComentario(clienteId, comentario).pipe(
+            map((res) =>
+              ClientesActions.updateClienteComentarioSuccess({
+                comentario: res,
+              })
+            )
+          );
+        },
+        onError: (action, error) => {
+          return ClientesActions.updateClienteComentarioFail({ error });
+        },
+      })
+    )
+  );
+
+  deleteComentario$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientesActions.deleteClienteComentario),
+      fetch({
+        run: ({ clienteId, comentario }) => {
+          return this.service.deleteComentario(clienteId, comentario).pipe(
+            map((res) =>
+              ClientesActions.deleteClienteComentarioSuccess({
+                comentario,
+              })
+            )
+          );
+        },
+
+        onError: (action, error) => {
+          return ClientesActions.deleteClienteComentarioFail({ error });
+        },
+      })
+    )
+  );
+
   errors$ = createEffect(
     () =>
       this.actions$.pipe(
@@ -149,7 +231,10 @@ export class ClientesEffects {
           ClientesActions.updateMedioDeContactoFail,
           ClientesActions.updateClienteCreditoFail,
           ClientesActions.addMedioDeContactoFail,
-          ClientesActions.deleteMedioDeContactoFail
+          ClientesActions.deleteMedioDeContactoFail,
+          ClientesActions.createClienteCreditoFail,
+          ClientesActions.addClienteComentarioFail,
+          ClientesActions.deleteClienteComentarioFail
         ),
         map(({ error }) => error),
         tap((response) => {

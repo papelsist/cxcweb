@@ -2,6 +2,7 @@ import { createAction, props } from '@ngrx/store';
 
 import {
   Cliente,
+  ClienteComentario,
   ClienteCredito,
   MedioDeContacto,
 } from '@nx-papelsa/shared/utils/core-models';
@@ -32,6 +33,19 @@ export const updateClienteFail = createAction(
 );
 export const updateClienteSuccess = createAction(
   '[Cliente API] Cliente update success',
+  props<{ cliente: Cliente }>()
+);
+
+export const createClienteCredito = createAction(
+  '[ClienteCredito Info Page] ClienteCredito create',
+  props<{ clienteId: string }>()
+);
+export const createClienteCreditoFail = createAction(
+  '[ClienteCredito API] ClienteCredito create fail',
+  props<{ error: any }>()
+);
+export const createClienteCreditoSuccess = createAction(
+  '[ClienteCredito API] ClienteCredito create success',
   props<{ cliente: Cliente }>()
 );
 
@@ -85,4 +99,45 @@ export const deleteMedioDeContactoFail = createAction(
 export const deleteMedioDeContactoSuccess = createAction(
   '[MedioDeContacto API] MedioDeContacto delete success',
   props<{ medio: MedioDeContacto }>()
+);
+
+// Comentario
+
+export const addClienteComentario = createAction(
+  '[Cliente Info Page] ClienteComentario add',
+  props<{ clienteId: string; comentario: Partial<ClienteComentario> }>()
+);
+export const addClienteComentarioFail = createAction(
+  '[ClienteComentario API] ClienteComentario add fail',
+  props<{ error: any }>()
+);
+export const addClienteComentarioSuccess = createAction(
+  '[ClienteComentario API] ClienteComentario add success',
+  props<{ comentario: ClienteComentario }>()
+);
+
+export const updateClienteComentario = createAction(
+  '[Cliente Info Page] ClienteComentario update',
+  props<{ clienteId: string; comentario: Update<ClienteComentario> }>()
+);
+export const updateClienteComentarioFail = createAction(
+  '[ClienteComentario API] ClienteComentario update fail',
+  props<{ error: any }>()
+);
+export const updateClienteComentarioSuccess = createAction(
+  '[ClienteComentario API] ClienteComentario update success',
+  props<{ comentario: ClienteComentario }>()
+);
+
+export const deleteClienteComentario = createAction(
+  '[Cliente Info Page] ClienteComentario delete',
+  props<{ clienteId: string; comentario: ClienteComentario }>()
+);
+export const deleteClienteComentarioFail = createAction(
+  '[ClienteComentario API] ClienteComentario delete fail',
+  props<{ error: any }>()
+);
+export const deleteClienteComentarioSuccess = createAction(
+  '[ClienteComentario API] ClienteComentario delete success',
+  props<{ comentario: ClienteComentario }>()
 );

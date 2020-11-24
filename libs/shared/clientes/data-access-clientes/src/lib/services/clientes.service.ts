@@ -7,6 +7,7 @@ import { catchError, map, delay } from 'rxjs/operators';
 import {
   Cfdi,
   Cliente,
+  ClienteComentario,
   ClienteCredito,
   Cobro,
   CuentaPorCobrarDTO,
@@ -63,6 +64,13 @@ export class ClientesService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
+  createCredito(clienteId: string): Observable<Cliente> {
+    const url = `${this.apiUrl}/${clienteId}/credito/`;
+    return this.http
+      .post<Cliente>(url, {})
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
   updateMedio(
     clienteId: string,
     update: Update<MedioDeContacto>
@@ -87,6 +95,33 @@ export class ClientesService {
     const url = `${this.apiUrl}/${clienteId}/medios/${medio.id}`;
     return this.http
       .delete<MedioDeContacto>(url)
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  addComentario(
+    clienteId: string,
+    comentario: Partial<ClienteComentario>
+  ): Observable<ClienteComentario> {
+    const url = `${this.apiUrl}/${clienteId}/comentarios`;
+    return this.http
+      .post<ClienteComentario>(url, { cliente: clienteId, ...comentario })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  updateComentario(
+    clienteId: string,
+    update: Update<ClienteComentario>
+  ): Observable<ClienteComentario> {
+    const url = `${this.apiUrl}/${clienteId}/comentarios/${update.id}`;
+    return this.http
+      .put<ClienteComentario>(url, update.changes)
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  deleteComentario(clienteId: string, comentario: Partial<ClienteComentario>) {
+    const url = `${this.apiUrl}/${clienteId}/comentarios/${comentario.id}`;
+    return this.http
+      .delete(url)
       .pipe(catchError((error: any) => throwError(error)));
   }
 

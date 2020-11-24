@@ -72,4 +72,10 @@
       </mat-action-row>
     </mat-expansion-panel>
   </mat-accordion>
+  <nx-papelsa-comentarios-panel
+    [cliente]="cliente"
+    (update)="onUpdateComentario($event)"
+    (delete)="onDeleteComentario($event)"
+    (create)="onAddComentario($event)"
+  ></nx-papelsa-comentarios-panel>
 </div>

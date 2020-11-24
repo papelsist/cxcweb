@@ -13,11 +13,16 @@ class ClienteCreditoService implements LogUser {
     LxClienteCreditoService lxClienteCreditoService
 
     ClienteCredito updateCliente(ClienteCredito credito) {
-        ClienteCredito target = credito.save failOnError: true, flush: true
-        // lxClienteCreditoService.push(target)
-        logEntity(credito)
-        return target
+      ClienteCredito target = credito.save failOnError: true, flush: true
+      // lxClienteCreditoService.push(target)
+      logEntity(credito)
+      return target
+    }
 
+    ClienteCredito createCredito(ClienteCredito credito) {
+      ClienteCredito target = credito.save failOnError: true, flush: true
+      logEntity(credito)
+      return target
     }
 
 }

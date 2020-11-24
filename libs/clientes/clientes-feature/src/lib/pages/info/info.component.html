@@ -4,11 +4,34 @@
     (edit)="onEditCliente($event)"
     (editTelefono)="onEditMedio(cliente, $event)"
     (addTelefono)="onAddMedio(cliente, $event)"
-    (deleteTelefono)="onDeleteMedio(cliente, $event)"
+    (deleteTelefono)="onDeleteComentario(cliente, $event)"
+    (addComentario)="onAddComentario(cliente, $event)"
+    (updateComentario)="onUpdateComentario(cliente, $event)"
+    (deleteComentario)="onDeleteComentario(cliente, $event)"
   ></nx-papelsa-generales-card>
-  <nx-papelsa-credito-card
-    *ngIf="cliente.credito as credito"
-    [credito]="credito"
-    (edit)="onEditCredito(cliente, $event)"
-  ></nx-papelsa-credito-card>
+  <div fxLayout="column" fxLayoutGap="5px">
+    <nx-papelsa-credito-card
+      *ngIf="cliente.credito as credito; else altaDeCredito"
+      [credito]="credito"
+      (edit)="onEditCredito(cliente, $event)"
+    ></nx-papelsa-credito-card>
+    <ng-template #altaDeCredito>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>No dispone de crédito</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-actions>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="onAltaDeCredito(cliente)"
+          >
+            <mat-icon>add</mat-icon>
+            <mat-label>Alta de crédito</mat-label>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </ng-template>
+  </div>
 </div>

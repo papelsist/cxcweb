@@ -4,13 +4,14 @@ model {
     Cliente cliente
 }
 
-json g.render(cliente, [deep:false, excludes:['direccion','credito','medios']]) {
+json g.render(cliente, [deep:false, excludes:['direccion','credito','medios', 'comentarios']]) {
     credito g.render(cliente.credito)
     direccion g.render(cliente.direccion)
     telefonos cliente.telefonos
     fax cliente.fax
     cfdiMail cliente.cfdiMail
     medios g.render(cliente.medios)
+    comentarios g.render(cliente.comentarios)
 }
 
 

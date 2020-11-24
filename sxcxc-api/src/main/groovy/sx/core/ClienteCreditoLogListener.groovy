@@ -28,6 +28,12 @@ class ClienteCreditoLogListener implements ReplicaAudit{
   void onPreInsertEvent(PreInsertEvent event) {}
 
   @Listener(ClienteCredito)
+  void onPostInsertEvent(PostInsertEvent event) {
+    logFirebase(event)
+    logCliente(event, 'INSERT')
+  }
+
+  @Listener(ClienteCredito)
   void onPreUpdateEvent(PreUpdateEvent event) {
     preLogClienteCredito(event)
   }
@@ -78,6 +84,7 @@ class ClienteCreditoLogListener implements ReplicaAudit{
       }
     }
   }
+
 
   void logProperty(String property, ClienteCredito b, Map<String, Map<String,Object>> changes) {
     if(b.isDirty(property)) {

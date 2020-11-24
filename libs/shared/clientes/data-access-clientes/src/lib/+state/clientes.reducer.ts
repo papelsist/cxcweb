@@ -39,9 +39,13 @@ const clientesReducer = createReducer(
   on(
     ClientesActions.updateCliente,
     ClientesActions.updateClienteCredito,
+    ClientesActions.createClienteCredito,
     ClientesActions.updateMedioDeContacto,
-    ClientesActions.addMedioDeContacto,
     ClientesActions.deleteMedioDeContacto,
+    ClientesActions.addMedioDeContacto,
+    ClientesActions.addClienteComentario,
+    ClientesActions.deleteClienteComentario,
+    ClientesActions.updateClienteComentario,
     (state) => ({
       ...state,
       loading: true,
@@ -65,6 +69,13 @@ const clientesReducer = createReducer(
       credito,
     };
     return clientesAdapter.upsertOne(clienteUpdated, {
+      ...state,
+      loading: false,
+      error: null,
+    });
+  }),
+  on(ClientesActions.createClienteCreditoSuccess, (state, { cliente }) => {
+    return clientesAdapter.upsertOne(cliente, {
       ...state,
       loading: false,
       error: null,
@@ -105,6 +116,44 @@ const clientesReducer = createReducer(
       error: null,
     });
   }),
+  on(
+    ClientesActions.updateClienteComentarioSuccess,
+    ClientesActions.addClienteComentarioSuccess,
+    (state, { comentario }) => {
+      const clienteExistente = state.entities[comentario.cliente.id];
+      const dictionary = {
+        ...keyBy(clienteExistente.comentarios, 'id'),
+        [comentario.id]: comentario,
+      };
+      const clienteUpdated = {
+        ...clienteExistente,
+        comentarios: Object.values(dictionary),
+      };
+      return clientesAdapter.upsertOne(clienteUpdated, {
+        ...state,
+        loading: false,
+        error: null,
+      });
+    }
+  ),
+  on(
+    ClientesActions.deleteClienteComentarioSuccess,
+    (state, { comentario }) => {
+      const clienteExistente = state.entities[comentario.cliente.id];
+      const comentarios = clienteExistente.comentarios.filter(
+        (item) => item.id != comentario.id
+      );
+      const clienteUpdated = {
+        ...clienteExistente,
+        comentarios,
+      };
+      return clientesAdapter.upsertOne(clienteUpdated, {
+        ...state,
+        loading: false,
+        error: null,
+      });
+    }
+  ),
   on(ClientesActions.setCurrentCliente, (state, { cliente }) =>
     clientesAdapter.upsertOne(cliente, { ...state, selectedId: cliente.id })
   ),
@@ -115,6 +164,9 @@ const clientesReducer = createReducer(
     ClientesActions.updateMedioDeContactoFail,
     ClientesActions.addMedioDeContactoFail,
     ClientesActions.deleteMedioDeContactoFail,
+    ClientesActions.addClienteComentarioFail,
+    ClientesActions.deleteClienteComentarioFail,
+    ClientesActions.updateClienteComentarioFail,
     (state, { error }) => ({
       ...state,
       loading: false,
