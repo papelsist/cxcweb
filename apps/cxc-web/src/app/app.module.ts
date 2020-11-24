@@ -10,6 +10,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
 import { AppStoreModule } from './+store/app-store.module';
 
+// Firebase AngularFire
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -18,6 +23,10 @@ import { AppStoreModule } from './+store/app-store.module';
     AppStoreModule,
     AppRoutingModule,
     CoreModule,
+    // Firebase
+    AngularFireModule.initializeApp(environment.firebase, 'swrx-callcenter'),
+    AngularFirestoreModule,
+    AngularFireStorageModule,
   ],
   providers: [{ provide: 'apiUrl', useValue: environment.apiUrl }],
   bootstrap: [AppComponent],

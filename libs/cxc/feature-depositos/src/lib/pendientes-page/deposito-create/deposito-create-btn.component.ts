@@ -9,6 +9,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { Deposito } from '@nx-papelsa/shared/cxc/data-access-depositos';
 import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
 import { DepositoCreateComponent } from './deposito-create.component';
 
@@ -31,9 +32,6 @@ export class DepositoCreateBtnComponent implements OnInit {
   show() {
     this.dialog
       .open(DepositoCreateComponent, {
-        data: {
-          buscarDuplicado: this.buscarDuplicado,
-        },
         width: '40%',
       })
       .afterClosed()
@@ -42,28 +40,5 @@ export class DepositoCreateBtnComponent implements OnInit {
           this.create.emit(deposito);
         }
       });
-  }
-
-  async buscarDuplicado(total: number, banco: any): Promise<Deposito | null> {
-    console.log('Buscando duplicado de: ', total);
-    console.log('Banco: ', banco);
-    return null;
-    /*
-    return this.afs
-      .collection('depositos', ref =>
-        ref.where('total', '==', total).where('banco', '==', banco)
-      )
-      .snapshotChanges()
-      .pipe(
-        take(1),
-        map(actions =>
-          actions.map(a => {
-            const data = a.payload.doc.data() as Deposito;
-            const id = a.payload.doc.id;
-            return { id, ...data };
-          })
-        )
-      );
-      */
   }
 }

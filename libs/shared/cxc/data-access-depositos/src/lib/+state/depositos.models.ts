@@ -6,7 +6,7 @@ import { Autorizacion, Cliente } from '@nx-papelsa/shared/utils/core-models';
 export interface Deposito {
   id?: string;
   folio?: number;
-  cartera: 'CREDITO' | 'JURIDICO' | 'CHEQUE';
+  cartera: 'CRE' | 'JUR' | 'CHE';
   sucursal?: string;
   cliente: Partial<Cliente>;
   nombre: string;
