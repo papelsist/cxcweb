@@ -10,6 +10,7 @@ import {
 import {
   BeanPropertyListItem,
   Cliente,
+  ClienteComentario,
   Direccion,
   MedioDeContacto,
 } from '@nx-papelsa/shared/utils/core-models';
@@ -18,6 +19,7 @@ import { GeneralesFormComponent } from '../generales-form/generales-form.compone
 import { Update } from '@ngrx/entity';
 import { DireccionDialogComponent } from '@nx-papelsa/shared/utils/ui-forms';
 import { TdDialogService } from '@covalent/core/dialogs';
+import { ComentarioDialogComponent } from './comentario-dialog.component';
 
 @Component({
   selector: 'nx-papelsa-generales-card',
@@ -31,7 +33,14 @@ export class GeneralesCardComponent implements OnInit {
   @Output() editTelefono = new EventEmitter<Update<MedioDeContacto>>();
   @Output() addTelefono = new EventEmitter<Partial<MedioDeContacto>>();
   @Output() deleteTelefono = new EventEmitter<Partial<MedioDeContacto>>();
+
+  @Output() addComentario = new EventEmitter<Partial<ClienteComentario>>();
+  @Output() deleteComentario = new EventEmitter<Partial<ClienteComentario>>();
+  @Output() updateComentario = new EventEmitter<Update<ClienteComentario>>();
+
   telefonos: MedioDeContacto[] = [];
+  comentarios: ClienteComentario[] = [];
+
   properties: BeanPropertyListItem<Cliente>[] = [
     {
       name: 'nombre',
@@ -147,5 +156,17 @@ export class GeneralesCardComponent implements OnInit {
           this.addTelefono.emit(medio);
         }
       });
+  }
+
+  onAddComentario(comentario: ClienteComentario) {
+    this.addComentario.emit(comentario);
+  }
+
+  onDeleteComentario(comentario: ClienteComentario) {
+    this.deleteComentario.emit(comentario);
+  }
+
+  onUpdateComentario(comentario: Update<ClienteComentario>) {
+    this.updateComentario.emit(comentario);
   }
 }

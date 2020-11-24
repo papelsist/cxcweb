@@ -16,6 +16,7 @@ class OriginalUrlMappings {
             "/credito"(resources: 'clienteCredito')
             "/socios"(resources: 'socio')
             "/medios"(resources: 'medioDeContacto')
+            "/comentarios"(resources: 'clienteComentario')
         }
         "/api/clientes/actualizarCfdiMail/$id"(controller: "cliente", action: 'actualizarCfdiMail', method: 'PUT')
         "/api/clientes/$id/facturas"(controller: 'cliente', action: 'facturas', method: 'GET')

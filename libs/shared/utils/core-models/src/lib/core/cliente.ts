@@ -17,6 +17,7 @@ export interface Cliente {
   juridico: false;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   medios?: Partial<MedioDeContacto[]>;
+  comentarios?: ClienteComentario[];
   direccion: Direccion;
   direcciones?: ClienteDireccion[];
   direccionesEntrega?: ClienteDireccion[];
@@ -29,8 +30,8 @@ export interface Cliente {
 }
 
 export interface ClienteCredito {
-  id: string;
-  cliente: Partial<Cliente>;
+  id?: string;
+  cliente?: Partial<Cliente>;
   creditoActivo: boolean;
   lineaDeCredito: number;
   descuentoFijo: number;
@@ -43,8 +44,8 @@ export interface ClienteCredito {
   saldo: number;
   atrasoMaximo: number;
   operador: number;
-  cobrador: Partial<Cobrador>;
-  socio: Partial<Socio>;
+  cobrador?: Partial<Cobrador>;
+  socio?: Partial<Socio>;
   usoDeCfdi?: string;
   createUser?: string;
   updateUser?: string;
@@ -65,4 +66,17 @@ export interface MedioDeContacto {
   descripcion: string;
   cfdi?: boolean;
   cliente: Partial<Cliente>;
+}
+
+export interface ClienteComentario {
+  id: string;
+  cliente?: Partial<Cliente>;
+  fecha: string;
+  comentario: string;
+  tipo: string;
+  activo: boolean;
+  createUser?: string;
+  updateUser: string;
+  dateCreated?: string;
+  lastUpdated?: string;
 }

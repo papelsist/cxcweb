@@ -7,10 +7,12 @@ import * as ClientesSelectors from './clientes.selectors';
 import * as ClientesActions from './clientes.actions';
 import {
   Cliente,
+  ClienteComentario,
   ClienteCredito,
   MedioDeContacto,
 } from '@nx-papelsa/shared/utils/core-models';
 import { Update } from '@ngrx/entity';
+import { identity } from 'lodash';
 
 @Injectable()
 export class ClientesFacade {
@@ -41,5 +43,45 @@ export class ClientesFacade {
   }
   deleteMedioDeContacto(clienteId: string, medio: MedioDeContacto) {
     this.dispatch(ClientesActions.deleteMedioDeContacto({ clienteId, medio }));
+  }
+
+  altaDeLineaDeCredito(cliente: Cliente) {
+    if (!cliente.credito) {
+      this.dispatch(
+        ClientesActions.createClienteCredito({ clienteId: cliente.id })
+      );
+    }
+  }
+
+  addComentario(cliente: Cliente, comentario: ClienteComentario) {
+    this.dispatch(
+      ClientesActions.addClienteComentario({
+        clienteId: cliente.id,
+        comentario: { ...comentario, fecha: new Date().toISOString() },
+      })
+    );
+  }
+
+  deleteComentario(cliente: Cliente, comentario: ClienteComentario) {
+    this.dispatch(
+      ClientesActions.deleteClienteComentario({
+        clienteId: cliente.id,
+        comentario,
+      })
+    );
+  }
+
+  updateComentario(cliente: Cliente, comentario: ClienteComentario) {
+    console.log('Update: ', comentario);
+    const update: Update<ClienteComentario> = {
+      id: comentario.id,
+      changes: { ...comentario },
+    };
+    this.dispatch(
+      ClientesActions.updateClienteComentario({
+        clienteId: cliente.id,
+        comentario: update,
+      })
+    );
   }
 }

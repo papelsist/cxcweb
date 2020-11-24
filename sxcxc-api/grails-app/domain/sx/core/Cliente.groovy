@@ -7,99 +7,101 @@ import groovy.transform.EqualsAndHashCode
 @EqualsAndHashCode(includes='nombre,rfc')
 class Cliente {
 
-    static  auditable=true
+  String	id
 
-    String	id
+  String clave
 
-    String clave
+  Boolean	activo	 = true
 
-    Boolean	activo	 = true
+  String	rfc
 
-    String	rfc
+  String	nombre
 
-    String	nombre
+  String email
 
-    String email
+  Boolean	permiteCheque	 = false
 
-    Boolean	permiteCheque	 = false
+  BigDecimal	chequeDevuelto	 = 0
 
-    BigDecimal	chequeDevuelto	 = 0
+  Boolean	juridico	 = false
 
-    Boolean	juridico	 = false
+  Long	folioRFC	 = 1
 
-    Long	folioRFC	 = 1
+  Long	formaDePago	 = 1
 
-    Long	formaDePago	 = 1
+  Long	sw2
 
-    Long	sw2
+  Sucursal	sucursal
 
-    Sucursal	sucursal
+  Vendedor	vendedor
 
-    Vendedor	vendedor
+  Direccion direccion
 
-    Direccion direccion
+  Date dateCreated
 
-    Date dateCreated
+  Date lastUpdated
 
-    Date lastUpdated
+  String createUser
 
-    String createUser
+  String updateUser
 
-    String updateUser
+  Set<ComunicacionEmpresa> medios = []
 
-    Set<ComunicacionEmpresa> medios = []
+  Set<ClienteComentario> comentarios = []
 
-    // ClienteCredito credito
+  // ClienteCredito credito
 
-    // Transient properties
-    Set telefonos
-    String fax
-    String cfdiMail
+  // Transient properties
+  Set telefonos
+  String fax
+  String cfdiMail
 
-    static constraints = {
-        rfc maxSize:13
-        sw2 nullable:true
-        dateCreated nullable:true
-        lastUpdated nullable:true
-        sucursal nullable: true
-        direccion nullable: true
-        email nullable: true
-        credito nullable: true
-        vendedor nullable: true
-        createUser nullable: true
-        updateUser nullable: true
-    }
+  static constraints = {
+    rfc maxSize:13
+    sw2 nullable:true
+    dateCreated nullable:true
+    lastUpdated nullable:true
+    sucursal nullable: true
+    direccion nullable: true
+    email nullable: true
+    credito nullable: true
+    vendedor nullable: true
+    createUser nullable: true
+    updateUser nullable: true
+  }
 
-    static hasOne = [credito: ClienteCredito]
+  static hasOne = [credito: ClienteCredito]
 
-    static hasMany =[medios:ComunicacionEmpresa]
+  static hasMany =[medios:ComunicacionEmpresa, comentarios: ClienteComentario]
 
-    static embedded = ['direccion']
+  static embedded = ['direccion']
 
-    static mapping={
-        id generator: 'assigned'
-        medios cascade: "all-delete-orphan"
-    }
+  static mapping={
+    id generator: 'assigned'
+    medios cascade: "all-delete-orphan"
+    comentarios: "all-delete-orphan"
+    comentarios sort: 'fecha', order: 'desc'
+  }
 
-    static transients = ['telefonos','fax','cfdiMail']
+  static transients = ['telefonos','fax','cfdiMail']
 
-    String toString() {
-        "${nombre} (${clave})"
-    }
+  String toString() {
+    "${nombre} (${clave})"
+  }
 
-    def getTelefonos() {
-        return medios.findAll{ it.tipo == 'TEL'}.sort{it.id}.collect {it.descripcion}
-    }
+  def getTelefonos() {
+    return medios.findAll{ it.tipo == 'TEL'}.sort{it.id}.collect {it.descripcion}
+  }
 
-    def getFax() {
-        return medios.find{ it.tipo == 'FAX'}?.descripcion
-    }
+  def getFax() {
+    return medios.find{ it.tipo == 'FAX'}?.descripcion
+  }
 
-    def getCfdiMail() {
-        return medios.find{ it.tipo == 'MAIL' && it.cfdi}?.descripcion
-    }
-    def getCfdiValidado() {
-        return medios.find{ it.tipo == 'MAIL' && it.cfdi}?.validado
-    }
+  def getCfdiMail() {
+    return medios.find{ it.tipo == 'MAIL' && it.cfdi}?.descripcion
+  }
+  def getCfdiValidado() {
+    return medios.find{ it.tipo == 'MAIL' && it.cfdi}?.validado
+  }
 
 }

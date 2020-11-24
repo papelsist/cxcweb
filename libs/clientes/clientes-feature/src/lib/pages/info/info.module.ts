@@ -12,6 +12,8 @@ import { GeneralesCardComponent } from './generales-card/generales-card.componen
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DomicilioPanelComponent } from './generales-card/domicilio-panel.component';
 import { TelefonosPanelComponent } from './generales-card/telefonos-panel.component';
+import { ComentariosPanelComponent } from './generales-card/comentarios-panel.component';
+import { ComentarioDialogComponent } from './generales-card/comentario-dialog.component';
 
 const routes: Routes = [{ path: '', component: InfoComponent }];
 
@@ -24,6 +26,8 @@ const routes: Routes = [{ path: '', component: InfoComponent }];
     DomicilioPanelComponent,
     CreditoFormComponent,
     TelefonosPanelComponent,
+    ComentariosPanelComponent,
+    ComentarioDialogComponent,
   ],
   imports: [...CDS_MODULES, RouterModule.forChild(routes), MatExpansionModule],
 })
