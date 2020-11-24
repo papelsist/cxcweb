@@ -16,8 +16,6 @@ import { Deposito } from '@nx-papelsa/shared/cxc/data-access-depositos';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Cartera } from '@nx-papelsa/shared/utils/core-models';
 
-type SearchFn = (total: number, banco: any) => Promise<Deposito>;
-
 @Component({
   selector: 'nx-papelsa-deposito-create',
   templateUrl: './deposito-create.component.html',
@@ -28,7 +26,7 @@ export class DepositoCreateComponent implements OnInit, OnDestroy {
   form: FormGroup;
   destroy$ = new Subject();
   posibleDuplicado: Deposito = null;
-  buscarDuplicado: SearchFn;
+  // buscarDuplicado: SearchFn;
 
   carteras: Cartera[] = [
     { clave: 'CRE', descripcion: 'Crédito' },
@@ -38,9 +36,7 @@ export class DepositoCreateComponent implements OnInit, OnDestroy {
   constructor(
     private dialogRef: MatDialogRef<DepositoCreateComponent, Deposito>,
     @Inject(MAT_DIALOG_DATA) data: any
-  ) {
-    this.buscarDuplicado = data.buscarDuplicado;
-  }
+  ) {}
 
   limitDate = new Date().toISOString();
 
@@ -85,7 +81,6 @@ export class DepositoCreateComponent implements OnInit, OnDestroy {
 
     this.transfernciaListener();
     this.totalListener();
-    this.noDucicadoListener();
   }
 
   private transfernciaListener() {
@@ -117,31 +112,11 @@ export class DepositoCreateComponent implements OnInit, OnDestroy {
       });
   }
 
-  private noDucicadoListener() {
-    this.form.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(async (val) => {
-        const { banco, cuenta, fechaDeposito, total } = val;
-        const fdeposito = moment(fechaDeposito).toDate();
-        if (banco && cuenta && fdeposito && total) {
-          const found = await this.buscarDuplicado(total, banco);
-          // this.buscarDuplicado(total, banco).subscribe(response => {
-          //   if (Array.isArray(response) && response.length > 0) {
-          //     const found = response[0];
-          //     this.posibleDuplicado = found;
-          //   } else {
-          //     this.posibleDuplicado = null;
-          //   }
-          // });
-        }
-      });
-  }
-
   submit() {
     if (this.form.valid) {
       const d: Deposito = this.buildDeposito();
       d.lastUpdated = new Date().toISOString();
-      this.dialogRef.close(d);
+      // this.dialogRef.close(d);
     }
   }
 

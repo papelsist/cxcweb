@@ -37,9 +37,9 @@ export class DeposiosService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  save(bonificacion: Partial<Deposito>): Observable<Deposito> {
+  save(deposito: Partial<Deposito>): Observable<Deposito> {
     return this.http
-      .post<Deposito>(this.apiUrl, bonificacion)
+      .post<Deposito>(this.apiUrl, deposito)
       .pipe(catchError((error: any) => throwError(error)));
   }
 
@@ -50,10 +50,12 @@ export class DeposiosService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  delete(bonificacion: Partial<Deposito>) {
-    const url = `${this.apiUrl}/${bonificacion.id}`;
+  delete(deposito: Partial<Deposito>) {
+    const url = `${this.apiUrl}/${deposito.id}`;
     return this.http
       .delete<Deposito>(url, {})
       .pipe(catchError((error: any) => throwError(error)));
   }
+
+  buscarDuplicado() {}
 }
