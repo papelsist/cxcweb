@@ -7,12 +7,14 @@
       *ngIf="factura.credito as credito"
     ></nx-papelsa-cxc-credito-panel>
     <nx-papelsa-cxc-cfdipanel
+      *ngIf="factura.cfdi as cfdi"
       [cfdi]="factura.cfdi"
       [cliente]="factura.cliente"
     ></nx-papelsa-cxc-cfdipanel>
   </div>
 
   <nx-papelsa-cxc-ventapanel
+    *ngIf="factura.venta as venta"
     [venta]="factura.venta"
   ></nx-papelsa-cxc-ventapanel>
 

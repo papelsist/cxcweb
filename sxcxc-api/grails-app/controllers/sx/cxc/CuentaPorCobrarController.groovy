@@ -40,6 +40,7 @@ class CuentaPorCobrarController extends RestfulController<CuentaPorCobrar>{
         def query = CuentaPorCobrar.where {}
         params.sort = params.sort ?:'lastUpdated'
         params.order = params.order ?:'desc'
+        params.max = 100
         log.info('[GET] {}', params)
 
         if(params.cartera) {

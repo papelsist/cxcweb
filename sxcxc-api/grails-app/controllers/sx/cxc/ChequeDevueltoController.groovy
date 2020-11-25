@@ -2,12 +2,14 @@ package sx.cxc
 
 import grails.compiler.GrailsCompileStatic
 import grails.rest.RestfulController
+import grails.plugin.springsecurity.annotation.Secured
 
 import sx.cxc.ChequeDevuelto
 import sx.cxc.ChequeDevueltoService
 import sx.reports.ReportService
 
 // @GrailsCompileStatic
+@Secured("hasAnyRole('ROLE_ADMIN', 'ROLE_CXC', 'ROLE_CXC_ADMIN')")
 class ChequeDevueltoController extends RestfulController<ChequeDevuelto> {
 
     ChequeDevueltoService chequeDevueltoService

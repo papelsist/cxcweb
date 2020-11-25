@@ -205,7 +205,7 @@ export class CobrosGridComponent implements OnInit {
       },
       {
         headerName: 'Disponible',
-        field: 'disponible',
+        field: 'saldo',
         sortable: true,
         filter: true,
         width: 120,

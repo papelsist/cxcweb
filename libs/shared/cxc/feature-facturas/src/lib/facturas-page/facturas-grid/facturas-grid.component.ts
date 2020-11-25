@@ -114,6 +114,7 @@ export class FacturasGridComponent implements OnInit {
   }
 
   onModelUpdated(event) {
+    // console.log('Model updated', this.rows);
     if (this.gridApi) {
       this.gridColumnApi.autoSizeAllColumns();
       this.gridApi.resetRowHeights();
@@ -130,7 +131,7 @@ export class FacturasGridComponent implements OnInit {
     if (params.node.rowPinned) {
       return { 'font-weight': 'bold' };
     }
-    if (!params.data.cfdi) {
+    if (!params.data.cfdi && params.data.tipo !== 'CHE') {
       return {
         'font-weight': 'bold',
         'font-style': 'italic',

@@ -64,7 +64,6 @@ class MailJetService {
       attachments = buildAttachments(command)
     }
 
-
     MailjetRequest request = new MailjetRequest(Emailv31.resource)
       .property(Emailv31.MESSAGES, new JSONArray()
                 .put(new JSONObject()
@@ -81,10 +80,10 @@ class MailJetService {
                             .put("Name", 'Credito')))
                     .put(Emailv31.Message.SUBJECT, "Comprobantes fiscales")
                     .put(Emailv31.Message.TEXTPART, message)
-                    // .put(Emailv31.Message.HTMLPART, "<h3>Dear passenger 1, welcome to <a href=\"https://www.mailjet.com/\">Mailjet</a>!</h3><br />May the delivery force be with you!")
+                    .put(Emailv31.Message.HTMLPART, buildHtmlData(command))
                     .put(Emailv31.Message.ATTACHMENTS, attachments)));
 
-    request.property(Emailv31.SANDBOX_MODE, isSandboxMode())
+    request.property(Emailv31.SANDBOX_MODE, false)
     MailjetResponse response = getClient().post(request);
     def status = response.getStatus()
     def data = response.getData()
@@ -255,6 +254,26 @@ class MailJetService {
             """
   }
 
+  String buildHtmlData(EnvioDeComprobantes command) {
+
+    def cfdis = command.cfdis.collect {
+      Cfdi cfdi = Cfdi.get(it)
+    }
+    def writer = new StringWriter()
+    def html = new groovy.xml.MarkupBuilder(writer)
+    html.div {
+      h3 "Comprobantes fiscales:"
+      ol{
+        cfdis.each { item ->
+            li "Serie: ${item.serie} Folio: ${item.folio} UUID: ${item.uuid}"
+        }
+      }
+    }
+    String htmlData = writer.toString()
+    return htmlData
+
+  }
+
   MailjetClient getClient() {
     if(client == null) {
       this.client = new MailjetClient(mailJetPublicKey,mailJetPrivateKey,new ClientOptions("v3.1"))
@@ -263,8 +282,7 @@ class MailJetService {
   }
 
   Boolean isSandboxMode() {
-      return Environment.isDevelopmentMode()
-
+    return Environment.isDevelopmentMode()
   }
 
   JSONArray buildZipAttachment(EnvioDeComprobantes command) {

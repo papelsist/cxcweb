@@ -17,6 +17,4 @@ json g.render(cuentaPorCobrar, [excludes:['moneda','dateCreated','lastUpdated','
         plazo cuentaPorCobrar.credito.plazo
     }
     credito g.render(cuentaPorCobrar.credito)
-    temporal 'DATO TEMPORAL'
-
 }

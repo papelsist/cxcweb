@@ -45,7 +45,15 @@ const routes: Route[] = [
         (m) => m.CxcFeatureAnalyticsModule
       ),
   },
-
+  {
+    path: 'cheques',
+    loadChildren: () =>
+      import('@nx-papelsa/cxc/feature-cobranza-che').then(
+        (m) => m.FeatureCobranzaCheModule
+      ),
+    data: { cartera: { clave: 'CHE', descripcion: 'CHEQUES' } },
+    canActivate: [AuthGuard, CXCCarteraGuard],
+  },
   {
     path: '',
     redirectTo: 'credito',
