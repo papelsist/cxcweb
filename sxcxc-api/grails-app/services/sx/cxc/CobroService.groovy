@@ -73,7 +73,8 @@ class CobroService implements LogUser{
                 aplicacion.cuentaPorCobrar = cxc
                 aplicacion.fecha = fecha
                 aplicacion.moneda = cxc.moneda.getCurrencyCode()
-                aplicacion.tipoDeCambio = cxc.tipoDeCambio
+                // aplicacion.tipoDeCambio = cxc.tipoDeCambio
+                aplicacion.tipoDeCambio = cobro.tipoDeCambio
                 cobro.addToAplicaciones(aplicacion)
                 if(cobro.primeraAplicacion == null){
                     cobro.primeraAplicacion = fecha

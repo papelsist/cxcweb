@@ -55,6 +55,15 @@ const routes: Route[] = [
     canActivate: [AuthGuard, CXCCarteraGuard],
   },
   {
+    path: 'juridico',
+    loadChildren: () =>
+      import('@nx-papelsa/cxc/feature-cobranza-jur').then(
+        (m) => m.FeatureCobranzaJurModule
+      ),
+    data: { cartera: { clave: 'JUR', descripcion: 'JURIDICO' } },
+    canActivate: [AuthGuard, CXCCarteraGuard],
+  },
+  {
     path: '',
     redirectTo: 'credito',
     pathMatch: 'full',
