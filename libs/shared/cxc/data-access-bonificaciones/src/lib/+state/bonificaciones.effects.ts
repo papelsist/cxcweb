@@ -3,9 +3,11 @@ import { createEffect, Actions, ofType } from '@ngrx/effects';
 
 import { fetch, pessimisticUpdate } from '@nrwl/angular';
 
-import { tap, switchMap, map } from 'rxjs/operators';
+import { tap, switchMap, map, withLatestFrom } from 'rxjs/operators';
 
+import { CXCFacade } from '@nx-papelsa/shared/cxc/data-acces';
 import * as fromBonificaciones from './bonificaciones.reducer';
+
 import * as BonificacionesActions from './bonificaciones.actions';
 import {
   Periodo,
@@ -14,6 +16,7 @@ import {
 import { BonificacionesService } from '../services/bonificaciones.service';
 import { Router } from '@angular/router';
 import { TdDialogService } from '@covalent/core/dialogs';
+// import { Store } from '@ngrx/store';
 
 @Injectable()
 export class BonificacionesEffects {
@@ -228,9 +231,19 @@ export class BonificacionesEffects {
             periodo
           )
         ),
+        withLatestFrom(this.cxcFacade.cartera$),
+        map(([action, cartera]) => {
+          // console.log('Cartera: ', cartera);
+          return BonificacionesActions.loadBonificaciones({
+            periodo: action.periodo,
+            cartera: cartera.clave,
+          });
+        })
+        /*
         map(({ periodo }) =>
           BonificacionesActions.loadBonificaciones({ periodo, cartera: 'CRE' })
         )
+        */
       ),
     { dispatch: true }
   );
@@ -267,6 +280,7 @@ export class BonificacionesEffects {
     private actions$: Actions,
     private service: BonificacionesService,
     private router: Router,
-    private dialogService: TdDialogService
+    private dialogService: TdDialogService,
+    private cxcFacade: CXCFacade
   ) {}
 }

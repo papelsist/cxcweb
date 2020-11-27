@@ -227,6 +227,8 @@ export class FacturasGridComponent implements OnInit {
         headerName: 'Atraso',
         field: 'atraso',
         width: 100,
+        valueGetter: (params) =>
+          params.data.saldo <= 0.0 ? 0 : params.data.atraso,
         cellClass: (params) => (params.value > 5 ? 'warn-cell' : ''),
       },
       {

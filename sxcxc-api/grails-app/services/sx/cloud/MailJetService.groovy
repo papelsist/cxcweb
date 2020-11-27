@@ -265,7 +265,7 @@ class MailJetService {
       h3 "Comprobantes fiscales:"
       ol{
         cfdis.each { item ->
-            li "Serie: ${item.serie} Folio: ${item.folio} UUID: ${item.uuid}"
+            li "Serie: ${item.serie} Folio: ${item.folio} Fecha: ${item.fecha.format('dd/MM/yyyy')} Total: ${item.total}"
         }
       }
     }

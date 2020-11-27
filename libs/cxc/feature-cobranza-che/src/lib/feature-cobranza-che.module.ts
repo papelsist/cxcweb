@@ -53,7 +53,7 @@ import { UiCommonModule } from '@nx-papelsa/shared/utils/ui-common';
               import('@nx-papelsa/shared/cxc/feature-cargos').then(
                 (m) => m.FeatureCargosModule
               ),
-            data: { cartera: { clave: 'CRE', descripcion: 'Crédito' } },
+            data: { cartera: { clave: 'CHE', descripcion: 'Cheques' } },
           },
         ],
       },

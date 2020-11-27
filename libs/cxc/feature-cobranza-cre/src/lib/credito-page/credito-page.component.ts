@@ -61,12 +61,12 @@ export class CreditoPageComponent implements OnInit {
       description: 'Mejores clientes',
       icon: 'redeem',
     },
-    {
-      path: 'cfdis',
-      label: 'CFDIs',
-      description: 'Comprobantes fiscales',
-      icon: 'code',
-    },
+    // {
+    //   path: 'cfdis',
+    //   label: 'CFDIs',
+    //   description: 'Comprobantes fiscales',
+    //   icon: 'code',
+    // },
   ];
 
   cartera$: Observable<Cartera>;
