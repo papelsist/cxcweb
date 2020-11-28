@@ -27,10 +27,10 @@ import { JuridicoPageComponent } from './juridico-page/juridico-page.component';
         component: JuridicoPageComponent,
         children: [
           {
-            path: 'facturas',
+            path: 'cuentasPorCobrar',
             loadChildren: () =>
-              import('@nx-papelsa/shared/cxc/feature-facturas').then(
-                (m) => m.FeatureFacturasModule
+              import('./jur-cxc-page/jur-cxc-page.module').then(
+                (m) => m.JurCxcPageModule
               ),
           },
           {

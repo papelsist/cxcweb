@@ -1,10 +1,13 @@
 package sx.cxc
 
+import grails.plugin.springsecurity.annotation.Secured
 import grails.gorm.transactions.Transactional
 import grails.rest.*
 import groovy.util.logging.Slf4j
 
+
 @Slf4j
+@Secured("hasAnyRole('ROLE_ADMIN', 'ROLE_CXC', 'ROLE_CXC_ADMIN')")
 class JuridicoController extends RestfulController<Juridico> {
 
     static responseFormats = ['json']
@@ -16,6 +19,7 @@ class JuridicoController extends RestfulController<Juridico> {
     @Override
     protected List<Juridico> listAllResources(Map params) {
         // log.info('List: {}', params)
+        params.max = params.max?: 1000
         return super.listAllResources(params)
     }
 

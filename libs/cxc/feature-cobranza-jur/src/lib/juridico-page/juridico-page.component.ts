@@ -24,7 +24,7 @@ import * as moment from 'moment';
 export class JuridicoPageComponent implements OnInit {
   features: NavigationRoute[] = [
     {
-      path: 'facturas',
+      path: 'cuentasPorCobrar',
       label: 'CxC',
       description: 'Cuentas por cobrar ',
       icon: 'toc',
