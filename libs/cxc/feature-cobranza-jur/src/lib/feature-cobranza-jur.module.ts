@@ -53,7 +53,7 @@ import { JuridicoPageComponent } from './juridico-page/juridico-page.component';
               import('@nx-papelsa/shared/cxc/feature-cargos').then(
                 (m) => m.FeatureCargosModule
               ),
-            data: { cartera: { clave: 'CRE', descripcion: 'Crédito' } },
+            data: { cartera: { clave: 'JUR', descripcion: 'Jurídico' } },
           },
         ],
       },

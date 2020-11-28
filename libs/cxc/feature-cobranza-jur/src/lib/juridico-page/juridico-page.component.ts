@@ -93,12 +93,12 @@ export class JuridicoPageComponent implements OnInit {
       .subscribe((res) => {
         if (res) {
           const fecha = moment(res).format('DD/MM/yyyy');
-          const url = 'cxc/cheques/estadoDeCuentaGeneralChe';
+          const url = 'cxc/cheques/saldosPorAbogado';
           const params = { ORIGEN: cartera.clave, fecha };
           this.reportService.runReport(
             url,
             params,
-            `Eestado de cuenta general (${cartera.descripcion})`
+            `Reporte de saldos por abogado`
           );
         }
       });
