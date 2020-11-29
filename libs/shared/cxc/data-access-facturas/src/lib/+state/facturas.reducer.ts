@@ -1,9 +1,14 @@
 import { createReducer, on, Action } from '@ngrx/store';
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import {
+  EntityState,
+  EntityAdapter,
+  createEntityAdapter,
+  Update,
+} from '@ngrx/entity';
 
 import * as FacturasActions from './facturas.actions';
 import { FacturasEntity } from './facturas.models';
-import { Periodo } from '@nx-papelsa/shared/utils/core-models';
+import { CuentaPorCobrar, Periodo } from '@nx-papelsa/shared/utils/core-models';
 
 export const FACTURAS_FEATURE_KEY = 'facturas';
 
@@ -66,7 +71,15 @@ const facturasReducer = createReducer(
   on(FacturasActions.togglePendientes, (state) => ({
     ...state,
     pendientes: !state.pendientes,
-  }))
+  })),
+  on(FacturasActions.toJuridicoSuccess, (state, { juridico }) => {
+    const id = juridico.cxc.id;
+    const factura: Update<FacturasEntity> = {
+      id,
+      changes: { juridico: juridico.traspaso },
+    };
+    return facturasAdapter.updateOne(factura, { ...state });
+  })
 );
 
 export function reducer(state: State | undefined, action: Action) {

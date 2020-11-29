@@ -4,7 +4,7 @@ import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.RestfulController
 import sx.cxc.DespachoDeCobranza
 
-@Secured("hasRole('CXC_USER')")
+@Secured("hasAnyRole('CXC_USER','ROLE_ADMIN', 'ROLE_CXC', 'ROLE_CXC_ADMIN')")
 class DespachoDeCobranzaController extends RestfulController<DespachoDeCobranza>{
 
     DespachoDeCobranzaController(){

@@ -4,6 +4,7 @@ import {
   Periodo,
   CuentaPorCobrar,
   CuentaPorCobrarDTO,
+  Juridico,
 } from '@nx-papelsa/shared/utils/core-models';
 
 export const loadFacturas = createAction('[Facturas Guard] Load Facturas');
@@ -40,4 +41,17 @@ export const setCurrentFacturaId = createAction(
 
 export const togglePendientes = createAction(
   '[Facturas Page] Toggle Pendientes'
+);
+
+export const toJuridico = createAction(
+  '[Factura Page] Enviar a tramite juridico',
+  props<Partial<Juridico>>()
+);
+export const toJuridicoSuccess = createAction(
+  '[Factura Page] Enviar a tramite juridico Success',
+  props<{ juridico: Juridico }>()
+);
+export const toJuridicoFail = createAction(
+  '[Factura Page] Enviar a tramite juridico Fail',
+  props<{ error: any }>()
 );

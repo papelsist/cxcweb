@@ -13,6 +13,7 @@ import {
   Cartera,
   DevolucionDto,
   Devolucion,
+  Juridico,
 } from '@nx-papelsa/shared/utils/core-models';
 
 @Injectable({
@@ -130,6 +131,13 @@ export class CxcService {
     const url = `${this.api}/cxc/antiguedades`;
     return this.http
       .get<any[]>(url, { params })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  mandarJuridico(juridico: Partial<Juridico>): Observable<Juridico> {
+    const url = `${this.api}/cxc/juridico`;
+    return this.http
+      .post<Juridico>(url, juridico)
       .pipe(catchError((error: any) => throwError(error)));
   }
 }

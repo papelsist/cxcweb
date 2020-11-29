@@ -3,6 +3,8 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   Input,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 
 import { ITdDataTableColumn } from '@covalent/core/data-table';
@@ -55,13 +57,10 @@ export class CxcPanelComponent extends BaseComponent implements OnInit {
       format: (v) => this.service.formatCurrency(v),
     },
   ];
+  @Output() juridico = new EventEmitter<CuentaPorCobrar>();
   constructor(private service: FormatService) {
     super();
   }
 
   ngOnInit(): void {}
-
-  generarPagare(cxc: CuentaPorCobrar) {
-    console.log('Generar pagare: ', cxc);
-  }
 }

@@ -80,6 +80,45 @@ export class FacturasEffects {
     )
   );
 
+  toJuridico$ = createEffect(() =>
+    this.ds.pessimisticUpdate(FacturasActions.toJuridico, {
+      run: (
+        juridico: ReturnType<typeof FacturasActions.toJuridico>,
+        state: { cobranza: { cartera: Cartera }; facturas: fromFacturas.State }
+      ) => {
+        const {
+          cobranza: { cartera },
+          facturas: { periodo, pendientes },
+        } = state;
+        return this.service.mandarJuridico(juridico).pipe(
+          map((res) =>
+            FacturasActions.toJuridicoSuccess({
+              juridico: res,
+            })
+          )
+        );
+      },
+      onError: (
+        action: ReturnType<typeof FacturasActions.toJuridico>,
+        error
+      ) => {
+        console.error('Error', error);
+        const { message, status, url } = error;
+        if (status === 403) {
+          const m403 = 'Derechos insuficientes';
+          this.snack.open(`(${status})  ${m403}  `, 'Cerrar', {
+            duration: 10000,
+          });
+        } else {
+          this.snack.open(`(${status})  ${message}  URL: ${url}`, 'Cerrar', {
+            duration: 10000,
+          });
+        }
+        return FacturasActions.loadFacturasFailure({ error });
+      },
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private ds: DataPersistence<any>,

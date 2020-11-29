@@ -1,0 +1,39 @@
+<form [formGroup]="form">
+  <h2>Mandar a JURIDICO</h2>
+  <p>
+    Folio {{ factura.documento }} Tipo: {{ factura.tipo }} Fecha:
+    {{ factura.fecha | date: 'dd/MM/yyyy' }}
+  </p>
+
+  <div fxLayout="column" fxLayoutGap="5px">
+    <nx-papelsa-fecha-field formControlName="traspaso" label="Traspaso">
+    </nx-papelsa-fecha-field>
+    <nx-papelsa-despacho-field [parent]="form" property="despacho">
+    </nx-papelsa-despacho-field>
+
+    <nx-papelsa-upper-case-field
+      formControlName="abogado"
+      placeholder="Abogado"
+      flex
+      class="pad-right"
+    >
+    </nx-papelsa-upper-case-field>
+    <nx-papelsa-upper-case-field
+      flex
+      formControlName="comentario"
+      placeholder="Comentario"
+    >
+    </nx-papelsa-upper-case-field>
+  </div>
+  <mat-dialog-actions>
+    <button
+      mat-button
+      [disabled]="form.invalid"
+      type="submit"
+      (click)="submit()"
+    >
+      Aceptar
+    </button>
+    <button mat-button mat-dialog-close type="button">Canelar</button>
+  </mat-dialog-actions>
+</form>

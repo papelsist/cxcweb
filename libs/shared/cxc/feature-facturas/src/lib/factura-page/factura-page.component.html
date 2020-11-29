@@ -1,7 +1,17 @@
 <ng-container *ngIf="factura$ | async as factura">
+  <td-message
+    *ngIf="factura.juridico"
+    label="Factura en trámite jurídico"
+    color="warn"
+    icon="error"
+  ></td-message>
   <div class="container">
     <nx-papelsa-cxc-cxcpanel [cxc]="factura"></nx-papelsa-cxc-cxcpanel>
-    <nx-papelsa-cxc-totalespanel [cxc]="factura"></nx-papelsa-cxc-totalespanel>
+    <nx-papelsa-cxc-totalespanel
+      [cxc]="factura"
+      (juridico)="onJuridico($event)"
+      (pagare)="generarPagare($event)"
+    ></nx-papelsa-cxc-totalespanel>
     <nx-papelsa-cxc-credito-panel
       [credito]="credito"
       *ngIf="factura.credito as credito"

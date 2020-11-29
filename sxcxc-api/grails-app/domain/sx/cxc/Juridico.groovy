@@ -3,7 +3,7 @@ package sx.cxc
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
-@ToString( excludes = "id, version", includeNames=true,includePackage=false)
+@ToString( excludes = "id, version, cxc", includeNames=true,includePackage=false)
 @EqualsAndHashCode(includeFields = true, includes = ['id','cxc'])
 class Juridico {
 

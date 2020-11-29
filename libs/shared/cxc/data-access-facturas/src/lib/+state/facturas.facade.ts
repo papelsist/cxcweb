@@ -9,6 +9,7 @@ import {
   Periodo,
   Cartera,
   CuentaPorCobrar,
+  Juridico,
 } from '@nx-papelsa/shared/utils/core-models';
 
 import { CXCFacade } from '@nx-papelsa/shared/cxc/data-acces';
@@ -17,6 +18,7 @@ import {
   setFacturasSearchTerm,
   loadFacturas,
   togglePendientes,
+  toJuridico,
 } from './facturas.actions';
 
 @Injectable()
@@ -64,5 +66,9 @@ export class FacturasFacade {
 
   pendientes() {
     this.dispatch(togglePendientes());
+  }
+
+  toJuridico(juridico: Partial<Juridico>) {
+    this.dispatch(toJuridico(juridico));
   }
 }

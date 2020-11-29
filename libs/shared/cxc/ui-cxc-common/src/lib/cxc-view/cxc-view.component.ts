@@ -9,7 +9,12 @@ import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'nx-papelsa-cxc-view',
-  template: ` <nx-papelsa-cxc-panel [cxc]="cxc"></nx-papelsa-cxc-panel> `,
+  template: `
+    <nx-papelsa-cxc-panel
+      [cxc]="cxc"
+      (juridico)="onJuridico($event)"
+    ></nx-papelsa-cxc-panel>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CxcViewComponent extends BaseComponent implements OnInit {
@@ -23,5 +28,9 @@ export class CxcViewComponent extends BaseComponent implements OnInit {
     this.route.data
       .pipe(takeUntil(this.destroy$))
       .subscribe(({ cxc }) => (this.cxc = cxc));
+  }
+
+  onJuridico(cxc: CuentaPorCobrar) {
+    console.log('Mandar jurídico', cxc);
   }
 }

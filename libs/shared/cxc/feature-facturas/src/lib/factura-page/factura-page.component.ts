@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import { FacturasFacade } from '@nx-papelsa/shared/cxc/data-access-facturas';
+import { CuentaPorCobrar } from '@nx-papelsa/shared/utils/core-models';
+import { ReportService } from '@nx-papelsa/shared/utils/ui-forms';
+import { ToJuridicoDialogComponent } from './components';
 
 @Component({
   selector: 'nx-papelsa-factura-page',
@@ -9,7 +13,27 @@ import { FacturasFacade } from '@nx-papelsa/shared/cxc/data-access-facturas';
 })
 export class FacturaPageComponent implements OnInit {
   factura$ = this.facade.selectedFactura$;
-  constructor(private facade: FacturasFacade) {}
+  constructor(
+    private facade: FacturasFacade,
+    private dialog: MatDialog,
+    private reports: ReportService
+  ) {}
 
   ngOnInit(): void {}
+
+  async onJuridico(cxc: Partial<CuentaPorCobrar>) {
+    const dialog = this.dialog.open(ToJuridicoDialogComponent, {
+      data: { factura: cxc },
+      width: '500px',
+    });
+    const res = await dialog.afterClosed().toPromise();
+    if (res) {
+      this.facade.toJuridico(res);
+    }
+  }
+
+  generarPagare(cxc: CuentaPorCobrar) {
+    const url = 'cuentasPorCobrar/generarPagare';
+    this.reports.runReport(url, { id: cxc.id });
+  }
 }

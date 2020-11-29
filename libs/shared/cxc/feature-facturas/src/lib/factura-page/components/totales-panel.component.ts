@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {
   PropertyItem,
   CuentaPorCobrar,
@@ -29,9 +29,24 @@ import { FormatService } from '@nx-papelsa/shared/utils/ui-common';
       </mat-list>
       <mat-divider></mat-divider>
       <mat-card-actions>
-        <button mat-button color="warn">
-          <mat-icon>send</mat-icon>
+        <button
+          mat-button
+          color="warn"
+          [disabled]="cxc.juridico || cxc.saldoReal <= 0.0"
+          (click)="juridico.emit(cxc)"
+        >
+          <mat-icon>account_balance</mat-icon>
           <span>Mandar a jurídico</span>
+        </button>
+
+        <button
+          mat-button
+          color="accent"
+          [disabled]="cxc.saldoReal <= 0.0"
+          (click)="pagare.emit(cxc)"
+        >
+          <mat-icon>account_balance_wallet</mat-icon>
+          <span>Imprimir pagare</span>
         </button>
       </mat-card-actions>
     </mat-card>
@@ -68,6 +83,8 @@ export class TotalesPanelComponent implements OnInit {
     },
     { key: 'moneda', type: 'string' },
   ];
+  @Output() juridico = new EventEmitter<Partial<CuentaPorCobrar>>();
+  @Output() pagare = new EventEmitter<Partial<CuentaPorCobrar>>();
 
   constructor(private service: FormatService) {}
 

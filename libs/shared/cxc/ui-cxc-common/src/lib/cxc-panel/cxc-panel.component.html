@@ -22,6 +22,14 @@
     </mat-card-subtitle>
   </mat-card-header>
   <mat-divider></mat-divider>
+  <section *ngIf="cxc.juridico">
+    <td-message
+      label="Jurídico"
+      sublabel="Factura en trámite jurídico"
+      color="warn"
+      icon="error"
+    ></td-message>
+  </section>
   <div class="card-content">
     <section
       fxLayout
@@ -155,10 +163,18 @@
     </section>
   </div>
   <mat-card-actions>
-    <button mat-button *ngIf="cxc.saldoReal > 0.0" (click)="generarPagare(cxc)">
-      <mat-icon>gavel</mat-icon>
+    <!-- <button mat-button *ngIf="cxc.saldoReal > 0.0" (click)="generarPagare(cxc)">
+      <mat-icon>account_balance_wallet</mat-icon>
       <span>Generar Pagaré</span>
     </button>
+    <button
+      mat-button
+      *ngIf="cxc.saldoReal > 0.0 && !cxc.juridico"
+      (click)="juridico.emit(cxc)"
+    >
+      <mat-icon>gavel</mat-icon>
+      <span>Generar Pagaré</span>
+    </button> -->
     <ng-container *ngIf="cxc.cfdi as cfdi">
       <nx-papelsa-cfdi-email
         [target]="cfdi.email"

@@ -4,3 +4,4 @@ export * from './cobro';
 export * from './nota-de-cargo';
 export * from './nota-de-credito';
 export * from './dtos';
+export * from './juridico';
