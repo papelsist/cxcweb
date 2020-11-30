@@ -35,6 +35,13 @@ import { ContadoPageComponent } from './contado-page/contado-page.component';
               ),
           },
           {
+            path: 'cobros',
+            loadChildren: () =>
+              import('@nx-papelsa/shared/cxc/feature-cobros').then(
+                (m) => m.FeatureCobrosModule
+              ),
+          },
+          {
             path: 'bonificaciones',
             loadChildren: () =>
               import('@nx-papelsa/shared/cxc/feature-bonificaciones').then(

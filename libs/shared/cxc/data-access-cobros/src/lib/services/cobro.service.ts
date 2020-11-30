@@ -27,7 +27,7 @@ export class CobroService {
   ): Observable<Cobro[]> {
     const data = periodo.toApiJSON();
     const params = new HttpParams()
-      .set('cartera', cartera)
+      .set('cartera', cartera === 'CON' ? 'COD' : cartera)
       .set('fechaInicial', data.fechaInicial)
       .set('fechaFinal', data.fechaFinal)
       .set('disponibles', disponibles.toString())

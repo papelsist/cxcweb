@@ -26,6 +26,12 @@ export class ContadoPageComponent implements OnInit {
       icon: 'toc',
     },
     {
+      path: 'cobros',
+      label: 'Cobros',
+      description: 'Cobros de COD',
+      icon: 'payments',
+    },
+    {
       path: 'bonificaciones',
       label: 'Bonificaciones',
       description: 'Notas de crédito por descuento',
