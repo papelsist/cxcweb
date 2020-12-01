@@ -21,14 +21,25 @@ class RevisionService implements LogUser {
 
 
   List<VentaCredito> buscarPendientes(){
-    def rows = VentaCredito.findAll("""
-      from VentaCredito v
-      where v.saldo > 0.0
-      order by v.nombre, v.fechaRevision
-      """)
+    // log.info('Localizando ventas de credito pendientes de cobro')
+    // def rows = VentaCredito.findAll("""
+    //   from VentaCredito v
+    //   where v.saldo > 0.0
+    //   and v.cuentaPorCobrar is not null
+    //   order by v.nombre, v.fechaRevision
+    //   """)
+
+    // return rows
+    def rows = CuentaPorCobrar.findAll("""
+      select c.credito from CuentaPorCobrar c
+      where c.saldoReal > 0
+      and c.credito != null
+      order by c.credito.nombre, c.credito.fechaRevision
+    """)
     return rows
 
   }
+
   List<VentaCredito> buscarPendientesOld(){
     def rows = VentaCredito.findAll("""
       from VentaCredito v

@@ -344,6 +344,12 @@ export class RevisionesGridComponent implements OnInit {
         width: 130,
         valueFormatter: (params) => this.formatCurrency(params.value),
       },
+      // {
+      //   headerName: 'SaldoR',
+      //   width: 130,
+      //   valueGetter: (params) => params.data.cuentaPorCobrar.saldoReal,
+      //   valueFormatter: (params) => this.formatCurrency(params.value),
+      // },
       {
         headerName: 'Atraso',
         field: 'atraso',
