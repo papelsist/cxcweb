@@ -55,3 +55,17 @@ export const toJuridicoFail = createAction(
   '[Factura Page] Enviar a tramite juridico Fail',
   props<{ error: any }>()
 );
+
+export const saldarFactura = createAction(
+  '[Factura Page] Saldar factura',
+  props<Partial<CuentaPorCobrar>>()
+);
+export const saldarFacturaSuccess = createAction(
+  '[Factura Page] Saldar factura Success',
+  props<{ factura: FacturasEntity }>()
+);
+
+export const saldarFacturaFail = createAction(
+  '[Factura Page] Saldar factura Fail',
+  props<{ error: any }>()
+);

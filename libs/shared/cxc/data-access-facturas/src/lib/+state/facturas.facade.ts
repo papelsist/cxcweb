@@ -19,6 +19,7 @@ import {
   loadFacturas,
   togglePendientes,
   toJuridico,
+  saldarFactura,
 } from './facturas.actions';
 
 @Injectable()
@@ -70,5 +71,9 @@ export class FacturasFacade {
 
   toJuridico(juridico: Partial<Juridico>) {
     this.dispatch(toJuridico(juridico));
+  }
+
+  saldar(cxc: CuentaPorCobrar) {
+    this.dispatch(saldarFactura(cxc));
   }
 }

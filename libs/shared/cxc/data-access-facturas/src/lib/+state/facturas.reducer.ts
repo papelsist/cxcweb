@@ -79,6 +79,10 @@ const facturasReducer = createReducer(
       changes: { juridico: juridico.traspaso },
     };
     return facturasAdapter.updateOne(factura, { ...state });
+  }),
+  on(FacturasActions.saldarFacturaSuccess, (state, { factura }) => {
+    console.log('Factura saldada: ', factura);
+    return facturasAdapter.upsertOne(factura, { ...state });
   })
 );
 

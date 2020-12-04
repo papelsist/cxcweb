@@ -147,4 +147,11 @@ export class CxcService {
       .post<Juridico>(url, juridico)
       .pipe(catchError((error: any) => throwError(error)));
   }
+
+  saldar(cxc: Partial<CuentaPorCobrar>): Observable<any> {
+    const url = `${this.apiUrl}/saldar/${cxc.id}`;
+    return this.http
+      .put<any>(url, {})
+      .pipe(catchError((error: any) => throwError(error)));
+  }
 }

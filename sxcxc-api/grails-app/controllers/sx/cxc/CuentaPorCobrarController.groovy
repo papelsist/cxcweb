@@ -144,6 +144,8 @@ class CuentaPorCobrarController extends RestfulController<CuentaPorCobrar>{
         log.debug('Saldando cuenta por cobrar: {}', cxc.folio)
         cuentaPorCobrarService.saldar(cxc)
         cxc.refresh()
+        log.debug('Factura {} saldada: {}', cxc.folio, cxc.saldoReal)
+        // respond(cxc, view: 'show')
         respond cxc
     }
 

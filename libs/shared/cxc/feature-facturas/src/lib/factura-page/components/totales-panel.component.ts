@@ -48,6 +48,15 @@ import { FormatService } from '@nx-papelsa/shared/utils/ui-common';
           <mat-icon>account_balance_wallet</mat-icon>
           <span>Imprimir pagare</span>
         </button>
+        <button
+          color="primary"
+          mat-button
+          [disabled]="cxc.saldoReal <= 0.0 || cxc.saldoReal > 10.0"
+          (click)="saldar.emit(cxc)"
+        >
+          <mat-icon>check_circle_outline</mat-icon>
+          <span>Saldar</span>
+        </button>
       </mat-card-actions>
     </mat-card>
   `,
@@ -85,6 +94,7 @@ export class TotalesPanelComponent implements OnInit {
   ];
   @Output() juridico = new EventEmitter<Partial<CuentaPorCobrar>>();
   @Output() pagare = new EventEmitter<Partial<CuentaPorCobrar>>();
+  @Output() saldar = new EventEmitter<Partial<CuentaPorCobrar>>();
 
   constructor(private service: FormatService) {}
 
