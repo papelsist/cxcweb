@@ -30,7 +30,7 @@
 	</parameter>
 	<queryString><![CDATA[SELECT J.ID,J.ABOGADO,T.CLAVE,T.NOMBRE,C.DOCUMENTO,C.FECHA,C.TOTAL,J.SALDO,J.TRASPASO,C.TIPO
 FROM JURIDICO J JOIN CUENTA_POR_COBRAR C ON(J.CXC_ID=C.ID) JOIN CLIENTE T ON(C.CLIENTE_ID=T.ID)
-WHERE J.TRASPASO BETWEEN $P{FECHA_INI} AND $P{FECHA_FIN} 
+WHERE J.TRASPASO BETWEEN $P{FECHA_INI} AND $P{FECHA_FIN}
 ORDER BY J.TRASPASO,J.ABOGADO,C.DOCUMENTO]]></queryString>
 
 	<field name="ID" class="java.lang.String"/>
@@ -663,7 +663,7 @@ ORDER BY J.TRASPASO,J.ABOGADO,C.DOCUMENTO]]></queryString>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
 </box>
 					<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" lineSpacing="Single">
-						<font fontName="Times-Roman" pdfFontName="Times-Roman" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="CP1252" isStrikeThrough="false" />
+						<font fontName="Arial" pdfFontName="Times-Roman" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="CP1252" isStrikeThrough="false" />
 					</textElement>
 				<textFieldExpression   class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
 				</textField>

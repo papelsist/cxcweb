@@ -229,6 +229,15 @@ class CuentaPorCobrarController extends RestfulController<CuentaPorCobrar>{
         render (file: pdf.toByteArray(), contentType: 'application/pdf', filename: 'Pagare.pdf')
     }
 
+    def traspasoJuridico(TraspasoCommand command) {
+        def realPath = servletContext.getRealPath("/reports") ?: 'reports'
+        Map repParams = [ID: params.id]
+        repParams.FECHA_INI = command.fechaInicial
+        repParams.FECHA_FIN = command.fechaFinal
+        def pdf = reportService.run('TraspasoAJuridico.jrxml', repParams)
+        render (file: pdf.toByteArray(), contentType: 'application/pdf', filename: 'Traspaso_AJuridico.pdf')
+    }
+
 
 
 
@@ -257,4 +266,11 @@ class FacturasConNtaCommand {
     static constraints = {
         sucursal nullable: true
     }
+}
+
+class TraspasoCommand {
+
+  Date fechaInicial
+  Date fechaFinal
+
 }

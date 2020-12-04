@@ -12,7 +12,10 @@ import { CXCFacade } from '@nx-papelsa/shared/cxc/data-acces';
 
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { FechaDialogComponent } from '@nx-papelsa/shared/utils/ui-common';
+import {
+  FechaDialogComponent,
+  PeriodoDialogComponent,
+} from '@nx-papelsa/shared/utils/ui-common';
 
 import * as moment from 'moment';
 
@@ -119,5 +122,47 @@ export class JuridicoPageComponent implements OnInit {
         Periodo.saveOnStorage(key, per);
       }
     );
+  }
+
+  reporteTraspasos() {
+    const url = 'cuentasPorCobrar/traspasoJuridico';
+    const params = {};
+    const key = `sx.papelsa.notas.periodo.jur`;
+    const periodo = Periodo.fromStorage(key, Periodo.mesActual());
+    this.reportService.runReportePorPeriodo(
+      url,
+      periodo,
+      params,
+      `Traspaso a jurídico`,
+      null,
+      (per: Periodo) => {
+        Periodo.saveOnStorage(key, per);
+      }
+    );
+    /*
+    this.dialog
+      .open(PeriodoDialogComponent, {
+        data: { periodo: Periodo.mesActual() },
+      })
+      .afterClosed()
+      .subscribe((per) => {
+        if (per) {
+          console.log('Correr para: ', per);
+          const url = 'cuentasPorCobrar/traspasoJuridico';
+          this.reportService.runReportePorPeriodo(
+            url,
+            pe,
+            params,
+            `Notas de Crédito (${cartera.descripcion})`,
+            null,
+            (per: Periodo) => {
+              Periodo.saveOnStorage(key, per);
+            }
+          );
+
+
+        }
+      });
+      */
   }
 }
