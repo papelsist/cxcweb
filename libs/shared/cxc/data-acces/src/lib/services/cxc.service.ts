@@ -63,10 +63,17 @@ export class CxcService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  facturasPendientes(clienteId: string): Observable<CuentaPorCobrarDTO[]> {
+  facturasPendientes(
+    clienteId: string,
+    cartera?: string
+  ): Observable<CuentaPorCobrarDTO[]> {
     const url = `${this.apiUrl}/pendientes/${clienteId}`;
+    let params = new HttpParams();
+    if (cartera) {
+      params = params.set('cartera', cartera);
+    }
     return this.http
-      .get<CuentaPorCobrarDTO[]>(url)
+      .get<CuentaPorCobrarDTO[]>(url, { params })
       .pipe(catchError((error: any) => throwError(error)));
   }
 

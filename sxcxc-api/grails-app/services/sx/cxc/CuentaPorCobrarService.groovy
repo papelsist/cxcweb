@@ -71,7 +71,8 @@ class CuentaPorCobrarService {
     }
 
     @ReadOnly
-    List<CuentaPorCobrarDTO> findPendientes(Cliente cliente) {
+    List<CuentaPorCobrarDTO> findPendientes(Cliente cliente, String cartera = null) {
+      if(cartera == null) {
         List<CuentaPorCobrar> rows = CuentaPorCobrar
                 .findAll(
                 """from CuentaPorCobrar c
@@ -84,6 +85,21 @@ class CuentaPorCobrarService {
         List<CuentaPorCobrarDTO> res = rows.collect { cxc -> new CuentaPorCobrarDTO(cxc)}
         log.info(' {} Facturas pendientes para : {} ',res.size(), cliente.nombre)
         return res
+      } else {
+        List<CuentaPorCobrar> rows = CuentaPorCobrar
+                .findAll(
+                """from CuentaPorCobrar c
+                    where c.cliente.id = :clienteId
+                      and c.saldoReal > 0
+                      and c.tipo = :cartera
+                    order by c.fecha
+                """
+                , [clienteId: cliente.id, cartera: cartera])
+        List<CuentaPorCobrarDTO> res = rows.collect { cxc -> new CuentaPorCobrarDTO(cxc)}
+        log.info(' {} Facturas pendientes para : {} ',res.size(), cliente.nombre)
+        return res
+
+      }
     }
 
     @ReadOnly

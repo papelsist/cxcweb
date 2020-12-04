@@ -129,7 +129,8 @@ class CuentaPorCobrarController extends RestfulController<CuentaPorCobrar>{
             notFound()
             return
         }
-        respond cuentaPorCobrarService.findPendientes(cliente)
+        log.debug('Cuentas por cobrar pendientes: {}', params)
+        respond cuentaPorCobrarService.findPendientes(cliente, params.cartera)
     }
 
     def antiguedad(){

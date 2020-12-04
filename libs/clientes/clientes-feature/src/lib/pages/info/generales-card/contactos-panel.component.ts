@@ -26,7 +26,7 @@ import { ContactoDialogComponent } from './contacto-dialog.component';
               {{ c.nombre }}
             </h3>
             <p matLine fxLayout fxLayoutGap="10px">
-              <span>Fecha: {{ c.puesto }}</span>
+              <span>Puesto: {{ c.puesto }}</span>
               <span>Tel: {{ c.telefono }}</span>
             </p>
             <p matLine fxLayout fxLayoutGap="10px">Email: {{ c.email }}</p>

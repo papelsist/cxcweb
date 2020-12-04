@@ -70,6 +70,8 @@ class  Cobro {
   String cancelacionMotivo
   String reciboAnterior
 
+  String anticipoSat
+
   static hasOne = [cheque: CobroCheque, deposito: CobroDeposito, transferencia: CobroTransferencia,tarjeta: CobroTarjeta]
 
   static hasMany =[aplicaciones: AplicacionDeCobro]
@@ -96,6 +98,7 @@ class  Cobro {
     cancelacionDeCfdi nullable: true
     cancelacionMotivo nullable: true
     reciboAnterior nullable:true, maxSize: 100
+    anticipoSat nullable: true
   }
 
   static mapping={

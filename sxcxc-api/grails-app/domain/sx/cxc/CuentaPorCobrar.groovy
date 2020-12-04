@@ -86,6 +86,10 @@ class CuentaPorCobrar {
 
     Double saldoActualizado = 0.0
 
+    String relacionados
+    String anticipo
+    String anticipoTipo
+
     static constraints = {
         tipoDocumento inList:['VENTA','CHEQUE_DEVUELTO','DEVOLUCION_CLIENTE','NOTA_DE_CARGO']
         tipo nullable:true, inList:['CON','COD','CRE','CHE','JUR','PSF','INE','OTR','ACF','ANT','AND']
@@ -104,6 +108,10 @@ class CuentaPorCobrar {
         vencimiento nullable: true
         juridico nullable: true
         saldoActualizado nullable: true
+        // Manejo de anticipos
+        relacionados nullable: true
+        anticipo nullable: true, maxSize:50
+        anticipoTipo nullable: true, inList: ['TOTAL', 'PARCIAL']
     }
 
 

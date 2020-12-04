@@ -48,6 +48,7 @@ export class SelectorCxcBtnComponent implements OnInit {
   @Input() tooltip: string;
   @Input() clienteId: string;
   @Output() selection = new EventEmitter<CuentaPorCobrarDTO[]>();
+  @Input() cartera: string = null;
 
   /*
    * Lista de Facturas (ids) a exluir del selector
@@ -63,7 +64,7 @@ export class SelectorCxcBtnComponent implements OnInit {
   seleccionar() {
     this.loading = true;
     this.service
-      .facturasPendientes(this.clienteId)
+      .facturasPendientes(this.clienteId, this.cartera)
       .pipe(
         delay(500),
         finalize(() => (this.loading = false)),

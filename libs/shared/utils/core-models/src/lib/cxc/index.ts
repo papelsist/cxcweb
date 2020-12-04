@@ -5,3 +5,4 @@ export * from './nota-de-cargo';
 export * from './nota-de-credito';
 export * from './dtos';
 export * from './juridico';
+export * from './anticipoSat';

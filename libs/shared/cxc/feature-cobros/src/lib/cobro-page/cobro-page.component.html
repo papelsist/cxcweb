@@ -28,8 +28,9 @@
       <nx-papelsa-cxc-selector-cxc-btn
         [clienteId]="cobro.cliente.id"
         [disabled]="!(agregarAplicacion$ | async)"
+        [cartera]="cobro.tipo"
         color="default"
-        tooltip="Agregar aplicación"
+        tooltip="Agregar aplicación2"
         (selection)="onAplicar(cobro, $event)"
       ></nx-papelsa-cxc-selector-cxc-btn>
     </mat-toolbar>
