@@ -2,6 +2,9 @@ package sx.core
 
 import grails.rest.RestfulController
 import grails.plugin.springsecurity.annotation.Secured
+import grails.gorm.transactions.Transactional
+
+import static org.springframework.http.HttpStatus.*
 
 import sx.core.Folio
 import sx.cxc.CobranzaPorFechaCommand
@@ -24,14 +27,36 @@ class ClienteController extends RestfulController<Cliente>{
     super(Cliente)
   }
 
-    @Override
-    @Secured("hasAnyRole('ROLE_CXC_ADMIN')")
-    protected Cliente updateResource(Cliente resource) {
 
-        log.info('Actualizando cliente: {}', resource)
-        return clienteService.updateCliente(resource)
+  @Override
+  @Secured("hasAnyRole('ROLE_CXC_ADMIN')")
+  protected Cliente updateResource(Cliente resource) {
+      log.info('Actualizando cliente: {}', resource)
+      return clienteService.updateCliente(resource)
+  }
+
+
+  /*
+  @Transactional
+  @Secured("hasAnyRole('ROLE_CXC_ADMIN')")
+  def update() {
+    Cliente instance = Cliente.get(params.id)
+    if (instance == null) {
+      transactionStatus.setRollbackOnly()
+      notFound()
+      return
     }
-
+    instance.properties = getObjectToBind()
+    instance.validate()
+    if (instance.hasErrors()) {
+      transactionStatus.setRollbackOnly()
+      respond instance.errors, view:'edit'
+      return
+    }
+    clienteService.updateCliente(instance)
+    respond instance, [status: OK]
+  }
+  */
     @Override
     protected List<Cliente> listAllResources(Map params) {
         params.sort = params.sort ?:'lastUpdated'
@@ -49,7 +74,6 @@ class ClienteController extends RestfulController<Cliente>{
         if(params.tipo) {
             def tipo = params.tipo
             if(tipo == 'CREDITO') {
-              log.info('CREDITO+++: {}', tipo)
               return ClienteCredito.findAll("select cr.cliente from ClienteCredito cr")
             } else if(tipo == 'CONTADO'){
               query = query.where {credito == null}
@@ -148,6 +172,10 @@ class ClienteController extends RestfulController<Cliente>{
         repParams.CLIENTE = params.cliente
         def pdf =  reportService.run('EstadoDeCuentaCte.jrxml', repParams)
         render (file: pdf.toByteArray(), contentType: 'application/pdf', filename: 'CobranzaCxc.pdf')
+    }
+
+    def tiposDeComentario() {
+      respond ClienteComentarioTipo.list([sort: 'id'])
     }
 
 

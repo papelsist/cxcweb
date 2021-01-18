@@ -48,7 +48,7 @@ class LxClienteService {
   }
 
   def update(Cliente c, Map<String, ? extends Object> changes) {
-    log.debug('Actualizando cliente: {} changes: {}', c.clave, changes.keySet())
+    log.debug('Actualizando FIREBASE cliente: {} changes: {}', c.clave, changes.keySet())
     DocumentReference docRef = fetchDocument(c.id)
     DocumentSnapshot snapShot = docRef.get().get()
 
@@ -58,7 +58,7 @@ class LxClienteService {
     } else {
       ApiFuture<WriteResult> result  = docRef.update(changes)
       def updateTime = result.get().getUpdateTime().toDate()
-      log.debug("{} Update succesful at: {} " , c.nombre, updateTime.format('dd/MM/yyyy: HH:mm'))
+      log.debug("Succescull FIREBASE update of {}  at: {} " , c.id, updateTime.format('dd/MM/yyyy: HH:mm'))
       return updateTime
     }
   }

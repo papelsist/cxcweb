@@ -21,6 +21,7 @@ import { Update } from '@ngrx/entity';
 import { DireccionDialogComponent } from '@nx-papelsa/shared/utils/ui-forms';
 import { TdDialogService } from '@covalent/core/dialogs';
 import { ComentarioDialogComponent } from './comentario-dialog.component';
+import { CorreoDialogComponent } from '@nx-papelsa/shared/utils/ui-common';
 
 @Component({
   selector: 'nx-papelsa-generales-card',
@@ -31,9 +32,14 @@ import { ComentarioDialogComponent } from './comentario-dialog.component';
 export class GeneralesCardComponent implements OnInit {
   @Input() cliente: Cliente;
   @Output() edit = new EventEmitter<Update<Cliente>>();
+
   @Output() editTelefono = new EventEmitter<Update<MedioDeContacto>>();
   @Output() addTelefono = new EventEmitter<Partial<MedioDeContacto>>();
   @Output() deleteTelefono = new EventEmitter<Partial<MedioDeContacto>>();
+
+  @Output() editCorreo = new EventEmitter<Update<MedioDeContacto>>();
+  @Output() addCorreo = new EventEmitter<Partial<MedioDeContacto>>();
+  @Output() deleteCorreo = new EventEmitter<Partial<MedioDeContacto>>();
 
   @Output() addComentario = new EventEmitter<Partial<ClienteComentario>>();
   @Output() deleteComentario = new EventEmitter<Partial<ClienteComentario>>();
@@ -110,10 +116,11 @@ export class GeneralesCardComponent implements OnInit {
       });
   }
 
-  modificarDireccion(cliente: Cliente) {
+  modificarDireccion(cliente: Cliente, direccion: Direccion) {
+    console.log('Modificando direccion: ', cliente);
     this.dialog
       .open(DireccionDialogComponent, {
-        data: { direccion: cliente.direccion },
+        data: { direccion },
       })
       .afterClosed()
       .subscribe((direccion: Direccion) => {
@@ -141,6 +148,52 @@ export class GeneralesCardComponent implements OnInit {
 
   onDeleteTelefono(medio: MedioDeContacto) {
     this.deleteTelefono.emit(medio);
+  }
+
+  onAddCorreo() {
+    this.dialog
+      .open(CorreoDialogComponent, {
+        data: {
+          title: 'Agregar correo electrónico',
+        },
+      })
+      .afterClosed()
+      .subscribe((email) => {
+        if (email) {
+          const medio: Partial<MedioDeContacto> = {
+            descripcion: email,
+            tipo: 'MAIL',
+          };
+          this.addTelefono.emit(medio);
+        }
+      });
+    /*
+    this.dialogService
+      .openPrompt({
+        title: 'Agregar correo electrónico',
+        message: 'Email:',
+        acceptButton: 'Aceptar',
+        cancelButton: 'Cancelar',
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          const medio: Partial<MedioDeContacto> = {
+            descripcion: res,
+            tipo: 'MAIL',
+          };
+          this.addTelefono.emit(medio);
+        }
+      });
+      */
+  }
+
+  onEditarCorreo(medio: Update<MedioDeContacto>) {
+    this.editCorreo.emit(medio);
+  }
+
+  onDeleteCorreo(medio: MedioDeContacto) {
+    this.deleteCorreo.emit(medio);
   }
 
   onAddTelefono() {

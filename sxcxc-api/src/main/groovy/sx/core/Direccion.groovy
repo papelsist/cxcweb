@@ -1,13 +1,20 @@
 package sx.core
 
 import groovy.transform.ToString
-import org.grails.datastore.gorm.GormValidateable
+import groovy.transform.EqualsAndHashCode
+
+import grails.validation.Validateable
+import grails.web.databinding.WebDataBinding
+import grails.gorm.dirty.checking.DirtyCheck
+
 
 /**
  * Created by rcancino on 06/09/16.
  */
 @ToString(includeNames=true,includePackage=false)
-class Direccion implements GormValidateable{
+@EqualsAndHashCode(includes = "calle, numeroInterior, numeroExterior, colonia, municipio, codigoPostal, estado, pais")
+@DirtyCheck
+class Direccion implements Validateable, WebDataBinding {
 
     String calle
 
@@ -49,7 +56,7 @@ class Direccion implements GormValidateable{
     }
 
     Map toFirebaseMap() {
-        return this.properties.findAll{ k, v -> !['class','constraints', 'errors', 'longitud', 'latitud'].contains(k) }
+        return this.properties.findAll{ k, v -> !['class','constraints','constraintsMap', 'errors', 'longitud', 'latitud'].contains(k) }
 
     }
 

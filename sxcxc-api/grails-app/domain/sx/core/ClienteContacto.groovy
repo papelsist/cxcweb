@@ -17,11 +17,19 @@ class ClienteContacto {
 
   String telefono
 
+  Date dateCreated
+  Date lastUpdated
+
+  String createUser
+  String updateUser
+
   static belongsTo = [cliente: Cliente]
 
   static constraints = {
     email nullable: true
     telefono nullable: true
+    createUser nullable: true
+    updateUser nullable: true
   }
 
   static mapping={

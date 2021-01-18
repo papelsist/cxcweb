@@ -1,7 +1,12 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ClienteComentario } from '@nx-papelsa/shared/utils/core-models';
+
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Component({
   selector: 'nx-papelsa-comentario-dialog',
@@ -34,10 +39,10 @@ import { ClienteComentario } from '@nx-papelsa/shared/utils/core-models';
           >
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Tipo</mat-label>
+          <mat-label>Tipo de comentario</mat-label>
           <mat-select placeholder="Tipo" formControlName="tipo">
-            <mat-option *ngFor="let t of ['CREDITO', '']" [value]="t"
-              >{{ t }}
+            <mat-option *ngFor="let t of tipos" [value]="t.id">
+              {{ t.id }} <small>({{ t.descripcion }})</small>
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -64,15 +69,23 @@ import { ClienteComentario } from '@nx-papelsa/shared/utils/core-models';
 export class ComentarioDialogComponent implements OnInit {
   form: FormGroup;
   target: ClienteComentario;
+  apiUrl: string;
+  tipos: any[] = [];
+
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
     private dialotRef: MatDialogRef<ComentarioDialogComponent>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private http: HttpClient,
+    @Inject('apiUrl') api: string,
+    private cd: ChangeDetectorRef
   ) {
     this.target = data.comentario;
+    this.apiUrl = `${api}/clientes/tiposDeComentario`;
   }
 
   ngOnInit() {
+    this.loadTipos();
     this.form = this.fb.group({
       comentario: [
         null,
@@ -88,6 +101,16 @@ export class ComentarioDialogComponent implements OnInit {
     if (this.target) {
       this.form.patchValue(this.target);
     }
+  }
+
+  loadTipos() {
+    this.http
+      .get<any[]>(this.apiUrl, {})
+      .pipe(catchError((response: any) => throwError(response)))
+      .subscribe((data) => {
+        this.tipos = data;
+        this.cd.detectChanges();
+      });
   }
 
   onSubmit() {

@@ -16,6 +16,7 @@ import { ComentariosPanelComponent } from './generales-card/comentarios-panel.co
 import { ComentarioDialogComponent } from './generales-card/comentario-dialog.component';
 import { ContactosPanelComponent } from './generales-card/contactos-panel.component';
 import { ContactoDialogComponent } from './generales-card/contacto-dialog.component';
+import { CorreosPanelComponent } from './generales-card/correos-panel.component';
 
 const routes: Routes = [{ path: '', component: InfoComponent }];
 
@@ -32,6 +33,7 @@ const routes: Routes = [{ path: '', component: InfoComponent }];
     ComentarioDialogComponent,
     ContactosPanelComponent,
     ContactoDialogComponent,
+    CorreosPanelComponent,
   ],
   imports: [...CDS_MODULES, RouterModule.forChild(routes), MatExpansionModule],
 })

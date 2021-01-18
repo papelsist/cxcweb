@@ -25,9 +25,14 @@ import { ComentarioDialogComponent } from './comentario-dialog.component';
             <h3 matLine>
               {{ c.comentario }}
             </h3>
-            <p matLine fxLayout fxLayoutGap="10px">
+            <p matLine fxLayout fxLayoutGap="10px" class="comentario">
               <span>Fecha: {{ c.fecha | date: 'dd/MM/yyyy' }}</span>
-              <span>Estatus: {{ c.activo ? 'ACTIVO' : 'SUSPENDIDO' }}</span>
+              <span
+                >Status:
+                <span [ngClass]="{ activo: c.activo, inactivo: !c.activo }">{{
+                  c.activo ? 'ACTIVO' : 'INACTIVO'
+                }}</span></span
+              >
             </p>
             <p matLine fxLayout fxLayoutGap="10px">
               <span
@@ -66,6 +71,17 @@ import { ComentarioDialogComponent } from './comentario-dialog.component';
         align-items: center;
         gap: 5px;
         grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      }
+
+      .inactivo {
+        padding: 5px;
+        background-color: red;
+        color: white;
+      }
+      .activo {
+        padding: 5px;
+        background-color: green;
+        color: white;
       }
     `,
   ],

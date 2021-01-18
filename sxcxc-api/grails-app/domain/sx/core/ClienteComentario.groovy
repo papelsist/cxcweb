@@ -20,8 +20,8 @@ class ClienteComentario {
   String createUser
   String updateUser
 
-  String dateCreated
-  String lastUpdated
+  Date dateCreated
+  Date lastUpdated
 
   static belongsTo = [cliente: Cliente]
 
@@ -33,6 +33,6 @@ class ClienteComentario {
   static mapping = {
     id generator:'uuid'
     fecha type: 'date'
-    table: 'CLIENTE_COMENTARIOS'
+    // table: 'CLIENTE_COMENTARIOS'
   }
 }

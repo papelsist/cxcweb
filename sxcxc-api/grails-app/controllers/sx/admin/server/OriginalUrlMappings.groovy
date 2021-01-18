@@ -25,6 +25,7 @@ class OriginalUrlMappings {
         "/api/clientes/$id/notas"(controller: 'cliente', action: 'notas', method: 'GET')
         "/api/clientes/$id/cfdis"(controller: 'cliente', action: 'cfdis', method: 'GET')
         "/api/clientes/estadoDeCuenta"(controller: "cliente", action: 'estadoDeCuenta', method: 'GET')
+        "/api/clientes/tiposDeComentario"(controller: "cliente", action: 'tiposDeComentario', method: 'GET')
 
         // SAT
         "/api/sat/bancos"(resources: "SatBanco")

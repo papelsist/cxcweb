@@ -47,7 +47,7 @@
   <mat-accordion>
     <nx-papelsa-domicilio-panel
       [direccion]="cliente.direccion"
-      (modificar)="modificarDireccion($event)"
+      (modificar)="modificarDireccion(cliente, $event)"
     ></nx-papelsa-domicilio-panel>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
@@ -66,6 +66,30 @@
       ></nx-papelsa-telefonos-panel>
       <mat-action-row>
         <button mat-button (click)="onAddTelefono()">
+          <mat-icon>add</mat-icon>
+          <span>Agregar</span>
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+    <!-- Correos -->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Correos
+        </mat-panel-title>
+        <mat-panel-description>
+          <span fxFlex></span>
+          <mat-icon>email</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <nx-papelsa-correos-panel
+        [cliente]="cliente"
+        (edit)="onEditarCorreo($event)"
+        (delete)="onDeleteCorreo($event)"
+      ></nx-papelsa-correos-panel>
+      <mat-action-row>
+        <button mat-button (click)="onAddCorreo()">
           <mat-icon>add</mat-icon>
           <span>Agregar</span>
         </button>
