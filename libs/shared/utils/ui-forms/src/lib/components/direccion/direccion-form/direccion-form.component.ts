@@ -90,7 +90,9 @@ export class DireccionFormComponent implements OnInit, OnDestroy {
       .subscribe(
         (registros: any) => {
           if (registros.codigoPostal) {
-            this.colonias = registros.colonias.ma((item) => item.toUpperCase());
+            this.colonias = registros.colonias.map((item) =>
+              item.toUpperCase()
+            );
             this.update(registros);
           }
         },
