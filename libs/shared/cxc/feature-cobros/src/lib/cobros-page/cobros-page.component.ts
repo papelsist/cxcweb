@@ -30,6 +30,10 @@ export class CobrosPageComponent extends BaseComponent implements OnInit {
     map((selected) => selected.filter((item) => item.cfdi))
   );
 
+  disponiblesParaTimbradoBatch$ = this.selected$.pipe(
+    map((selected) => selected.filter((item) => !item.cfdi))
+  );
+
   constructor(private facade: CobrosFacade) {
     super();
   }
@@ -66,5 +70,9 @@ export class CobrosPageComponent extends BaseComponent implements OnInit {
   }
   onSelection(event: Cobro[]) {
     this._selected$.next(event);
+  }
+
+  timbradoBatch(cobros: Cobro[]) {
+    this.facade.timbradoBatch(cobros);
   }
 }

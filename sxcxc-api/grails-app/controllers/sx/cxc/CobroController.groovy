@@ -17,7 +17,7 @@ import sx.reports.ReportService
 import sx.core.Sucursal
 
 
-@Secured("hasAnyRole('ROLE_ADMIN', 'ROLE_CXC', 'ROLE_CXC_ADMIN')")
+@Secured("hasAnyRole('ROLE_ADMIN', 'ROLE_CXC', 'ROLE_CXC_ADMIN', 'ROLE_CXC_CONTADO')")
 // @GrailsCompileStatic
 @Slf4j
 class CobroController extends RestfulController<Cobro>{
@@ -45,7 +45,7 @@ class CobroController extends RestfulController<Cobro>{
 
       log.debug('Cobros GET Cartera: {} Periodo: {} Rows: {}', cartera, periodo, params.max)
       Date cierre = Date.parse('dd/MM/yyyy','31/12/2019')
-      def query = Cobro.where {tipo == cartera}
+      def query = Cobro.where {tipo == cartera }
 
       if(params.getBoolean('disponibles')) {
         log.debug('Solo cobros con disponible disponibles')
@@ -54,12 +54,21 @@ class CobroController extends RestfulController<Cobro>{
       }
 
       if(params.getBoolean('porTimbrar')) {
-        log.debug('Solo cobros por timbrar')
-        query = query.where{fecha > cierre && requiereRecibo == true  && cfdi == null}
-        return query.list(params)
+
+        if(cartera == 'CRE') {
+          log.debug('Solo cobros por timbrar CREDITO')
+          query = query.where{fecha > cierre && requiereRecibo == true  && cfdi == null}
+          return query.list(params)
+        } else {
+          log.debug('Solo cobros por timbrar COD')
+          query = query.where{fecha > cierre && tipo == 'COD'  && cfdi == null}
+          return query.list(params)
+        }
       }
+
       query = query.where{fecha >= periodo.fechaInicial && fecha <= periodo.fechaFinal}
       return query.list(params)
+
     }
 
     def search(CobroSearchCommand command) {

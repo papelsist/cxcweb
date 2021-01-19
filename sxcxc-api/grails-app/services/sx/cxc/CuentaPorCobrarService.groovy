@@ -42,16 +42,16 @@ class CuentaPorCobrarService {
     @ReadOnly
     List<CuentaPorCobrarDTO> findAll(String cartera, Periodo periodo, Map params = [max: 100] ) {
         List<CuentaPorCobrar> rows = CuentaPorCobrar
-                .findAll(
-                """from CuentaPorCobrar c
-                  where c.fecha between :fechaInicial and :fechaFinal
-                    and c.tipo = :tipo
-                    order by c.fecha
-                """
-                , [tipo: cartera,
-                fechaInicial:periodo.fechaInicial,
-                fechaFinal:periodo.fechaFinal]
-                , params)
+          .findAll(
+          """from CuentaPorCobrar c
+            where c.fecha between :fechaInicial and :fechaFinal
+              and c.tipo = :tipo
+              order by c.fecha
+          """
+          , [tipo: cartera == 'CON' ? 'COD' : cartera,
+          fechaInicial:periodo.fechaInicial,
+          fechaFinal:periodo.fechaFinal]
+          , params)
         List<CuentaPorCobrarDTO> res = rows.collect { cxc -> new CuentaPorCobrarDTO(cxc)}
         log.info('Registros de cartera: {}', res.size())
         return res
@@ -59,15 +59,32 @@ class CuentaPorCobrarService {
 
     @ReadOnly
     List<CuentaPorCobrarDTO> findAllPendientes(String cartera) {
+      if(cartera == 'CRE') {
+        log.debug('Localizando facturas pendientes de CRE')
         List<CuentaPorCobrar> rows = CuentaPorCobrar
-                .findAll(
-                        """from CuentaPorCobrar c where c.tipo = :tipo and c.saldoReal > 0
-                    order by c.fecha
-                """
-                , [tipo: cartera])
+          .findAll(
+            """from CuentaPorCobrar c where c.tipo = :tipo and c.saldoReal > 0
+              order by c.fecha
+            """
+          , [tipo: cartera])
         List<CuentaPorCobrarDTO> res = rows.collect { cxc -> new CuentaPorCobrarDTO(cxc)}
-        log.info('Registros de cartera: {}', res.size())
+        log.info('Registros de cartera: {} = {}', cartera, res.size())
         return res
+      } else {
+        log.debug('Localizando facturas pendientes de COD')
+        List<CuentaPorCobrar> rows = CuentaPorCobrar
+          .findAll(
+            """from CuentaPorCobrar c
+            where c.tipo = :tipo
+              and date(c.fecha) > :desde
+              and c.saldoReal > 0
+              order by c.fecha
+            """
+          , [tipo: 'COD', desde: (new Date() - 30) ])
+        List<CuentaPorCobrarDTO> res = rows.collect { cxc -> new CuentaPorCobrarDTO(cxc)}
+        log.info('Registros de cartera: {} = {}', 'COD', res.size())
+        return res
+      }
     }
 
     @ReadOnly

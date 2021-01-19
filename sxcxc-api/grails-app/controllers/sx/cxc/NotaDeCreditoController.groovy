@@ -21,7 +21,7 @@ import static org.springframework.http.HttpStatus.OK
  *
  */
 @Slf4j
-@Secured("hasAnyRole('ROLE_ADMIN', 'ROLE_CXC', 'ROLE_AUTORIZACION_CXC', 'ROLE_CXC_ADMIN')")
+@Secured("hasAnyRole('ROLE_ADMIN', 'ROLE_CXC', 'ROLE_AUTORIZACION_CXC', 'ROLE_CXC_ADMIN', 'ROLE_CXC_CONTADO')")
 class NotaDeCreditoController extends RestfulController<NotaDeCredito> {
 
   static responseFormats = ['json']
@@ -109,7 +109,7 @@ class NotaDeCreditoController extends RestfulController<NotaDeCredito> {
     def query = NotaDeCredito.where {}
 
     if (params.cartera) {
-      String cartera = params.cartera
+      String cartera = params.cartera == 'CON' ? 'COD' : cartera
       query = query.where { tipoCartera == cartera }
     }
 

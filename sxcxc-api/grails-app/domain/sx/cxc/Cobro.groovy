@@ -113,7 +113,7 @@ class  Cobro {
     saldo formula:' ( (importe * tipo_de_cambio) - (diferencia * tipo_de_cambio) -  (select IFNULL( sum(x.importe * IFNULL(x.tipo_de_cambio, 1.0)), 0) from aplicacion_de_cobro x where x.cobro_id=id) )'
     // saldo formula:' (importe  - diferencia  -  (select IFNULL( sum(x.importe), 0) from aplicacion_de_cobro x where x.cobro_id=id) )'
     diferenciaFecha type: 'date'
-    requiereRecibo formula: "tipo in('CRE', 'CHE', 'JUR') and forma_de_pago not in('BONIFICACION', 'DEVOLUCION', 'PAGO_DIF')"
+    requiereRecibo formula: "tipo in('CRE', 'CHE', 'JUR', 'COD') and forma_de_pago not in('BONIFICACION', 'DEVOLUCION', 'PAGO_DIF')"
   }
 
   static transients = ['disponible', 'fechaDeAplicacion', 'ingreso']

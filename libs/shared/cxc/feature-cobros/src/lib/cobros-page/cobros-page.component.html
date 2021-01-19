@@ -45,6 +45,13 @@
         [facturas]="disponiblesParaEnvio$ | async"
         (done)="grid.clearSelection()"
       ></nx-papelsa-cfdi-email-bulk>
+      <button
+        mat-menu-item
+        *ngIf="disponiblesParaTimbradoBatch$ | async as cobs"
+        (click)="timbradoBatch(cobs)"
+      >
+        Generar recibos (BATCH)
+      </button>
     </mat-menu>
   </div>
   <ng-template

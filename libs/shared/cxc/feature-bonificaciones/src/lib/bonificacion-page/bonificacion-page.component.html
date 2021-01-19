@@ -64,7 +64,7 @@
           title="Eliminar bonificación"
           message="Folio: {{ bonificacion.folio }}"
           (delete)="onDelete(bonificacion)"
-          disabled="bonificacion.autorizacion"
+          [disabled]="bonificacion.autorizacion"
         ></nx-papelsa-delete-entity>
       </ng-container>
 

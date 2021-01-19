@@ -12,7 +12,7 @@ import sx.core.Sucursal
 import sx.utils.ImporteALetra
 
 
-@Secured("hasAnyRole('ROLE_ADMIN', 'ROLE_CXC', 'ROLE_CXC_ADMIN')")
+@Secured("hasAnyRole('ROLE_ADMIN', 'ROLE_CXC', 'ROLE_CXC_ADMIN', 'ROLE_CXC_CONTADO')")
 @Slf4j
 class CuentaPorCobrarController extends RestfulController<CuentaPorCobrar>{
 

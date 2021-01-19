@@ -65,7 +65,7 @@ const routes: Route[] = [
   },
   {
     path: '',
-    redirectTo: 'credito',
+    redirectTo: '',
     pathMatch: 'full',
   },
 ];

@@ -42,6 +42,7 @@
         mat-button
         [routerLink]="'/credito'"
         routerLinkActive="router-link-active"
+        [disabled]="hasRole('ROLE_CXC')"
       >
         <mat-icon>dynamic_feed</mat-icon>
         <span>Crédito</span>

@@ -123,4 +123,8 @@ export class CobrosFacade {
       })
     );
   }
+
+  timbradoBatch(cobros: Partial<Cobro[]>) {
+    cobros.forEach((cobro) => this.generarRecibo(cobro));
+  }
 }

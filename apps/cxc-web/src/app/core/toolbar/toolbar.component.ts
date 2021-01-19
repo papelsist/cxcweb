@@ -23,6 +23,7 @@ export class ToolbarComponent implements OnInit {
   // user$ = this.auth.
   isLoggedIn$ = this.auth.isLoggedIn$;
   displayName$ = this.auth.displayName$;
+  roles = [];
   constructor(
     private auth: AuthFacade,
     private router: Router,
@@ -43,6 +44,11 @@ export class ToolbarComponent implements OnInit {
 
   lookupFactura() {
     this.selectorService.findCuentaPorCobrar();
+  }
+
+  async hasRole(role: string) {
+    const roles = await this.auth.roles$.toPromise();
+    return roles.find((item) => item === role);
   }
 
   /******* START HotKeys Definitions  *************/

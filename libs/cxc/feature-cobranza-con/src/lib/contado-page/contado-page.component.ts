@@ -99,4 +99,19 @@ export class ContadoPageComponent implements OnInit {
       }
     );
   }
+
+  recibosPendientes(cartera: Cartera) {
+    const url = 'cxc/cobro/reporteDeRecibosPendientes';
+    const params = { cartera: cartera.clave };
+    const key = `sx.papelsa.cobranza.fecha.${cartera.clave.toLowerCase()}`;
+    const pfecha = Periodo.fromStorage(key, Periodo.fromNow(10));
+    this.reportService.runReportePorPeriodo(
+      url,
+      pfecha,
+      params,
+      `Recibos pendientes de CFDI (${cartera.descripcion})`,
+      null,
+      () => {}
+    );
+  }
 }

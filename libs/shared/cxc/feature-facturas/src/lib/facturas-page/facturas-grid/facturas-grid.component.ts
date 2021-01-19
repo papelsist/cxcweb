@@ -172,6 +172,12 @@ export class FacturasGridComponent implements OnInit {
         valueFormatter: (params) => formatTipoDocto(params.value),
       },
       {
+        headerName: 'Cartera',
+        field: 'tipo',
+        width: 90,
+        valueFormatter: (params) => formatTipoDocto(params.value),
+      },
+      {
         headerName: 'Fecha',
         field: 'fecha',
         width: 120,

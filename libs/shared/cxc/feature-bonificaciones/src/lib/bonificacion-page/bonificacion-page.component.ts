@@ -44,7 +44,9 @@ export class BonificacionPageComponent extends BaseComponent implements OnInit {
     this.auth.roles$.pipe(takeUntil(this.destroy$)).subscribe((roles) => {
       const found = roles.find((item) => item === 'ROLE_AUTORIZACION_CXC');
       this.roleDeAutorizacion = !!found;
-      this.roleDeTimbrar = !!roles.find((item) => item === 'ROLE_CXC');
+      this.roleDeTimbrar = !!roles.find(
+        (item) => item === 'ROLE_CXC' || item == 'ROLE_CXC_CONTADO'
+      );
     });
   }
 

@@ -124,6 +124,6 @@ export class CobroPageComponent extends BaseComponent implements OnInit {
   }
 
   isDisabled(cobro: Cobro) {
-    return cobro.cfdi || cobro.cierre;
+    return cobro.cfdi || cobro.cierre || cobro.tipo !== 'CRE';
   }
 }
