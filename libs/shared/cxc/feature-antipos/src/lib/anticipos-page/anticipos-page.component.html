@@ -1,0 +1,46 @@
+<mat-card>
+  <div class="push-left push-right" fxLayout="row" fxLayoutAlign="start center">
+    <span fxLayout fxLayoutAlign="start center">
+      <span class="mat-title">Aplicaciones de anticipo </span>
+      <span class="sub-title">(Cartera: {{ cartera.clave }})</span>
+    </span>
+    <span fxFlex></span>
+
+    <td-search-box
+      placeholder="Filtrar"
+      (searchDebounce)="filter($event)"
+      fxFlex
+    ></td-search-box>
+
+    <nx-papelsa-periodo-picker
+      (periodoChanged)="onPeriodoChanged($event)"
+      [periodo]="periodo"
+    ></nx-papelsa-periodo-picker>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="reload()">
+        <mat-icon>refresh</mat-icon>
+        <span>Refrescar</span>
+      </button>
+      <!-- <button
+        mat-menu-item
+        [disabled]="getDisponiblesParaEnvio().length === 0"
+        (click)="enviarPorCorreo(getDisponiblesParaEnvio())"
+      >
+        <mat-icon>email</mat-icon>
+        <span>Envia por correo</span>
+      </button> -->
+    </mat-menu>
+  </div>
+
+  <div class="grid">
+    <nx-papelsa-anticipos-aplicaciones-grid
+      [rows]="anticipos"
+      (drillDown)="onDrilldown($event)"
+    ></nx-papelsa-anticipos-aplicaciones-grid>
+  </div>
+</mat-card>

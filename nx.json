@@ -136,6 +136,9 @@
     },
     "shared-cxc-data-access-depositos": {
       "tags": ["scope:cxc", "type:data-access"]
+    },
+    "shared-cxc-feature-antipos": {
+      "tags": []
     }
   }
 }

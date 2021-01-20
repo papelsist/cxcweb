@@ -1,0 +1,183 @@
+<div class="wrapper" *ngIf="aplicacion$ | async as aplicacion">
+  <mat-card *ngIf="aplicacion.anticipo as anticipo">
+    <mat-card-header>
+      <mat-card-title>
+        Anticipo: {{ anticipo.cxcDocumento }} ({{ anticipo.sucursal }})
+      </mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <div class="anticipo">
+      <div fxLayout fxLayoutGap="5px">
+        <mat-form-field fxFlex>
+          <mat-label>Cliente</mat-label>
+          <input type="text" matInput [value]="anticipo.nombre" readonly />
+        </mat-form-field>
+      </div>
+      <h3 matSubheader>Factura (CFDI)</h3>
+      <div fxLayout fxLayoutGap="5px">
+        <mat-form-field>
+          <mat-label>Fecha</mat-label>
+          <input
+            type="text"
+            matInput
+            value="{{ anticipo.fecha | date: 'dd/MM/yyyy' }}"
+            disabled
+          />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Sucursal</mat-label>
+          <input type="text" matInput [value]="anticipo.sucursal" disabled />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Factura serie</mat-label>
+          <input type="text" matInput [value]="anticipo.cfdiSerie" disabled />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Factura folio</mat-label>
+          <input type="text" matInput [value]="anticipo.cfdiFolio" disabled />
+        </mat-form-field>
+
+        <mat-form-field fxFlex>
+          <mat-label>UUID</mat-label>
+          <input type="text" matInput [value]="anticipo.uuid" readonly />
+        </mat-form-field>
+      </div>
+    </div>
+    <h3 matSubheader>Importes</h3>
+    <div fxLayout fxLayoutGap="5px">
+      <mat-form-field>
+        <mat-label>Total</mat-label>
+        <input matInput value="{{ anticipo.total | currency }}" readonly />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Aplicado</mat-label>
+        <input
+          matInput
+          value="{{ anticipo.total - anticipo.disponible | currency }}"
+          readonly
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Disponible</mat-label>
+        <input matInput value="{{ anticipo.disponible | currency }}" readonly />
+      </mat-form-field>
+      <span fxFlex></span>
+      <mat-form-field>
+        <mat-label>Creado por:</mat-label>
+        <input matInput value="{{ anticipo.createUser }}" readonly />
+      </mat-form-field>
+    </div>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Aplicación por: {{ aplicacion.importe | currency }}
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+    <div class="aplicacion">
+      <div fxLayout fxLayoutGap="5px">
+        <mat-form-field>
+          <mat-label>Fecha</mat-label>
+          <input
+            type="text"
+            matInput
+            value="{{ aplicacion.fecha | date: 'dd/MM/yyyy' }}"
+            disabled
+          />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Sucursal</mat-label>
+          <input type="text" matInput [value]="aplicacion.sucursal" disabled />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Documento</mat-label>
+          <input
+            type="text"
+            matInput
+            [value]="aplicacion.cxcDocumento"
+            disabled
+          />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Tipo</mat-label>
+          <input type="text" matInput [value]="aplicacion.cxcTipo" disabled />
+        </mat-form-field>
+
+        <mat-form-field fxFlex>
+          <mat-label>UUID</mat-label>
+          <input type="text" matInput [value]="aplicacion.uuid" readonly />
+        </mat-form-field>
+      </div>
+      <div fxLayoutGap>
+        <mat-form-field fxFlex>
+          <mat-label>Egreso UUID</mat-label>
+          <input
+            type="text"
+            matInput
+            [value]="aplicacion.egresoUuid"
+            readonly
+          />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div fxLayout fxLayoutGap="5px">
+      <mat-form-field fxFlex>
+        <mat-label>Comentario</mat-label>
+        <input
+          type="text"
+          matInput
+          value="{{ aplicacion.comentario }}"
+          disabled
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Creado por</mat-label>
+        <input
+          type="text"
+          matInput
+          value="{{ aplicacion.createUser }}"
+          disabled
+        />
+      </mat-form-field>
+    </div>
+
+    <mat-card-actions>
+      <button mat-button routerLink="/contado/anticipos">
+        Anticipos
+      </button>
+      <button
+        mat-button
+        color="primary"
+        (click)="generarCfdi(aplicacion)"
+        *ngIf="!aplicacion.egresoUuid"
+      >
+        Generar CFDI de egreso
+      </button>
+      <ng-container *ngIf="aplicacion.egresoUuid">
+        <nx-papelsa-cfdi-pdf
+          [cfdi]="getEgresoCfdi(aplicacion)"
+        ></nx-papelsa-cfdi-pdf>
+        <nx-papelsa-cfdi-xml
+          [cfdi]="getEgresoCfdi(aplicacion)"
+        ></nx-papelsa-cfdi-xml>
+        <nx-papelsa-cfdi-email
+          [cfdi]="getEgresoCfdi(aplicacion)"
+        ></nx-papelsa-cfdi-email>
+        <!-- <nx-papelsa-cfdi-cancelar
+            [cfdi]="aplicacion.cfdi"
+            (cancelar)="onCancelar(aplicacion, $event)"
+          ></nx-papelsa-cfdi-cancelar> -->
+      </ng-container>
+    </mat-card-actions>
+  </mat-card>
+</div>

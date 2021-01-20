@@ -1,0 +1,12 @@
+import sx.cxc.AnticipoSatDet
+
+model {
+  AnticipoSatDet anticipoSatDet
+}
+
+json g.render(anticipoSatDet, [excludes:['anticipo'] ]){
+  anticipo g.render(anticipoSatDet.anticipo, [excludes: ['aplicaciones']])
+  cliente anticipoSatDet.anticipo.nombre
+  sucursal anticipoSatDet.anticipo.sucursal
+}
+

@@ -31,7 +31,8 @@ export class ToolbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.auth.displayName$.subscribe((name) => console.log('User: ', name));
+    // this.auth.displayName$.subscribe((name) => console.log('User: ', name));
+    this.auth.roles$.subscribe((data) => (this.roles = data));
   }
 
   logout() {
@@ -46,9 +47,9 @@ export class ToolbarComponent implements OnInit {
     this.selectorService.findCuentaPorCobrar();
   }
 
-  async hasRole(role: string) {
-    const roles = await this.auth.roles$.toPromise();
-    return roles.find((item) => item === role);
+  hasRole(role: string) {
+    const foudn = this.roles.find((item) => item === role);
+    return this.roles.find((item) => item === role);
   }
 
   /******* START HotKeys Definitions  *************/

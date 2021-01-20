@@ -92,27 +92,35 @@ class NotaBuilder {
         receptor.rfc = nota.cliente.rfc
         receptor.nombre = nota.cliente.nombre
         receptor.usoCFDI = CUsoCFDI.G_02
+        if(nota.tipo == 'ANTICIPO') {
+          receptor.usoCFDI = CUsoCFDI.G_01
+        }
         comprobante.receptor = receptor
         return this
     }
 
     def buildFormaDePago() {
+      // ANTICIPO
+      if(nota.tipo == 'ANTICIPO') {
         comprobante.metodoPago = CMetodoPago.PUE
-        if (nota.tipoCartera == 'CRE') {
-            if(nota.formaDePago == null)
-                comprobante.formaPago = '99'
-            else {
-                comprobante.formaPago = nota.formaDePago
-            }
-        } else {
-            if (this.nota.tipo.startsWith('DEV')) {
-                buildFormaDePagoDevolucionContado()
-            } else {
-                buildFormaDePagoBonificacionContado()
-
-            }
-        }
+        comprobante.formaPago = '99'
         return this
+      }
+      comprobante.metodoPago = CMetodoPago.PUE
+      if (nota.tipoCartera == 'CRE') {
+        if(nota.formaDePago == null)
+          comprobante.formaPago = '99'
+        else {
+          comprobante.formaPago = nota.formaDePago
+        }
+      } else {
+        if (this.nota.tipo.startsWith('DEV')) {
+          buildFormaDePagoDevolucionContado()
+        } else {
+          buildFormaDePagoBonificacionContado()
+        }
+      }
+      return this
     }
 
     def buildFormaDePagoDevolucionContado(){
@@ -126,6 +134,8 @@ class NotaBuilder {
         String formaDePago = found.cuentaPorCobrar.formaDePago
         comprobante.formaPago = getFormaDePago(formaDePago)
     }
+
+
 
     private getFormaDePago(String formaDePago) {
         switch (formaDePago) {
@@ -144,6 +154,8 @@ class NotaBuilder {
             case 'BONIFICACION':
             case 'DEVOLUCION':
                 return '17'
+            case 'ANTICIPO':
+                return '30'
             default:
                 return '99'
         }
@@ -151,11 +163,13 @@ class NotaBuilder {
     }
 
     def buildConceptos() {
-        if (this.nota.tipo.startsWith('DEV')) {
-            buildConceptosDevolucion()
-        } else {
-            buildConceptosBonoificacion()
-        }
+      if (this.nota.tipo.startsWith('DEV')) {
+        buildConceptosDevolucion()
+      } else if(this.nota.tipo == 'ANTICIPO') {
+        buildConceptosAnticipo()
+      } else {
+        buildConceptosBonoificacion()
+      }
     }
 
     def buildConceptosDevolucion(){
@@ -266,6 +280,47 @@ class NotaBuilder {
         return this
     }
 
+    def buildConceptosAnticipo(){
+      log.debug('Generando conceptos para ANTICIPO')
+      this.totalImpuestosTrasladados = 0.0
+      Comprobante.Conceptos conceptos = factory.createComprobanteConceptos()
+
+      Comprobante.Conceptos.Concepto concepto = factory.createComprobanteConceptosConcepto()
+      NotaDeCreditoDet item = this.nota.partidas[0]
+      def importe = item.importe // MonedaUtils.calcularImporteDelTotal(item.importe)
+      def impuesto = importe * MonedaUtils.IVA
+      impuesto = MonedaUtils.round(impuesto)
+      concepto.claveProdServ = '84111506'
+      concepto.claveUnidad = 'ACT'
+      concepto.noIdentificacion = 'ANTICIPO_APL'
+      concepto.cantidad = 1
+      concepto.unidad = 'ACT'
+      concepto.descripcion = "Bonificación de: ${item.tipoDeDocumento} - ${item.documento}"
+      concepto.valorUnitario = importe
+      concepto.importe = importe
+      concepto.impuestos = factory.createComprobanteConceptosConceptoImpuestos()
+      concepto.impuestos.traslados = factory.createComprobanteConceptosConceptoImpuestosTraslados()
+      Comprobante.Conceptos.Concepto.Impuestos.Traslados.Traslado traslado1
+      traslado1 = factory.createComprobanteConceptosConceptoImpuestosTrasladosTraslado()
+      traslado1.base =  importe
+      traslado1.impuesto = '002'
+      traslado1.tipoFactor = CTipoFactor.TASA
+      traslado1.tasaOCuota = '0.160000'
+      traslado1.importe = impuesto
+
+      concepto.impuestos.traslados.traslado.add(traslado1)
+      conceptos.concepto.add(concepto)
+
+      // Acumulados
+      this.totalImpuestosTrasladados += traslado1.importe
+      this.subTotalAcumulado = this.subTotalAcumulado + importe
+      this.descuentoAcumulado = 0
+
+      comprobante.conceptos = conceptos
+
+      return this
+    }
+
     def buildImpuestos(){
         Comprobante.Impuestos impuestos = factory.createComprobanteImpuestos()
         impuestos.setTotalImpuestosTrasladados(MonedaUtils.round(this.totalImpuestosTrasladados))
@@ -293,6 +348,9 @@ class NotaBuilder {
     }
 
     def buildRelacionados() {
+      if(nota.tipo == 'ANTICIPO')
+        return buildRelacionadoAnticipo()
+
         Comprobante.CfdiRelacionados relacionados = factory.createComprobanteCfdiRelacionados()
         relacionados.tipoRelacion = '01'
         if (this.rmd) {
@@ -322,6 +380,20 @@ class NotaBuilder {
                 relacionados.cfdiRelacionado.add(relacionado)
             }
         }
+        comprobante.cfdiRelacionados = relacionados
+    }
+
+    def buildRelacionadoAnticipo() {
+        Comprobante.CfdiRelacionados relacionados = factory.createComprobanteCfdiRelacionados()
+        relacionados.tipoRelacion = '07'
+        NotaDeCreditoDet det = nota.partidas[0]
+        Comprobante.CfdiRelacionados.CfdiRelacionado relacionado = factory.createComprobanteCfdiRelacionadosCfdiRelacionado()
+
+        def uuid = det.uuid
+        if(uuid == null)
+          throw new RuntimeException('NO EXISTE EL UUID  para la apliacion de anticipo')
+        relacionado.UUID = uuid
+        relacionados.cfdiRelacionado.add(relacionado)
         comprobante.cfdiRelacionados = relacionados
     }
 

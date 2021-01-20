@@ -49,6 +49,12 @@ export class ContadoPageComponent implements OnInit {
       description: 'Notas de cargo',
       icon: 'playlist_add',
     },
+    {
+      path: 'anticipos',
+      label: 'Anticipos',
+      description: 'Notas de Anticipos',
+      icon: 'bookmarks',
+    },
   ];
 
   cartera$: Observable<Cartera>;

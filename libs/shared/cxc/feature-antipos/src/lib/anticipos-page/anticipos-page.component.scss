@@ -1,0 +1,15 @@
+.mat-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  // padding: 10px 0px;
+
+  .grid {
+    flex: 1 0 auto;
+    padding: 0px;
+  }
+}
+.sub-title {
+  padding: 0 10px;
+  font-weight: bold;
+}

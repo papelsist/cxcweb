@@ -42,7 +42,7 @@
         mat-button
         [routerLink]="'/credito'"
         routerLinkActive="router-link-active"
-        [disabled]="hasRole('ROLE_CXC')"
+        *ngIf="hasRole('ROLE_CXC')"
       >
         <mat-icon>dynamic_feed</mat-icon>
         <span>Crédito</span>
@@ -51,6 +51,7 @@
         [routerLink]="'/contado'"
         routerLinkActive="router-link-active"
         mat-button
+        *ngIf="hasRole('ROLE_CXC_CONTADO')"
         >Contado</a
       >
       <a

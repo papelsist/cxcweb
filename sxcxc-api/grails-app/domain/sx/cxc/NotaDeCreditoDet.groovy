@@ -4,8 +4,8 @@ import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
 /*
- * Todo: Ajustes pendientes (manuales) a la base de datos de produccion para liberación 
- * 
+ * Todo: Ajustes pendientes (manuales) a la base de datos de produccion para liberación
+ *
  * A NotaDeCreditoDet:
  * - Agregar la columna de total
  * - Agregar la columna de uuid
@@ -45,6 +45,7 @@ class NotaDeCreditoDet {
     static constraints = {
         comentario nullable:true
         uuid nullable: true
+        cuentaPorCobrar nullable: true
     }
 
     static mapping={

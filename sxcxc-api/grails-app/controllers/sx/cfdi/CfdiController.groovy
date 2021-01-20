@@ -22,7 +22,7 @@ import sx.reports.ReportService
 import sx.cloud.MailJetService
 
 // @GrailsCompileStatic
-@Secured("hasAnyRole('ROLE_ADMIN', 'ROLE_CXC', 'ROLE_CXC_ADMIN')")
+@Secured("hasAnyRole('ROLE_ADMIN', 'ROLE_CXC', 'ROLE_CXC_ADMIN', 'ROLE_CXC_CONTADO')")
 @Slf4j
 class CfdiController extends RestfulController {
 

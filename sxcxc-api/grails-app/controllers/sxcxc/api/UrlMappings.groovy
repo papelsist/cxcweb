@@ -26,6 +26,12 @@ class UrlMappings {
     "/api/analytics/comparativoMejoresClientes"(controller: 'analytics', action:'comparativoMejoresClientes', method: 'GET')
     "/api/analytics/ventasPorLineaCliente"(controller: 'analytics', action:'ventasPorLineaCliente', method: 'GET')
 
+    // Antcipos SAT
+    // "/sat/anticipos"(resources: 'anticipoSat', excludes:['create', 'edit','patch', 'delete'])
+    "/api/anticipos/aplicaciones"(resources: 'anticipoSatDet', excludes:['create', 'edit','patch', 'delete'])
+    "/api/anticipos/aplicaciones/timbrar/$id"(controller: 'anticipoSatDet', action: 'timbrar', method: 'PUT')
+
+
     "/"(controller: 'application', action:'index')
     "/api/session"(controller: 'application', action: 'session')
     "500"(view: '/error')

@@ -117,7 +117,7 @@ class NotaDeCredito {
     serie maxSize: 20
     folio unique: 'serie'
     tipoCartera inList: ['CRE', 'CON', 'CHE', 'JUR', 'COD']
-    tipo(nullable: false, inList: ['BONIFICACION', 'DEVOLUCION'])
+    tipo(nullable: false, inList: ['BONIFICACION', 'DEVOLUCION', 'ANTICIPO'])
     tc(scale: 6, validator: { val, obj ->
       if (obj.moneda != MonedaUtils.PESOS && val <= 1.0)
         return "tipoDeCambioError"

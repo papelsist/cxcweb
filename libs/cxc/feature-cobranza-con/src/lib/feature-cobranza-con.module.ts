@@ -63,6 +63,14 @@ import { ContadoPageComponent } from './contado-page/contado-page.component';
               ),
             data: { cartera: { clave: 'CON', descripcion: 'Contado' } },
           },
+          {
+            path: 'anticipos',
+            loadChildren: () =>
+              import('@nx-papelsa/shared/cxc/feature-antipos').then(
+                (m) => m.FeatureAntiposModule
+              ),
+            data: { cartera: { clave: 'CON', descripcion: 'Contado' } },
+          },
         ],
       },
     ]),

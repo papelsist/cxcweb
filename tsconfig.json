@@ -119,6 +119,9 @@
       ],
       "@nx-papelsa/shared/cxc/data-access-depositos": [
         "libs/shared/cxc/data-access-depositos/src/index.ts"
+      ],
+      "@nx-papelsa/shared/cxc/feature-antipos": [
+        "libs/shared/cxc/feature-antipos/src/index.ts"
       ]
     },
     "allowSyntheticDefaultImports": true

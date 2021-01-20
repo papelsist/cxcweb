@@ -1,0 +1,10 @@
+import sx.cxc.AnticipoSat
+
+model {
+  AnticipoSat anticipoSat
+}
+
+json g.render(anticipoSat, [excludes:['aplicaciones'] ]){
+  aplicaciones g.render(anticipoSat.aplicaciones)
+}
+
