@@ -167,14 +167,25 @@ class NotaDeCreditoController extends RestfulController<NotaDeCredito> {
         [id: clienteId, cart: cartera])
     } else {
       log.debug('Localizando RMDs DISPONIBLES')
-      rows = DevolucionDeVenta.findAll("""
+      if(cartera == 'CRE') {
+        rows = DevolucionDeVenta.findAll("""
           from DevolucionDeVenta d
           where d.cobro is null
             and d.cancelado is null
             and d.venta.tipo = :cart
             and d not in(select x.devolucion from NotaDeCredito x)
             order by d.fecha desc""",
-        [cart: cartera])
+          [cart: cartera])
+      } else {
+        rows = DevolucionDeVenta.findAll("""
+          from DevolucionDeVenta d
+          where d.cobro is not null
+            and d.cancelado is null
+            and d.venta.tipo != :cart
+            and d.cobro not in(select x.cobro from NotaDeCredito x)
+            order by d.fecha desc""", [cart: 'CRE'])
+      }
+
     }
     log.debug('RMDs localizados: {}', rows.size())
     respond rows
