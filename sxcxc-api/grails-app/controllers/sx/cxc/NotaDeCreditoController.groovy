@@ -109,7 +109,7 @@ class NotaDeCreditoController extends RestfulController<NotaDeCredito> {
     def query = NotaDeCredito.where {}
 
     if (params.cartera) {
-      String cartera = params.cartera == 'CON' ? 'COD' : 'CRE'
+      String cartera = params.cartera // == 'CON' ? 'COD' : 'CRE'
       query = query.where { tipoCartera == cartera }
     }
 
