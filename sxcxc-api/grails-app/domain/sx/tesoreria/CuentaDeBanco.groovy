@@ -44,7 +44,7 @@ class CuentaDeBanco {
     }
 
     String toString() {
-        return "$numero $descripcion $nombre"
+        return "$numero $descripcion "
     }
 
     static mapping={
