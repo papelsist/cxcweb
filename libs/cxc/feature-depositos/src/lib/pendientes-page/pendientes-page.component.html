@@ -1,13 +1,47 @@
-<mat-toolbar color="default">
-  <mat-toolbar-row>
-    <span>Depositos por autorizar</span>
+<mat-card>
+  <div class="push-left push-right" fxLayout="row" fxLayoutAlign="start center">
+    <span fxLayout fxLayoutAlign="start center">
+      <span class="mat-title">Solicitudes de depósito </span>
+    </span>
     <span fxFlex></span>
-    <mat-icon class="toolbar-icon" aria-hidden="false" aria-label="Reload data"
-      >refresh</mat-icon
-    >
-    <nx-papelsa-deposito-create-btn
-      (create)="onCreate($event)"
-    ></nx-papelsa-deposito-create-btn>
-  </mat-toolbar-row>
-</mat-toolbar>
-<div class="pedidos-pendientes-container"></div>
+
+    <td-search-box
+      placeholder="Filtrar"
+      (searchDebounce)="filter($event)"
+      fxFlex
+    ></td-search-box>
+
+    <!-- <nx-papelsa-periodo-picker
+      (periodoChanged)="onPeriodoChanged($event)"
+      [periodo]="periodo"
+    ></nx-papelsa-periodo-picker> -->
+
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <nx-papelsa-deposito-create-btn
+        (create)="onCreate($event)"
+      ></nx-papelsa-deposito-create-btn>
+      <button mat-menu-item (click)="reload()">
+        <mat-icon>refresh</mat-icon>
+        <span>Refrescar</span>
+      </button>
+    </mat-menu>
+  </div>
+  <nx-papelsa-solicitudes-pendientes-grid
+    *tdLoading="
+      'loading-pendientes';
+      type: 'circular';
+      mode: 'indeterminate';
+      strategy: 'replace';
+      color: 'primary'
+    "
+    class="pendientes-grid"
+    [rows]="pendientes"
+    (drillDown)="onDrilldown($event)"
+    [searchTerm]="filter$ | async"
+  >
+  </nx-papelsa-solicitudes-pendientes-grid>
+</mat-card>

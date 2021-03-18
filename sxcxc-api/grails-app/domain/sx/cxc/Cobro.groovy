@@ -72,6 +72,9 @@ class  Cobro {
 
   String anticipoSat
 
+  CobroTransferencia transferencia
+  CobroDeposito deposito
+
   static hasOne = [cheque: CobroCheque, deposito: CobroDeposito, transferencia: CobroTransferencia,tarjeta: CobroTarjeta]
 
   static hasMany =[aplicaciones: AplicacionDeCobro]

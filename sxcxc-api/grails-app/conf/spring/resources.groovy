@@ -1,9 +1,9 @@
 
 import org.springframework.web.servlet.i18n.FixedLocaleResolver
 import sx.security.UserPasswordEncoderListener
-import sx.security.UserInfoClaimpProvider
+
 // Place your Spring DSL code here
-import com.luxsoft.CustomAuditLogListener
+
 import com.luxsoft.cfdix.v33.CfdiCadenaBuilder33
 import com.luxsoft.cfdix.v33.CfdiSellador33
 import com.luxsoft.cfdix.v33.NotaBuilder
@@ -69,4 +69,6 @@ beans = {
     }
 
     userInfoClaimpProvider(UserInfoClaimpProvider) {}
+
+
 }

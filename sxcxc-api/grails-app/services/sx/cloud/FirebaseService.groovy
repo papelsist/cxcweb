@@ -16,6 +16,8 @@ import groovy.util.logging.Slf4j
 import org.apache.commons.lang3.exception.ExceptionUtils
 import org.springframework.beans.factory.annotation.Value
 
+import grails.util.Environment
+
 import javax.annotation.PostConstruct
 import javax.annotation.PreDestroy
 
@@ -23,7 +25,7 @@ import javax.annotation.PreDestroy
 // @CompileDynamic
 class FirebaseService {
 
-  static lazyInit = false
+  static lazyInit = true
 
   private FirebaseApp app
 
@@ -39,7 +41,11 @@ class FirebaseService {
   @PostConstruct()
   void initFirebase() {
     // FileInputStream serviceAccount = new FileInputStream("/Users/rubencancino/Desktop/firebase/siipapx-436ce-firebase-adminsdk-ci4eg-779346f0c5.json");
-    log.debug('Inicializando Firebase Url:{} Bucket:{}', this.firebaseUrl, this.firebaseBucket)
+    // if(Environment.current == Environment.DEVELOPMENT) {
+    //   String dir = System.properties['user.home']
+    //   FileInputStream serviceAccount = new FileInputStream("${dir}/Desktop/firebase/siipapx-436ce-firebase-adminsdk-ci4eg-779346f0c5.json");
+    // }
+    log.debug('Inicializando Firebase Url:{} Bucket:{}', this.projectId, this.firebaseBucket)
     FirebaseOptions options = new FirebaseOptions.Builder()
       .setCredentials(GoogleCredentials.getApplicationDefault())
       .setDatabaseUrl(this.firebaseUrl)
@@ -119,6 +125,8 @@ class FirebaseService {
 
     storage.create(blobInfo, data)
   }
+
+
 
 
 }

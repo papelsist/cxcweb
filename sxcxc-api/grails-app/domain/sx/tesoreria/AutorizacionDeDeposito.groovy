@@ -1,8 +1,13 @@
 package sx.tesoreria
 
-import sx.core.Autorizacion
 
-class AutorizacionDeDeposito extends Autorizacion{
+class AutorizacionDeDeposito {
+  String uid
+  Date fecha
+  String comentario
+  String createUser
 
-
+  static constraints = {
+    comentario nullable:true
+  }
 }

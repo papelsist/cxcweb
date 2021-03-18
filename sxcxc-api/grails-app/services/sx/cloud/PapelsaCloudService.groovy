@@ -5,8 +5,12 @@ import com.google.cloud.firestore.Firestore
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserRecord
 import com.google.firebase.cloud.FirestoreClient
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.Message
+import com.google.firebase.messaging.Notification
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Value
@@ -47,6 +51,41 @@ class PapelsaCloudService {
 
   FirebaseAuth getAuth() {
     return FirebaseAuth.getInstance(this.papelws)
+  }
+
+  /**
+   * Add new Roles to the user's custom claims. In PapelsaCloud apps
+   * roles must start with xpap like xpapCallcenterAdmin
+   *
+   * @param roles
+   * @param email
+   */
+  void addRoles(Map roles, String email) {
+    UserRecord user = this.getAuth().getUserByEmail(email)
+    if(user) {
+      Map newRoles = user.customClaims + roles
+      this.getAuth().setCustomUserClaims(user.uid, newRoles)
+    }
+  }
+
+  void sendDemoMessage() {
+    String topic = "demoData"
+    Message message = Message.builder()
+    .setNotification(Notification.builder()
+    .setTitle('Solicitud autorizada')
+    .setBody('Hello world!')
+      .build()
+    )
+    .putData("Solicitud", '48349')
+    .putData("Autorizada: ", new Date().format('dd/MM/yyyy hh:mm'))
+    .build()
+
+    String response = FirebaseMessaging.getInstance(this.papelws).send(message)
+    log.info('Message send:', response)
+  }
+
+  void registerToTopic() {
+
   }
 
   @PreDestroy()

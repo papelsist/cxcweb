@@ -7,7 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-
+import { CovalentNotificationsModule } from '@covalent/core/notifications';
 import { UiFormsModule } from '@nx-papelsa/shared/utils/ui-forms';
 import { DepositosPageComponent } from './depositos-page/depositos-page.component';
 
@@ -22,6 +22,7 @@ import { DepositosPageComponent } from './depositos-page/depositos-page.componen
     MatIconModule,
     MatButtonModule,
     MatListModule,
+    CovalentNotificationsModule,
     RouterModule.forChild([
       {
         path: '',

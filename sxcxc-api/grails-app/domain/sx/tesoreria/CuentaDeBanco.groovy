@@ -4,50 +4,52 @@ import sx.sat.BancoSat
 
 class CuentaDeBanco {
 
-    String id
+  String id
 
-    BancoSat bancoSat
+  Banco banco
 
-    String numero
+  BancoSat bancoSat
 
-    String clave
+  String numero
 
-    String descripcion
+  String clave
 
-    String tipo
+  String descripcion
 
-    Currency moneda
+  String tipo
 
-    Boolean activo = true
+  Currency moneda
 
-    Boolean disponibleEnVenta = false
+  Boolean activo = true
 
-    String subCuentaOperativa
+  Boolean disponibleEnVenta = false
 
-    String impresionTemplate
+  String subCuentaOperativa
 
-    Long sw2
+  String impresionTemplate
 
-    Date dateCreated
+  Long sw2
 
-    Date lastUpdated
+  Date dateCreated
+  Date lastUpdated
 
-    static constraints = {
-    	numero maxSize:30
-        clave maxSize:30, unique: true
-        descripcion minSize:3
-        tipo inList:['CHEQUES','INVERSION']
-        impresionTemplate nullable:true, maxSize:50
-        subCuentaOperativa nullable:true, maxSize:4
-        sw2 nullable:true
-        bancoSat nullable: true
-    }
+  static constraints = {
+    numero maxSize: 30
+    clave maxSize: 30, unique: true
+    descripcion minSize: 3
+    tipo inList: ['CHEQUES', 'INVERSION']
+    impresionTemplate nullable: true, maxSize: 50
+    subCuentaOperativa nullable: true, maxSize: 4
+    sw2 nullable: true
+    bancoSat nullable: true
+    banco nullable: true
+  }
 
-    String toString() {
-        return "$numero $descripcion "
-    }
+  String toString() {
+    return "$descripcion ($numero) "
+  }
 
-    static mapping={
-        id generator:'uuid'
-    }
+  static mapping = {
+    id generator: 'uuid'
+  }
 }

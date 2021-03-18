@@ -18,7 +18,7 @@ import static com.google.cloud.firestore.DocumentChange.Type.*
 // @GrailsCompileStatic
 class LxAutorizacionesListenerService implements DataBinder, EventListener<QuerySnapshot> {
 
-  static lazyInit = false
+  static lazyInit = true
 
   FirebaseService firebaseService
 

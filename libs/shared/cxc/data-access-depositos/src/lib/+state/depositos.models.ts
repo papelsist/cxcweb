@@ -1,4 +1,10 @@
-import { Autorizacion, Cliente } from '@nx-papelsa/shared/utils/core-models';
+import {
+  Autorizacion,
+  Cliente,
+  Sucursal,
+} from '@nx-papelsa/shared/utils/core-models';
+
+export interface SolicitudDeDeposito extends Deposito {}
 
 /**
  * Interface for the 'Depositos' data
@@ -7,7 +13,7 @@ export interface Deposito {
   id?: string;
   folio?: number;
   cartera: 'CRE' | 'JUR' | 'CHE';
-  sucursal?: string;
+  sucursal?: Partial<Sucursal>;
   cliente: Partial<Cliente>;
   nombre: string;
   rfc: string;
@@ -15,23 +21,17 @@ export interface Deposito {
   cuenta: any;
   fecha: string;
   fechaDeposito: string;
-  transferencia: boolean;
-  importes?: DepositoImportes;
+  transferencia: number;
+  efectivo: number;
+  cheque: number;
+  tarjeta: number;
   total: number;
-  rechazo?: any;
   estado: 'PENDIENTE' | 'AUTORIZADO' | 'RECHAZADO' | 'ATENDIDO';
   vendedor: string;
-  cerrado?: boolean;
-  cerradoTime?: string;
+  rechazo?: any;
   referencia?: string;
   createUser?: string;
   updateUser?: string;
   lastUpdated?: string;
   autorizacion: Autorizacion;
-}
-
-export interface DepositoImportes {
-  efectivo: number;
-  cheque: number;
-  tarjeta: number;
 }

@@ -5,3 +5,4 @@ export { DepositosActions, DepositosFeature, DepositosSelectors };
 export * from './lib/+state/depositos.models';
 export * from './lib/+state/depositos.facade';
 export * from './lib/data-access-depositos.module';
+export * from './lib/services/depositos.service';

@@ -10,7 +10,7 @@
     ></nx-papelsa-cliente-field>
 
     <div fxLayout fxLayoutGap="5px">
-      <mat-form-field>
+      <mat-form-field fxFlex>
         <mat-label>Cartera</mat-label>
         <mat-select placeholder="Cartera" formControlName="cartera">
           <mat-option *ngFor="let c of carteras" [value]="c.clave"
@@ -19,51 +19,59 @@
         </mat-select>
       </mat-form-field>
       <nx-papelsa-fecha-field
+        fxFlex
         label="Fecha de depósito"
         formControlName="fechaDeposito"
       ></nx-papelsa-fecha-field>
     </div>
 
     <div fxLayout fxLayoutGap="5px">
-      <nx-papelsa-cuenta-field
-        fxFlex
-        formControlName="cuenta"
-      ></nx-papelsa-cuenta-field>
       <nx-papelsa-banco-field
+        label="Banco origen"
         fxFlex
         formControlName="banco"
       ></nx-papelsa-banco-field>
     </div>
+    <nx-papelsa-cuenta-field
+      fxFlex
+      formControlName="cuenta"
+    ></nx-papelsa-cuenta-field>
 
+    <div fxLayout fxLayoutGap="5px" fxLayoutAlign="strech center">
+      <!-- <nx-papelsa-numeric-field
+        fxFlex
+        class="transferencia-field"
+        label="Transferencia"
+        formControlName="transferencia"
+      ></nx-papelsa-numeric-field> -->
+      <mat-form-field>
+        <mat-label>Transferencia</mat-label>
+        <input
+          type="number"
+          matInput
+          formControlName="transferencia"
+          autocomplete="off"
+        />
+      </mat-form-field>
+      <nx-papelsa-numeric-field
+        class="efectivo-field"
+        label="Efectivo"
+        formControlName="efectivo"
+        fxFlex
+      ></nx-papelsa-numeric-field>
+      <nx-papelsa-numeric-field
+        label="Cheque"
+        formControlName="cheque"
+        fxFlex
+      ></nx-papelsa-numeric-field>
+    </div>
     <div fxLayout fxLayoutGap="5px">
       <mat-form-field fxFlex>
         <input matInput formControlName="referencia" placeholder="Referencia" />
       </mat-form-field>
-
-      <mat-checkbox formControlName="transferencia" fxFlex>
-        Transferencia
-      </mat-checkbox>
     </div>
-
-    <div fxLayout fxLayoutGap="5px" fxLayoutAlign="strech center">
-      <ng-container formGroupName="importes">
-        <nx-papelsa-numeric-field
-          class="efectivo-field"
-          label="Efectivo"
-          formControlName="efectivo"
-        ></nx-papelsa-numeric-field>
-        <nx-papelsa-numeric-field
-          label="Cheque"
-          formControlName="cheque"
-        ></nx-papelsa-numeric-field>
-      </ng-container>
-      <nx-papelsa-numeric-field
-        class="total"
-        formControlName="total"
-        label="Total"
-        placeholder="Total"
-      >
-      </nx-papelsa-numeric-field>
+    <div class="total">
+      {{ form.get('total').valueChanges | async | currency }}
     </div>
   </div>
   <div *ngIf="posibleDuplicado" class="duplicado">
@@ -85,7 +93,12 @@
   <button mat-button mat-dialog-close>
     CANCELAR
   </button>
-  <button mat-button (click)="submit()" [disabled]="form.invalid">
+  <button
+    mat-button
+    (click)="submit()"
+    [disabled]="form.invalid"
+    *ngIf="!readonly"
+  >
     SALVAR
   </button>
 </mat-dialog-actions>

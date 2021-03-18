@@ -12,11 +12,7 @@ conversionRule 'wex', WhitespaceThrowableProxyConverter
 appender('STDOUT', ConsoleAppender) {
   encoder(PatternLayoutEncoder) {
     charset = Charset.forName('UTF-8')
-    pattern =
-      '%d{MMM-dd HH:mm} '+ // Date
-      '%clr(%5p) ' + // Log level
-      '%clr(%-40.40logger{39}){cyan} %clr(:){faint} ' + // Logger
-      '%msg%n' // Message
+    pattern = '%level %logger{35} - %msg%n'
   }
 }
 
@@ -27,7 +23,6 @@ appender('FIREBASE', RollingFileAppender) {
     append = false
     encoder(PatternLayoutEncoder) {
         pattern =
-                '%d{MMM-dd HH:mm} ' + // Date
                 '%clr(%5p) ' + // Log level
                 '%clr(%-40.40logger{39}){cyan} %clr(:){faint} ' + // Logger
                 '%msg%n' // Message
