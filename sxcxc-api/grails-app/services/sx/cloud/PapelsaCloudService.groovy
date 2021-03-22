@@ -27,8 +27,11 @@ class PapelsaCloudService {
 
   private FirebaseApp papelws
 
+  FirebaseService firebaseService
+
   @PostConstruct()
   init() {
+    /*
     String userHome = System.getProperty('user.home')
     FileInputStream serviceAccount = new FileInputStream(
       "${userHome}/Desktop/firebase/papx-ws-dev-firebase-sdk.json");
@@ -37,20 +40,25 @@ class PapelsaCloudService {
     FirebaseOptions options = FirebaseOptions.builder()
     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
     .build()
-
-    this.papelws = FirebaseApp.initializeApp(options, 'papelws')
+    */
+    // this.papelws = FirebaseApp.initializeApp(options, 'papelws')
+    // this.papelws = firebaseService.getFirebaseApp()
   }
 
   Firestore getFirestore() {
-    return FirestoreClient.getFirestore(this.papelws)
+    // return FirestoreClient.getFirestore(this.papelws)
+    this.firebaseService.getFirestore()
   }
 
   FirebaseDatabase getFirebaseDatabase() {
-    return FirebaseDatabase.getInstance(this.papelws)
+    // return FirebaseDatabase.getInstance(this.papelws)
+    return FirebaseDatabase.getInstance(firebaseService.getFirebaseApp())
+
   }
 
   FirebaseAuth getAuth() {
-    return FirebaseAuth.getInstance(this.papelws)
+    // return FirebaseAuth.getInstance(this.papelws)
+    return FirebaseAuth.getInstance(firebaseService.getFirebaseApp())
   }
 
   /**
@@ -90,11 +98,13 @@ class PapelsaCloudService {
 
   @PreDestroy()
   void close() {
+    /*
     if(this.papelws) {
       String appName = this.papelws.name
       this.papelws.delete()
       this.papelws = null
       log.debug('Papel firebase ws  {} disconected', appName)
     }
+    */
   }
 }
