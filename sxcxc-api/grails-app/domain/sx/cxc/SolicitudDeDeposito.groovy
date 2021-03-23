@@ -1,5 +1,6 @@
 package sx.cxc
 
+import java.text.SimpleDateFormat
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
@@ -63,7 +64,9 @@ class SolicitudDeDeposito {
   SolicitudAutorizacacion auth
 
   Map toFirebase() {
-    String fmt = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    sdf.setTimeZone(TimeZone.getTimeZone("CET"))
+
     SolicitudDeDeposito sol = this;
     Map<String, Object> data = [
       id           : sol.id,
@@ -72,7 +75,7 @@ class SolicitudDeDeposito {
       sucursalId   : sol.sucursal.id,
       tipo         : sol.tipo,
       callcenter   : false,
-      fecha        : sol.fecha.format(fmt),
+      fecha        : sdf.format(sol.fecha),
       cliente      : [id    : sol.cliente.id,
                       nombre: sol.cliente.nombre,
                       rfc   : sol.cliente.rfc,
@@ -90,11 +93,11 @@ class SolicitudDeDeposito {
       cheque       : sol.cheque.toDouble(),
       total        : sol.total.toDouble(),
       sbc          : sol.cheque > 0.0 ? sol.banco.id != sol.cuenta.banco.id : false,
-      dateCreated  : sol.dateCreated.format(fmt),
-      lastUpdated  : sol.lastUpdated.format(fmt),
+      dateCreated  : sdf.format(sol.dateCreated),
+      lastUpdated  : sdf.format(sol.lastUpdated),
       createUser   : [uid: sol.createUser, displayName: sol.createUser],
       updateUser   : [uid: sol.createUser, displayName: sol.createUser],
-      status       : 'PENDIENTE',
+      status       : sol.cobro ? 'AUTORIZADO': 'PENDIENTE',
       appVersion   : 2,
     ] as Map<String, Object>
     return data
