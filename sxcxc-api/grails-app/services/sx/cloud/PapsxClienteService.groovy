@@ -24,7 +24,7 @@ class PapsxClienteService {
   List<Cliente> fetchClientes(int max = 300) {
     Date inicio = Date.parse('dd/MM/yyyy','01/01/2020')
     List<Cliente> clientes = Cliente.findAll(
-      'select v.cliente from Venta v where v.fecha>=:start and v.callcenter = true order by v.fecha desc',
+      'select distinct(v.cliente) from Venta v where v.fecha>=:start  order by v.fecha desc',
       [start: inicio], [max: max])
     clientes.addAll(ClienteCredito.findAll("select c.cliente from ClienteCredito c"))
     return clientes
