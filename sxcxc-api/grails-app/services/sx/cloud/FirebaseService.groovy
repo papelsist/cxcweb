@@ -38,6 +38,16 @@ class FirebaseService {
   @Value('${siipapx.firebase.projectId:siipapx-436ce}')
   String projectId
 
+  @PreDestroy()
+  void cleanup() {
+    if(this.app) {
+      String appName = this.app.name
+      this.app.delete()
+      this.app = null
+      log.debug('Firebase App {} disconected', appName)
+    }
+  }
+
   @PostConstruct()
   void initFirebase() {
     // FileInputStream serviceAccount = new FileInputStream("/Users/rubencancino/Desktop/firebase/siipapx-436ce-firebase-adminsdk-ci4eg-779346f0c5.json");
@@ -55,16 +65,6 @@ class FirebaseService {
 
     app = FirebaseApp.initializeApp(options);
     log.debug('Firebase APP: ', app)
-  }
-
-  @PreDestroy()
-  void cleanup() {
-    if(this.app) {
-      String appName = this.app.name
-      this.app.delete()
-      this.app = null
-      log.debug('Firebase App {} disconected', appName)
-    }
   }
 
   Firestore getFirestore() {
