@@ -23,6 +23,7 @@ import {
 } from '@nx-papelsa/shared/cxc/data-access-depositos';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Cartera } from '@nx-papelsa/shared/utils/core-models';
+import { FormatService } from '@nx-papelsa/shared/utils/ui-common';
 
 @Component({
   selector: 'nx-papelsa-deposito-create',
@@ -47,18 +48,24 @@ export class DepositoCreateComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<DepositoCreateComponent, Deposito>,
     @Inject(MAT_DIALOG_DATA) private data: any,
     private fb: FormBuilder,
-    private cd: ChangeDetectorRef
-  ) {}
+    private cd: ChangeDetectorRef,
+    private format: FormatService
+  ) {
+    this.deposito = data.deposito;
+  }
 
   // limitDate = new Date().toISOString();
 
   ngOnInit() {
     this.buildForm();
-    if (this.data.deposito) {
-      this.deposito = this.data.deposito;
-      if (!this.deposito.rechazo) {
+    if (this.deposito) {
+      console.log('Analizando deposito: ', this.deposito);
+      if (this.deposito.rechazo) {
+        this.form.patchValue(this.data.deposito, { emitEvent: false });
+      } else {
         this.readonly = true;
         this.form.patchValue(this.data.deposito, { emitEvent: false });
+        this.form.get('cliente').disable();
         this.form.disable();
       }
     }
@@ -182,5 +189,26 @@ export class DepositoCreateComponent implements OnInit, OnDestroy {
 
   isTransferencia() {
     return this.form.get('transferencia').value > 0.0;
+  }
+  getRechazoInfo() {
+    if (this.deposito && this.deposito.rechazo) {
+      return `Por: ${this.deposito.rechazo.uid} (${this.format.formatDate(
+        this.deposito.rechazo.dateCreated,
+        'dd/MM/yyyy HH:mm'
+      )}) ${this.deposito.rechazo.comentario ?? ''}`;
+    }
+    return null;
+  }
+
+  getAuthInfo() {
+    if (this.deposito && this.deposito.autorizacion) {
+      return `Autorizó: ${
+        this.deposito.autorizacion.createUser
+      } (${this.format.formatDate(
+        this.deposito.autorizacion.fecha,
+        'dd/MM/yyyy HH:mm'
+      )}) `;
+    }
+    return null;
   }
 }

@@ -1,13 +1,41 @@
 <div class="header">
-  <h2 mat-dialog-title>Alta de {{ tipo }}</h2>
+  <h2 mat-dialog-title>
+    {{
+      deposito
+        ? 'Solicitud de depósito: ' + deposito.folio
+        : 'Alta de solicitud'
+    }}
+  </h2>
 </div>
 <mat-divider></mat-divider>
 <mat-dialog-content>
+  <div *ngIf="deposito && deposito.rechazo as r">
+    <td-message
+      [label]="r.motivo"
+      [sublabel]="getRechazoInfo()"
+      color="warn"
+      icon="error"
+    ></td-message>
+  </div>
+  <div *ngIf="deposito && deposito.autorizacion as a">
+    <td-message
+      label="Autorizada"
+      [sublabel]="getAuthInfo()"
+      color="primary"
+      icon="check_circle"
+    ></td-message>
+    <!-- <pre>{{ deposito.autorizacion | json }}</pre> -->
+  </div>
   <div [formGroup]="form" fxLayout="column" fxLayoutGap="5px">
     <nx-papelsa-cliente-field
+      *ngIf="!deposito"
       fxFlex
       formControlName="cliente"
     ></nx-papelsa-cliente-field>
+    <mat-form-field *ngIf="deposito">
+      <mat-label>Cliente</mat-label>
+      <input type="text" matInput [value]="deposito.cliente.nombre" readonly />
+    </mat-form-field>
 
     <div fxLayout fxLayoutGap="5px">
       <mat-form-field fxFlex>

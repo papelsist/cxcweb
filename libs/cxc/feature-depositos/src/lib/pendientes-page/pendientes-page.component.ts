@@ -92,13 +92,33 @@ export class PendientesPageComponent extends BaseComponent implements OnInit {
   }
 
   onDrilldown(event: SolicitudDeDeposito) {
-    this.modal.open(DepositoCreateComponent, {
-      width: '60%',
-      minHeight: '500px',
-      data: {
-        deposito: event,
-      },
-    });
+    this.modal
+      .open(DepositoCreateComponent, {
+        width: '60%',
+        minHeight: '500px',
+        data: {
+          deposito: event,
+        },
+      })
+      .afterClosed()
+      .subscribe((payload) => {
+        if (payload) {
+          console.log('Salvar: ', payload);
+          if (event.rechazo) payload.rechazo = null;
+          this.service.update({ id: event.id, changes: payload }).subscribe(
+            (r) => {
+              this.dialog
+                .openAlert({
+                  title: 'Solicitud actualizada',
+                  message: 'Folio: ' + r.folio,
+                })
+                .afterClosed()
+                .subscribe(() => this.reload());
+            },
+            (err) => this.handleError(err)
+          );
+        }
+      });
   }
 
   handleError(err: any) {
