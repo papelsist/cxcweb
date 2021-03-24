@@ -91,7 +91,6 @@ export class SolicitudesPendientesGridComponent implements OnInit {
   onModelUpdated(event) {
     if (this.gridApi) {
       this.gridColumnApi.autoSizeAllColumns();
-      console.log('Rows:', this.rows);
     }
   }
 
