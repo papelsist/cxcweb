@@ -11,6 +11,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.Message
 import com.google.firebase.messaging.Notification
+import grails.util.Environment
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Value
@@ -29,9 +30,12 @@ class PapelsaCloudService {
 
   @PostConstruct()
   init() {
-    String userHome = System.getProperty('user.home')
-    FileInputStream serviceAccount = new FileInputStream(
-      "${userHome}/.firebase/papx-ws-dev-firebase-sdk.json");
+    String dirPath = '.'
+    if(Environment.current == Environment.DEVELOPMENT) {
+      dirPath = System.getProperty('user.home') + '/.firebase'
+    }
+    File file = new File(dirPath, 'papx-ws-dev-firebase-sdk.json')
+    FileInputStream serviceAccount = new FileInputStream(file);
     log.debug('Inicializando Firebase Url:{} Bucket:{}', this.papelsaFirebaseUrl)
 
     FirebaseOptions options = FirebaseOptions.builder()

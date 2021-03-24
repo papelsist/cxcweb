@@ -29,5 +29,11 @@ json g.render(solicitudDeDeposito, [excludes:['sucursal', 'cliente', 'banco'] ])
     if(solicitudDeDeposito.cobro) {
         fechaCobranza solicitudDeDeposito.cobro.primeraAplicacion
     }
+    if(solicitudDeDeposito.rechazo) {
+      rechazo g.render(solicitudDeDeposito.rechazo)
+    }
+    if(solicitudDeDeposito.auth) {
+      autorizacion g.render(solicitudDeDeposito.auth)
+    }
 
 }

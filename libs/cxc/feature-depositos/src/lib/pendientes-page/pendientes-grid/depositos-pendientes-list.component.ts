@@ -91,6 +91,7 @@ export class SolicitudesPendientesGridComponent implements OnInit {
   onModelUpdated(event) {
     if (this.gridApi) {
       this.gridColumnApi.autoSizeAllColumns();
+      console.log('Rows:', this.rows);
     }
   }
 
@@ -104,10 +105,13 @@ export class SolicitudesPendientesGridComponent implements OnInit {
     if (params.node.rowPinned) {
       return { 'font-weight': 'bold' };
     }
-    if (params.data.status === 'CERRADO') {
+    if (params.data.auth) {
       return { 'font-weight': 'bold', 'font-style': 'italic', color: 'green' };
     }
-    if (!params.data.cfdi) {
+    if (params.data.rechazo) {
+      return { 'font-weight': 'bold', 'font-style': 'italic', color: 'red' };
+    }
+    if (!params.data.auth) {
       return {
         'font-weight': 'bold',
         'font-style': 'italic',

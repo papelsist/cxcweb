@@ -47,10 +47,14 @@ class SolicitudDeDepositoController extends RestfulController<SolicitudDeDeposit
   def pendientes() {
     params.max = 100
     params.sort = params.sort ?: 'lastUpdated'
-    params.order = params.order ?: 'asc'
+    params.order = params.order ?: 'desc'
     log.info('Pendientes: {}', params)
+    Date inicio = Date.parse('dd/MM/yyyy', '01/03/2021')
     def query = SolicitudDeDeposito.where {
-      cobro == null && cancelacion == null
+      // cobro == null && cancelacion == null
+    }
+    query = query.where {
+      fecha >= inicio
     }
     def seccion = params.seccion
     if (session == 'CHO')

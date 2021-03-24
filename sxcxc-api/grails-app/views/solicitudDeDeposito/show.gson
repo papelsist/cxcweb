@@ -26,6 +26,12 @@ json g.render(solicitudDeDeposito, [excludes:['sucursal','cliente']]){
         id solicitudDeDeposito.banco.id
         nombre solicitudDeDeposito.banco.nombre
     }
+    if(solicitudDeDeposito.rechazo) {
+       rechazo g.render(solicitudDeDeposito.rechazo)
+    }
+    if(solicitudDeDeposito.auth) {
+      autorizacion g.render(solicitudDeDeposito.auth)
+    }
 }
 
 

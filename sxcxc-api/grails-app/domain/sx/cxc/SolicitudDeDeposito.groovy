@@ -64,6 +64,7 @@ class SolicitudDeDeposito {
   SolicitudAutorizacacion auth
 
   Map toFirebase() {
+
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     sdf.setTimeZone(TimeZone.getTimeZone("CET"))
 
@@ -86,7 +87,7 @@ class SolicitudDeDeposito {
                       numero     : sol.cuenta.numero,
                       bancoId    : sol.cuenta.banco.id],
       solicita     : sol.createUser,
-      fechaDeposito: sol.fechaDeposito.format(fmt),
+      fechaDeposito: sdf.format(sol.fechaDeposito),
       referencia   : sol.referencia,
       transferencia: sol.transferencia.toDouble(),
       efectivo     : sol.efectivo.toDouble(),
