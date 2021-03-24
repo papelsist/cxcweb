@@ -30,12 +30,10 @@ class SolicitudDeDepositoService {
 
       log.info('Solicitud actualizada: {}', solicitud.id)
       log.info('Cobro registrado: {}', solicitud.cobro.id)
-      /*
-      if(['CRE','CHE','JUR'].contains(cobro.tipo)) {
-        def mov = registrarIngreso(cobro)
-        log.info('Ingreso registrado: {}', mov.id)
+
+      if(['CRE','CHE','JUR', 'CHO'].contains(cobro.tipo)) {
+        registrarIngreso(cobro)
       }
-       */
       log.info('Solicitud autorizada: ', solicitud.id)
       return solicitud
     }
@@ -95,9 +93,9 @@ class SolicitudDeDepositoService {
   }
 
   def registrarIngreso(Cobro cobro){
-
+    log.info('Registrando ingreso')
     Empresa empresa = Empresa.first()
-    Date fecha = cobro.primeraAplicacion
+    Date fecha = cobro.primeraAplicacion ?: cobro.fecha
     if(cobro.deposito) {
       CobroDeposito deposito = cobro.deposito
       MovimientoDeCuenta mov = new MovimientoDeCuenta()
