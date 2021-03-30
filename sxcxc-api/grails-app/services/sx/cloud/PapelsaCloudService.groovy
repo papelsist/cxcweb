@@ -31,10 +31,12 @@ class PapelsaCloudService {
   @PostConstruct()
   init() {
     String dirPath = '.'
+    String fileName = 'papx-ws-dev-firebase-sdk.json'
     if(Environment.current == Environment.DEVELOPMENT) {
       dirPath = System.getProperty('user.home') + '/.firebase'
+      fileName = 'papx-ws-prod-firebase-sdk.json'
     }
-    File file = new File(dirPath, 'papx-ws-dev-firebase-sdk.json')
+    File file = new File(dirPath, fileName)
     FileInputStream serviceAccount = new FileInputStream(file);
     log.debug('Inicializando Firebase Url:{} Bucket:{}', this.papelsaFirebaseUrl)
 

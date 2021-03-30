@@ -103,7 +103,12 @@ export class PendientesPageComponent extends BaseComponent implements OnInit {
       .afterClosed()
       .subscribe((payload) => {
         if (payload) {
-          console.log('Salvar: ', payload);
+          console.log(
+            'Actualizando solicitud: %s  cambios: ',
+            event.id,
+            payload
+          );
+
           if (event.rechazo) payload.rechazo = null;
           this.service.update({ id: event.id, changes: payload }).subscribe(
             (r) => {

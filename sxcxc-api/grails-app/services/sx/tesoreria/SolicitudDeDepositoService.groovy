@@ -111,7 +111,7 @@ class SolicitudDeDepositoService {
       mov.moneda = deposito.cuentaDestino.moneda
       mov.concepto = 'VENTAS'
       mov.conceptoReporte = "Deposito suc: ${mov.sucursal}"
-      int mpa = Periodo.obtenerMes(cobro.primeraAplicacion)
+      int mpa = Periodo.obtenerMes(fecha)
       int mdp = Periodo.obtenerMes(deposito.fechaDeposito)
       mov.porIdentificar = mpa != mdp
       mov = mov.save failOnError: true, flush: true

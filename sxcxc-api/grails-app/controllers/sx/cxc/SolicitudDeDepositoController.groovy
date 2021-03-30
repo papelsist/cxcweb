@@ -52,6 +52,7 @@ class SolicitudDeDepositoController extends RestfulController<SolicitudDeDeposit
     Date inicio = Date.parse('dd/MM/yyyy', '01/03/2021')
     def query = SolicitudDeDeposito.where {
       // cobro == null && cancelacion == null
+      createUser != null
     }
     query = query.where {
       fecha >= inicio
@@ -204,7 +205,10 @@ class SolicitudDeDepositoController extends RestfulController<SolicitudDeDeposit
     // log.debug('Salvando solicitud: {}', resource)
     def serie = resource.sucursal.nombre
     resource.folio = Folio.nextFolio('SOLICITUDES_DEPOSITO', serie)
+    resource.comentario = 'GENERADA EN LA NUEVA VERSION'
     logEntity(resource)
+    resource.validate()
+    log.info('Errors: ', resource.errors)
     SolicitudDeDeposito sol = super.saveResource(resource)
     this.papwsSolicitudesService.pushSolicitud(sol)
     return sol
@@ -212,9 +216,12 @@ class SolicitudDeDepositoController extends RestfulController<SolicitudDeDeposit
 
   @Override
   protected SolicitudDeDeposito updateResource(SolicitudDeDeposito resource) {
-    // log.debug('Actualizando solicitud: {} ', resource)
-    resource.total = resource.cheque + resource.efectivo + resource.transferencia
-    return super.updateResource(resource)
+    log.debug('Actualizando solicitud: {} ', resource)
+    // resource.total = resource.cheque + resource.efectivo + resource.transferencia
+    resource.comentario = 'ACTUALIZADA EN LA NUEVA VERSION'
+    logEntity(resource)
+    resource = resource.save flush: true
+    return resource
   }
 
 

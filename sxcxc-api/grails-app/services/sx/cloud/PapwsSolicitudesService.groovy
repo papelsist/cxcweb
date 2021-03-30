@@ -49,6 +49,36 @@ class PapwsSolicitudesService {
     log.info('Pudhed: {}' , res.get().updateTime)
   }
 
+  void updateInFirebase(SolicitudDeDeposito sol) {
+    Map<String, Object> data = [
+      cliente      : [id    : sol.cliente.id,
+                      nombre: sol.cliente.nombre,
+                      rfc   : sol.cliente.rfc,
+                      clave : sol.cliente.clave],
+      banco        : [id: sol.banco.id, nombre: sol.banco.nombre],
+      cuenta       : [id         : sol.cuenta.id,
+                      descripcion: sol.cuenta.descripcion,
+                      numero     : sol.cuenta.numero,
+                      bancoId    : sol.cuenta.banco.id],
+      fechaDeposito: sdf.format(sol.fechaDeposito),
+      referencia   : sol.referencia,
+      transferencia: sol.transferencia.toDouble(),
+      efectivo     : sol.efectivo.toDouble(),
+      cheque       : sol.cheque.toDouble(),
+      total        : sol.total.toDouble(),
+      sbc          : sol.cheque > 0.0 ? sol.banco.id != sol.cuenta.banco.id : false,
+      lastUpdated  : sdf.format(sol.lastUpdated),
+      updateUser   : [uid: sol.createUser, displayName: sol.createUser],
+      status       : 'PENDIENTE',
+      rechazo      : null
+    ]
+    ApiFuture<WriteResult> res = this.papelsaCloudService.getFirestore()
+      .collection(this.COLLECTION)
+      .document(sol.id)
+      .set(data, SetOptions.merge())
+    log.info('Pudhed: {}' , res.get().updateTime)
+  }
+
   @PostConstruct
   def start() {
     log.info('Registering listener to firebase collection: {}', COLLECTION)
@@ -58,7 +88,7 @@ class PapwsSolicitudesService {
       .whereEqualTo('sucursal', 'OFICINAS')
       .whereEqualTo('autorizacion.replicado', null)
       .orderBy('dateCreated', Query.Direction.ASCENDING)
-      .limit(25)
+      .limit(50)
     .addSnapshotListener(new EventListener<QuerySnapshot>() {
       @Override
       void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirestoreException error) {
