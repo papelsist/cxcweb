@@ -63,6 +63,9 @@ class SolicitudDeDeposito {
 
   SolicitudAutorizacacion auth
 
+  Boolean callcenter
+  Date replicadoFirestore
+
   Map toFirebase() {
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
@@ -72,9 +75,9 @@ class SolicitudDeDeposito {
     Map<String, Object> data = [
       id           : sol.id,
       folio        : sol.folio,
-      sucursal     : 'OFICINAS',
+      sucursal     : sol.sucursal.nombre,
       sucursalId   : sol.sucursal.id,
-      tipo         : sol.tipo,
+      tipo         : sol.tipo == 'NORMAL' ? 'CON' : sol.tipo,
       callcenter   : false,
       fecha        : sdf.format(sol.fecha),
       cliente      : [id    : sol.cliente.id,
@@ -122,6 +125,8 @@ class SolicitudDeDeposito {
     updateUser nullable: true
     auth nullable: true
     rechazo nullable: true
+    callcenter nullable: true
+    replicadoFirestore nullable: true
   }
 }
 
