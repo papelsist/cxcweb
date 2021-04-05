@@ -221,6 +221,7 @@ class SolicitudDeDepositoController extends RestfulController<SolicitudDeDeposit
     resource.comentario = 'ACTUALIZADA EN LA NUEVA VERSION'
     logEntity(resource)
     resource = resource.save flush: true
+    this.papwsSolicitudesService.updateInFirebase(resource)
     return resource
   }
 
