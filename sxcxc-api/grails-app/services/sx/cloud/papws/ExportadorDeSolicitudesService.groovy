@@ -35,11 +35,11 @@ class ExportadorDeSolicitudesService {
     log.info('Published: {}' , res.get().updateTime)
   }
 
-
-
   List<SolicitudDeDeposito> fetchPendientes() {
     Date inicio = Date.parse('dd/MM/yyyy','20/03/2021')
-    return SolicitudDeDeposito.where{fecha >= inicio && replicadoFirestore == null}.list([msx: 10])
+    return SolicitudDeDeposito
+      .where{fecha >= inicio && replicadoFirestore == null && cobro != null}
+      .list([max: 10])
   }
 
   int exportarPendientes() {

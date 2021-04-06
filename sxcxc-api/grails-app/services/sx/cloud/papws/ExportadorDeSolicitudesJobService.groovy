@@ -14,7 +14,8 @@ import sx.cloud.PapwsSolicitudesService
 @CompileStatic
 class ExportadorDeSolicitudesJobService  {
 
-  static lazyInit = false
+  // Quita temporalmente la exportacion
+  // static lazyInit = false
 
   ExportadorDeSolicitudesService exportadorDeSolicitudesService
 
@@ -39,7 +40,8 @@ class ExportadorDeSolicitudesJobService  {
     // */5 9-18 * * 1-6
     Date start = new Date()
     log.info('Exportar   solicitudes de contado a firestore  at:{}', start)
-    int res = exportadorDeSolicitudesService.exportarPendientes()
+    // Quita temporalmente la exportacion
+    // int res = exportadorDeSolicitudesService.exportarPendientes()
     log.info('Registros exportados: {}', res)
   }
 }
