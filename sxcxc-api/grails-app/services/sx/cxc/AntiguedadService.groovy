@@ -42,7 +42,7 @@ class AntiguedadService implements LogUser {
   }
 
 
-  @Transactional()
+  @Transactional
   @GrailsCompileStatic(TypeCheckingMode.SKIP)
   AntiguedadPorCliente generarAntiguedadPorCliente(List<CuentaPorCobrar> rows, Cliente cte, String tipo, Date dia, Double saldoTotal = 0.0) {
     log.info('Generando Antigedad para  {} Facturas: {}', cte.nombre, rows.size())

@@ -1,4 +1,4 @@
-package sx.cloud.jobs
+package sx.cloud.papws
 
 import javax.annotation.PostConstruct
 
@@ -8,15 +8,19 @@ import groovy.transform.CompileStatic
 
 import org.springframework.scheduling.annotation.Scheduled
 
+import sx.cloud.PapwsSolicitudesService
+
 @Slf4j
 @CompileStatic
-class ImportadorDeSolicitudesJobService  {
+class ExportadorDeSolicitudesJobService  {
 
   static lazyInit = false
 
+  ExportadorDeSolicitudesService exportadorDeSolicitudesService
+
   @PostConstruct
   def start() {
-    log.debug('Inicializando ImportadorDeSolicitudes')
+    log.debug('Inicializando exportador de solicitudes de deposito')
   }
 
   // @Scheduled(fixedDelay = 10000L)
@@ -31,9 +35,11 @@ class ImportadorDeSolicitudesJobService  {
     *                  `- Second, 0-59
     */
   @Scheduled(cron = "0 */5 9-22 ? * MON-SAT")
-  void syncFromAuditLog() {
+  void exportarSolicitudes() {
     // */5 9-18 * * 1-6
     Date start = new Date()
-    log.info('Importando solicitudes start at:{}', start)
+    log.info('Exportar   solicitudes de contado a firestore  at:{}', start)
+    int res = exportadorDeSolicitudesService.exportarPendientes()
+    log.info('Registros exportados: {}', res)
   }
 }

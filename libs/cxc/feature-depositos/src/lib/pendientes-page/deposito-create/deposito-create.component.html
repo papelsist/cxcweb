@@ -28,14 +28,13 @@
   </div>
   <div [formGroup]="form" fxLayout="column" fxLayoutGap="5px">
     <nx-papelsa-cliente-field
-      *ngIf="!deposito"
       fxFlex
       formControlName="cliente"
     ></nx-papelsa-cliente-field>
-    <mat-form-field *ngIf="deposito">
+    <!-- <mat-form-field *ngIf="deposito">
       <mat-label>Cliente</mat-label>
       <input type="text" matInput [value]="deposito.cliente.nombre" readonly />
-    </mat-form-field>
+    </mat-form-field> -->
 
     <div fxLayout fxLayoutGap="5px">
       <mat-form-field fxFlex>

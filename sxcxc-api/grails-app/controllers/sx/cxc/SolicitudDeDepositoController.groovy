@@ -218,7 +218,7 @@ class SolicitudDeDepositoController extends RestfulController<SolicitudDeDeposit
   protected SolicitudDeDeposito updateResource(SolicitudDeDeposito resource) {
     log.debug('Actualizando solicitud: {} ', resource)
     // resource.total = resource.cheque + resource.efectivo + resource.transferencia
-    resource.comentario = 'ACTUALIZADA EN LA NUEVA VERSION'
+    resource.comentario = 'AppVersion:2'
     logEntity(resource)
     resource = resource.save flush: true
     this.papwsSolicitudesService.updateInFirebase(resource)

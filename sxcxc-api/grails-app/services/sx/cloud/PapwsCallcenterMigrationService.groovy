@@ -7,6 +7,7 @@ import com.google.cloud.firestore.SetOptions
 import com.google.cloud.firestore.WriteBatch
 import com.google.cloud.firestore.WriteResult
 import grails.compiler.GrailsCompileStatic
+import groovy.sql.Sql
 import groovy.util.logging.Slf4j
 import sx.core.Cliente
 import sx.core.ClienteCredito
@@ -15,19 +16,25 @@ import sx.core.Producto
 import sx.security.User
 import sx.utils.Periodo
 
+import javax.sql.DataSource
+
 @Slf4j
 // @GrailsCompileStatic
-class PapsxClienteService {
+class PapwsCallcenterMigrationService {
 
   PapelsaCloudService papelsaCloudService
+  DataSource dataSource
 
-  List<Cliente> fetchClientes(int max = 300) {
-    Date inicio = Date.parse('dd/MM/yyyy','01/01/2020')
-    List<Cliente> clientes = Cliente.findAll(
-      'select distinct(v.cliente) from Venta v where v.fecha>=:start  order by v.fecha desc',
-      [start: inicio], [max: max])
-    clientes.addAll(ClienteCredito.findAll("select c.cliente from ClienteCredito c"))
-    return clientes
+  List<Map> fetchPedidosFacturados(String fini, String shasta) {
+    Date inicio = Date.parse('dd/MM/yyyy',fini)
+    Date hasta = Date.parse('dd/MM/yyyy',shasta)
+    Sql sql = new Sql(this.dataSource)
+    def rows = sql.rows("""
+        select * from callcenter.pedido
+        where fecha > :fechaInid and status = 'FACTURADO_TIMBRADO'
+        """,
+      [fechaIni: inicio, fechaFin: hasta])
+    return rows
   }
 
   void exportarClientes(int max = 300) {
@@ -83,13 +90,13 @@ class PapsxClienteService {
     usuarios.each {
       log.info('Agregando usuario: {}',it.nombre)
       Map<String, Object> data = [email: null,
-        displayName: it.nombres + ' ' + it.apellidoPaterno,
-        nombre: it.nombre,
-        numeroDeEmpleado: it.numeroDeEmpleado,
-        sucursal: it.sucursal,
-        puesto: it.puesto,
-        uid: it.username,
-        username: it.username
+                                  displayName: it.nombres + ' ' + it.apellidoPaterno,
+                                  nombre: it.nombre,
+                                  numeroDeEmpleado: it.numeroDeEmpleado,
+                                  sucursal: it.sucursal,
+                                  puesto: it.puesto,
+                                  uid: it.username,
+                                  username: it.username
       ]
       DocumentReference docRef = colRef.document(it.username)
       batch.set(docRef, data, SetOptions.merge())
@@ -153,30 +160,30 @@ class PapsxClienteService {
       cantidad: row[4]
     ]})
       .groupBy({it.clave })
-    .entrySet()
-    .collect {
-      String clave  = it.key.toString()
-      List data = it.value
+      .entrySet()
+      .collect {
+        String clave  = it.key.toString()
+        List data = it.value
 
-      Date lastUpdated = new Date()
-      Map exis = [
-        clave: clave,
-        descripcion: data[0].descripcion,
-        productoId: data[0].productoId,
-        lastUpdated: lastUpdated
-      ]
-      data.each {rx ->
-
-        String nombre = rx.sucursal.toString().replaceAll("\\s","")
-        Map almacen = [
-          cantidad: rx.cantidad,
-          apartado: 0,
-          dateUpdated: lastUpdated
+        Date lastUpdated = new Date()
+        Map exis = [
+          clave: clave,
+          descripcion: data[0].descripcion,
+          productoId: data[0].productoId,
+          lastUpdated: lastUpdated
         ]
-        exis[nombre.toLowerCase()] = almacen
+        data.each {rx ->
+
+          String nombre = rx.sucursal.toString().replaceAll("\\s","")
+          Map almacen = [
+            cantidad: rx.cantidad,
+            apartado: 0,
+            dateUpdated: lastUpdated
+          ]
+          exis[nombre.toLowerCase()] = almacen
+        }
+        return exis
       }
-      return exis
-    }
     pushInBatch(existencias, 'existencias', 'productoId')
   }
 

@@ -38,10 +38,10 @@ class PapwsSolicitudesRechazoListenerService {
       .getFirestore()
       .collection(COLLECTION)
       .whereEqualTo('sucursal', 'OFICINAS')
-      .whereEqualTo('status', 'RECHAZADO')
+      // .whereEqualTo('status', 'RECHAZADO')
       .whereEqualTo('rechazo.replicado', null)
       .orderBy('dateCreated', Query.Direction.ASCENDING)
-      .limit(10)
+      .limit(20)
       .addSnapshotListener(new EventListener<QuerySnapshot>() {
         @Override
         void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirestoreException error) {

@@ -1,21 +1,25 @@
 package sx.cloud
 
-import com.google.api.core.ApiFuture
-import com.google.cloud.Timestamp
-import com.google.cloud.firestore.*
-import grails.gorm.transactions.Transactional
-import groovy.util.logging.Slf4j
-import org.apache.commons.lang3.exception.ExceptionUtils
-import sx.cloud.PapelsaCloudService
-import sx.cxc.SolicitudAutorizacacion
-import sx.cxc.SolicitudDeDeposito
-import sx.tesoreria.SolicitudDeDepositoService
-
+import java.text.SimpleDateFormat
 import javax.annotation.Nullable
 import javax.annotation.PostConstruct
 import javax.annotation.PreDestroy
 
+import groovy.util.logging.Slf4j
+
+import grails.gorm.transactions.Transactional
+
+import com.google.api.core.ApiFuture
+import com.google.cloud.Timestamp
+import com.google.cloud.firestore.*
 import static com.google.cloud.firestore.DocumentChange.Type.*
+
+import org.apache.commons.lang3.exception.ExceptionUtils
+
+import sx.cloud.PapelsaCloudService
+import sx.cxc.SolicitudAutorizacacion
+import sx.cxc.SolicitudDeDeposito
+import sx.tesoreria.SolicitudDeDepositoService
 
 @Slf4j
 // @CompileStatic
@@ -50,6 +54,8 @@ class PapwsSolicitudesService {
   }
 
   void updateInFirebase(SolicitudDeDeposito sol) {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    sdf.setTimeZone(TimeZone.getTimeZone("CET"))
     Map<String, Object> data = [
       cliente      : [id    : sol.cliente.id,
                       nombre: sol.cliente.nombre,
@@ -137,7 +143,7 @@ class PapwsSolicitudesService {
       ax.comentario = auth.comentario
       ax.createUser = auth.createUser
       ax.uid = auth.uid
-      ax.fecha = auth.fecha = (auth.fecha as Timestamp).toDate()
+      ax.fecha = (auth.fecha as Timestamp).toDate()
       sol.auth = ax
 
       this.solicitudDeDepositoService.autorizar(sol)
@@ -156,9 +162,7 @@ class PapwsSolicitudesService {
   }
 
 
-  void onDelete(Map<String, Object> data) {
-    log.info('Solicitud autorizada y replicada Folio:{} Id: {}', data.folio, data.id)
-  }
+  void onDelete(Map<String, Object> data) {}
 
   @PreDestroy
   def stop() {

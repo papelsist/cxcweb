@@ -12,6 +12,7 @@ json g.render(solicitudDeDeposito, [excludes:['sucursal', 'cliente', 'banco'] ])
     cliente {
       id solicitudDeDeposito.cliente.id
       nombre solicitudDeDeposito.cliente.nombre
+      rfc solicitudDeDeposito.cliente.rfc
     }
     banco {
       id solicitudDeDeposito.banco.id
