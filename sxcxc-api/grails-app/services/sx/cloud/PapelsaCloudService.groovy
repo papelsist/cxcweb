@@ -38,11 +38,13 @@ class PapelsaCloudService {
     }
     File file = new File(dirPath, fileName)
     FileInputStream serviceAccount = new FileInputStream(file);
-    log.debug('Inicializando Firebase Url:{} Bucket:{}', this.papelsaFirebaseUrl)
+
 
     FirebaseOptions options = FirebaseOptions.builder()
     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
     .build()
+
+    log.debug('PAPELSA Firebase inicializado usando archivo: {}', file.path)
 
     this.papelws = FirebaseApp.initializeApp(options, 'papelws')
   }

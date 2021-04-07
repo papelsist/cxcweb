@@ -78,7 +78,7 @@ class SolicitudDeDeposito {
       sucursal     : sol.sucursal.nombre,
       sucursalId   : sol.sucursal.id,
       tipo         : sol.tipo == 'NORMAL' ? 'CON' : sol.tipo,
-      callcenter   : false,
+      callcenter   : sol.sw2 ? true: false,
       fecha        : sdf.format(sol.fecha),
       cliente      : [id    : sol.cliente.id,
                       nombre: sol.cliente.nombre,
@@ -102,7 +102,7 @@ class SolicitudDeDeposito {
       createUser   : [uid: sol.createUser, displayName: sol.createUser],
       updateUser   : [uid: sol.createUser, displayName: sol.createUser],
       status       : sol.cobro ? 'AUTORIZADO': 'PENDIENTE',
-      appVersion   : 2,
+      appVersion   : 1,
     ] as Map<String, Object>
     return data
   }

@@ -42,6 +42,6 @@ class ExportadorDeSolicitudesJobService  {
     log.info('Exportar   solicitudes de contado a firestore  at:{}', start)
     // Quita temporalmente la exportacion
     // int res = exportadorDeSolicitudesService.exportarPendientes()
-    log.info('Registros exportados: {}', res)
+    // log.info('Registros exportados: {}', res)
   }
 }
