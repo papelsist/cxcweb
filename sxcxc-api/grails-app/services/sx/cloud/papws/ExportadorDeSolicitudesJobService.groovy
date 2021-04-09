@@ -15,7 +15,7 @@ import sx.cloud.PapwsSolicitudesService
 class ExportadorDeSolicitudesJobService  {
 
   // Quita temporalmente la exportacion
-  // static lazyInit = false
+  static lazyInit = false
 
   ExportadorDeSolicitudesService exportadorDeSolicitudesService
 
@@ -39,9 +39,8 @@ class ExportadorDeSolicitudesJobService  {
   void exportarSolicitudes() {
     // */5 9-18 * * 1-6
     Date start = new Date()
-    log.info('Exportar   solicitudes de contado a firestore  at:{}', start)
-    // Quita temporalmente la exportacion
-    // int res = exportadorDeSolicitudesService.exportarPendientes()
-    // log.info('Registros exportados: {}', res)
+    log.info('Exportarando   solicitudes de contado a firestore  at:{}', start)
+    exportadorDeSolicitudesService.sincronizar()
+
   }
 }

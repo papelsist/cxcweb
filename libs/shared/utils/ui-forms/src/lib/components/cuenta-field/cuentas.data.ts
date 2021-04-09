@@ -10,7 +10,7 @@ export const CUENTAS = [
     tipo: 'CHEQUES',
     sw2: 151212,
     descripcion: 'BBVA BANCOMER SA',
-    disponibleEnVenta: true
+    disponibleEnVenta: true,
   },
   {
     id: 'b0ea1e84-e101-11e7-b1f8-b4b52f67eab0',
@@ -23,7 +23,7 @@ export const CUENTAS = [
     tipo: 'CHEQUES',
     sw2: 151226,
     descripcion: 'BANAMEX SA',
-    disponibleEnVenta: true
+    disponibleEnVenta: true,
   },
   {
     id: 'b0ea1eac-e101-11e7-b1f8-b4b52f67eab0',
@@ -36,7 +36,7 @@ export const CUENTAS = [
     tipo: 'CHEQUES',
     sw2: 151227,
     descripcion: 'HSBC MEXICO SA',
-    disponibleEnVenta: false
+    disponibleEnVenta: false,
   },
   {
     id: 'b0ea1ed4-e101-11e7-b1f8-b4b52f67eab0',
@@ -49,7 +49,7 @@ export const CUENTAS = [
     tipo: 'CHEQUES',
     sw2: 151228,
     descripcion: 'SCOTIABANK',
-    disponibleEnVenta: true
+    disponibleEnVenta: true,
   },
   {
     id: 'b0ea1f60-e101-11e7-b1f8-b4b52f67eab0',
@@ -62,7 +62,7 @@ export const CUENTAS = [
     tipo: 'CHEQUES',
     sw2: 151229,
     descripcion: 'SANTANDER SERFIN',
-    disponibleEnVenta: false
+    disponibleEnVenta: false,
   },
   {
     id: 'b0ea1f7e-e101-11e7-b1f8-b4b52f67eab0',
@@ -75,7 +75,7 @@ export const CUENTAS = [
     tipo: 'CHEQUES',
     sw2: 151230,
     descripcion: 'SANTANDER SERFIN',
-    disponibleEnVenta: true
+    disponibleEnVenta: true,
   },
   {
     id: 'b0ea1fa6-e101-11e7-b1f8-b4b52f67eab0',
@@ -88,7 +88,7 @@ export const CUENTAS = [
     tipo: 'INVERSION',
     sw2: 151283,
     descripcion: 'BANAMEX INVERSION',
-    disponibleEnVenta: false
+    disponibleEnVenta: false,
   },
   {
     id: 'b0ea1fc4-e101-11e7-b1f8-b4b52f67eab0',
@@ -101,7 +101,7 @@ export const CUENTAS = [
     tipo: 'INVERSION',
     sw2: 151285,
     descripcion: 'SCOTIABANK  I INVERSIONES',
-    disponibleEnVenta: false
+    disponibleEnVenta: false,
   },
   {
     id: 'b0ea1fe2-e101-11e7-b1f8-b4b52f67eab0',
@@ -114,7 +114,7 @@ export const CUENTAS = [
     tipo: 'INVERSION',
     sw2: 151287,
     descripcion: 'SCOTIABANK I INVERSIONES',
-    disponibleEnVenta: false
+    disponibleEnVenta: false,
   },
   {
     id: 'b0ea2000-e101-11e7-b1f8-b4b52f67eab0',
@@ -127,20 +127,20 @@ export const CUENTAS = [
     tipo: 'CHEQUES',
     sw2: 151289,
     descripcion: 'INTERACCIONES CASA DE BOLSA SA DE CV',
-    disponibleEnVenta: false
+    disponibleEnVenta: false,
   },
   {
-    id: 'b0ea201e-e101-11e7-b1f8-b4b52f67eab0',
+    id: 'b0ea201e-e101-11e7-b1f8-b4b52f67eab0x',
     dateCreated: '2017-12-14T19:05:03Z',
-    clave: 'EG',
+    clave: 'EXG',
     lastUpdated: '2017-12-14T19:05:03Z',
     moneda: 'USD',
-    numero: '406546',
+    numero: 'XBC1103',
     activo: true,
-    tipo: 'INVERSION',
+    tipo: 'CHEQUES',
     sw2: 151291,
     descripcion: 'UBS AG',
-    disponibleEnVenta: false
+    disponibleEnVenta: true,
   },
   {
     id: 'b0ea203c-e101-11e7-b1f8-b4b52f67eab0',
@@ -153,7 +153,7 @@ export const CUENTAS = [
     tipo: 'CHEQUES',
     sw2: 151292,
     descripcion: 'GRUPO FINANCIERO BANORTE, S.A. DE C.V.',
-    disponibleEnVenta: true
+    disponibleEnVenta: true,
   },
   {
     id: 'b0ea2078-e101-11e7-b1f8-b4b52f67eab0',
@@ -166,7 +166,7 @@ export const CUENTAS = [
     tipo: 'INVERSION',
     sw2: 151293,
     descripcion: 'BBVA BANCOMER SA ',
-    disponibleEnVenta: false
+    disponibleEnVenta: false,
   },
   {
     id: 'b0ea2096-e101-11e7-b1f8-b4b52f67eab0',
@@ -179,7 +179,7 @@ export const CUENTAS = [
     tipo: 'INVERSION',
     sw2: 151294,
     descripcion: 'SCOTIABANK I INVERSIONES',
-    disponibleEnVenta: false
+    disponibleEnVenta: false,
   },
   {
     id: 'b0ea20b4-e101-11e7-b1f8-b4b52f67eab0',
@@ -192,7 +192,7 @@ export const CUENTAS = [
     tipo: 'INVERSION',
     sw2: 151295,
     descripcion: 'INTERACCIONES CASA DE BOLSA S.A. DE C.V.',
-    disponibleEnVenta: false
+    disponibleEnVenta: false,
   },
   {
     id: 'b0ea20dc-e101-11e7-b1f8-b4b52f67eab0',
@@ -205,7 +205,7 @@ export const CUENTAS = [
     tipo: 'INVERSION',
     sw2: 151296,
     descripcion: 'GRUPO FINANCIERO BANORTE, S.A. DE C.V.',
-    disponibleEnVenta: false
+    disponibleEnVenta: false,
   },
   {
     id: 'b0ea20fa-e101-11e7-b1f8-b4b52f67eab0',
@@ -218,6 +218,6 @@ export const CUENTAS = [
     tipo: 'INVERSION',
     sw2: 151297,
     descripcion: 'BBVA BANCOMER SA ',
-    disponibleEnVenta: false
-  }
+    disponibleEnVenta: false,
+  },
 ];
