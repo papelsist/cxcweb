@@ -15,6 +15,7 @@ class LxCliente implements LxEntity {
     String nombre
     String rfc
     String email
+    String cfdiMail
 
     Long folioRFC = 1
 
@@ -44,6 +45,7 @@ class LxCliente implements LxEntity {
         this.nombre = cliente.nombre
         this.rfc = cliente.rfc
         this.email = cliente.getCfdiMail()
+        this.cfdiMail = cliente.getCfdiMail()
         this.activo = cliente.activo
         this.medios = parseMedios(cliente)
         this.folioRFC = cliente.folioRFC
