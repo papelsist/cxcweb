@@ -44,7 +44,7 @@ class LxClienteService {
       ApiFuture<WriteResult> result  = docRef.update(changes)
       def updateTime = result.get().getUpdateTime().toDate()
       log.debug("...OldCloud Cliente ID: {} Updated at: {} " , c.id, updateTime.format('dd/MM/yyyy: HH:mm'))
-      return updateTime
+      return this.papwsClienteService.update(c, changes)
     }
   }
 

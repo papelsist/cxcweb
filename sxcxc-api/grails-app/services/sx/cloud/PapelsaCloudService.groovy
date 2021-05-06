@@ -23,9 +23,6 @@ import javax.annotation.PreDestroy
 @CompileStatic
 class PapelsaCloudService {
 
-  @Value('${papelsa.firebase.url:https://siipapx-436ce.firebaseio.com}')
-  String papelsaFirebaseUrl
-
   private FirebaseApp papelws
 
   @PostConstruct()
