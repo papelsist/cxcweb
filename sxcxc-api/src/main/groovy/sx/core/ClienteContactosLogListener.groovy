@@ -15,6 +15,10 @@ import org.grails.datastore.mapping.engine.event.PostDeleteEvent
 
 import sx.cloud.LxClienteService
 
+/**
+ * @deprecated Ya no es util en virtud de que existe una coleccion de concatos
+ */
+@Deprecated
 @CompileStatic
 @Slf4j
 class ClienteContactosLogListener implements ReplicaAudit {

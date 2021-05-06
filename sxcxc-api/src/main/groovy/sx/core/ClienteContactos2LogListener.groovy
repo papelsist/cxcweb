@@ -3,9 +3,7 @@ package sx.core
 import groovy.util.logging.Slf4j
 import groovy.transform.CompileStatic
 
-import org.springframework.beans.factory.annotation.Autowired
 
-import grails.events.annotation.Subscriber
 import grails.events.annotation.gorm.Listener
 
 import org.grails.datastore.mapping.engine.event.AbstractPersistenceEvent

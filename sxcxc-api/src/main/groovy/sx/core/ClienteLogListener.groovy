@@ -1,20 +1,13 @@
 package sx.core
 
+import grails.events.annotation.gorm.Listener
 import groovy.util.logging.Slf4j
-
 import org.grails.datastore.mapping.engine.event.AbstractPersistenceEvent
+import org.grails.datastore.mapping.engine.event.PostUpdateEvent
 import org.grails.datastore.mapping.engine.event.PreInsertEvent
 import org.grails.datastore.mapping.engine.event.PreUpdateEvent
-import org.grails.datastore.mapping.engine.event.PostUpdateEvent
-import org.grails.datastore.mapping.engine.event.PostInsertEvent
-import org.springframework.beans.factory.annotation.Autowired
-import grails.events.annotation.gorm.Listener
-import groovy.transform.CompileStatic
-
 import sx.cloud.LxClienteService
 
-
-// @CompileStatic
 @Slf4j
 class ClienteLogListener implements ReplicaAudit{
 

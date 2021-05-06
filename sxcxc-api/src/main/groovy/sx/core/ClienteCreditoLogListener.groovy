@@ -1,24 +1,13 @@
 package sx.core
 
-import groovy.util.logging.Slf4j
-import groovy.transform.CompileStatic
-
-import org.springframework.beans.factory.annotation.Autowired
-
-import grails.events.annotation.gorm.Listener
-import org.grails.datastore.mapping.engine.event.AbstractPersistenceEvent
-import org.grails.datastore.mapping.engine.event.PreInsertEvent
-import org.grails.datastore.mapping.engine.event.PreUpdateEvent
-import org.grails.datastore.mapping.engine.event.PostUpdateEvent
-import org.grails.datastore.mapping.engine.event.PostInsertEvent
-
 import com.google.api.core.ApiFuture
-import com.google.cloud.firestore.*
-
-import sx.cloud.LxClienteService
+import com.google.cloud.firestore.DocumentReference
+import grails.events.annotation.gorm.Listener
+import groovy.util.logging.Slf4j
+import org.grails.datastore.mapping.engine.event.*
 import sx.cloud.LxClienteCredito
+import sx.cloud.LxClienteService
 
-// @CompileStatic
 @Slf4j
 class ClienteCreditoLogListener implements ReplicaAudit{
 
@@ -64,15 +53,19 @@ class ClienteCreditoLogListener implements ReplicaAudit{
       List criticalProperties = ['postfechado', 'creditoActivo', 'descuentoFijo', 'lineaDeCredito', 'plazo', 'atrasoMaximo']
 
       log.debug("ClienteCredito dirty properties: {}", dirties)
-      Map changes = [:]
+      Map<String,Object> changes = [:]
       dirties.each { property ->
         if(criticalProperties.contains(property)) {
-          // log.debug('Critical Property detected: {}', property)
           logProperty(property, credito, changes)
         }
       }
       if(changes) {
+        String clienteId = credito.cliente.id
+        changes.clienteId = clienteId
+        changes.cliente = credito.cliente.nombre
         changes = changes + ['usuario': credito.updateUser, 'updated': credito.lastUpdated]
+        this.lxClienteService.updateCriticalProperties(clienteId, changes)
+        /*
         log.debug('Critical changes: {}', changes)
         ApiFuture<DocumentReference> result = lxClienteService
         .firebaseService
@@ -81,6 +74,7 @@ class ClienteCreditoLogListener implements ReplicaAudit{
         .add(changes)
         def docRef = result.get()
         log.debug("Document  genereated: {}" , docRef.getId())
+         */
       }
     }
   }

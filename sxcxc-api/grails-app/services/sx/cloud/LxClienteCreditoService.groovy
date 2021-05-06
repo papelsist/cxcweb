@@ -5,9 +5,9 @@ import com.google.cloud.firestore.CollectionReference
 import com.google.cloud.firestore.WriteResult
 import grails.compiler.GrailsCompileStatic
 import grails.gorm.transactions.Transactional
-import groovy.transform.TypeCheckingMode
+
 import groovy.util.logging.Slf4j
-import sx.audit.Audit
+
 import sx.core.ClienteCredito
 
 @Slf4j
