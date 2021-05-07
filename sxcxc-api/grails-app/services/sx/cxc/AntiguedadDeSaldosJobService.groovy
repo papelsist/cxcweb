@@ -33,7 +33,7 @@ class AntiguedadDeSaldosJobService  {
     *                  | `- Minute, 0-59
     *                  `- Second, 0-59
     */
-  @Scheduled(cron = "0 0 9-19 ? * MON-SAT")
+  @Scheduled(cron = "0 0 7-19 ? * MON-SAT")
   void syncFromAuditLog() {
     Date start = new Date()
     log.debug('Actualizando AntiguedadDeSaldos:{}', start)
