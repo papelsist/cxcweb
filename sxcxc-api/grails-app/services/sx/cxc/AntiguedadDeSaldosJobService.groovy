@@ -1,14 +1,13 @@
 package sx.cxc
 
-import javax.annotation.PostConstruct
-
-import groovy.util.logging.Slf4j
-import groovy.transform.TypeCheckingMode
 import groovy.transform.CompileStatic
-
-// import grails.compiler.GrailsCompileStatic
+import groovy.util.logging.Slf4j
+import org.apache.commons.lang3.exception.ExceptionUtils
 import org.springframework.scheduling.annotation.Scheduled
 
+import javax.annotation.PostConstruct
+
+// import grails.compiler.GrailsCompileStatic
 
 @Slf4j
 @CompileStatic
@@ -39,6 +38,12 @@ class AntiguedadDeSaldosJobService  {
     Date start = new Date()
     log.debug('Actualizando AntiguedadDeSaldos:{}', start)
     antiguedadService.generar()
+    try {
+      antiguedadService.uploadReport(start)
+    }catch (Exception ex) {
+      String msg = ExceptionUtils.getRootCauseMessage(ex)
+      log.error('Error generando/subiendo reporte de antiguedad: ' + msg, ex)
+    }
     log.debug('Termino: {}', new Date())
   }
 }

@@ -44,7 +44,7 @@ class CfdiPrintService {
             log.info('No hay impresion generada, generando archivo PDF: {}', fileName);
             ByteArrayOutputStream out = generarPdf(cfdi)
             file.setBytes(out.toByteArray())
-        } 
+        }
         return file.getBytes()
     }
 
@@ -58,7 +58,7 @@ class CfdiPrintService {
     *
     *
     **/
-    public ByteArrayOutputStream generarPdf( Cfdi cfdi) {
+    ByteArrayOutputStream generarPdf( Cfdi cfdi) {
 
         switch(cfdi.origen) {
             case 'VENTA':
@@ -76,11 +76,11 @@ class CfdiPrintService {
         }
     }
 
-    /** 
+    /**
     * Genera el JasperPrint PDF (ByteArrayOutputStream) para Comprobantes tipo VENTA
-    * 
+    *
     **/
-    public ByteArrayOutputStream  generarFactrura(Cfdi cfdi){
+    ByteArrayOutputStream  generarFactrura(Cfdi cfdi){
         String realPath = ServletContextHolder.getServletContext().getRealPath("/reports") ?: 'reports'
         Map data = V33PdfGeneratorPos.getReportData(cfdi)
         Map parametros = data['PARAMETROS']
@@ -90,9 +90,9 @@ class CfdiPrintService {
         return reportService.run('PapelCFDI3.jrxml', data['PARAMETROS'], data['CONCEPTOS'])
     }
 
-    /** 
+    /**
     * Genera el JasperPrint PDF (ByteArrayOutputStream) para Comprobantes tipo Nota de Credito
-    * 
+    *
     **/
     public ByteArrayOutputStream generarNotaDeCredito( Cfdi cfdi) {
         String realPath = ServletContextHolder.getServletContext().getRealPath("/reports") ?: 'reports'
@@ -103,9 +103,9 @@ class CfdiPrintService {
         return reportService.run('PapelCFDI3Nota.jrxml', data['PARAMETROS'], data['CONCEPTOS'])
     }
 
-    /** 
+    /**
     * Genera el JasperPrint PDF (ByteArrayOutputStream) para Comprobantes tipo Nota de Cargo
-    * 
+    *
     **/
     public ByteArrayOutputStream generarNotaDeCargo( Cfdi cfdi) {
         def realPath = ServletContextHolder.getServletContext().getRealPath("/reports") ?: 'reports'
@@ -116,9 +116,9 @@ class CfdiPrintService {
         return reportService.run('PapelCFDI3Nota.jrxml', data['PARAMETROS'], data['CONCEPTOS'])
     }
 
-    /** 
+    /**
     * Genera el JasperPrint PDF (ByteArrayOutputStream) para Comprobantes tipo Recibo de Pago
-    * 
+    *
     **/
     public ByteArrayOutputStream generarReciboDePago( Cfdi cfdi) {
         String realPath = ServletContextHolder.getServletContext().getRealPath("/reports") ?: 'reports'
@@ -129,5 +129,5 @@ class CfdiPrintService {
        return reportService.run('ReciboDePagoCFDI33.jrxml', data['PARAMETROS'], data['CONCEPTOS'])
     }
 
-    
+
 }

@@ -1,5 +1,8 @@
 package sx.cxc
 
+import sx.cloud.PapelsaCloudService
+import sx.reports.ReportService
+
 import javax.sql.DataSource
 
 import groovy.sql.Sql
@@ -16,10 +19,12 @@ import sx.core.Cliente
 import sx.utils.MonedaUtils
 
 @Slf4j
-@GrailsCompileStatic
+// @GrailsCompileStatic
 class AntiguedadService implements LogUser {
 
   DataSource dataSource;
+  ReportService reportService
+  PapelsaCloudService papelsaCloudService
 
   @Transactional
   List<AntiguedadPorCliente> generar(String tipo = 'CRE', Date fecha = new Date()) {
@@ -43,7 +48,7 @@ class AntiguedadService implements LogUser {
 
 
   @Transactional
-  @GrailsCompileStatic(TypeCheckingMode.SKIP)
+  // @GrailsCompileStatic(TypeCheckingMode.SKIP)
   AntiguedadPorCliente generarAntiguedadPorCliente(List<CuentaPorCobrar> rows, Cliente cte, String tipo, Date dia, Double saldoTotal = 0.0) {
     log.info('Generando Antigedad para  {} Facturas: {}', cte.nombre, rows.size())
 
@@ -71,6 +76,21 @@ class AntiguedadService implements LogUser {
     logEntity(antiguedad)
     antiguedad = antiguedad.save failOnError: true,flush: true
     return antiguedad
+  }
+
+  void uploadReport(Date fecha) {
+    String objectName = "antiguedad/asaldos-${fecha.format('dd-MM-yyyy')}.pdf"
+    byte data = printAntiguedad(fecha)
+    papelsaCloudService.uploadPdf(objectName, data)
+  }
+
+  ByteArrayInputStream printAntiguedad(Date fecha) {
+    Map repParams = [:]
+    repParams.CORTE = fecha
+    repParams.ORDER = 9
+    repParams.FORMA = 'desc'
+    return reportService.run('AntiguedadSaldosGral.jrxml', repParams)
+
   }
 
   @NotTransactional
