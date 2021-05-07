@@ -80,16 +80,18 @@ class AntiguedadService implements LogUser {
 
   void uploadReport(Date fecha) {
     String objectName = "antiguedad/asaldos-${fecha.format('dd-MM-yyyy')}.pdf"
-    byte data = printAntiguedad(fecha)
+    byte[] data = printAntiguedad(fecha)
     papelsaCloudService.uploadPdf(objectName, data)
   }
 
-  ByteArrayInputStream printAntiguedad(Date fecha) {
+  byte[] printAntiguedad(Date fecha) {
     Map repParams = [:]
     repParams.CORTE = fecha
     repParams.ORDER = 9
     repParams.FORMA = 'desc'
-    return reportService.run('AntiguedadSaldosGral.jrxml', repParams)
+    return reportService
+      .run('AntiguedadSaldosGral.jrxml', repParams)
+      .toByteArray()
 
   }
 
