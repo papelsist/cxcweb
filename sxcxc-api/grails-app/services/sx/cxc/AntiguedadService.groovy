@@ -79,7 +79,7 @@ class AntiguedadService implements LogUser {
   }
 
   void uploadReport(Date fecha) {
-    String objectName = "antiguedad/asaldos-${fecha.format('dd-MM-yyyy')}.pdf"
+    String objectName = "reports/antiguedad/asaldos-${fecha.format('dd-MM-yyyy')}.pdf"
     byte[] data = printAntiguedad(fecha)
     papelsaCloudService.uploadPdf(objectName, data)
   }
