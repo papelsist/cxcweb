@@ -46,6 +46,9 @@ class PapwsSolicitudesService {
 
   void pushSolicitud(SolicitudDeDeposito sol) {
     Map<String, Object> data = sol.toFirebase()
+    if(sol.sucursal.nombre == 'OFICINAS') {
+      data.appVersion = 2
+    }
     ApiFuture<WriteResult> res = this.papelsaCloudService.getFirestore()
       .collection(this.COLLECTION)
       .document(sol.id)
