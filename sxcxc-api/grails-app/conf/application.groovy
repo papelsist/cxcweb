@@ -1,4 +1,4 @@
-grails.plugin.springsecurity.active = true
+grails.plugin.springsecurity.active = false
 grails.plugin.springsecurity.password.algorithm = 'bcrypt'
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'sx.security.User'
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'sx.security.UserRole'

@@ -1,5 +1,8 @@
 package sx.cloud.papws
 
+import groovy.json.JsonBuilder
+import sx.core.Venta
+
 import java.text.SimpleDateFormat
 
 import groovy.util.logging.Slf4j
@@ -38,5 +41,44 @@ class ExportadorDeClientesService {
     return updateTime
   }
 
+  def exportarClientesToFirestorage() {
+    List r1 = Venta
+      .findAll('select distinct v.cliente from Venta v where v.fecha > :fecha',
+        [fecha: Date.parse('dd/MM/yyyy','28/02/2020')])
+    List r2 = Cliente.findAll(
+      "from Cliente c where c.dateCreated > :fecha "
+      , [fecha: Date.parse('dd/MM/yyyy','28/02/2020')])
+
+    Set<Cliente> clientes = new HashSet<Cliente>()
+    clientes.addAll(r1)
+    clientes.addAll(r2)
+    log.debug('All clientes: {}', clientes.size())
+    byte[] data = buildJsonFile(clientes)
+    Map<String,Object> metaData = [
+      size: data.length
+    ]
+    String documentName="catalogos/ctes-all.json"
+    this.papelsaCloudService.uploadDocument(documentName, data, 'application/json', metaData)
+
+    // File file = new File("/Users/rubencancino/dumps/ctes-all.json")
+    //file.text = jsonBuilder.toString()
+
+
+  }
+
+  String buildJsonFile(Set<Cliente> clientes) {
+    JsonBuilder jsonBuilder = new JsonBuilder()
+    jsonBuilder(clientes){ c->
+      i c.id
+      n c.nombre
+      r c.rfc
+      cf c.cfdiMail
+      cv c.clave
+      if(c.credito){
+        cr true
+      }
+    }
+    return jsonBuilder.toString()
+  }
 
 }
