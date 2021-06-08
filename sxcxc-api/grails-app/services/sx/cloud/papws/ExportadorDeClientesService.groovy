@@ -44,10 +44,10 @@ class ExportadorDeClientesService {
   def exportarClientesToFirestorage() {
     List r1 = Venta
       .findAll('select distinct v.cliente from Venta v where v.fecha > :fecha',
-        [fecha: Date.parse('dd/MM/yyyy','28/02/2020')])
+        [fecha: Date.parse('dd/MM/yyyy','31/12/2018')])
     List r2 = Cliente.findAll(
       "from Cliente c where c.dateCreated > :fecha "
-      , [fecha: Date.parse('dd/MM/yyyy','28/02/2020')])
+      , [fecha: Date.parse('dd/MM/yyyy','01/01/2019')])
 
     Set<Cliente> clientes = new HashSet<Cliente>()
     clientes.addAll(r1)

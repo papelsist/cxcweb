@@ -35,12 +35,12 @@ class ExportadorDeSolicitudesJobService  {
     *                  | `- Minute, 0-59
     *                  `- Second, 0-59
     */
-  @Scheduled(cron = "0 */5 9-22 ? * MON-SAT")
+  // @Scheduled(cron = "0 */5 9-22 ? * MON-SAT")
   void exportarSolicitudes() {
     // */5 9-18 * * 1-6
     Date start = new Date()
     log.info('Exportarando   solicitudes de contado a firestore  at:{}', start)
-    exportadorDeSolicitudesService.sincronizar()
+    // exportadorDeSolicitudesService.sincronizar()
 
   }
 }

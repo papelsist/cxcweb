@@ -80,7 +80,6 @@ hibernate:
     queries: false
     use_second_level_cache: false
     use_query_cache: false
-  show_sql: false
 dataSource:
   pooled: true
   jmxExport: true
@@ -92,9 +91,9 @@ environments:
     dataSource:
       dbCreate: none
       #url: jdbc:mysql://${JDBC_CONNECTION_STRING}?autoReconnect=true
-      url: jdbc:mysql://localhost/siipapx_dev?autoReconnect=true
+      url: jdbc:mysql://10.10.1.229/siipapx?autoReconnect=true
       username: root
-      password: sys2
+      password: sys
   test:
     dataSource:
       dbCreate: none
@@ -133,15 +132,9 @@ environments:
   development:
     siipapx:
       firebase:
-        #url: https://papx-ws-dev.firebaseio.com
-        #bucket: papx-ws-dev.appspot.com
-        #projectId: papx-ws-dev
         url: https://siipapx-436ce.firebaseio.com
         bucket: siipapx-436ce.appspot.com
         projectId: siipapx-436ce
-        # url: https://siipapx-51354.firebaseio.com
-        # bucket: siipapx-51354.appspot.com
-        # projectId: siipapx-51354
   certificacion:
     siipapx:
       firebase:

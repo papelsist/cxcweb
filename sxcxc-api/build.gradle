@@ -1,7 +1,9 @@
 buildscript {
     repositories {
-        maven { url "http://repo.grails.org/grails/core" }
+        // maven { url "http://repo.grails.org/grails/core" }
         maven { url "https://dl.bintray.com/ctoestreich/grails-plugins" } //Required until grails repo is fixed
+        maven { url "https://repo.grails.org/artifactory/core" }
+
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
@@ -23,7 +25,8 @@ apply plugin:"org.grails.grails-gsp"
 
 repositories {
     mavenLocal()
-    maven { url "http://repo.grails.org/grails/core" }
+    // maven { url "http://repo.grails.org/grails/core" }
+    maven { url "https://repo.grails.org/artifactory/core/"}
     maven { url "http://dl.bintray.com/puneetbehl/plugins"}
     maven { url "http://dl.bintray.com/rcancino/cfdi"}
 }
