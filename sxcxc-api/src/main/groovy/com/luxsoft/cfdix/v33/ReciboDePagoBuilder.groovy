@@ -183,7 +183,7 @@ class ReciboDePagoBuilder {
 
 
             def pagosAplicados = AplicacionDeCobro.findAll("""
-                select sum(a.importe * a.tipoDeCambio) from AplicacionDeCobro a
+                select sum(a.importe) from AplicacionDeCobro a
                   where a.cuentaPorCobrar.id = :cxcId
                     and a.cobro.cfdi != null
                     and a.cobro.formaDePago not in ('DEVOLUCION','BONIFICACION')
