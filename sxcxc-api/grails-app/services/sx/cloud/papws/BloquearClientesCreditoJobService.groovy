@@ -12,19 +12,18 @@ import sx.cloud.PapwsSolicitudesService
 
 @Slf4j
 @CompileStatic
-class ExportadorDeProductosJobService  {
-
+class BloquearClientesCreditoJobService  {
 
   static lazyInit = false
 
-  ExportadorDeProductosService exportadorDeProductosService
+  PapwsClienteService papwsClienteService
 
   @PostConstruct
   def start() {
     log.debug('Inicializando exportador de productos ')
   }
 
-  // @Scheduled(fixedDelay = 10000L)
+
   /**
     * cronExpression: "s m h D M W Y"
     *                  | | | | | | `- Year [optional]
@@ -35,12 +34,10 @@ class ExportadorDeProductosJobService  {
     *                  | `- Minute, 0-59
     *                  `- Second, 0-59
     */
-  @Scheduled(cron = "0 0 9-19 ? * MON-SAT")
+  @Scheduled(cron = "0 0 8,19 ? * MON-SAT")
   void exportarSolicitudes() {
-    // */5 9-18 * * 1-6
     Date start = new Date()
-    log.info('Exportarando productos JSON file a Firestorage  at:{}', start)
-    exportadorDeProductosService.exportarAsJsonFile()
-
+    log.info('Bloqueando todos los clientes de credito  at:{}', start)
+    papwsClienteService.bloquearClientesCredito()
   }
 }
