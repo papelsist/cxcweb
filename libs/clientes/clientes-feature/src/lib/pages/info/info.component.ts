@@ -6,24 +6,42 @@ import {
   ClienteContacto,
   ClienteCredito,
   MedioDeContacto,
+  User
 } from '@nx-papelsa/shared/utils/core-models';
+import {
+  BaseComponent,
+  FormatService,
+} from '@nx-papelsa/shared/utils/ui-common';
 import { ClientesFacade } from '@nx-papelsa/shared/clientes/data-access-clientes';
 import { Update } from '@ngrx/entity';
 import { TdDialogService } from '@covalent/core/dialogs';
+import { AuthFacade } from '@nx-papelsa/auth';
+import { takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'nx-papelsa-info',
   templateUrl: './info.component.html',
   styleUrls: ['./info.component.scss'],
 })
-export class InfoComponent implements OnInit {
+export class InfoComponent extends BaseComponent implements OnInit {
   cliente$ = this.facade.currentCliente$;
+  roleDeAutorizacion = false;
+  user: Partial<User>;
+  roles$ = this.auth.roles$;
   constructor(
     private facade: ClientesFacade,
-    private dialogService: TdDialogService
-  ) {}
+    private dialogService: TdDialogService,
+    private auth: AuthFacade
+  ) {
+    super();
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.auth.roles$.pipe(takeUntil(this.destroy$)).subscribe((roles) => {
+      const found = roles.find((item) => item === 'ROLE_COMITE_CXC');
+      this.roleDeAutorizacion = !!found;
+    });
+  }
 
   onEditCliente(cliente: Update<Cliente>) {
     this.facade.updateCliente(cliente);
@@ -61,6 +79,22 @@ export class InfoComponent implements OnInit {
         }
       });
   }
+
+  /** Autorizacion modificaciones de credito */
+
+    onAutorizar(event: User, cliente: Cliente) {
+    console.log(`Autorizando modificaciones del cliente ${cliente}`);
+    const changes = {
+      autorizacion: {
+        usuario: event.nombre,
+        comentario: 'AUTORIZACION TEST',
+        fecha: new Date().toISOString(),
+      },
+    };
+    //this.facade.altaDeLineaDeCredito(cliente);
+  }
+
+  /** Termina Autorizacion modificaciones de credito */
 
   onAddComentario(cliente: Cliente, comentario: ClienteComentario) {
     this.facade.addComentario(cliente, comentario);

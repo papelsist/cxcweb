@@ -1,149 +1,148 @@
 <mat-card>
-  <mat-card-header>
-    <mat-card-title>Condiciones de crédito</mat-card-title>
-    <mat-card-subtitle>
-      <span>Modificado:</span>
-      <strong>{{ credito.lastUpdated | date: 'dd/MM/yyyy:HH:mm' }}</strong>
-    </mat-card-subtitle>
-  </mat-card-header>
+    <mat-card-header>
+        <mat-card-title>Condiciones de crédito</mat-card-title>
+        <mat-card-subtitle>
+            <span>Modificado:</span>
+            <strong>{{ credito.lastUpdated | date: 'dd/MM/yyyy:HH:mm' }}</strong>
+        </mat-card-subtitle>
+    </mat-card-header>
 
-  <mat-divider></mat-divider>
-  <td-message
-    label="CREDITO SUSPENDIDO"
-    color="warn"
-    *ngIf="!credito.creditoActivo"
-  ></td-message>
-  <mat-list class="property-list">
-    <mat-list-item>
-      <div matLine>
-        <span>Línea:</span>
-        <span fxFlex class="text-right text-strong">
+    <mat-divider></mat-divider>
+    <td-message label="CREDITO SUSPENDIDO" color="warn" *ngIf="!credito.creditoActivo"></td-message>
+    <mat-list class="property-list">
+        <mat-list-item>
+            <div matLine>
+                <span>Línea:</span>
+                <span fxFlex class="text-right text-strong">
           {{ credito.lineaDeCredito | currency }}
         </span>
-      </div>
-      <mat-icon matListIcon>attach_money</mat-icon>
-      <mat-divider matInset></mat-divider>
-    </mat-list-item>
+            </div>
+            <mat-icon matListIcon>attach_money</mat-icon>
+            <mat-divider matInset></mat-divider>
+        </mat-list-item>
 
-    <mat-list-item>
-      <div matLine>
-        <span>Plazo:</span>
-        <span fxFlex class="text-right text-strong">
+        <mat-list-item>
+            <div matLine>
+                <span>Plazo:</span>
+                <span fxFlex class="text-right text-strong">
           {{ credito.plazo }} días
         </span>
-      </div>
-      <mat-icon matListIcon>schedule</mat-icon>
-      <mat-divider matInset></mat-divider>
-    </mat-list-item>
+            </div>
+            <mat-icon matListIcon>schedule</mat-icon>
+            <mat-divider matInset></mat-divider>
+        </mat-list-item>
 
-    <mat-list-item>
-      <div matLine>
-        <span>
+        <mat-list-item>
+            <div matLine>
+                <span>
           Saldo:
         </span>
-        <span fxFlex class="text-right text-strong">
+                <span fxFlex class="text-right text-strong">
           {{ credito.saldo | currency }}
         </span>
-      </div>
-      <mat-icon matListIcon color="warn">money_off</mat-icon>
-      <mat-divider matInset></mat-divider>
-    </mat-list-item>
+            </div>
+            <mat-icon matListIcon color="warn">money_off</mat-icon>
+            <mat-divider matInset></mat-divider>
+        </mat-list-item>
 
-    <mat-list-item>
-      <div matLine>
-        <span>Atraso máximo:</span>
-        <span fxFlex class="text-right text-strong">
+        <mat-list-item>
+            <div matLine>
+                <span>Atraso máximo:</span>
+                <span fxFlex class="text-right text-strong">
           {{ credito.atrasoMaximo }} días
         </span>
-      </div>
-      <mat-icon matListIcon>notifications_active</mat-icon>
-      <mat-divider matInset></mat-divider>
-    </mat-list-item>
+            </div>
+            <mat-icon matListIcon>notifications_active</mat-icon>
+            <mat-divider matInset></mat-divider>
+        </mat-list-item>
 
-    <mat-list-item>
-      <div matLine>
-        <span>Descuento fijo:</span>
-        <span fxFlex class="text-right text-strong">
+        <mat-list-item>
+            <div matLine>
+                <span>Descuento fijo:</span>
+                <span fxFlex class="text-right text-strong">
           {{ credito.descuentoFijo / 100 | percent: '1.2-2' }}
         </span>
-      </div>
-      <mat-icon matListIcon>outbond</mat-icon>
-      <mat-divider matInset></mat-divider>
-    </mat-list-item>
+            </div>
+            <mat-icon matListIcon>outbond</mat-icon>
+            <mat-divider matInset></mat-divider>
+        </mat-list-item>
 
-    <mat-list-item>
-      <div matLine>
-        <span>Cheque postfechado:</span>
-        <span fxFlex class="text-right text-strong">
+        <mat-list-item>
+            <div matLine>
+                <span>Cheque postfechado:</span>
+                <span fxFlex class="text-right text-strong">
           {{ credito.postfechado ? 'SI' : 'NO' }}
         </span>
-      </div>
-      <mat-icon matListIcon>event_available</mat-icon>
-      <mat-divider matInset></mat-divider>
-    </mat-list-item>
+            </div>
+            <mat-icon matListIcon>event_available</mat-icon>
+            <mat-divider matInset></mat-divider>
+        </mat-list-item>
 
-    <mat-list-item>
-      <div matLine>
-        <span>Mandar a revisión:</span>
-        <span fxFlex class="text-right text-strong">
+        <mat-list-item>
+            <div matLine>
+                <span>Mandar a revisión:</span>
+                <span fxFlex class="text-right text-strong">
           {{ credito.revision ? 'SI' : 'NO' }}
         </span>
-      </div>
-      <mat-icon matListIcon>date_range</mat-icon>
-      <mat-divider matInset></mat-divider>
-    </mat-list-item>
+            </div>
+            <mat-icon matListIcon>date_range</mat-icon>
+            <mat-divider matInset></mat-divider>
+        </mat-list-item>
 
-    <mat-list-item>
-      <div matLine>
-        <span>Vto Factura</span>
-        <span fxFlex class="text-right text-strong">
+        <mat-list-item>
+            <div matLine>
+                <span>Vto Factura</span>
+                <span fxFlex class="text-right text-strong">
           {{ credito.venceFactura ? 'SI' : 'NO' }}
         </span>
-      </div>
-      <mat-icon matListIcon>beenhere</mat-icon>
-      <mat-divider matInset></mat-divider>
-    </mat-list-item>
+            </div>
+            <mat-icon matListIcon>beenhere</mat-icon>
+            <mat-divider matInset></mat-divider>
+        </mat-list-item>
 
-    <mat-list-item>
-      <div matLine>
-        <span>Dia revisión:</span>
-        <span fxFlex class="text-right text-strong">
+        <mat-list-item>
+            <div matLine>
+                <span>Dia revisión:</span>
+                <span fxFlex class="text-right text-strong">
           {{ dias[credito.diaRevision] }} ({{ credito.diaRevision }})
         </span>
-      </div>
+            </div>
 
-      <mat-icon matListIcon>event</mat-icon>
-      <mat-divider matInset></mat-divider>
-    </mat-list-item>
+            <mat-icon matListIcon>event</mat-icon>
+            <mat-divider matInset></mat-divider>
+        </mat-list-item>
 
-    <mat-list-item>
-      <div matLine>
-        <span>Dia cobro:</span>
-        <span fxFlex class="text-right text-strong">
+        <mat-list-item>
+            <div matLine>
+                <span>Dia cobro:</span>
+                <span fxFlex class="text-right text-strong">
           {{ dias[credito.diaCobro] }} ({{ credito.diaCobro }})
         </span>
-      </div>
+            </div>
 
-      <mat-icon matListIcon>event</mat-icon>
-      <mat-divider matInset></mat-divider>
-    </mat-list-item>
+            <mat-icon matListIcon>event</mat-icon>
+            <mat-divider matInset></mat-divider>
+        </mat-list-item>
 
-    <h3 matSubheader>Bitácora</h3>
-    <mat-list-item>
-      <div matLine>
-        <span>Modificado por:</span>
-        <span fxFlex class="text-right text-strong">
+        <h3 matSubheader>Bitácora</h3>
+        <mat-list-item>
+            <div matLine>
+                <span>Modificado por:</span>
+                <span fxFlex class="text-right text-strong">
           {{ credito.updateUser }}
         </span>
-      </div>
-      <mat-icon matListIcon>person</mat-icon>
-    </mat-list-item>
-  </mat-list>
+            </div>
+            <mat-icon matListIcon>person</mat-icon>
+        </mat-list-item>
+    </mat-list>
 
-  <mat-divider></mat-divider>
-  <mat-card-actions>
-    <button mat-button color="accent" class="text-upper" (click)="editar()">
+    <mat-divider></mat-divider>
+    <mat-card-actions>
+        <button mat-button color="accent" class="text-upper" *ngIf="roleDeAutorizacion" (click)="editar()">
       Editar
     </button>
-  </mat-card-actions>
+        <button mat-button color="accent" class="text-upper" *ngIf="!roleDeAutorizacion" (click)="editarAtraso()">
+        Editar
+      </button>
+    </mat-card-actions>
 </mat-card>

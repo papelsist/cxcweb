@@ -7,6 +7,7 @@ import { CDS_MODULES } from '../common-modules';
 import { InfoComponent } from './info.component';
 import { GeneralesFormComponent } from './generales-form/generales-form.component';
 import { CreditoFormComponent } from './credito-form/credito-form.component';
+import { AtrasoFormComponent } from './atraso-form/atraso-form.component';
 import { CreditoCardComponent } from './credito-card/credito-card.component';
 import { GeneralesCardComponent } from './generales-card/generales-card.component';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -28,6 +29,7 @@ const routes: Routes = [{ path: '', component: InfoComponent }];
     GeneralesCardComponent,
     DomicilioPanelComponent,
     CreditoFormComponent,
+    AtrasoFormComponent,
     TelefonosPanelComponent,
     ComentariosPanelComponent,
     ComentarioDialogComponent,
