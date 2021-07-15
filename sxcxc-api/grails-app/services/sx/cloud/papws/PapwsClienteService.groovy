@@ -12,6 +12,7 @@ import sx.cloud.FirebaseService
 import sx.cloud.LxCliente
 import sx.cloud.PapelsaCloudService
 import sx.core.Cliente
+import sx.core.ClienteCredito
 
 @Slf4j
 @Transactional
@@ -71,4 +72,25 @@ class PapwsClienteService {
     return papelsaCloudService.getFirestore().collection(collectionName)
   }
 
+  @Transactional(readOnly = true)
+  def bloquearClientesCredito() {
+    ClienteCredito.list().each { cr ->
+
+      Cliente cliente = cr.cliente
+      DocumentReference docRef = fetchDocument(cliente.id)
+      DocumentSnapshot snapShot = docRef.get().get()
+
+      if (!snapShot.exists()) {
+        log.debug('El cliente :{} NO EXISTE EN FIREBASE', cliente.id)
+        cliente.credito.creditoActivo = false
+        return push(cliente)
+      } else {
+        Map changes = [credito: [creditoActivo: false]]
+        ApiFuture<WriteResult> result  = docRef.update(changes)
+        def updateTime = result.get().getUpdateTime().toDate()
+        log.debug("{} actualizado en firestore actualizado {}  at: {} " , cliente.id, updateTime.format('dd/MM/yyyy: HH:mm'))
+        return updateTime
+      }
+    }
+  }
 }
