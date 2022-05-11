@@ -40,6 +40,7 @@ class LxProducto {
 
   String claveSat
   String unidadSat
+  Double precioTarjeta
 
   double disponible
 

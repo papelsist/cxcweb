@@ -7,6 +7,7 @@ import com.google.cloud.firestore.SetOptions
 import com.google.cloud.firestore.WriteBatch
 import com.google.cloud.firestore.WriteResult
 import grails.compiler.GrailsCompileStatic
+import grails.gorm.transactions.Transactional
 import groovy.sql.Sql
 import groovy.util.logging.Slf4j
 import sx.core.Cliente
@@ -20,6 +21,7 @@ import javax.sql.DataSource
 
 @Slf4j
 // @GrailsCompileStatic
+@Transactional
 class PapwsCallcenterMigrationService {
 
   PapelsaCloudService papelsaCloudService
@@ -52,6 +54,7 @@ class PapwsCallcenterMigrationService {
     List<Producto> productos = fetchProductos(max)
     List<Map> rows = productos.collect({new LxProducto(it).toMap()})
     rows.each {
+      println it
       Map existencia = fetchExistencia(it.id)
       it['existencia'] = existencia
       it.disponible = existencia.values().sum(0.0, {it.cantidad}).toDouble()

@@ -9,7 +9,7 @@ import sx.sat.UnidadSat
 @EqualsAndHashCode(includes='id, clave')
 class Producto {
 
-	String id 
+	String id
 
 	String clave
 
@@ -17,7 +17,7 @@ class Producto {
 
 	String unidad
 
-	String	modoVenta		
+	String	modoVenta
 
 	String codigo
 
@@ -78,6 +78,8 @@ class Producto {
 
   	UnidadSat unidadSat
 
+  BigDecimal precioTarjeta = 0.0
+
 	static constraints = {
 
     unidad minSize:2,maxSize:10
@@ -98,11 +100,12 @@ class Producto {
     comentario nullable: true
     productoSat nullable: true
     unidadSat nullable: true
+    precioTarjeta nullable: true
 	}
 
 	static mapping={
 		id generator:'uuid'
 	}
 
-    
+
 }

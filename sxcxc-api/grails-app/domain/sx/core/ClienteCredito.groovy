@@ -11,9 +11,9 @@ class ClienteCredito {
 
   Boolean creditoActivo = true
 
-  BigDecimal descuentoFijo = 0.0
+  Double descuentoFijo = 0.0
 
-  BigDecimal lineaDeCredito = 0.0
+  Double lineaDeCredito = 0.0
 
   Long plazo = 1
 

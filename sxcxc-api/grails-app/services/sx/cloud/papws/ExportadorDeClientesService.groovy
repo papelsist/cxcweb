@@ -29,7 +29,7 @@ class ExportadorDeClientesService {
   PapelsaCloudService papelsaCloudService
 
   Date pushToFirestore(Cliente cliente) {
-    log.debug('Regsitrando cliente: {} en Firebase', cliente.nombre)
+    log.debug('Regsitrando cliente TAL: {} en Firebase', cliente.nombre)
     LxCliente xp = new LxCliente(cliente)
     ApiFuture<WriteResult> result = papelsaCloudService
       .getFirestore()
@@ -47,7 +47,7 @@ class ExportadorDeClientesService {
         [fecha: Date.parse('dd/MM/yyyy','31/12/2018')])
     List r2 = Cliente.findAll(
       "from Cliente c where c.dateCreated > :fecha "
-      , [fecha: Date.parse('dd/MM/yyyy','01/01/2019')])
+      , [fecha: Date.parse('dd/MM/yyyy','01/04/2022')])
 
     Set<Cliente> clientes = new HashSet<Cliente>()
     clientes.addAll(r1)

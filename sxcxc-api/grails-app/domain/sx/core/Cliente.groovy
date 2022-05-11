@@ -45,6 +45,10 @@ class Cliente {
 
   String updateUser
 
+  String razon_social
+
+  String regimen_fiscal
+
   Set<ComunicacionEmpresa> medios = []
 
   Set<ClienteComentario> comentarios = []
@@ -70,6 +74,8 @@ class Cliente {
     vendedor nullable: true
     createUser nullable: true
     updateUser nullable: true
+    razon_social nullable: true
+    regimen_fiscal nullable: true
   }
 
   static hasOne = [credito: ClienteCredito]

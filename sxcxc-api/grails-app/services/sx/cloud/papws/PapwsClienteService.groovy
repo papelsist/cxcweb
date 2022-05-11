@@ -85,7 +85,25 @@ class PapwsClienteService {
         cliente.credito.creditoActivo = false
         return push(cliente)
       } else {
-        Map changes = [credito: [creditoActivo: false]]
+        Map changes = [credito:[
+        atrasoMaximo: cliente.credito.atrasoMaximo,
+        clave: cliente.clave,
+        cliente: cliente.id,
+        creditoActivo: false,
+        descuentoFijo: cliente.credito.descuentoFijo,
+        diaCobro: cliente.credito.diaCobro,
+        diaRevision: cliente.credito.diaRevision,
+        id: cliente.credito.id,
+        lineaDeCredito: cliente.credito.lineaDeCredito,
+        nombre: cliente.nombre,
+        operador: cliente.credito.operador,
+        plazo: cliente.credito.plazo,
+        postfechado: cliente.credito.postfechado,
+        revision: cliente.credito.revision,
+        saldo: cliente.credito.saldo,
+        sw2: cliente.credito.sw2,
+        venceFactura: cliente.credito.venceFactura
+        ]]
         ApiFuture<WriteResult> result  = docRef.update(changes)
         def updateTime = result.get().getUpdateTime().toDate()
         log.debug("{} actualizado en firestore actualizado {}  at: {} " , cliente.id, updateTime.format('dd/MM/yyyy: HH:mm'))

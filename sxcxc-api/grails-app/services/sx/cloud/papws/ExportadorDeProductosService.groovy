@@ -53,7 +53,7 @@ class ExportadorDeProductosService {
   @Transactional(readOnly = true)
   def exportarAsJsonFile() {
 
-    List<Producto> productos = Producto.list()
+    List<Producto> productos = Producto.where{activo==true}.list()
     log.debug('All productos: {}', productos.size())
     byte[] data = buildJsonFile(productos)
     Map<String,Object> metaData = [
@@ -65,7 +65,6 @@ class ExportadorDeProductosService {
 
   String buildJsonFile(List<Producto> productos) {
     JsonBuilder jsonBuilder = new JsonBuilder()
-
     jsonBuilder(productos) { Producto p ->
     	id p.id
       clave p.clave

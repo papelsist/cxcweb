@@ -35,6 +35,8 @@ class LxCliente implements LxEntity {
     Date lastUpdated
     String createUser
     String updateUser
+    String rzsocial
+    String rgfiscal
 
 
     public LxCliente() {}
@@ -59,6 +61,10 @@ class LxCliente implements LxEntity {
         dateCreated = cliente.dateCreated
         createUser = cliente.createUser
         updateUser = cliente.updateUser
+        rzsocial = cliente.razon_social
+        rgfiscal = cliente.regimen_fiscal
+
+
     }
 
     def copyProperties(source, target) {

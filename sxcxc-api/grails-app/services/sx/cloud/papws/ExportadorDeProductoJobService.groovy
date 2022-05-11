@@ -1,4 +1,4 @@
-package sx.cloud.papws
+package sx.cloud
 
 import javax.annotation.PostConstruct
 
@@ -12,12 +12,12 @@ import sx.cloud.PapwsSolicitudesService
 
 @Slf4j
 @CompileStatic
-class ExportadorDeProductosJobService  {
+class ExportadorDeProductoJobService  {
 
 
   static lazyInit = false
 
-  ExportadorDeProductosService exportadorDeProductosService
+  PapwsCallcenterMigrationService papwsCallcenterMigrationService
 
   @PostConstruct
   def start() {
@@ -35,12 +35,14 @@ class ExportadorDeProductosJobService  {
     *                  | `- Minute, 0-59
     *                  `- Second, 0-59
     */
-  @Scheduled(cron = "0 0 9-19/2 ? * MON-SAT")
-  void exportarSolicitudes() {
+    //Este correria a la media de cada 2 horas de 9 a 7 de lunes a sabado
+  @Scheduled(cron = "0 30 6-20/3 ? * MON-SAT")
+  //@Scheduled(cron = "0 0/1 9-19 ? * MON-SAT")
+  void exportarElProducto() {
     // */5 9-18 * * 1-6
     Date start = new Date()
-    log.info('Exportarando productos JSON file a Firestorage  at:{}', start)
-    exportadorDeProductosService.exportarAsJsonFile()
+    log.info('Exportando productos la prueba funciono at:{}', start)
+    papwsCallcenterMigrationService.exportarProductos()
 
   }
 }
