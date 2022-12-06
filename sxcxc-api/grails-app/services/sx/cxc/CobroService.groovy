@@ -6,9 +6,11 @@ import grails.gorm.transactions.Transactional
 import org.apache.commons.lang3.exception.ExceptionUtils
 
 import com.luxsoft.cfdix.v33.ReciboDePagoBuilder
+import com.cfdi4.Cfdi4PagoBuilder
 import lx.cfdi.v33.Comprobante
 import sx.cfdi.Cfdi
 import sx.cfdi.CfdiService
+import sx.cfdi.Cfdi4Service
 import sx.cfdi.CancelacionService
 import sx.cfdi.CfdiTimbradoService
 import sx.core.Cliente
@@ -21,6 +23,10 @@ class CobroService implements LogUser{
     ReciboDePagoBuilder reciboDePagoBuilder
 
     CfdiService cfdiService
+
+    Cfdi4Service cfdi4Service
+
+    Cfdi4PagoBuilder cfdi4PagoBuilder
 
     CfdiTimbradoService cfdiTimbradoService
 
@@ -134,6 +140,14 @@ class CobroService implements LogUser{
       Comprobante comprobante = this.reciboDePagoBuilder.build(cobro)
       Cfdi cfdi = cfdiService.generarCfdi(comprobante, 'P', 'COBROS')
       return cfdi
+    }
+
+    def generarCfdiV4(Cobro cobro) {
+      println "Generando el cfdi V4 para ${cobro.id}"
+      //validarParaTimbrado(cobro)
+      def comprobante = this.cfdi4PagoBuilder.build(cobro)
+      Cfdi cfdi = cfdi4Service.generarCfdi(comprobante, 'P', 'COBROS')
+      return cfdi 
     }
 
     def timbrar(Cobro cobro){
