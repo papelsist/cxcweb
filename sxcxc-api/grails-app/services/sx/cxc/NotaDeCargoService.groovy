@@ -134,6 +134,18 @@ class NotaDeCargoService implements LogUser {
         return nota
     }
 
+    def timbrarV4(NotaDeCargo nota){
+        if(nota.cfdi && nota.cfdi.uuid) {
+            throw new CargoTimbradoException(nota)
+        }
+        if(!nota.cfdi) {
+            nota = generarCfdiV4(nota)
+        }
+        def cfdi = nota.cfdi
+        cfdi = cfdiTimbradoService.timbrar(cfdi)
+        return nota
+    }
+
     def timbrar(NotaDeCargo nota){
         if(nota.cfdi && nota.cfdi.uuid) {
             throw new CargoTimbradoException(nota)

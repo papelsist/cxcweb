@@ -120,6 +120,30 @@ class NotaDeCreditoService implements LogUser{
         return cfdi
     }
 
+    def timbrarV4(NotaDeCredito nota){
+        try {
+            def cfdi = generarCfdiV4(nota)
+            cfdi = cfdiTimbradoService.timbrar(cfdi)
+            nota.cfdi = cfdi
+            if(nota.tipo == 'DEVOLUCION'){
+              if(nota.tipoCartera == 'CRE') {
+                nota.cobro = generarCobro(nota)
+              } else {
+                // Vincular cobro existente desde el rmd
+                DevolucionDeVenta rmd = nota.devolucion
+                nota.cobro = rmd.cobro
+              }
+            } else {
+              nota.cobro = generarCobro(nota)
+            }
+            nota.save failOnError: true, flush: true
+            return nota
+        } catch (Throwable ex){
+            ex.printStackTrace()
+            throw  new NotaDeCreditoException(ExceptionUtils.getRootCauseMessage(ex))
+        }
+    }
+
     def timbrar(NotaDeCredito nota){
         try {
             def cfdi = generarCfdi(nota)

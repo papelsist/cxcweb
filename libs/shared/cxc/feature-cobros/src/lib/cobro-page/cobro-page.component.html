@@ -1,82 +1,48 @@
-<ng-template
-  tdLoading
-  [tdLoadingUntil]="!(loading$ | async)"
-  tdLoadingStrategy="overlay"
->
-  <mat-card *ngIf="cobro$ | async as cobro">
-    <div class="pad-left pad-top" fxLayout fxLayoutAlign="start baseline">
-      <button mat-icon-button>
-        <mat-icon [routerLink]="['/clientes', cobro.cliente.id]"
-          >person</mat-icon
-        >
-      </button>
-      <span class="pad-left pad-right mat-title"> {{ cobro.nombre }}</span>
-      <span fxFlex></span>
-
-      <span class="pad-left pad-right mat-title"
-        >Fecha: {{ cobro.fecha | date: 'dd/MM/yyyy' }}</span
+<ng-template tdLoading [tdLoadingUntil]="!(loading$ | async)" tdLoadingStrategy="overlay">
+    <mat-card *ngIf="cobro$ | async as cobro">
+        <div class="pad-left pad-top" fxLayout fxLayoutAlign="start baseline">
+            <button mat-icon-button>
+      <mat-icon [routerLink]="['/clientes', cobro.cliente.id]"
+        >person</mat-icon
       >
-      <span class="pad-left pad-right mat-title accent" *ngIf="cobro.cierre"
-        >Cierre: {{ cobro.fecha | date: 'dd/MM/yyyy' }}</span
-      >
-    </div>
+    </button>
+            <span class="pad-left pad-right mat-title"> {{ cobro.nombre }}</span>
+            <span fxFlex></span>
 
-    <nx-papelsa-cxc-cobro-info [cobro]="cobro"></nx-papelsa-cxc-cobro-info>
-    <mat-toolbar>
-      <span>Aplicaciones</span>
-      <span fxFlex></span>
-      <nx-papelsa-cxc-selector-cxc-btn
-        [clienteId]="cobro.cliente.id"
-        [disabled]="!(agregarAplicacion$ | async)"
-        [cartera]="cobro.tipo"
-        color="default"
-        tooltip="Agregar aplicación2"
-        (selection)="onAplicar(cobro, $event)"
-      ></nx-papelsa-cxc-selector-cxc-btn>
-    </mat-toolbar>
-    <nx-papelsa-cobro-aplicaciones
-      [aplicaciones]="cobro.aplicaciones"
-      (delete)="onDelete(cobro, $event)"
-      [disabled]="isDisabled(cobro)"
+            <span class="pad-left pad-right mat-title">Fecha: {{ cobro.fecha | date: 'dd/MM/yyyy' }}</span
     >
-    </nx-papelsa-cobro-aplicaciones>
+    <span class="pad-left pad-right mat-title accent" *ngIf="cobro.cierre"
+      >Cierre: {{ cobro.fecha | date: 'dd/MM/yyyy' }}</span
+    >
+  </div>
 
-    <mat-card-actions>
-      <nx-papelsa-back-button title="Cobros"></nx-papelsa-back-button>
-      <button
-        mat-button
-        matTooltip="Saldar disponible"
-        (click)="onSaldar(cobro)"
-        *ngIf="cobro.saldo > 0.0 && cobro.saldo <= 100.0"
-      >
-        Saldar
-      </button>
-      <nx-papelsa-cfdi-timbrar
-        *ngIf="cobro.requiereRecibo"
-        [disabled]="!(timbrable$ | async)"
-        (timbrar)="onGenerarRecibo(cobro)"
-      ></nx-papelsa-cfdi-timbrar>
-      <ng-container *ngIf="cobro.cfdi as cfdi">
-        <nx-papelsa-cfdi-pdf
-          [cfdi]="cfdi"
-          title="Recibo (CFDI)"
-        ></nx-papelsa-cfdi-pdf>
-        <nx-papelsa-cfdi-xml [cfdi]="cfdi"></nx-papelsa-cfdi-xml>
-        <nx-papelsa-cfdi-email
-          [cfdi]="cfdi"
-          [target]="cobro.cliente.cfdiMail"
-        ></nx-papelsa-cfdi-email>
-        <nx-papelsa-cfdi-cancelar
-          [disabled]="cobro.cierre"
-          [cfdi]="cfdi"
-          title="Cancelar recibo"
-          (cancelar)="onCancelar(cobro, $event)"
-        ></nx-papelsa-cfdi-cancelar>
-        <!-- <button mat-button (click)="cambiarRecibo(cobro)">
-          <mat-icon>swap_horiz</mat-icon>
-          <span>Cambiar recibo</span>
-        </button> -->
-      </ng-container>
-    </mat-card-actions>
-  </mat-card>
+  <nx-papelsa-cxc-cobro-info [cobro]="cobro"></nx-papelsa-cxc-cobro-info>
+  <nx-papelsa-cxc-cobro-datos-tx [cobro]= "cobro" *ngIf="cobro.formaDePago == 'TRANSFERENCIA'"></nx-papelsa-cxc-cobro-datos-tx>
+  <mat-toolbar>
+    <span>Aplicaciones</span>
+            <span fxFlex></span>
+            <nx-papelsa-cxc-selector-cxc-btn [clienteId]="cobro.cliente.id" [disabled]="!(agregarAplicacion$ | async)" [cartera]="cobro.tipo" color="default" tooltip="Agregar aplicación2" (selection)="onAplicar(cobro, $event)"></nx-papelsa-cxc-selector-cxc-btn>
+            </mat-toolbar>
+            <nx-papelsa-cobro-aplicaciones [aplicaciones]="cobro.aplicaciones" (delete)="onDelete(cobro, $event)" [disabled]="isDisabled(cobro)">
+            </nx-papelsa-cobro-aplicaciones>
+
+            <mat-card-actions>
+                <nx-papelsa-back-button title="Cobros"></nx-papelsa-back-button>
+                <button mat-button matTooltip="Saldar disponible" (click)="onSaldar(cobro)" *ngIf="cobro.saldo > 0.0 && cobro.saldo <= 100.0">
+      Saldar
+    </button>
+                <nx-papelsa-cfdi-timbrar *ngIf="cobro.requiereRecibo" [disabled]="!(timbrable$ | async)" (timbrar)="onGenerarRecibo(cobro)"></nx-papelsa-cfdi-timbrar>
+                <nx-papelsa-cfdi-timbrarv4 *ngIf="cobro.requiereRecibo" color="accent" (timbrarV4)="onGenerarReciboV4(cobro)" [disabled]="!(timbrable$ | async)"></nx-papelsa-cfdi-timbrarv4>
+                <ng-container *ngIf="cobro.cfdi as cfdi">
+                    <nx-papelsa-cfdi-pdf [cfdi]="cfdi" title="Recibo (CFDI)"></nx-papelsa-cfdi-pdf>
+                    <nx-papelsa-cfdi-xml [cfdi]="cfdi"></nx-papelsa-cfdi-xml>
+                    <nx-papelsa-cfdi-email [cfdi]="cfdi" [target]="cobro.cliente.cfdiMail"></nx-papelsa-cfdi-email>
+                    <nx-papelsa-cfdi-cancelar [disabled]="cobro.cierre" [cfdi]="cfdi" title="Cancelar recibo" (cancelar)="onCancelar(cobro, $event)"></nx-papelsa-cfdi-cancelar>
+                    <!-- <button mat-button (click)="cambiarRecibo(cobro)">
+        <mat-icon>swap_horiz</mat-icon>
+        <span>Cambiar recibo</span>
+      </button> -->
+                </ng-container>
+            </mat-card-actions>
+    </mat-card>
 </ng-template>

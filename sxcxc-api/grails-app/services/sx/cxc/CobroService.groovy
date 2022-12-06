@@ -150,6 +150,24 @@ class CobroService implements LogUser{
       return cfdi 
     }
 
+    def timbrarV4(Cobro cobro){
+      println "Timbrando un cobro en V4 ${cobro.id}"
+      try{
+
+        def cfdi = generarCfdiV4(cobro)
+        cfdi = cfdiTimbradoService.timbrar(cfdi)
+        cobro.cfdi = cfdi
+        cobro = cobro.save failOnError: true, flush: true
+        return cobro
+
+      }catch (Throwable ex){
+        String causa = ExceptionUtils.getRootCauseMessage(ex)
+        String message = "Error generando y timbrando recibo de pago cobroId:${cobro.id} Causa: ${causa}"
+        log.error(message)
+         throw  new ReciboDePagoException(cobro, message)
+      }
+    }
+
     def timbrar(Cobro cobro){
       try {
         def cfdi = generarCfdi(cobro)
