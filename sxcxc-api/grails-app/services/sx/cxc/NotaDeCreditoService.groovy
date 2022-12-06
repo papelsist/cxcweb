@@ -7,6 +7,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils
 
 import lx.cfdi.v33.Comprobante
 import com.luxsoft.cfdix.v33.NotaBuilder
+import com.cfdi4.Cfdi4NotaBuilder
 import sx.core.Sucursal
 import sx.core.Folio
 import sx.cfdi.Cfdi
@@ -16,6 +17,7 @@ import sx.inventario.DevolucionDeVenta
 import sx.core.LogUser
 import sx.core.AppConfig
 import sx.cfdi.CfdiService
+import sx.cfdi.Cfdi4Service
 import sx.cfdi.CancelacionService
 import sx.cfdi.CfdiTimbradoService
 import sx.utils.MonedaUtils
@@ -26,7 +28,11 @@ class NotaDeCreditoService implements LogUser{
 
     NotaBuilder notaBuilder
 
+    Cfdi4NotaBuilder cfdi4NotaBuilder
+
     CfdiService cfdiService
+
+    Cfdi4Service cfdi4Service
 
     CfdiTimbradoService cfdiTimbradoService
 
@@ -104,6 +110,13 @@ class NotaDeCreditoService implements LogUser{
     def generarCfdi(NotaDeCredito nota) {
         Comprobante comprobante = this.notaBuilder.build(nota);
         Cfdi cfdi = cfdiService.generarCfdi(comprobante, 'E', 'NOTA_CREDITO')
+        return cfdi
+    }
+
+    def generarCfdiV4(NotaDeCredito nota) {
+      println "Generando Cfdi V4 para nota de credito"
+        def comprobante = this.cfdi4NotaBuilder.build(nota);
+        Cfdi cfdi = cfdi4Service.generarCfdi(comprobante, 'E', 'NOTA_CREDITO')
         return cfdi
     }
 
