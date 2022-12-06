@@ -11,6 +11,7 @@ import com.cfdi4.CfdiCadenaBuilder4
 import com.cfdi4.CfdiTrasladoBuilder
 import com.cfdi4.Cfdi4NotaBuilder
 import com.cfdi4.Cfdi4NotaDeCargoBuilder
+import com.cfdi4.Cfdi4PagoBuilder
 
 // Place your Spring DSL code here
 
@@ -69,6 +70,10 @@ beans = {
   }
 
   cfdi4NotaDeCargoBuilder(Cfdi4NotaDeCargoBuilder) {
+    cfdiSellador4= ref('cfdiSellador4')
+  }
+
+  cfdi4PagoBuilder(Cfdi4PagoBuilder) {
     cfdiSellador4= ref('cfdiSellador4')
   }
 

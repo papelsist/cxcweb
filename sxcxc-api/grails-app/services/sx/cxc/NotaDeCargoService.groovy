@@ -9,9 +9,11 @@ import org.apache.commons.lang3.exception.ExceptionUtils
 import lx.cfdi.v33.Comprobante
 import sx.cfdi.Cfdi
 import sx.cfdi.CfdiService
+import sx.cfdi.Cfdi4Service
 import sx.cfdi.CfdiTimbradoService
 
 import com.luxsoft.cfdix.v33.NotaDeCargoBuilder
+import com.cfdi4.Cfdi4NotaDeCargoBuilder
 
 
 import sx.core.LogUser
@@ -28,7 +30,10 @@ class NotaDeCargoService implements LogUser {
 
     CfdiService cfdiService
 
+    Cfdi4Service cfdi4Service
+
     NotaDeCargoBuilder notaDeCargoBuilder
+    Cfdi4NotaDeCargoBuilder cfdi4NotaDeCargoBuilder
 
     Sucursal sucursal = null
 
@@ -112,6 +117,16 @@ class NotaDeCargoService implements LogUser {
     def generarCfdi(NotaDeCargo nota) {
         Comprobante comprobante = this.notaDeCargoBuilder.build(nota);
         Cfdi cfdi = cfdiService.generarCfdi(comprobante, 'I', 'NOTA_CARGO')
+        nota.cuentaPorCobrar.cfdi = cfdi
+        nota.cuentaPorCobrar.uuid = cfdi.uuid
+        nota.cfdi = cfdi
+        nota.save flush: true
+        return nota
+    }
+
+    def generarCfdiV4(NotaDeCargo nota) {
+        def comprobante = this.cfdi4NotaDeCargoBuilder.build(nota);
+        Cfdi cfdi = cfdi4Service.generarCfdi(comprobante, 'I', 'NOTA_CARGO')
         nota.cuentaPorCobrar.cfdi = cfdi
         nota.cuentaPorCobrar.uuid = cfdi.uuid
         nota.cfdi = cfdi
