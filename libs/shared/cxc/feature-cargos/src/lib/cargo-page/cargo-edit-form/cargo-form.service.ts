@@ -28,7 +28,7 @@ export class CargoFormService {
       const det: NotaDeCargoDet = control.value;
       const monto = det[property];
 
-      const participacion = MonedaUtils.round(monto / base, 2);
+      const participacion = MonedaUtils.round(monto / base, 4);
       const asignado = MonedaUtils.round(montoGeneral * participacion, 2);
       console.log(
         'Partida: %i Monto: %f Participacion: %f Asignación: %f',
@@ -63,7 +63,8 @@ export class CargoFormService {
       const det: Partial<NotaDeCargoDet> = control.value;
       det.cargo = cargo;
       const monto = sobreSaldo ? det.documentoSaldo : det.documentoTotal;
-      const total = MonedaUtils.round(monto * cargo);
+      //const total = MonedaUtils.round(monto * cargo);
+      const total = monto * cargo ;
       const importe = MonedaUtils.calcularImporteDelTotal(total);
       const impuesto = MonedaUtils.calcularImpuesto(importe);
       det.total = total;

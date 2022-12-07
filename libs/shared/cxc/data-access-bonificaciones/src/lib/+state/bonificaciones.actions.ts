@@ -76,6 +76,20 @@ export const timbrarBonificacionSuccess = createAction(
   props<{ bonificacion: BonificacionesEntity }>()
 );
 
+export const timbrarBonificacionV4 = createAction(
+  '[Bonificacion Component] Timbrar V4 bonificacion',
+  props<{ bonificacion: Partial<BonificacionesEntity> }>()
+);
+export const timbrarBonificacionV4Fail = createAction(
+  '[Bonificaciones effects] Timbrar V4 bonificacion fail',
+  props<{ error: any }>()
+);
+export const timbrarBonificacionV4Success = createAction(
+  '[Bonificaciones effects] Timbrar V4 bonificacion success',
+  props<{ bonificacion: BonificacionesEntity }>()
+);
+
+
 export const cancelarBonificacion = createAction(
   '[Bonificacion Component] Cancelar bonificacion',
   props<{ bonificacion: Partial<BonificacionesEntity>; motivo: string }>()

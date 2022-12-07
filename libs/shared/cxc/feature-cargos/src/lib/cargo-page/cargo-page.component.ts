@@ -69,6 +69,31 @@ export class CargoPageComponent implements OnInit {
       .subscribe((res) => this.doTimbrar(cargo));
   }
 
+  onTimbrarV4(cargo: Partial<NotaDeCargo>) {
+    console.log('Timbrando nota de cargo en version 4.0');
+    this.dialogService
+    .openConfirm({
+      title: 'Comprobante fiscal digital',
+      message: 'Timbrar la nota de cargo: ' + cargo.folio,
+      cancelButton: 'Cancelar',
+      acceptButton: 'Timbrar',
+    })
+    .afterClosed()
+    .subscribe((res) => this.doTimbrarV4(cargo));
+  }
+
+  private doTimbrarV4(cargo: Partial<NotaDeCargo>) {
+    this._loading$.next(true);
+    this.service
+      .timbrarV4(cargo.id)
+      .pipe(finalize(() => this._loading$.next(false)))
+      .subscribe(
+        () => this.load(),
+        (err) => this.onError(err)
+      );
+  }
+
+
   private doTimbrar(cargo: Partial<NotaDeCargo>) {
     this._loading$.next(true);
     this.service

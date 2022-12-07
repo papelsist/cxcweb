@@ -1,105 +1,65 @@
-<ng-template
-  tdLoading
-  [tdLoadingUntil]="!(loading$ | async)"
-  [tdLoadingStrategy]="'overlay'"
->
-  <mat-card *ngIf="cargo$ | async as cargo">
-    <div
-      class="mat-title"
-      fxLayout
-      fxLayoutAlign="start center"
-      fxLayoutGap="10px"
+<ng-template tdLoading [tdLoadingUntil]="!(loading$ | async)" [tdLoadingStrategy]="'overlay'">
+    <mat-card *ngIf="cargo$ | async as cargo">
+        <div class="mat-title" fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
+            <span>Nota: {{ cargo.folio }}</span>
+            <span>{{ cargo.nombre }}</span>
+        </div>
+        <div class="mat-subtitle" fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
+            <span>Tipo :</span>
+            <span><strong>{{ cargo.tipo }}</strong></span
     >
-      <span>Nota: {{ cargo.folio }}</span>
-      <span>{{ cargo.nombre }}</span>
-    </div>
-    <div
-      class="mat-subtitle"
-      fxLayout
-      fxLayoutAlign="start center"
-      fxLayoutGap="10px"
+    <span>Fecha: </span>
+            <span><strong>{{ cargo.fecha | date: 'dd/MM/yyyy' }}</strong></span
     >
-      <span>Tipo :</span>
-      <span
-        ><strong>{{ cargo.tipo }}</strong></span
-      >
-      <span>Fecha: </span>
-      <span
-        ><strong>{{ cargo.fecha | date: 'dd/MM/yyyy' }}</strong></span
-      >
-    </div>
-    <mat-divider></mat-divider>
-    <td-message
-      label="Cancelado"
-      sublabel="Nota de cargo y CFDI cancelados el: {{
-        cargo.cancelacion | date: 'dd/MM/yyyy hh:mm'
-      }}"
-      color="accent"
-      icon="warning"
-      *ngIf="cargo.cancelacion"
+  </div>
+  <mat-divider></mat-divider>
+  <td-message
+    label="Cancelado"
+    sublabel="Nota de cargo y CFDI cancelados el: {{
+      cargo.cancelacion | date: 'dd/MM/yyyy hh:mm'
+    }}"
+    color="accent"
+    icon="warning"
+    *ngIf="cargo.cancelacion"
+  >
+    <button
+      td-message-actions
+      mat-button
+      (click)="mostrarCancelacionInfo(cargo)"
     >
-      <button
-        td-message-actions
-        mat-button
-        (click)="mostrarCancelacionInfo(cargo)"
-      >
-        <mat-icon>info</mat-icon>
-        <span>Detalle</span>
+      <mat-icon>info</mat-icon>
+      <span>Detalle</span>
+            </button>
+            </td-message>
+            <mat-card-content>
+                <nx-papelsa-cxc-cargo-edit-form #form class="edit-form" [cargo]="cargo" (update)="onUpdate($event)"></nx-papelsa-cxc-cargo-edit-form>
+            </mat-card-content>
+
+            <mat-card-actions>
+                <nx-papelsa-back-button></nx-papelsa-back-button>
+
+                <ng-container *ngIf="cargo.cfdi && !cargo.cancelacion">
+                    <nx-papelsa-cfdi-pdf [cfdi]="cargo.cfdi"></nx-papelsa-cfdi-pdf>
+                    <nx-papelsa-cfdi-xml [cfdi]="cargo.cfdi"></nx-papelsa-cfdi-xml>
+                    <nx-papelsa-cfdi-email [cfdi]="cargo.cfdi" [target]="cargo.cliente.cfdiMail"></nx-papelsa-cfdi-email>
+                    <nx-papelsa-cfdi-cancelar [cfdi]="cargo.cfdi" (cancelar)="onCancelar(cargo, $event)"></nx-papelsa-cfdi-cancelar>
+                </ng-container>
+
+                <ng-container *ngIf="!cargo.cfdi">
+                    <button *ngIf="!cargo.cfdi" mat-raised-button color="primary" (click)="form.onSubmit()" [disabled]="form.form.pristine || form.form.invalid">
+        <mat-icon>save</mat-icon>
+        <span>Actualizar</span>
       </button>
-    </td-message>
-    <mat-card-content>
-      <nx-papelsa-cxc-cargo-edit-form
-        #form
-        class="edit-form"
-        [cargo]="cargo"
-        (update)="onUpdate($event)"
-      ></nx-papelsa-cxc-cargo-edit-form>
-    </mat-card-content>
+                    <nx-papelsa-cfdi-timbrar *ngIf="cargo.total > 0.0" color="accent" (timbrar)="onTimbrar(cargo)" [disabled]="form.form.dirty"></nx-papelsa-cfdi-timbrar>
+                    <nx-papelsa-cfdi-timbrarv4 *ngIf="cargo.total > 0.0" color="accent" (timbrarV4)="onTimbrarV4(cargo)" [disabled]="form.form.dirty"></nx-papelsa-cfdi-timbrarv4>
+                    <nx-papelsa-delete-entity [entity]="cargo" (delete)="onDelete($event)"></nx-papelsa-delete-entity>
+                </ng-container>
 
-    <mat-card-actions>
-      <nx-papelsa-back-button></nx-papelsa-back-button>
-
-      <ng-container *ngIf="cargo.cfdi && !cargo.cancelacion">
-        <nx-papelsa-cfdi-pdf [cfdi]="cargo.cfdi"></nx-papelsa-cfdi-pdf>
-        <nx-papelsa-cfdi-xml [cfdi]="cargo.cfdi"></nx-papelsa-cfdi-xml>
-        <nx-papelsa-cfdi-email
-          [cfdi]="cargo.cfdi"
-          [target]="cargo.cliente.cfdiMail"
-        ></nx-papelsa-cfdi-email>
-        <nx-papelsa-cfdi-cancelar
-          [cfdi]="cargo.cfdi"
-          (cancelar)="onCancelar(cargo, $event)"
-        ></nx-papelsa-cfdi-cancelar>
-      </ng-container>
-
-      <ng-container *ngIf="!cargo.cfdi">
-        <button
-          *ngIf="!cargo.cfdi"
-          mat-raised-button
-          color="primary"
-          (click)="form.onSubmit()"
-          [disabled]="form.form.pristine || form.form.invalid"
-        >
-          <mat-icon>save</mat-icon>
-          <span>Actualizar</span>
-        </button>
-        <nx-papelsa-cfdi-timbrar
-          *ngIf="cargo.total > 0.0"
-          color="accent"
-          (timbrar)="onTimbrar(cargo)"
-          [disabled]="form.form.dirty"
-        ></nx-papelsa-cfdi-timbrar>
-        <nx-papelsa-delete-entity
-          [entity]="cargo"
-          (delete)="onDelete($event)"
-        ></nx-papelsa-delete-entity>
-      </ng-container>
-
-      <ng-container *ngIf="cargo.cancelacion">
-        <button mat-button>
-          <span>Acuse de Cancelación</span>
-        </button>
-      </ng-container>
-    </mat-card-actions>
-  </mat-card>
+                <ng-container *ngIf="cargo.cancelacion">
+                    <button mat-button>
+        <span>Acuse de Cancelación</span>
+      </button>
+                </ng-container>
+            </mat-card-actions>
+    </mat-card>
 </ng-template>

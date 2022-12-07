@@ -56,6 +56,7 @@ const bonificacionesReducer = createReducer(
     BonificacionesActions.deleteBonificacion,
     BonificacionesActions.cancelarBonificacion,
     BonificacionesActions.timbrarBonificacion,
+    BonificacionesActions.timbrarBonificacionV4,
     BonificacionesActions.loadBonificaciones,
     BonificacionesActions.saveBonificacion,
     BonificacionesActions.updateBonificacion,
@@ -80,6 +81,7 @@ const bonificacionesReducer = createReducer(
     BonificacionesActions.deleteBonificacionFail,
     BonificacionesActions.cancelarBonificacionFail,
     BonificacionesActions.timbrarBonificacionFail,
+    BonificacionesActions.timbrarBonificacionV4Fail,
     BonificacionesActions.loadBonificacionesFailure,
     BonificacionesActions.saveBonificacionFail,
     BonificacionesActions.updateBonificacionFail,
@@ -110,6 +112,7 @@ const bonificacionesReducer = createReducer(
     BonificacionesActions.aplicarSuccess,
     BonificacionesActions.cancelarBonificacionSuccess,
     BonificacionesActions.timbrarBonificacionSuccess,
+    BonificacionesActions.timbrarBonificacionV4Success,
     BonificacionesActions.updateBonificacionSuccess,
     (state, { bonificacion }) =>
       bonificacionesAdapter.upsertOne(bonificacion, {

@@ -26,6 +26,7 @@ import {
 import { CXCFacade } from '@nx-papelsa/shared/cxc/data-acces';
 import { BonificacionesEntity } from './bonificaciones.models';
 import { Update } from '@ngrx/entity';
+import { timbrarBonificacionV4 } from './bonificaciones.actions';
 
 @Injectable()
 export class BonificacionesFacade {
@@ -95,6 +96,11 @@ export class BonificacionesFacade {
   timbrar(nota: Partial<NotaDeCredito>) {
     console.log('Timbrando Nota de bonificación');
     this.dispatch(timbrarBonificacion({ bonificacion: nota }));
+  }
+
+  timbrarV4(nota: Partial<NotaDeCredito>) {
+    console.log('Timbrando Nota de bonificación');
+    this.dispatch(timbrarBonificacionV4({ bonificacion: nota }));
   }
 
   cancelar(bonificacion: Partial<NotaDeCredito>, motivo: string) {

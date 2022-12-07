@@ -111,6 +111,14 @@ export class CobrosFacade {
     );
   }
 
+  generarReciboV4(cobro: Partial<Cobro>) {
+    this.dispatch(
+      CobrosActions.generarReciboV4({
+        id: cobro.id,
+      })
+    );
+  }
+
   saldar(cobro: Partial<Cobro>) {
     this.dispatch(CobrosActions.saldarCobro({ id: cobro.id }));
   }

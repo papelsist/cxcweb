@@ -67,6 +67,14 @@ export class BonificacionesService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
+  timbrarV4(bonificacion: Partial<NotaDeCredito>) {
+    const url = `${this.apiUrl}/timbrarV4/${bonificacion.id}`;
+    console.log('Timbrando desde bonificacion desde el service');
+     return this.http
+      .put<NotaDeCredito>(url, {})
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
   aplicar(bonificacion: Partial<BonificacionesEntity>) {
     const url = `${this.apiUrl}/aplicar/${bonificacion.id}`;
     return this.http

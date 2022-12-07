@@ -64,6 +64,16 @@ export class BonificacionPageComponent extends BaseComponent implements OnInit {
     });
   }
 
+  onTimbrarV4(bonificacion: Partial<NotaDeCredito>) {
+    console.log('Timbrando nota de bonificacion en version 4.0');
+     this.confirm(
+      'Generar comprobante fiscal (CFDI)',
+      `Total: $${bonificacion.total}`
+    ).subscribe((res) => {
+      if (res) this.facade.timbrarV4(bonificacion);
+    }); 
+  }
+
   onCancelar(bonificacion: Partial<NotaDeCredito>, { motivo }) {
     this.facade.cancelar(bonificacion, motivo);
   }

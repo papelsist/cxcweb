@@ -12,6 +12,7 @@ import { map, tap } from 'rxjs/operators';
 import { TdDialogService } from '@covalent/core/dialogs';
 import { Cartera } from '@nx-papelsa/shared/utils/core-models';
 import { persistCobrosState } from './cobros.utils';
+import { generarReciboV4 } from './cobros.actions';
 
 @Injectable()
 export class CobrosEffects {
@@ -118,6 +119,31 @@ export class CobrosEffects {
       ) => {
         console.error('Error', error);
         return CobrosActions.generarReciboFail({ error });
+      },
+    })
+  );
+
+  generarReciboV4$ = createEffect(() =>
+    this.dataPersistence.pessimisticUpdate(CobrosActions.generarReciboV4, {
+      run: (
+        action: ReturnType<typeof CobrosActions.generarReciboV4>,
+        state: fromCobros.CobrosPartialState
+      ) => {
+        const id = action.id;
+        return this.service.generarReciboV4(id).pipe(
+          map((cobro) =>
+            CobrosActions.generarReciboV4Success({
+              cobro,
+            })
+          )
+        );
+      },
+      onError: (
+        action: ReturnType<typeof CobrosActions.generarReciboV4>,
+        error
+      ) => {
+        console.error('Error', error);
+        return CobrosActions.generarReciboV4Fail({ error });
       },
     })
   );

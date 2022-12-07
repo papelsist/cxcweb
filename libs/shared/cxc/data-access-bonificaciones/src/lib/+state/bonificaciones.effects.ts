@@ -124,6 +124,28 @@ export class BonificacionesEffects {
     )
   );
 
+  timbrarV4$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(BonificacionesActions.timbrarBonificacionV4),
+    pessimisticUpdate({
+      run: ({ bonificacion }) => {
+        return this.service.timbrarV4(bonificacion).pipe(
+          map((res) =>
+            BonificacionesActions.timbrarBonificacionV4Success({
+              bonificacion: res,
+            })
+          )
+        );
+      },
+
+      onError: (action, error) => {
+        console.error('Error timbrando bonificacion', error);
+        return BonificacionesActions.timbrarBonificacionV4Fail({ error });
+      },
+    })
+  )
+);
+
   aplicar$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BonificacionesActions.aplicar),

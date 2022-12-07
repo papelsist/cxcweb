@@ -83,6 +83,14 @@ export class CobroService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
+  generarReciboV4(id: string): Observable<Cobro> {
+    console.log('Timbrando recibo de pago en CFDI 4 desde el service');
+    const url = `${this.apiUrl}/timbrarV4/${id}`;
+    return this.http
+      .put<Cobro>(url, {})
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
   cancelarRecibo(id: string, motivo: string): Observable<Cobro> {
     const url = `${this.apiUrl}/cancelarRecibo/${id}`;
     const params = new HttpParams().set('motivo', motivo);

@@ -73,6 +73,20 @@ export const generarReciboSuccess = createAction(
   props<{ cobro: Cobro }>()
 );
 
+
+export const generarReciboV4 = createAction(
+  '[Cobros Facade Cobro Page] Generar recibo V4 de pago',
+  props<{ id: string }>()
+);
+export const generarReciboV4Fail = createAction(
+  '[Cobros Effects] Generar recibo de pago fail',
+  props<{ error: any }>()
+);
+export const generarReciboV4Success = createAction(
+  '[Cobros Effects] Generar recibo de pago V4 success',
+  props<{ cobro: Cobro }>()
+);
+
 export const saldarCobro = createAction(
   '[Cobros Facade Cobro Page] Saldar disponible de cobro',
   props<{ id: string }>()

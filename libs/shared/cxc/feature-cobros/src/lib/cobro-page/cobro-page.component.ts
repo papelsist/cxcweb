@@ -67,12 +67,25 @@ export class CobroPageComponent extends BaseComponent implements OnInit {
   onGenerarRecibo(cobro: Cobro) {
     this.confirm(
       'Generar recibo electrónico de pago',
-      `Importe: $${cobro.importe}`
+      `Importe: $${cobro.importe}`
     ).subscribe((res) => {
       if (res) {
         this.facade.generarRecibo(cobro);
       }
     });
+  }
+
+
+  onGenerarReciboV4(cobro: Cobro) {
+    console.log('Generando el recibo de pago en version 4');
+    this.confirm(
+      'Generar recibo electrónico de pago',
+      `Importe: $${cobro.importe}`
+    ).subscribe((res) => {
+      if (res) {
+        this.facade.generarReciboV4(cobro);
+      }
+    }); 
   }
 
   onSaldar(cobro: Cobro) {

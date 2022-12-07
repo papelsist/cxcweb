@@ -67,6 +67,13 @@ export class CargosService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
+  timbrarV4(id: string): Observable<NotaDeCargo> {
+    const url = `${this.apiUrl}/timbrarV4/${id}`;
+    return this.http
+      .post<NotaDeCargo>(url, {})
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
   cancelar(id: string, motivo: string): Observable<NotaDeCargo> {
     const url = `${this.apiUrl}/cancelar/${id}`;
     const params = new HttpParams().set('motivo', motivo);
