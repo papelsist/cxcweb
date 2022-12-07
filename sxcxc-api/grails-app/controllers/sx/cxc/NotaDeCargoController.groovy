@@ -10,6 +10,7 @@ import grails.web.servlet.mvc.GrailsParameterMap
 import org.apache.commons.lang3.exception.ExceptionUtils
 
 import com.luxsoft.cfdix.v33.NotaDeCargoPdfGenerator
+import com.cfdi4.V4NotaDeCargoPdfGenerator
 import sx.reports.ReportService
 import sx.utils.Periodo
 
@@ -25,6 +26,7 @@ class NotaDeCargoController extends RestfulController<NotaDeCargo> {
     ReportService reportService
 
     NotaDeCargoPdfGenerator notaDeCargoPdfGenerator
+    V4NotaDeCargoPdfGenerator v4NotaDeCargoPdfGenerator
 
     NotaDeCargoController() {
         super(NotaDeCargo)

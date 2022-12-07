@@ -81,6 +81,10 @@ beans = {
     cfdiLocationService = ref('cfdiLocationService')
   }
 
+  /*   v4notaDeCargoPdfGenerator(V4NotaDeCargoPdfGenerator) {
+    cfdiLocationService = ref('cfdiLocationService')
+  } */
+
   localeResolver(FixedLocaleResolver, Locale.US) {
     defaultLocale = new Locale('es', 'MX')
     Locale.setDefault(defaultLocale)

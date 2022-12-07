@@ -12,6 +12,8 @@ import grails.gorm.transactions.Transactional
 import com.luxsoft.cfdix.v33.V33PdfGeneratorPos
 import com.luxsoft.cfdix.v33.NotaPdfGenerator
 import com.cfdi4.V4NotaPdfGenerator
+import com.cfdi4.V4NotaDeCargoPdfGenerator
+import com.cfdi4.V4ReciboDePagoPdfGenerator
 import com.luxsoft.cfdix.v33.ReciboDePagoPdfGenerator
 import com.luxsoft.cfdix.v33.NotaDeCargoPdfGenerator
 
@@ -116,7 +118,12 @@ class CfdiPrintService {
     public ByteArrayOutputStream generarNotaDeCargo( Cfdi cfdi) {
         def realPath = ServletContextHolder.getServletContext().getRealPath("/reports") ?: 'reports'
         NotaDeCargo cargo = NotaDeCargo.where{cfdi == cfdi}.find()
-        def data = notaDeCargoPdfGenerator.getReportData(cargo)
+        Map data =null
+         if(cfdi.versionCfdi == '3.3'){
+            data = notaDeCargoPdfGenerator.getReportData(cargo)
+        }else{
+            data = V4NotaDeCargoPdfGenerator.getReportData(cargo)
+        }
         Map parametros = data['PARAMETROS']
         parametros.LOGO = realPath + '/PAPEL_CFDI_LOGO.jpg'
         return reportService.run('PapelCFDI3Nota.jrxml', data['PARAMETROS'], data['CONCEPTOS'])
@@ -129,7 +136,12 @@ class CfdiPrintService {
     public ByteArrayOutputStream generarReciboDePago( Cfdi cfdi) {
         String realPath = ServletContextHolder.getServletContext().getRealPath("/reports") ?: 'reports'
         Cobro cobro = Cobro.where{cfdi == cfdi}.find()
-        Map data = ReciboDePagoPdfGenerator.getReportData(cobro)
+         Map data =null
+         if(cfdi.versionCfdi == '3.3'){
+            data = ReciboDePagoPdfGenerator.getReportData(cobro)
+        }else{
+            data = V4ReciboDePagoPdfGenerator.getReportData(cobro)
+        }
         Map parametros = data['PARAMETROS']
         parametros.LOGO = realPath + '/PAPEL_CFDI_LOGO.jpg'
        return reportService.run('ReciboDePagoCFDI33.jrxml', data['PARAMETROS'], data['CONCEPTOS'])

@@ -84,6 +84,7 @@ class OriginalUrlMappings {
         "/api/cxc/cobro/reporteDeRelacionDePagos"(controller: "cobro", action: 'reporteDeRelacionDePagos', method: 'GET')
         "/api/cxc/cobro/timbrar/$id"(controller: 'cobro', action: 'timbrar', method: 'PUT')
         "/api/cxc/cobro/timbradoBatch"(controller: 'cobro', action: 'timbradoBatch', method: 'PUT')
+        "/api/cxc/cobro/timbrarV4/$id"(controller: 'cobro', action: 'timbrarV4', method: 'PUT')
         "/api/cxc/cobro/reporteDeRecibosPendientes"(controller: "cobro", action: 'reporteDeRecibosPendientes', method: 'GET')
 
         "/api/cxc/cobro/cancelarRecibo/$id"(controller: "cobro", action: 'cancelarRecibo', method: 'PUT')
@@ -111,6 +112,7 @@ class OriginalUrlMappings {
 
         "/api/cxc/notasDeCargo"(resources: "notaDeCargo")
         "/api/cxc/notasDeCargo/timbrar/$id"(controller: 'notaDeCargo', action: 'timbrar', method: 'POST')
+        "/api/cxc/notasDeCargo/timbrarV4/$id"(controller: 'notaDeCargo', action: 'timbrarV4', method: 'POST')
         "/api/cxc/notasDeCargo/cancelar/$id"(controller: 'notaDeCargo', action: 'cancelar', method: 'PUT')
         "/api/cxc/notasDeCargo/print/$id"(controller: 'notaDeCargo', action: 'print', method: 'GET')
         "/api/cxc/notasDeCargo/reporteDeNotasDeCargo"(controller: 'notaDeCargo', action: 'reporteDeNotasDeCargo', method: 'GET')
