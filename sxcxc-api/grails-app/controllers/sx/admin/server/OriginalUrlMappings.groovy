@@ -102,6 +102,7 @@ class OriginalUrlMappings {
         "/api/cxc/notas/generarConRmd/$id"(controller: 'notaDeCredito', action: 'generarConRmd', method: 'POST')
         "/api/cxc/notas/solicitarAutorizacion/$id"(controller: 'notaDeCredito', action: 'solicitarAutorizacion', method: 'PUT')
         "/api/cxc/notas/timbrar/$id"(controller: 'notaDeCredito', action: 'timbrar', method: 'PUT')
+        "/api/cxc/notas/timbrarV4/$id"(controller: 'notaDeCredito', action: 'timbrarV4', method: 'PUT')
         "/api/cxc/notas/cancelar/$id"(controller: 'notaDeCredito', action: 'cancelar', method: 'PUT')
 
         "/api/cxc/notas/aplicar/$id"(controller: 'notaDeCredito', action: 'aplicar', method: 'PUT')

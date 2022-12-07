@@ -11,6 +11,7 @@ import grails.gorm.transactions.Transactional
 
 import com.luxsoft.cfdix.v33.V33PdfGeneratorPos
 import com.luxsoft.cfdix.v33.NotaPdfGenerator
+import com.cfdi4.V4NotaPdfGenerator
 import com.luxsoft.cfdix.v33.ReciboDePagoPdfGenerator
 import com.luxsoft.cfdix.v33.NotaDeCargoPdfGenerator
 
@@ -97,7 +98,12 @@ class CfdiPrintService {
     public ByteArrayOutputStream generarNotaDeCredito( Cfdi cfdi) {
         String realPath = ServletContextHolder.getServletContext().getRealPath("/reports") ?: 'reports'
         NotaDeCredito nota = NotaDeCredito.where{cfdi == cfdi}.find()
-        Map data = NotaPdfGenerator.getReportData(nota)
+        Map data =null
+        if(cfdi.versionCfdi == '3.3'){
+            data = NotaPdfGenerator.getReportData(nota)
+        }else{
+            data = V4NotaPdfGenerator.getReportData(nota)
+        }
         Map parametros = data['PARAMETROS']
         parametros.LOGO = realPath + '/PAPEL_CFDI_LOGO.jpg'
         return reportService.run('PapelCFDI3Nota.jrxml', data['PARAMETROS'], data['CONCEPTOS'])
