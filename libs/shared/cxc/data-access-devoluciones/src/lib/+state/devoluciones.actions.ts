@@ -77,6 +77,19 @@ export const timbrarDevolucionSuccess = createAction(
   props<{ devolucion: DevolucionesEntity }>()
 );
 
+export const timbrarDevolucionV4 = createAction(
+  '[Devolucion Component] Timbrar V4 devolucion',
+  props<{ devolucion: Partial<DevolucionesEntity> }>()
+);
+export const timbrarDevolucionV4Fail = createAction(
+  '[Devoluciones effects] Timbrar  V4 devolucion fail',
+  props<{ error: any }>()
+);
+export const timbrarDevolucionV4Success = createAction(
+  '[Devoluciones effects] Timbrar V4 devolucion success',
+  props<{ devolucion: DevolucionesEntity }>()
+);
+
 export const deleteDevolucion = createAction(
   '[Devolucion Component] Delete devolucion',
   props<{ devolucion: DevolucionesEntity }>()

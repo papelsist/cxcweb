@@ -49,6 +49,18 @@ export class DevolucionPageComponent extends BaseComponent implements OnInit {
     });
   }
 
+  onTimbrarV4(devolucion: NotaDeCredito) {
+    console.log('Timbrando CFDI en V4');
+    
+    this.confirm(
+      'Generar comprobante fiscal (CFDI)',
+      `Total: $${devolucion.total}`
+    ).subscribe((res) => {
+      if (res) this.facade.timbrarV4(devolucion);
+    });
+    
+  }
+
   onCancelar(devolucion: NotaDeCredito, { motivo }) {
     this.facade.cancelar(devolucion, motivo);
   }

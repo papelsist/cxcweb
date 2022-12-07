@@ -189,6 +189,28 @@ export class DevolucionesEffects {
     )
   );
 
+  timbrarV4$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(DevolucionesActions.timbrarDevolucionV4),
+    pessimisticUpdate({
+      run: ({ devolucion }) => {
+        return this.service.timbrarV4(devolucion).pipe(
+          map((res) =>
+            DevolucionesActions.timbrarDevolucionSuccess({
+              devolucion: res,
+            })
+          )
+        );
+      },
+
+      onError: (action, error) => {
+        console.error('Error timbrando devolucion', error);
+        return DevolucionesActions.timbrarDevolucionFail({ error });
+      },
+    })
+  )
+);
+
   aplicar$ = createEffect(() =>
     this.actions$.pipe(
       ofType(DevolucionesActions.aplicar),

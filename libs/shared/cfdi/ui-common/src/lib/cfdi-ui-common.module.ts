@@ -9,6 +9,7 @@ import { UiCommonModule } from '@nx-papelsa/shared/utils/ui-common';
 import { CfdiXmlComponent } from './cfdi-xml/cfdi-xml.component';
 import { CfdiPdfComponent } from './cfdi-pdf/cfdi-pdf.component';
 import { CfdiTimbrarComponent } from './cfdi-timbrar/cfdi-timbrar.component';
+import { CfdiTimbrarV4Component } from './cfdi-timbrarv4/cfdi-timbrarv4.component';
 import { CfdiEmailComponent } from './cfdi-email/cfdi-email.component';
 import { CfdiCancelarComponent } from './cfdi-cancelar/cfdi-cancelar.component';
 
@@ -27,6 +28,7 @@ import { CfdiCancelXmlComponent } from './cfdi-cancel-xml/cfdi-cancel-xml.compon
     CfdiXmlComponent,
     CfdiPdfComponent,
     CfdiTimbrarComponent,
+    CfdiTimbrarV4Component,
     CfdiEmailComponent,
     CfdiCancelarComponent,
     CfdiEmailBulkComponent,
@@ -37,6 +39,7 @@ import { CfdiCancelXmlComponent } from './cfdi-cancel-xml/cfdi-cancel-xml.compon
     CfdiXmlComponent,
     CfdiPdfComponent,
     CfdiTimbrarComponent,
+    CfdiTimbrarV4Component,
     CfdiEmailComponent,
     CfdiCancelarComponent,
     CfdiEmailBulkComponent,

@@ -1,73 +1,35 @@
-<ng-template
-  tdLoading
-  [tdLoadingUntil]="!(loading$ | async)"
-  tdLoadingStrategy="overlay"
->
-  <div class="devolucion-container">
-    <nx-papelsa-devolucion-form
-      #form
-      *ngIf="devolucion$ | async as devolucion"
-      [devolucion]="devolucion"
-      (update)="onUpdate($event)"
-    >
-      <ng-container *ngIf="devolucion.cfdi && !devolucion.cancelacion">
-        <nx-papelsa-cfdi-pdf [cfdi]="devolucion.cfdi"></nx-papelsa-cfdi-pdf>
-        <nx-papelsa-cfdi-xml [cfdi]="devolucion.cfdi"></nx-papelsa-cfdi-xml>
-        <nx-papelsa-cfdi-email
-          [cfdi]="devolucion.cfdi"
-          [target]="devolucion.cliente.cfdiMail"
-        ></nx-papelsa-cfdi-email>
-        <nx-papelsa-cfdi-cancelar
-          [cfdi]="devolucion.cfdi"
-          (cancelar)="onCancelar(devolucion, $event)"
-        ></nx-papelsa-cfdi-cancelar>
-        <button
-          mat-button
-          *ngIf="devolucion.disponible > 0"
-          matTooltip="Aplicación automática a las facturas de los conceptos"
-          (click)="onAplicar(devolucion)"
-        >
-          <mat-icon>grading</mat-icon>
-          <span>Aplicar</span>
-        </button>
-      </ng-container>
+<ng-template tdLoading [tdLoadingUntil]="!(loading$ | async)" tdLoadingStrategy="overlay">
+    <div class="devolucion-container">
+        <nx-papelsa-devolucion-form #form *ngIf="devolucion$ | async as devolucion" [devolucion]="devolucion" (update)="onUpdate($event)">
+            <ng-container *ngIf="devolucion.cfdi && !devolucion.cancelacion">
+                <nx-papelsa-cfdi-pdf [cfdi]="devolucion.cfdi"></nx-papelsa-cfdi-pdf>
+                <nx-papelsa-cfdi-xml [cfdi]="devolucion.cfdi"></nx-papelsa-cfdi-xml>
+                <nx-papelsa-cfdi-email [cfdi]="devolucion.cfdi" [target]="devolucion.cliente.cfdiMail"></nx-papelsa-cfdi-email>
+                <nx-papelsa-cfdi-cancelar [cfdi]="devolucion.cfdi" (cancelar)="onCancelar(devolucion, $event)"></nx-papelsa-cfdi-cancelar>
+                <button mat-button *ngIf="devolucion.disponible > 0" matTooltip="Aplicación automática a las facturas de los conceptos" (click)="onAplicar(devolucion)">
+        <mat-icon>grading</mat-icon>
+        <span>Aplicar</span>
+      </button>
+            </ng-container>
 
-      <ng-container *ngIf="!devolucion.cfdi">
-        <!-- <nx-papelsa-autorizacion
-          *ngIf="!devolucion.autorizo"
-          [disabled]="!porAutrizar(devolucion)"
-          descripcion="Bonificación: {{ devolucion.concepto }}"
-          (autorizacion)="onAutorizar($event, devolucion)"
-        >
-        </nx-papelsa-autorizacion> -->
-        <nx-papelsa-cfdi-timbrar
-          *ngIf="devolucion.devolucion && devolucion.total > 0"
-          color="accent"
-          (timbrar)="onTimbrar(devolucion)"
-          [disabled]="form.isDirty()"
-        ></nx-papelsa-cfdi-timbrar>
-        <nx-papelsa-delete-entity
-          [entity]="devolucion"
-          title="Eliminar bonificación"
-          message="Folio: {{ devolucion.folio }}"
-          (delete)="onDelete(devolucion)"
-        ></nx-papelsa-delete-entity>
-      </ng-container>
-      <nx-papelsa-cfdi-cancel-xml
-        [cfdi]="devolucion.cfdi"
-        *ngIf="devolucion.cancelacion"
-      ></nx-papelsa-cfdi-cancel-xml>
-
-      <div
-        fxFlex
-        fxLayout
-        fxLayoutAlign="end center"
-        fxLayoutGap="5px"
-        *ngIf="devolucion.autorizo"
+            <ng-container *ngIf="!devolucion.cfdi">
+                <!-- <nx-papelsa-autorizacion
+        *ngIf="!devolucion.autorizo"
+        [disabled]="!porAutrizar(devolucion)"
+        descripcion="Bonificación: {{ devolucion.concepto }}"
+        (autorizacion)="onAutorizar($event, devolucion)"
       >
-        <mat-icon>verified</mat-icon>
-        <span> Autorizada</span>
-      </div>
-    </nx-papelsa-devolucion-form>
-  </div>
+      </nx-papelsa-autorizacion> -->
+                <nx-papelsa-cfdi-timbrar *ngIf="devolucion.devolucion && devolucion.total > 0" color="accent" (timbrar)="onTimbrar(devolucion)" [disabled]="form.isDirty()"></nx-papelsa-cfdi-timbrar>
+                <nx-papelsa-cfdi-timbrarv4 *ngIf="devolucion.devolucion && devolucion.total > 0" color="accent" (timbrarV4)="onTimbrarV4(devolucion)" [disabled]="form.isDirty()"></nx-papelsa-cfdi-timbrarv4>
+                <nx-papelsa-delete-entity [entity]="devolucion" title="Eliminar bonificación" message="Folio: {{ devolucion.folio }}" (delete)="onDelete(devolucion)"></nx-papelsa-delete-entity>
+            </ng-container>
+            <nx-papelsa-cfdi-cancel-xml [cfdi]="devolucion.cfdi" *ngIf="devolucion.cancelacion"></nx-papelsa-cfdi-cancel-xml>
+
+            <div fxFlex fxLayout fxLayoutAlign="end center" fxLayoutGap="5px" *ngIf="devolucion.autorizo">
+                <mat-icon>verified</mat-icon>
+                <span> Autorizada</span>
+            </div>
+        </nx-papelsa-devolucion-form>
+    </div>
 </ng-template>

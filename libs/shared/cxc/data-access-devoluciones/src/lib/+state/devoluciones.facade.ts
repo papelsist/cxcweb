@@ -94,6 +94,11 @@ export class DevolucionesFacade {
     this.dispatch(DevolucionesActions.timbrarDevolucion({ devolucion }));
   }
 
+  timbrarV4(devolucion: NotaDeCredito) {
+    console.log('Ejecutando el facade de nota de credito para timbrar');
+    this.dispatch(DevolucionesActions.timbrarDevolucionV4({ devolucion }));
+  }
+
   aplicar(devolucion: NotaDeCredito) {
     this.dispatch(DevolucionesActions.aplicar({ devolucion }));
   }

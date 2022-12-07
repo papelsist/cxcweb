@@ -59,6 +59,7 @@ const devolucionesReducer = createReducer(
     DevolucionesActions.updateDevolucion,
     DevolucionesActions.cancelarDevolucion,
     DevolucionesActions.timbrarDevolucion,
+    DevolucionesActions.timbrarDevolucionV4,
     DevolucionesActions.deleteDevolucion,
     DevolucionesActions.aplicar,
     (state) => ({
@@ -79,6 +80,7 @@ const devolucionesReducer = createReducer(
     DevolucionesActions.updateDevolucionSuccess,
     DevolucionesActions.cancelarDevolucionSuccess,
     DevolucionesActions.timbrarDevolucionSuccess,
+    DevolucionesActions.timbrarDevolucionV4Success,
     DevolucionesActions.aplicarSuccess,
     (state, { devolucion }) =>
       devolucionesAdapter.upsertOne(devolucion, {
@@ -101,6 +103,7 @@ const devolucionesReducer = createReducer(
     DevolucionesActions.cancelarDevolucionFail,
     DevolucionesActions.deleteDevolucionFail,
     DevolucionesActions.timbrarDevolucionFail,
+    DevolucionesActions.timbrarDevolucionV4Fail,
     DevolucionesActions.aplicarFail,
     (state, { error }) => ({
       ...state,

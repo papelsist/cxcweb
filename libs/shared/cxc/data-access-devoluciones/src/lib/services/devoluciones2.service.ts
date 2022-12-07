@@ -62,6 +62,13 @@ export class Devoluciones2Service {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
+  timbrarV4(bonificacion: Partial<DevolucionesEntity>) {
+    const url = `${this.apiUrl}/timbrarV4/${bonificacion.id}`;
+    return this.http
+      .put<DevolucionesEntity>(url, {})
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
   aplicar(bonificacion: Partial<DevolucionesEntity>) {
     const url = `${this.apiUrl}/aplicar/${bonificacion.id}`;
     return this.http

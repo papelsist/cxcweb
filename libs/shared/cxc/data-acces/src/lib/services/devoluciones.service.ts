@@ -62,6 +62,13 @@ export class DevolucionesService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
+  timbrarV4(bonificacion: Partial<NotaDeCredito>) {
+    const url = `${this.apiUrl}/timbrarV4/${bonificacion.id}`;
+    return this.http
+      .put<NotaDeCredito>(url, {})
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
   aplicar(bonificacion: Partial<NotaDeCredito>) {
     const url = `${this.apiUrl}/aplicar/${bonificacion.id}`;
     return this.http
