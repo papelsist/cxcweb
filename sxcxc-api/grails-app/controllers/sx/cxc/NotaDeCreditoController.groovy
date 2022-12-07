@@ -360,6 +360,12 @@ class NotaDeCreditoController extends RestfulController<NotaDeCredito> {
     respond(nota, view: 'show')
   }
 
+  def timbrarV4(NotaDeCredito nota) {
+    assert !nota.cfdi, 'Nota ya timbrada'
+    nota = notaDeCreditoService.timbrarV4(nota)
+    respond(nota, view: 'show')
+  }
+
   def cancelar(NotaDeCredito nota) {
     if (nota == null) {
       notFound()

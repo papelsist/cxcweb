@@ -130,6 +130,12 @@ class NotaDeCargoController extends RestfulController<NotaDeCargo> {
     }
 
     @Transactional
+    def timbrarV4(NotaDeCargo nota) {
+        nota = notaDeCargoService.timbrarV4(nota)
+        respond (nota, view: 'show')
+    }
+
+    @Transactional
     def cancelar(NotaDeCargo cargo) {
         String motivo = params.motivo
         log.info('Cancelando Nota de cargo: {}  motivo:{}', cargo.folio, motivo)

@@ -246,6 +246,12 @@ class CobroController extends RestfulController<Cobro>{
       respond(cobro, view: 'show')
     }
 
+    def timbrarV4(Cobro cobro) {
+      cobro = cobroService.timbrarV4(cobro)
+      cobro.refresh()
+      respond(cobro, view: 'show')
+    }
+
     def timbradoBatch(TimbradoBatchCommand command) {
       List<Cobro> timbrados = []
       command.cobros.each {
