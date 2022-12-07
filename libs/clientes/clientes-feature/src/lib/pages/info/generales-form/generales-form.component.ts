@@ -37,6 +37,8 @@ export class GeneralesFormComponent implements OnInit {
         Validators.minLength(10),
         Validators.maxLength(255),
       ]),
+      razonSocial: new FormControl(cliente.razonSocial),
+      regimenFiscal: new FormControl(cliente.regimenFiscal),
       rfc: new FormControl(cliente.rfc, [
         Validators.required,
         Validators.minLength(12),

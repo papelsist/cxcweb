@@ -56,10 +56,22 @@ export class GeneralesCardComponent implements OnInit {
     {
       name: 'nombre',
       type: 'string',
-      label: 'Razón social',
+      label: 'Nombre',
       icon: 'account_circle',
     },
     { name: 'rfc', label: 'RFC', type: 'string', icon: 'info' },
+    {
+      name: 'razonSocial',
+      type: 'string',
+      label: 'Razón social',
+      icon: 'account_circle',
+    },
+    {
+      name: 'regimenFiscal',
+      type: 'string',
+      label: 'Regimen Fiscal',
+      icon: 'account_circle',
+    },
     {
       name: 'cfdiMail',
       label: 'CFDI Mail',
@@ -123,7 +135,7 @@ export class GeneralesCardComponent implements OnInit {
         data: { direccion },
       })
       .afterClosed()
-      .subscribe((direccion: Direccion) => {
+      .subscribe(( direccion : Direccion) => {
         if (direccion) {
           const update = { id: cliente.id, changes: { direccion } };
           this.edit.emit(update);

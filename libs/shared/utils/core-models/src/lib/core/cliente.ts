@@ -28,8 +28,8 @@ export interface Cliente {
   createUser?: string;
   updateUser?: string;
   socios?: Partial<Socio>[];
-  rzsocial?: string;
-  rgfiscal?: string;
+  razonSocial?: string;
+  regimenFiscal?: string;
 }
 
 export interface ClienteCredito {

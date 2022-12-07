@@ -1,49 +1,37 @@
 <div mat-dialog-title>
-  {{ cliente.nombre }}
+    {{ cliente.nombre }}
 </div>
 
 <mat-dialog-content>
-  <div [formGroup]="form" fxLayout="column" fxLayoutGap="5px" class="form">
-    <nx-papelsa-upper-case-field
-      label="Nombre o Razón social"
-      formControlName="nombre"
-      placeholder="Nomre"
-    ></nx-papelsa-upper-case-field>
-    <mat-form-field>
-      <mat-label>RFC</mat-label>
-      <input type="text" matInput formControlName="rfc" />
-      <mat-error>
-        Formato de RFC incorrecto
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>CFDI Mail</mat-label>
-      <input
-        type="email"
-        matInput
-        formControlName="cfdiMail"
-        placeholder="Cfdi email"
-      />
-      <mat-error>Correo invalido</mat-error>
-    </mat-form-field>
-    <mat-checkbox formControlName="activo">
-      Activo
-    </mat-checkbox>
-  </div>
+    <div [formGroup]="form" fxLayout="column" fxLayoutGap="5px" class="form">
+        <nx-papelsa-upper-case-field label="Nombre" formControlName="nombre" placeholder="Nombre"></nx-papelsa-upper-case-field>
+        <nx-papelsa-upper-case-field label="Razón Social" formControlName="razonSocial" placeholder="Razon Social"></nx-papelsa-upper-case-field>
+        <nx-papelsa-upper-case-field label="Regimen Fiscal" formControlName="regimenFiscal" placeholder="RegimenFiscal"></nx-papelsa-upper-case-field>
+        <mat-form-field>
+            <mat-label>RFC</mat-label>
+            <input type="text" matInput formControlName="rfc" />
+            <mat-error>
+                Formato de RFC incorrecto
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>CFDI Mail</mat-label>
+            <input type="email" matInput formControlName="cfdiMail" placeholder="Cfdi email" />
+            <mat-error>Correo invalido</mat-error>
+        </mat-form-field>
+        <mat-checkbox formControlName="activo">
+            Activo
+        </mat-checkbox>
+    </div>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>
-    <mat-icon>cancel</mat-icon>
-    <span>Cancelar</span>
-  </button>
-  <button
-    mat-button
-    color="primary"
-    (click)="onSubmit()"
-    [disabled]="form.invalid || form.pristine"
-  >
-    <mat-icon>save</mat-icon>
-    <span>Salvar</span>
-  </button>
+    <button mat-button mat-dialog-close>
+  <mat-icon>cancel</mat-icon>
+  <span>Cancelar</span>
+</button>
+    <button mat-button color="primary" (click)="onSubmit()" [disabled]="form.invalid || form.pristine">
+  <mat-icon>save</mat-icon>
+  <span>Salvar</span>
+</button>
 </mat-dialog-actions>
