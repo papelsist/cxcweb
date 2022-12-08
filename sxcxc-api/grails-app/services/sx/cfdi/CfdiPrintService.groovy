@@ -10,6 +10,7 @@ import grails.gorm.transactions.Transactional
 
 
 import com.luxsoft.cfdix.v33.V33PdfGeneratorPos
+import com.cfdi4.V4PdfGeneratorPos
 import com.luxsoft.cfdix.v33.NotaPdfGenerator
 import com.cfdi4.V4NotaPdfGenerator
 import com.cfdi4.V4NotaDeCargoPdfGenerator
@@ -84,8 +85,14 @@ class CfdiPrintService {
     *
     **/
     ByteArrayOutputStream  generarFactrura(Cfdi cfdi){
+        println "imprimiendo Factura !!!"
         String realPath = ServletContextHolder.getServletContext().getRealPath("/reports") ?: 'reports'
-        Map data = V33PdfGeneratorPos.getReportData(cfdi)
+        Map data = null
+        if(cfdi.version == '3.3'){
+            data = V33PdfGeneratorPos.getReportData(cfdi)
+        }else{
+            data = V4PdfGeneratorPos.getReportData(cfdi)
+        }
         Map parametros = data['PARAMETROS']
         parametros.PAPELSA = realPath + '/PAPEL_CFDI_LOGO.jpg'
         parametros.IMPRESO_IMAGEN = realPath + '/Impreso.jpg'

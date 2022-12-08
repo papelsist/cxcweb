@@ -3,6 +3,7 @@
         <div class="mat-title" fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
             <span>Nota: {{ cargo.folio }}</span>
             <span>{{ cargo.nombre }}</span>
+            <span *ngIf="cargo.cliente.razonSocial" class="timbradoV4">Timbrar V4 </span>
         </div>
         <div class="mat-subtitle" fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
             <span>Tipo :</span>

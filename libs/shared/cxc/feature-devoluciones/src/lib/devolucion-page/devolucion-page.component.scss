@@ -1,17 +1,16 @@
 .mat-card {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
-  bottom: 10px;
-  min-height: calc(100% - 50px);
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-
-  .partidas {
-    flex: 1;
-    border-bottom: 1px solid black;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    min-height: calc(100% - 50px);
     overflow: auto;
-  }
+    display: flex;
+    flex-direction: column;
+    .partidas {
+        flex: 1;
+        border-bottom: 1px solid black;
+        overflow: auto;
+    }
 }

@@ -1,34 +1,39 @@
 .mat-title {
-  margin: 0 0 8px;
-  font-size: 1.1rem;
+    margin: 0 0 8px;
+    font-size: 1.1rem;
 }
+
 .mat-card {
-  padding: 10px;
+    padding: 10px;
 }
+
 .mat-toolbar {
-  height: 35px;
-  font-size: 1rem;
+    height: 35px;
+    font-size: 1rem;
 }
 
 .header {
-  display: grid;
-  align-self: center;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  row-gap: 5px;
-  font-size: 1.1rem;
-  padding: 5px;
+    display: grid;
+    align-self: center;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    row-gap: 5px;
+    font-size: 1.1rem;
+    padding: 5px;
 }
+
 .cfdi-folio {
-  width: 110px;
+    width: 110px;
 }
+
 .cfdi-uuid {
-  width: 110px;
+    width: 110px;
 }
+
 .disponible {
-  font-size: 1.1rem;
-  font-weight: bold;
+    font-size: 1.1rem;
+    font-weight: bold;
 }
 
 .concepto {
-  width: 100px;
+    width: 100px;
 }

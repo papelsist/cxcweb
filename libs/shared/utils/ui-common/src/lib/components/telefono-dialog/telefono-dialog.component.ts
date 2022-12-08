@@ -23,7 +23,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
       >
         Aceptar
       </button>
-      <button mat-button mat-dialog-close>Canelar</button>
+      <button mat-button mat-dialog-close>Cancelar</button>
     </mat-dialog-actions>
   `,
 })

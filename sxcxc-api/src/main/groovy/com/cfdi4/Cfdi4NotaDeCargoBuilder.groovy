@@ -40,7 +40,7 @@ class Cfdi4NotaDeCargoBuilder {
         this.empresa = Empresa.first()
         subTotalAcumulado = 0.0
         descuentoAcumulado = 0.0
-        this.baseTraslados +=  0.0
+        this.baseTraslados =  0.0
         this.totalImpuestosTrasladados = 0.0
         this.subTotalAcumulado = 0.0
         this.descuentoAcumulado = 0.0
@@ -164,6 +164,7 @@ class Cfdi4NotaDeCargoBuilder {
 
         this.totalImpuestosTrasladados = 0.0
         Comprobante.Conceptos conceptos = factory.createComprobanteConceptos()
+        this.baseTraslados = 0.0
         this.nota.partidas.each { NotaDeCargoDet item ->
 
             Comprobante.Conceptos.Concepto concepto = factory.createComprobanteConceptosConcepto()

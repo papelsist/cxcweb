@@ -47,7 +47,7 @@ import { Periodo } from '@nx-papelsa/shared/utils/core-models';
       </form>
     </mat-dialog-content>
     <mat-dialog-actions>
-      <button mat-button mat-dialog-close>Canelar</button>
+      <button mat-button mat-dialog-close>Cancelar</button>
       <button mat-button (click)="doSubmit()" [disabled]="form.invalid">
         Aceptar
       </button>

@@ -31,6 +31,7 @@ import { NotaDeCredito } from '@nx-papelsa/shared/utils/core-models';
         <span>
           {{ devolucion.nombre }}
         </span>
+        <span *ngIf="devolucion.cliente.razonSocial" class="timbradoV4">Timbrar V4 </span>
       </div>
       <div class="mat-title">
         <span>Fecha: {{ devolucion.fecha | date: 'dd/MM/yyyy' }}</span>
@@ -43,6 +44,12 @@ import { NotaDeCredito } from '@nx-papelsa/shared/utils/core-models';
         margin: 0 0 8px;
         font-size: 1.1rem;
       }
+      .timbradoV4 {
+          color: #0D47A1;
+          border: 1px solid #0D47A1;
+          border-radius: .5rem;
+          padding: .5rem;
+        }
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,

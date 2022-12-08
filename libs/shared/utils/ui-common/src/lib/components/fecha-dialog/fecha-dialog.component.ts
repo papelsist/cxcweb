@@ -23,7 +23,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
     </mat-dialog-content>
     <mat-dialog-actions>
       <button mat-button [mat-dialog-close]="fecha">Aceptar</button>
-      <button mat-button mat-dialog-close>Canelar</button>
+      <button mat-button mat-dialog-close>Cancelar</button>
     </mat-dialog-actions>
   `,
 })
