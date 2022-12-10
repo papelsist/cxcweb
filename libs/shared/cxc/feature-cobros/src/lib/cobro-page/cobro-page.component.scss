@@ -1,15 +1,23 @@
 .mat-card {
-  padding: 10px;
+    padding: 10px;
 }
+
 .mat-toolbar {
-  height: 45px;
+    height: 45px;
 }
 
 .header {
-  display: grid;
-  align-self: center;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  row-gap: 5px;
-  font-size: 1.1rem;
-  padding: 5px;
+    display: grid;
+    align-self: center;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    row-gap: 5px;
+    font-size: 1.1rem;
+    padding: 5px;
+}
+
+.timbradoV4 {
+    color: #0D47A1;
+    border: 1px solid #0D47A1;
+    border-radius: .5rem;
+    padding: .5rem;
 }

@@ -1,71 +1,41 @@
 <mat-card *ngIf="cartera$ | async as cartera">
-  <div class="push-left push-right" fxLayout="row" fxLayoutAlign="start center">
-    <span fxLayout fxLayoutAlign="start center">
+    <div class="push-left push-right" fxLayout="row" fxLayoutAlign="start center">
+        <span fxLayout fxLayoutAlign="start center">
       <span class="mat-title">Cobros </span>
-      <span class="sub-title">(Cartera: {{ cartera.descripcion }})</span>
-    </span>
-    <span fxFlex></span>
+        <span class="sub-title">(Cartera: {{ cartera.descripcion }})</span>
+        </span>
+        <span fxFlex></span>
 
-    <td-search-box
-      placeholder="Filtrar"
-      (searchDebounce)="filter($event)"
-      [value]="search$ | async"
-      fxFlex
-    ></td-search-box>
+        <td-search-box placeholder="Filtrar" (searchDebounce)="filter($event)" [value]="search$ | async" fxFlex></td-search-box>
 
-    <nx-papelsa-periodo-picker
-      (periodoChanged)="cambiarPeriodo($event)"
-      [periodo]="periodo$ | async"
-      [disabled]="periodoDisabled$ | async"
-    ></nx-papelsa-periodo-picker>
-    <mat-checkbox
-      (change)="toggleDisponibles()"
-      [checked]="disponibles$ | async"
-    >
-      Por aplicar
-    </mat-checkbox>
-    <mat-checkbox (change)="togglePorTimbrar()" [checked]="porTimbrar$ | async">
-      Por timbrar
-    </mat-checkbox>
+        <nx-papelsa-periodo-picker (periodoChanged)="cambiarPeriodo($event)" [periodo]="periodo$ | async" [disabled]="periodoDisabled$ | async"></nx-papelsa-periodo-picker>
+        <mat-checkbox (change)="toggleDisponibles()" [checked]="disponibles$ | async">
+            Por aplicar
+        </mat-checkbox>
+        <mat-checkbox (change)="togglePorTimbrar()" [checked]="porTimbrar$ | async">
+            Por timbrar
+        </mat-checkbox>
 
-    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>more_vert</mat-icon>
     </button>
 
-    <mat-menu #menu="matMenu">
-      <button
-        mat-menu-item
-        *ngIf="periodo$ | async as per"
-        (click)="reload(per, cartera)"
-      >
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item *ngIf="periodo$ | async as per" (click)="reload(per, cartera)">
         <mat-icon>refresh</mat-icon>
         <span>Refrescar</span>
       </button>
-      <nx-papelsa-cfdi-email-bulk
-        [facturas]="disponiblesParaEnvio$ | async"
-        (done)="grid.clearSelection()"
-      ></nx-papelsa-cfdi-email-bulk>
-      <button
-        mat-menu-item
-        *ngIf="disponiblesParaTimbradoBatch$ | async as cobs"
-        (click)="timbradoBatch(cobs)"
-      >
+            <nx-papelsa-cfdi-email-bulk [facturas]="disponiblesParaEnvio$ | async" (done)="grid.clearSelection()"></nx-papelsa-cfdi-email-bulk>
+            <button mat-menu-item *ngIf="disponiblesParaTimbradoBatch$ | async as cobs" (click)="timbradoBatch(cobs)">
         Generar recibos (BATCH)
       </button>
-    </mat-menu>
-  </div>
-  <ng-template
-    tdLoading
-    [tdLoadingUntil]="!(loading$ | async)"
-    tdLoadingStrategy="overlay"
-  >
-  </ng-template>
-  <nx-papelsa-cobros-grid
-    #grid
-    class="cobros-grid"
-    [rows]="cobros$ | async"
-    [searchTerm]="search$ | async"
-    (drillDown)="onDrillDown($event, cartera)"
-    (selectionChange)="onSelection($event)"
-  ></nx-papelsa-cobros-grid>
+
+            <button mat-menu-item *ngIf="disponiblesParaTimbradoBatch$ | async as cobs" (click)="timbradoBatchV4(cobs)">
+        Generar recibos (BATCH) Cfdi 4
+      </button>
+        </mat-menu>
+    </div>
+    <ng-template tdLoading [tdLoadingUntil]="!(loading$ | async)" tdLoadingStrategy="overlay">
+    </ng-template>
+    <nx-papelsa-cobros-grid #grid class="cobros-grid" [rows]="cobros$ | async" [searchTerm]="search$ | async" (drillDown)="onDrillDown($event, cartera)" (selectionChange)="onSelection($event)"></nx-papelsa-cobros-grid>
 </mat-card>

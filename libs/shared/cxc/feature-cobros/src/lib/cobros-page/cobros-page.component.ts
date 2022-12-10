@@ -75,4 +75,7 @@ export class CobrosPageComponent extends BaseComponent implements OnInit {
   timbradoBatch(cobros: Cobro[]) {
     this.facade.timbradoBatch(cobros);
   }
+  timbradoBatchV4(cobros: Cobro[]) {
+    this.facade.timbradoBatchV4(cobros);
+  }
 }

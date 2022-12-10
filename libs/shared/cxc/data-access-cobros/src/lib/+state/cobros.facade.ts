@@ -135,4 +135,8 @@ export class CobrosFacade {
   timbradoBatch(cobros: Partial<Cobro[]>) {
     cobros.forEach((cobro) => this.generarRecibo(cobro));
   }
+
+  timbradoBatchV4(cobros: Partial<Cobro[]>) {
+    cobros.forEach((cobro) => this.generarReciboV4(cobro));
+  }
 }

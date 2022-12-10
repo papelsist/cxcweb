@@ -7,8 +7,8 @@
       >
     </button>
             <span class="pad-left pad-right mat-title"> {{ cobro.nombre }}</span>
+            <span *ngIf="cobro.cliente.razonSocial" class="timbradoV4">Timbrar V4 </span>
             <span fxFlex></span>
-
             <span class="pad-left pad-right mat-title">Fecha: {{ cobro.fecha | date: 'dd/MM/yyyy' }}</span
     >
     <span class="pad-left pad-right mat-title accent" *ngIf="cobro.cierre"

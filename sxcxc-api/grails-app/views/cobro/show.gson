@@ -16,6 +16,7 @@ json g.render(cobro, [deep:false, excludes:['cliente', 'sucursal', 'aplicaciones
         nombre cobro.cliente.nombre
         rfc cobro.cliente.rfc
         cfdiMail cobro.cliente.cfdiMail
+        razonSocial cobro.cliente.razonSocial
     }
     moneda cobro.moneda.currencyCode
     disponible cobro.getDisponible()
