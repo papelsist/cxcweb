@@ -11,7 +11,7 @@ json g.render(cobro, [deep:false, excludes:['cliente', 'sucursal', 'aplicaciones
     }
     nombre cobro.cliente.nombre
     sucursalNombre cobro.sucursal.nombre
-    cliente g.render(cobro.cliente, [includes: ['id', 'nombre', 'rfc']]) {
+    cliente g.render(cobro.cliente, [includes: ['id', 'nombre', 'rfc','razonSocial']]) {
         id cobro.cliente.id
         nombre cobro.cliente.nombre
         rfc cobro.cliente.rfc

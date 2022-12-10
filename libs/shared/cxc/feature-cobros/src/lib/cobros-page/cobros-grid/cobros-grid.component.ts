@@ -218,6 +218,15 @@ export class CobrosGridComponent implements OnInit {
         width: 90,
       },
       {
+        headerName: 'Version CFDI',
+        field: 'razonSocial',
+        cellRenderer: params => {
+          if(params.data.razonSocial){
+            return "CFDI 4.0"
+          }
+        }
+      },
+      {
         headerName: 'Comentario',
         field: 'comentario',
       },

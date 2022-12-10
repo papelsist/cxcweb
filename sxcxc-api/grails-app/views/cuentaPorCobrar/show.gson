@@ -7,7 +7,7 @@ import sx.core.Venta
 
 json g.render(cxc, [excludes:['moneda','cliente','credito']]){
     nombre cxc.cliente.nombre
-    cliente g.render(cxc.cliente, [includes: ['id', 'nombre','clave', 'rfc']]){
+    cliente g.render(cxc.cliente, [includes: ['id', 'nombre','clave', 'rfc','razonSocial']]){
         cfdiMail cxc.cliente.cfdiMail
     }
     moneda cxc.moneda.currencyCode

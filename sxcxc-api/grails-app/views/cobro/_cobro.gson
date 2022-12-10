@@ -6,8 +6,9 @@ model {
 /*
 json {
     id cobro.id
-    cliente g.render(cobro.cliente, [includes: ['id', 'nombre', 'rfc', 'cfdiMail']])
+    cliente g.render(cobro.cliente, [includes: ['id', 'nombre', 'rfc', 'cfdiMail', 'razonSocial']])
     nombre cobro.cliente.nombre
+    razonSocial cobro.cliente.razonSocial
     sucursal {
         id cobro.sucursal.id
         nombre cobro.sucursal.nombre
@@ -43,8 +44,9 @@ json {
 
 
 json g.render(cobro, [excludes:['moneda','cliente', 'sucursal', 'aplicaciones']]){
-    cliente g.render(cobro.cliente, [includes: ['id', 'nombre', 'rfc', 'cfdiMail']])
+    cliente g.render(cobro.cliente, [includes: ['id', 'nombre', 'rfc', 'cfdiMail', 'razonSocial']])
     nombre cobro.cliente.nombre
+    razonSocial cobro.cliente.razonSocial
     moneda cobro.moneda.currencyCode
     disponible cobro.getDisponible()
     sucursal {

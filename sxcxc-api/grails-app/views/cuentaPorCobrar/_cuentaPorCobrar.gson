@@ -6,7 +6,7 @@ model {
 
 json g.render(cuentaPorCobrar, [excludes:['moneda','dateCreated','lastUpdated','cliente','credito']]){
     nombre cuentaPorCobrar.cliente.nombre
-    cliente g.render(cuentaPorCobrar.cliente, [includes: ['id', 'nombre', 'rfc']])
+    cliente g.render(cuentaPorCobrar.cliente, [includes: ['id', 'nombre', 'rfc','razonSocial']])
     moneda cuentaPorCobrar.moneda.currencyCode
     saldo cuentaPorCobrar.total - cuentaPorCobrar.pagos
     saldoReal cuentaPorCobrar.saldoReal
