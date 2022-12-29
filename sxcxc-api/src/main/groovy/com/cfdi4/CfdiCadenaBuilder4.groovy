@@ -61,7 +61,7 @@ class CfdiCadenaBuilder4 {
                 source = new StreamSource(new File("${userHome}/dumps/xslt4/cadenaoriginal.xslt"))
                 // source = new StreamSource('http://www.sat.gob.mx/sitio_internet/cfd/3/cadenaoriginal_3_3/cadenaoriginal_3_3.xslt')
             } else {
-                source = new StreamSource(new File('/home/xslt/cadenaoriginalxslt'))
+                source = new StreamSource(new File('/home/xslt4/cadenaoriginal.xslt'))
             }
             //StreamSource source   = new StreamSource(xsltUrl)
             // StreamSource source = new StreamSource(new File('/Users/rubencancino/dumps/cfdi/cadenaoriginal_3_3.xslt'))
