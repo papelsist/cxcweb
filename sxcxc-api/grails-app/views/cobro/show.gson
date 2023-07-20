@@ -11,12 +11,12 @@ json g.render(cobro, [deep:false, excludes:['cliente', 'sucursal', 'aplicaciones
     }
     nombre cobro.cliente.nombre
     sucursalNombre cobro.sucursal.nombre
-    cliente g.render(cobro.cliente, [includes: ['id', 'nombre', 'rfc','razonSocial']]) {
+    cliente g.render(cobro.cliente, [includes: ['id', 'nombre', 'rfc','razon_social']]) {
         id cobro.cliente.id
         nombre cobro.cliente.nombre
         rfc cobro.cliente.rfc
         cfdiMail cobro.cliente.cfdiMail
-        razonSocial cobro.cliente.razonSocial
+        razonSocial cobro.cliente.razon_social
     }
     moneda cobro.moneda.currencyCode
     disponible cobro.getDisponible()

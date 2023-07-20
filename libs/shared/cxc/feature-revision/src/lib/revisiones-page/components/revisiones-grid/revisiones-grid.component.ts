@@ -175,8 +175,18 @@ export class RevisionesGridComponent implements OnInit {
   }
 
   formatDate(data: any) {
-    return this.formatService.formatDate(data);
+    const fecha = this.changeDate(data)
+    return this.formatService.formatDate(fecha);
   }
+
+  changeDate(fecha) {
+    if (fecha) {
+      const fechaFmt = new Date(fecha.substring(0, 10).replace(/-/g, '\/'));
+      return fechaFmt
+    }
+    return fecha
+  }
+
 
   @Input()
   get rows() {

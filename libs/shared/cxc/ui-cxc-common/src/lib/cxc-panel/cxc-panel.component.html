@@ -1,44 +1,30 @@
 <mat-card>
-  <mat-card-header>
-    <mat-card-title fxLayout fxLayoutGap="10px">
-      <span
-        >{{ cxc.tipoDocumento === 'VENTA' ? 'Factura' : 'Cargo:' }}:
+    <mat-card-header>
+        <mat-card-title fxLayout fxLayoutGap="10px">
+            <span>{{ cxc.tipoDocumento === 'VENTA' ? 'Factura' : 'Cargo:' }}:
         <strong>{{ cxc.tipo }} - {{ cxc.documento }}</strong>
       </span>
-      <span>{{ cxc.nombre }}</span>
-    </mat-card-title>
-    <mat-card-subtitle fxLayout fxLayoutGap="10px">
-      <span> Sucursal: {{ cxc.sucursal }} </span>
-      <span
-        >Fecha: <strong>{{ cxc.fecha | date: 'dd/MM/yyyy' }}</strong></span
+            <span>{{ cxc.nombre }}</span>
+        </mat-card-title>
+        <mat-card-subtitle fxLayout fxLayoutGap="10px">
+            <span> Sucursal: {{ cxc.sucursal }} </span>
+            <span>Fecha: <strong>{{ changeDate(cxc.fecha) | date: 'dd/MM/yyyy' }}</strong></span
       >
       <span fxFlex></span>
-      <span
-        >Vencimiento:
+            <span>Vencimiento:
         <strong>{{ cxc.vencimiento | date: 'dd/MM/yyyy' }}</strong></span
       >
       <span>Plazo: {{ cxc?.credito?.plazo }} </span>
-      <span>Atraso: {{ cxc.atrasoCalculado }} días</span>
-    </mat-card-subtitle>
-  </mat-card-header>
-  <mat-divider></mat-divider>
-  <section *ngIf="cxc.juridico">
-    <td-message
-      label="Jurídico"
-      sublabel="Factura en trámite jurídico"
-      color="warn"
-      icon="error"
-    ></td-message>
-  </section>
-  <div class="card-content">
-    <section
-      fxLayout
-      fxLayoutGap="10px"
-      fxLayoutAlign="flex-start center"
-      class="totales"
-    >
-      <span
-        >Total: <strong>{{ cxc.total | currency }}</strong></span
+            <span>Atraso: {{ cxc.atrasoCalculado }} días</span>
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <section *ngIf="cxc.juridico">
+        <td-message label="Jurídico" sublabel="Factura en trámite jurídico" color="warn" icon="error"></td-message>
+    </section>
+    <div class="card-content">
+        <section fxLayout fxLayoutGap="10px" fxLayoutAlign="flex-start center" class="totales">
+            <span>Total: <strong>{{ cxc.total | currency }}</strong></span
       >
       <span
         >Pagos: <strong>{{ cxc.pagos | currency }}</strong></span
@@ -102,17 +88,16 @@
           Recepción CxC:
           <strong>{{ credito.fechaRecepcionCxc | date: 'dd/MM/yyyy' }}</strong>
         </span>
-        <span>
+            <span>
           Revision CxC:
           <strong>{{ credito.fechaRevisionCxc | date: 'dd/MM/yyyy' }}</strong>
         </span>
-        <span>
+            <span>
           Revision:
           <strong>{{ credito.fechaRevision | date: 'dd/MM/yyyy' }}</strong>
         </span>
 
-        <span
-          >Pago:
+            <span>Pago:
           <strong>{{ credito.fechaPago | date: 'dd/MM/yyyy' }}</strong></span
         >
       </div>
@@ -132,38 +117,36 @@
           >Por: <strong>{{ credito.updateUser }}</strong></span
         >
         <span>Día revisión:</span><strong>{{ credito.diaRevision }}</strong>
-        <span>Día pago:</span><strong>{{ credito.diaPago }}</strong>
-      </div>
+            <span>Día pago:</span><strong>{{ credito.diaPago }}</strong>
+    </div>
     </section>
 
     <section class="aplicaciones">
-      <div class="section-header">Aplicaciones</div>
-      <div class="grid">
-        <papx-cxc-aplicaciones-grid
-          [rows]="cxc.aplicaciones || []"
-        ></papx-cxc-aplicaciones-grid>
-      </div>
+        <div class="section-header">Aplicaciones</div>
+        <div class="grid">
+            <papx-cxc-aplicaciones-grid [rows]="cxc.aplicaciones || []"></papx-cxc-aplicaciones-grid>
+        </div>
     </section>
 
     <section class="venta-det" *ngIf="cxc.venta as venta">
-      <mat-accordion>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Venta
-            </mat-panel-title>
-            <mat-panel-description>
-              Detalle de la venta
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <td-data-table [data]="venta.partidas" [columns]="columns">
-          </td-data-table>
-        </mat-expansion-panel>
-      </mat-accordion>
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Venta
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Detalle de la venta
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <td-data-table [data]="venta.partidas" [columns]="columns">
+                </td-data-table>
+            </mat-expansion-panel>
+        </mat-accordion>
     </section>
-  </div>
-  <mat-card-actions>
-    <!-- <button mat-button *ngIf="cxc.saldoReal > 0.0" (click)="generarPagare(cxc)">
+    </div>
+    <mat-card-actions>
+        <!-- <button mat-button *ngIf="cxc.saldoReal > 0.0" (click)="generarPagare(cxc)">
       <mat-icon>account_balance_wallet</mat-icon>
       <span>Generar Pagaré</span>
     </button>
@@ -175,13 +158,10 @@
       <mat-icon>gavel</mat-icon>
       <span>Generar Pagaré</span>
     </button> -->
-    <ng-container *ngIf="cxc.cfdi as cfdi">
-      <nx-papelsa-cfdi-email
-        [target]="cfdi.email"
-        [cfdi]="cfdi"
-      ></nx-papelsa-cfdi-email>
-      <nx-papelsa-cfdi-pdf [cfdi]="cfdi"></nx-papelsa-cfdi-pdf>
-      <nx-papelsa-cfdi-xml [cfdi]="cfdi"></nx-papelsa-cfdi-xml>
-    </ng-container>
-  </mat-card-actions>
+        <ng-container *ngIf="cxc.cfdi as cfdi">
+            <nx-papelsa-cfdi-email [target]="cfdi.email" [cfdi]="cfdi"></nx-papelsa-cfdi-email>
+            <nx-papelsa-cfdi-pdf [cfdi]="cfdi"></nx-papelsa-cfdi-pdf>
+            <nx-papelsa-cfdi-xml [cfdi]="cfdi"></nx-papelsa-cfdi-xml>
+        </ng-container>
+    </mat-card-actions>
 </mat-card>

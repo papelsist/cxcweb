@@ -88,10 +88,9 @@ class Cfdi4NotaBuilder {
     def buildEmisor(){
         Comprobante.Emisor emisor = factory.createComprobanteEmisor()
         emisor.rfc = empresa.rfc
-        if(empresa.rfc == 'PAP830101CR3'){
-            emisor.nombre = 'PAPEL'
-        }else{
-            emisor.nombre = empresa.nombre
+        emisor.nombre = "PAPEL"
+        if (empresa.rfc != 'PAP830101CR3'){
+            emisor.nombre = "PAPELSA BAJIO"
         }
         
         emisor.regimenFiscal = empresa.regimenClaveSat ?:'601'
@@ -101,9 +100,9 @@ class Cfdi4NotaBuilder {
     def buildReceptor(){
         Comprobante.Receptor receptor = factory.createComprobanteReceptor()
         receptor.rfc = nota.cliente.rfc
-        receptor.nombre = nota.cliente.razonSocial
+        receptor.nombre = nota.cliente.razon_social
         receptor.domicilioFiscalReceptor = nota.cliente.direccion.codigoPostal
-         receptor.regimenFiscalReceptor = nota.cliente.regimenFiscal
+         receptor.regimenFiscalReceptor = nota.cliente.regimen_fiscal
         receptor.usoCFDI = CUsoCFDI.G_02
         if(nota.tipo == 'ANTICIPO') {
           receptor.usoCFDI = CUsoCFDI.G_01

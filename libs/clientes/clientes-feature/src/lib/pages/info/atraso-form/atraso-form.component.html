@@ -4,16 +4,12 @@
 
 <mat-dialog-content>
     <div [formGroup]="form" fxLayout="column" fxLayoutGap="5px">
-        <!-- <nx-papelsa-numeric-field
-      label="Línea de crédito"
-      placeholder="Línea"
-      formControlName="lineaDeCredito"
-    ></nx-papelsa-numeric-field> -->
+        <nx-papelsa-numeric-field label="Línea de crédito" placeholder="Línea" formControlName="lineaDeCredito"></nx-papelsa-numeric-field>
         <div fxLayout fxLayoutGap="5px">
-            <!--  <nx-papelsa-numeric-field label="Plazo" placeholder="Plazo" formControlName="plazo"></nx-papelsa-numeric-field> -->
+            <nx-papelsa-numeric-field label="Plazo" placeholder="Plazo" formControlName="plazo"></nx-papelsa-numeric-field>
             <nx-papelsa-numeric-field label="Atraso Máximo" placeholder="Atraso" formControlName="atrasoMaximo"></nx-papelsa-numeric-field>
         </div>
-        <!--       <nx-papelsa-numeric-field label="Descuento fijo" formControlName="descuentoFijo" placeholder="Descuento"></nx-papelsa-numeric-field> -->
+        <nx-papelsa-numeric-field label="Descuento fijo" formControlName="descuentoFijo" placeholder="Descuento"></nx-papelsa-numeric-field>
         <mat-checkbox formControlName="creditoActivo">
             Activo
         </mat-checkbox>

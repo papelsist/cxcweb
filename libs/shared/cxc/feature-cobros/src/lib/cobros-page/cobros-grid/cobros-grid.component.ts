@@ -129,11 +129,20 @@ export class CobrosGridComponent implements OnInit {
   }
 
   formatDate(data: any, format: string = 'dd/MM/yyyy') {
-    if (data) {
-      return formatDate(data, format, this.locale);
+    const fecha = this.changeDate(data)
+    if (fecha) {
+      return formatDate(fecha, format, this.locale);
     } else {
       return '';
     }
+  }
+
+  changeDate(fecha) {
+    if (fecha) {
+      const fechaFmt = new Date(fecha.substring(0, 10).replace(/-/g, '\/'));
+      return fechaFmt
+    }
+    return fecha
   }
 
   clearSelection() {

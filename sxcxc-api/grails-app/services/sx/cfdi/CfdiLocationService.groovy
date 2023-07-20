@@ -19,6 +19,11 @@ class CfdiLocationService {
     byte[] getXml(Cfdi cfdi, Boolean downloadIfNotFound = true){
         String fileName = cfdi.url.getPath().substring(cfdi.url.getPath().lastIndexOf('/')+1)
         File file = new File(getCfdiLocation(cfdi), fileName)
+        println("++++++++++++++++++++++++")
+        println("Cfdi URL: "+cfdi.url)
+        println("FileNAme: "+fileName)
+        println("++++++++++++++++++++++++")
+        println("File: "+file)
 
         if(!file.exists() && downloadIfNotFound) {
             log.info('Cfdi no localizado en los servidores locales, descargandolo de EDICOM....');
@@ -36,6 +41,7 @@ class CfdiLocationService {
         def month = cfdi.fecha[Calendar.MONTH] + 1
         def day = cfdi.fecha[Calendar.DATE]
         def dir = new File(getCfdiMainDir(), "${cfdi.emisor}/${year}/${month}/${day}")
+        println("DIR: " +dir)
         dir.mkdirs()
         return dir
     }

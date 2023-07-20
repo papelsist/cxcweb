@@ -45,9 +45,9 @@ class Cliente {
 
   String updateUser
 
-  String razonSocial
+  String razon_social
 
-  String regimenFiscal
+  String regimen_fiscal
 
   Set<ComunicacionEmpresa> medios = []
 
@@ -74,8 +74,8 @@ class Cliente {
     vendedor nullable: true
     createUser nullable: true
     updateUser nullable: true
-    razonSocial nullable: true
-    regimenFiscal nullable: true
+    razon_social nullable: true
+    regimen_fiscal nullable: true
   }
 
   static hasOne = [credito: ClienteCredito]

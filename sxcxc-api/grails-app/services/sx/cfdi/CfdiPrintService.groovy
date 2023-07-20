@@ -88,7 +88,7 @@ class CfdiPrintService {
         println "imprimiendo Factura !!!"
         String realPath = ServletContextHolder.getServletContext().getRealPath("/reports") ?: 'reports'
         Map data = null
-        if(cfdi.version == '3.3'){
+        if(cfdi.versionCfdi == '3.3'){
             data = V33PdfGeneratorPos.getReportData(cfdi)
         }else{
             data = V4PdfGeneratorPos.getReportData(cfdi)

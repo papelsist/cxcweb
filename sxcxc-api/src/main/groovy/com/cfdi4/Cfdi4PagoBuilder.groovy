@@ -20,6 +20,7 @@ import sx.cxc.AplicacionDeCobro
 import sx.cxc.Cobro
 import sx.core.Empresa
 import sx.cxc.CobroCheque
+import sx.cxc.ChequeDevuelto
 import sx.cxc.CobroTransferencia
 import sx.cxc.SolicitudDeDeposito
 import sx.utils.MonedaUtils
@@ -70,7 +71,11 @@ class Cfdi4PagoBuilder {
     def buildEmisor(){
         Comprobante.Emisor emisor = factory.createComprobanteEmisor()
         emisor.rfc = empresa.rfc
-        emisor.nombre = 'PAPEL'
+        emisor.nombre = "PAPEL"
+        if (empresa.rfc != 'PAP830101CR3'){
+            emisor.nombre = "PAPELSA BAJIO"
+        }
+        
         emisor.regimenFiscal = empresa.regimenClaveSat ?:'601'
         comprobante.emisor = emisor
         return this
@@ -79,12 +84,10 @@ class Cfdi4PagoBuilder {
     def buildReceptor(){
         Comprobante.Receptor receptor = factory.createComprobanteReceptor()
         receptor.rfc = cobro.cliente.rfc
-        receptor.nombre = cobro.cliente.razonSocial 
-        //receptor.nombre = 'DROGADICTOS ANONIMOS'
+        receptor.nombre = cobro.cliente.razon_social
         receptor.domicilioFiscalReceptor = cobro.cliente.direccion.codigoPostal
         receptor.usoCFDI = CUsoCFDI.CP_01
-        /*TODO REGIMEN FISCAL RECEPTOR*/
-        receptor.regimenFiscalReceptor= '603'
+        receptor.regimenFiscalReceptor= cobro.cliente.regimen_fiscal
         comprobante.receptor = receptor
         return this
     }
@@ -187,7 +190,7 @@ class Cfdi4PagoBuilder {
         if(this.cobro.moneda.currencyCode != 'MXN') {
             pago.tipoCambioP = cobro.tipoDeCambio
         }
-        List<AplicacionDeCobro> aplicaciones = this.cobro.aplicaciones.findAll{it.recibo == null}
+        List<AplicacionDeCobro> aplicacionesCobro = this.cobro.aplicaciones.findAll{it.recibo == null}
 
         BigDecimal monto = this.cobro.importe 
         pago.monto = monto
@@ -201,6 +204,25 @@ class Cfdi4PagoBuilder {
         log.info('Recibo de pago por: {}', pago.monto)
         def sumaImpPagado = 0
 
+        List<AplicacionDeCobro> aplicaciones = []
+        println("1***************************")
+        aplicacionesCobro.each{ap ->
+            def cxc  = ap.cuentaPorCobrar
+            if(cxc.tipo == 'CHE'){
+                def chequeDevuelto = ChequeDevuelto.findByCxc(cxc)
+                def cobroChe = chequeDevuelto.cheque.cobro
+                cobroChe.aplicaciones.each{apCobro ->
+                    if(apCobro.cuentaPorCobrar.tipo == 'CRE' || apCobro.cuentaPorCobrar.tipo == 'COD' )
+                    aplicaciones.add(apCobro)
+                }
+            }else{
+                aplicaciones.add(ap)
+            }
+        }
+        println("2***************************")
+
+
+
         aplicaciones.each{ AplicacionDeCobro aplicacion ->
 
             totalPagos += aplicacion.importe 
@@ -209,7 +231,7 @@ class Cfdi4PagoBuilder {
             Pagos.Pago.DoctoRelacionado relacionado = factory.createPagosPagoDoctoRelacionado()
             def cxc = aplicacion.cuentaPorCobrar
             Cfdi cfdi = cxc.cfdi
-            if(!cfdi) {
+            if(!cfdi ) {
                 throw new RuntimeException("La cuenta por cobrar ${cxc.tipo} ${cxc.documento} no tiene CFDI")
             }
             relacionado.idDocumento = cfdi.uuid
