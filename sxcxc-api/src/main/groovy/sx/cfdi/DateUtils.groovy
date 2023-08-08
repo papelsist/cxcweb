@@ -23,6 +23,11 @@ class DateUtils {
         return  CFDI_DATE_FORMAT.format(date)
     }
 
+     public static getCfdiDatePago(Date date){
+        SimpleDateFormat CFDI_PAGO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'12:00:00")
+        return  CFDI_PAGO_DATE_FORMAT.format(date)
+    }
+
     public static Date toDate(String cfdiDate){
         return CFDI_DATE_FORMAT.parse(cfdiDate)
     }

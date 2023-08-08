@@ -141,7 +141,7 @@ class Cfdi4PagoBuilder {
              fechaPago = sol.fechaDeposito
          }
 
-         return  DateUtils.getCfdiDate(fechaPago)
+         return  DateUtils.getCfdiDatePago(fechaPago)
     }
 
     def getFormaDePago(){
@@ -205,7 +205,7 @@ class Cfdi4PagoBuilder {
         def sumaImpPagado = 0
 
         List<AplicacionDeCobro> aplicaciones = []
-        println("1***************************")
+
         aplicacionesCobro.each{ap ->
             def cxc  = ap.cuentaPorCobrar
             if(cxc.tipo == 'CHE'){
@@ -213,15 +213,12 @@ class Cfdi4PagoBuilder {
                 def cobroChe = chequeDevuelto.cheque.cobro
                 cobroChe.aplicaciones.each{apCobro ->
                     if(apCobro.cuentaPorCobrar.tipo == 'CRE' || apCobro.cuentaPorCobrar.tipo == 'COD' )
-                    aplicaciones.add(apCobro)
+                        aplicaciones.add(apCobro)
                 }
             }else{
                 aplicaciones.add(ap)
             }
         }
-        println("2***************************")
-
-
 
         aplicaciones.each{ AplicacionDeCobro aplicacion ->
 
@@ -246,13 +243,21 @@ class Cfdi4PagoBuilder {
 
             BigDecimal saldoAnterior = cxc.total
 
-            def pagosAplicados = AplicacionDeCobro.findAll("""
+            /* def pagosAplicados = AplicacionDeCobro.findAll("""
                 select sum(a.importe) from AplicacionDeCobro a
                   where a.cuentaPorCobrar.id = :cxcId
                     and a.cobro.cfdi != null
                     and a.cobro.formaDePago not in ('DEVOLUCION','BONIFICACION')
                     """,
-                [cxcId: cxc.id])[0] ?: 0.0
+                [cxcId: cxc.id])[0] ?: 0.0 */
+
+            def pagosAplicados = AplicacionDeCobro.findAll("""
+                select sum(a.importe) from AplicacionDeCobro a
+                  where a.cuentaPorCobrar.id = :cxcId
+                    and a.id != :aplicacionId
+                    and a.cobro.formaDePago not in ('DEVOLUCION','BONIFICACION')
+                    """,
+                [cxcId: cxc.id, aplicacionId: aplicacion.id])[0] ?: 0.0
 
             def notasAplicadas = AplicacionDeCobro.findAll("""
                 select sum(a.importe) from AplicacionDeCobro a
