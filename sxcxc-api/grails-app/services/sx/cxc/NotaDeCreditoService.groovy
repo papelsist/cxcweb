@@ -302,7 +302,7 @@ class NotaDeCreditoService implements LogUser{
             if(nota.tipo.startsWith('DEV') ){
                 DevolucionDeVenta rmd = DevolucionDeVenta.where{cobro == cobro}.find()
                 rmd.cobro = null
-                rmd.save flish: true
+                rmd.save flush: true
             }
             cobro.delete flush: true
         }

@@ -119,10 +119,25 @@ export class AplicacionesGridComponent implements OnInit {
 
   formatCurrency(data: any) {
     return this.formatService.formatCurrency(data);
+
   }
 
   formatDate(data: any) {
-    return this.formatService.formatDate(data);
+    //return this.formatService.formatDate(data);
+    const fecha = this.changeDate(data)
+    if (fecha) {
+      return this.formatService.formatDate(data);
+    } else {
+      return '';
+    }
+  }
+  
+  changeDate(fecha) {
+    if (fecha) {
+      const fechaFmt = new Date(fecha.substring(0, 10).replace(/-/g, '\/'));
+      return fechaFmt
+    }
+    return fecha
   }
 
   @Input()

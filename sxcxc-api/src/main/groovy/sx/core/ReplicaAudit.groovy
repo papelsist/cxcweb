@@ -14,7 +14,8 @@ trait ReplicaAudit {
     'CF5FEBRERO',
     'VERTIZ 176',
     'BOLIVAR',
-    'CALLCENTER'
+    'CALLCENTER',
+    'ZARAGOZA'
   ]
 
 
